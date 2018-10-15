@@ -1,7 +1,5 @@
 
 
-#include <windows.h>
-
 #include "InitializeScene.h"
 
 //===================================================================================
@@ -12,17 +10,16 @@
 //===================================================================================
 
 
-int APIENTRY  WinMain(	HINSTANCE	hInstance,
-						HINSTANCE	hPrevInstance,
-						LPSTR	lpszCmdLine,
-						int		nCmdShow )
+// コンストラクタ
+InitializeScene::InitializeScene()
 {
-	return 0;
+
 }
+// デストラクタ
+InitializeScene::~InitializeScene()
+{
 
-
-
-
+}
 
 
 

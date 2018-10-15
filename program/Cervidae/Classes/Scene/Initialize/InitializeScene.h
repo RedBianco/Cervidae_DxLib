@@ -14,6 +14,24 @@
 
 
 
+/*
+	基本エントリーシーンクラス
+*/
+class InitializeScene
+{
+
+
+public:
+	InitializeScene();
+	~InitializeScene();
+
+
+
+public:
+	void		initScene();
+
+};
+
 
 
 

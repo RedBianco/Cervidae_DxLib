@@ -13,15 +13,30 @@
     <Filter Include="Cervidae\Classes\Scene\Initialize">
       <UniqueIdentifier>{5fcadc07-2d96-4418-b7bf-699fd2455019}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\Common">
+      <UniqueIdentifier>{eb18f5e1-d0a5-4fe9-902f-3e52e67470f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cervidae\Classes\Common\CervidaeLib">
+      <UniqueIdentifier>{69e1b652-3487-4c9e-ac0b-37a25c3697de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
       <Filter>Cervidae\Classes\Scene\Initialize</Filter>
     </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\CLAppDelegate.cpp">
+      <Filter>Cervidae\Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.h">
       <Filter>Cervidae\Classes\Scene\Initialize</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\CLDefine.h">
+      <Filter>Cervidae\Classes\Common\CervidaeLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\CLAppDelegate.h">
+      <Filter>Cervidae\Classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

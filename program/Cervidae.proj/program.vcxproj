@@ -115,9 +115,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Cervidae\Classes\CLAppDelegate.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Cervidae\Classes\CLAppDelegate.h" />
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\CLDefine.h" />
     <ClInclude Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
