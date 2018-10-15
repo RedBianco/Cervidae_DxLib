@@ -115,6 +115,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

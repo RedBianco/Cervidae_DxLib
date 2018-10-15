@@ -1,17 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Cervidae">
+      <UniqueIdentifier>{f5b62b27-3736-4789-bc01-c0d58a3925f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Cervidae\Classes">
+      <UniqueIdentifier>{4953c3e8-8b49-4c05-9d0a-cba829bfd246}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Cervidae\Classes\Scene">
+      <UniqueIdentifier>{4da6d29a-e15c-4cf4-8cac-01ce8ab1c7d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\Scene\Initialize">
+      <UniqueIdentifier>{5fcadc07-2d96-4418-b7bf-699fd2455019}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
+      <Filter>Cervidae\Classes\Scene\Initialize</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.h">
+      <Filter>Cervidae\Classes\Scene\Initialize</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
