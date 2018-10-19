@@ -1,2 +1,2 @@
-# Cervidae_Lib
+# Cervidae_DxLib
 開発ベースブランチ
