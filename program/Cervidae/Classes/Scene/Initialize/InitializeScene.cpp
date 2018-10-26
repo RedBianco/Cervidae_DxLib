@@ -21,7 +21,10 @@ InitializeScene::~InitializeScene()
 
 }
 
+void	InitializeScene::initScene()
+{
 
+}
 
 
 

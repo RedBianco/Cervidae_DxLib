@@ -1,13 +1,33 @@
 #pragma once
 
-//===================================================================================
-//  CLDefine.h
-//  Cervidae
-//
-//  Created by kashima akihiro on 2018/10/16.
-//===================================================================================
+/**
+ *	@file	CLDefine.h
+ *	@brief	CervidaeLibプログラム内で共通に使われてほしい最小限の設定を置くヘッダ
+ *	@date	2018/10/16.
+ *	@author	kashima akihiro
+ *	@note
+ *		
+ *
+ */
 
 
+#define CERVIDAE_LIB
+
+#if defined( _DEBUG )
+	#define DEBUG_MENU
+	#define SYSTEM_DEBUG
+#endif
+
+
+namespace CervidaeDxLib
+{
+	const static bool		DEFAULT_SCREEN_MODE = TRUE;
+
+	// 画面サイズ定義
+	const static float		SCREENSIZE_WIDTH	= 640.0f;
+	const static float		SCREENSIZE_HEIGHT	= 480.0f;
+
+}
 
 
 
