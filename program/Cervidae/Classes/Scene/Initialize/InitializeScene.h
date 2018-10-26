@@ -11,14 +11,16 @@
 
 
 
-
-
-
 /*
 	基本エントリーシーンクラス
 */
 class InitializeScene
 {
+
+	enum SCENE_BRANCH
+	{
+		SCENE_READY		= 0,
+	};
 
 
 public:
@@ -29,6 +31,9 @@ public:
 
 public:
 	void		initScene();
+	void		sceneUpdate( float msec );
+
+
 
 };
 

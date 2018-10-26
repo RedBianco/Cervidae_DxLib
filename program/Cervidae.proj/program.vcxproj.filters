@@ -19,6 +19,9 @@
     <Filter Include="Cervidae\Classes\Common\CervidaeLib">
       <UniqueIdentifier>{69e1b652-3487-4c9e-ac0b-37a25c3697de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\System">
+      <UniqueIdentifier>{078999ad-55cd-4faf-aa75-91cda78c41ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\CLAppDelegate.h">
       <Filter>Cervidae\Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeCommon.h">
+      <Filter>Cervidae\Classes\Common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

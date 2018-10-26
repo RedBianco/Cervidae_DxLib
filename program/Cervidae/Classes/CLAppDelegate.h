@@ -15,16 +15,5 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 #endif/* _CL_APP_DELEGATE_H_ */
 
