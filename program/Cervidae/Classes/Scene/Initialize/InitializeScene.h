@@ -30,7 +30,7 @@ public:
 
 
 public:
-	void		initScene();
+	void		sceneInit();
 	void		sceneUpdate( float msec );
 
 

@@ -19,8 +19,14 @@
     <Filter Include="Cervidae\Classes\Common\CervidaeLib">
       <UniqueIdentifier>{69e1b652-3487-4c9e-ac0b-37a25c3697de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\Libs">
+      <UniqueIdentifier>{c1233d2f-f146-467a-8904-5215905b36ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cervidae\Classes\Libs\DxLib">
+      <UniqueIdentifier>{f12d2709-c019-4406-9ffd-e443bc4bfb16}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Cervidae\Classes\System">
-      <UniqueIdentifier>{078999ad-55cd-4faf-aa75-91cda78c41ec}</UniqueIdentifier>
+      <UniqueIdentifier>{45e6e1a2-49e7-4cb7-8d0e-31b89c6f70a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -29,6 +35,15 @@
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\CLAppDelegate.cpp">
       <Filter>Cervidae\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Scene\StartScene.cpp">
+      <Filter>Cervidae\Classes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\dxLibSetup.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\dxLibInit.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +58,15 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeCommon.h">
       <Filter>Cervidae\Classes\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Scene\StartScene.h">
+      <Filter>Cervidae\Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\dxLibSetup.h">
+      <Filter>Cervidae\Classes\Libs\DxLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\dxLibInit.h">
+      <Filter>Cervidae\Classes\Libs\DxLib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

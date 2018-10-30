@@ -124,13 +124,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Cervidae\Classes\CLAppDelegate.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\dxLibInit.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\dxLibSetup.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Scene\StartScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Cervidae\Classes\CLAppDelegate.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeCommon.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\CLDefine.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\dxLibInit.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\dxLibSetup.h" />
     <ClInclude Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.h" />
+    <ClInclude Include="..\Cervidae\Classes\Scene\StartScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

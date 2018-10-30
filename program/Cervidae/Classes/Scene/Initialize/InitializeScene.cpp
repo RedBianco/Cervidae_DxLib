@@ -21,7 +21,7 @@ InitializeScene::~InitializeScene()
 
 }
 
-void	InitializeScene::initScene()
+void	InitializeScene::sceneInit()
 {
 
 }
