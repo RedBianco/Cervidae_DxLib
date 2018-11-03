@@ -13,12 +13,12 @@
 
 namespace CervidaeCommon
 {
-	const static char *			n_AppTitleName		= "CervidaeLib";		// アプリケーションタイトルネーム
-	const static char *			n_AppTitleVersion	= "20181025";			// アプリケーションのバージョン
+	const static char *			nAPP_TITLE_NAME			= "CervidaeLib";		// アプリケーションタイトルネーム
+	const static char *			nAPP_TITLE_VERSION		= "20181025";			// アプリケーションのバージョン
 	// Service ID
-	const static char *			n_AppServiceId		= "PC0001-2018-00";
+	const static char *			nAPP_SERVICE_ID			= "PC0001-2018-00";
 	// 視聴年齢制限年齢 parental lock
-	const static unsigned int	n_AppRatingAgeLevel = 0;
+	const static unsigned int	nAPP_RATING_AGE_LEVEL	= 0;
 
 
 }

@@ -19,10 +19,12 @@
 #endif
 
 
+ //=================================================================================//
+ //	
+ //=================================================================================//
+
 namespace CervidaeDxLib
 {
-	const static bool		DEFAULT_SCREEN_MODE = TRUE;
-
 	// 画面サイズ定義
 	const static float		SCREENSIZE_WIDTH	= 640.0f;
 	const static float		SCREENSIZE_HEIGHT	= 480.0f;
