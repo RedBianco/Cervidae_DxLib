@@ -28,13 +28,16 @@
     <Filter Include="Cervidae\Classes\System">
       <UniqueIdentifier>{45e6e1a2-49e7-4cb7-8d0e-31b89c6f70a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\System\Process">
+      <UniqueIdentifier>{e20e1d29-bebd-41fa-9edd-99021742c914}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cervidae\Classes\System\Task">
+      <UniqueIdentifier>{8298a112-1344-4d92-88a2-907be94336e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
       <Filter>Cervidae\Classes\Scene\Initialize</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Cervidae\Classes\CLAppDelegate.cpp">
-      <Filter>Cervidae\Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Scene\StartScene.cpp">
       <Filter>Cervidae\Classes\Scene</Filter>
@@ -44,6 +47,21 @@
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\dxLibInit.cpp">
       <Filter>Cervidae\Classes\Libs\DxLib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\CLAppDelegate.cpp">
+      <Filter>Cervidae\Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\System\Process\AppProcess.cpp">
+      <Filter>Cervidae\Classes\System\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\System\Task\TaskLib.cpp">
+      <Filter>Cervidae\Classes\System\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\System\Task\TaskInfo.cpp">
+      <Filter>Cervidae\Classes\System\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\System\AppSystem.cpp">
+      <Filter>Cervidae\Classes\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,9 +74,6 @@
     <ClInclude Include="..\Cervidae\Classes\CLAppDelegate.h">
       <Filter>Cervidae\Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeCommon.h">
-      <Filter>Cervidae\Classes\Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Scene\StartScene.h">
       <Filter>Cervidae\Classes\Scene</Filter>
     </ClInclude>
@@ -67,6 +82,24 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\dxLibInit.h">
       <Filter>Cervidae\Classes\Libs\DxLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\dxLibDefine.h">
+      <Filter>Cervidae\Classes\Libs\DxLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\System\Process\AppProcess.h">
+      <Filter>Cervidae\Classes\System\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\System\Task\TaskLib.h">
+      <Filter>Cervidae\Classes\System\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\System\Task\TaskInfo.h">
+      <Filter>Cervidae\Classes\System\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\System\AppSystem.h">
+      <Filter>Cervidae\Classes\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CommonList.h">
+      <Filter>Cervidae\Classes\Common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
