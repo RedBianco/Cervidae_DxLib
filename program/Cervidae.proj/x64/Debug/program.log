@@ -1,10 +1,9 @@
-﻿  CLAppDelegate.cpp
-  dxLibInit.cpp
+﻿  UtilityMoveLine.cpp
+  dxLibCommon.cpp
   dxLibSetup.cpp
-  InitializeScene.cpp
-  StartScene.cpp
+  Main.cpp
+  AppSetting.cpp
   AppSystem.cpp
-  AppProcess.cpp
   TaskInfo.cpp
   TaskLib.cpp
   コードを生成中...

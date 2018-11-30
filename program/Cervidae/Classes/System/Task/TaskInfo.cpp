@@ -1,7 +1,7 @@
 
 
 #include "TaskInfo.h"
-
+#include "../../Common/CommonList.h"
 
 //=================================================================================//
 //  TaskInfo.cpp

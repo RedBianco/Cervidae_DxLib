@@ -41,11 +41,11 @@ bool	AppProcManage::setProcessFunc( systemProcExec pSetFunc )
 
 int		AppProcManage::systemProcessUpdate()
 {
-	int	nProcessCode = DxLibCommonDefine::eEXEC_RETURN_CODE_KEEP;
+	int	nProcessCode = DxLibCommon::Process::eEXEC_RETURN_CODE_KEEP;
 	// ä÷êîèàóù
 	nProcessCode = (m_ProcessFunc)();
 #if defined( SYSTEM_DEBUG )
-	if( nProcessCode == DxLibCommonDefine::eEXEC_RETURN_CODE_EXIT )
+	if( nProcessCode == DxLibCommon::Process::eEXEC_RETURN_CODE_EXIT )
 	{
 	}
 #endif

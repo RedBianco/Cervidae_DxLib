@@ -19,19 +19,17 @@ public:
 	StartScene();
 	~StartScene();
 
-
 private:
 
 	int		m_ScenePhase;
 
-
 public:
-	void	initStartScene();
-	void	setupStartScene();
+	void		initStartScene();
+	void		setupStartScene();
 
-	void	sceneUpdate();
+	void		sceneUpdate();
 
-	void	setScenePhase( const int setPhase ) { m_ScenePhase = setPhase; }
+	void		setScenePhase( const int setPhase ) { m_ScenePhase = setPhase; }
 	int		getScenePhase() const { return m_ScenePhase; }
 };
 

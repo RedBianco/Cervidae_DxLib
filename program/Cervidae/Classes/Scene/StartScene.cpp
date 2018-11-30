@@ -13,22 +13,18 @@
 // コンストラクタ
 StartScene::StartScene()
 {
-
 }
 // デストラクタ
 StartScene::~StartScene()
 {
-
 }
 
-
-void	StartScene::initStartScene()
+void		StartScene::initStartScene()
 {
 
 }
 
-
-void	StartScene::sceneUpdate()
+void		StartScene::sceneUpdate()
 {
 
 }
