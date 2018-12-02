@@ -1,10 +1,10 @@
 #pragma once
 
 /**
- *	@file	CLDefine.h
- *	@brief	CervidaeLibプログラム内で共通に使われてほしい最小限の設定を置くヘッダ
- *	@date	2018/10/16.
- *	@author	kashima akihiro
+ *	@file				CLDefine.h
+ *	@brief			CervidaeLibプログラム内で共通に使用する最小限の設定を置くヘッダ
+ *	@date			2018/10/16.
+ *	@author		kashima akihiro
  *	@note
  *		
  *
@@ -18,14 +18,36 @@
 	#define SYSTEM_DEBUG
 #endif
 
+#define PROJECT_DEBUG   ( defined( SYSTEM_DEBUG ) )
 
-namespace CervidaeDxLib
+#if PROJECT_DEBUG
+	#define	DEBUG_PRINT			printfDx
+	#define	ERROR_PRINT(...)		printfDx( __VA_ARGS__ )
+#else
+	#define	DEBUG_PRINT			__noop
+	#define	ERROR_PRINT(...)		printfDx( __VA_ARGS__ )
+#endif
+
+
+//=================================================================================//
+//	
+//=================================================================================//
+
+namespace CervidaeLibDefine
 {
-	const static bool		DEFAULT_SCREEN_MODE = TRUE;
+	// Application Exe Name
+	const static char *				nAPP_EXE_NAME					= "CervidaeLib.exe";
+	// Application Version
+	const static char *				nAPP_EXE_VERSION				= "20181129";	
+	const static unsigned int		uAPP_EXE_VERSION				= 20181129;
+	// Application Service ID
+	const static char *				nAPP_SERVICE_NAME			= "PC0001-2018-00";
+	// 視聴年齢制限年齢 Parental Lock
+	const static unsigned int		nAPP_RATING_AGE_LEVEL	= 0;
+	// 著作権 Application Copyright
+	const static char *				nAPP_SERVICE_COPYRIGHT = "(C) 2018 TriangleWorks";
 
-	// 画面サイズ定義
-	const static float		SCREENSIZE_WIDTH	= 640.0f;
-	const static float		SCREENSIZE_HEIGHT	= 480.0f;
+
 
 }
 
@@ -34,21 +56,4 @@ namespace CervidaeDxLib
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* End CLDefine.h */
