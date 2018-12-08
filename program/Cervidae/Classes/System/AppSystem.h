@@ -7,7 +7,10 @@
 //  Created by kashima akihiro on 2018/11/06.
 //=================================================================================//
 
-class AppSystem
+#include "../Libs/DxLib/Input/dxLibKeyPadUtility.h"
+
+class AppSystem : 
+			public AppKeyPadController
 {
 public:
 	AppSystem();

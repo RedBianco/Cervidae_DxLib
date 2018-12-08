@@ -1,5 +1,5 @@
 
-
+#include "DxLib.h"
 #include "../Common/CommonList.h"
 #include "../Libs/DxLib/Initialize/dxLibInit.h"
 #include "../Libs/DxLib/Initialize/dxLibSetup.h"
@@ -117,7 +117,10 @@ bool		AppSystem::appSystemUpdate()
 		appSystemRenderUpdate();
 
 		// 裏画面の内容を表画面に反映させる
-		DxLib::ScreenFlip();
+		// ScreenFlip関数は垂直同期を取っているため、FPSが自動的にディスプレイのリフレッシュレート以下になる
+		if( DxLib::ScreenFlip() != 0 )
+		{
+		}
 
 		// 現在の時間を取得
 		n_NowTime = DxLib::GetNowHiPerformanceCount();

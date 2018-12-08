@@ -43,6 +43,9 @@
     <Filter Include="Cervidae\Classes\Libs\DxLib\Initialize">
       <UniqueIdentifier>{68d11343-274d-4f9e-9c3b-4d1e4dff73df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\Libs\DxLib\Input">
+      <UniqueIdentifier>{ab995803-29ae-4975-8f5a-b96ee7989af6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
@@ -80,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\System\AppSetting.cpp">
       <Filter>Cervidae\Classes\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +136,12 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\System\AppSetting.h">
       <Filter>Cervidae\Classes\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibInputConfig.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
