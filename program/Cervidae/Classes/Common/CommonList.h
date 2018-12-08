@@ -1,17 +1,22 @@
 #pragma once
 
+//	STLのmin、max対策用マクロ
+//	C++標準ライブラリ側のmin、maxを無効化する
+#define NOMINMAX
 #include <Windows.h>
 #include <time.h>	
 #include <math.h>	
 #include <stdio.h>	
 #include <stdlib.h>
 #include <malloc.h>
-#include <direct.h>
 #include <string>
 #include <algorithm>
 #include <iostream>
 #include <vector>
 #include <list>
+#include <map>
+#include <direct.h>				//	ファイル操作
+#include <complex.h>			//	複素数計算を行うための関数
 
 //=================================================================================//
 //  CommonList.h
@@ -25,6 +30,20 @@
 #define  FILE_OPEN_BIN( t, fname )			fopen_s( t, fname, "rb" )		//	バイナリファイル読み込み
 #define  FILE_WRITE( t, fname )				fopen_s( t, fname, "w" )		//	テキストファイル等書き込み
 #define  FILE_WRITE_BIN( t, fname )		fopen_s( t, fname, "wb" )	//	バイナリファイル書き込み
+
+//	汎用ループ計算
+#define  VALUE_LOOP( value, max )									((value + max) % (max))
+//	三項演算子：定数Ａが１ならtrueを違うならfalseを返す
+#define  VALUE_PRM_CHECK( _arg1 )								( _arg1 == 1 )? true : false
+//	三項演算子：ビット演算VER
+#define  VALUE_PRM_BIT( _arg1, _arg2, _Ret1, _Ret2 )		( _arg1 & _arg2 )? _Ret1 : _Ret2
+#define  VALUE_PRM_BIT_CHECK( _arg1, _arg2 )				( _arg1 |= _arg2 )
+//	三項演算子：numがsumより小さいならAnsAを、大きいならAnsBを返す
+#define  VALUE_PRM_NUM_MIN( _num, _sum, _AnsA, _AnsB )			( _num < _sum )? _AnsA : _AnsB
+//	三項演算子：numがsumより大きいならAnsAを、小さいならAnsBを返す
+#define  VALUE_PRM_NUM_MAX( _num, _sum, _AnsA, _AnsB )		( _num > _sum )? _AnsA : _AnsB
+
+#define  McsValueLimit( value, limit, adj )	(( (value + limit - adj) % limit) + adj )
 
 // 数学計算系
 #define  MAX( x, max )								( (x) > (max) ? (x) : (max) )
@@ -83,11 +102,11 @@ namespace CommonList
 			eEFFECT_FILE_TYPE_3D
 		};
 	}
-	const std::string		RESOURCES_LOAD_PATH_LUA			= "..\\..\\resources\\script\\lua\\";
-	const std::string		RESOURCES_LOAD_PATH_ADX2		= "..\\..\\resources\\script\\sound\\";
-	const std::string		RESOURCES_LOAD_PATH_2D			= "..\\..\\resources\\asset\\";
-	const std::string		RESOURCES_LOAD_PATH_3D			= "..\\..\\resources\\model\\";
-	const std::string		RESOURCES_LOAD_PATH_EFFECT	= "..\\..\\resources\\asset\\effect\\";
+	const std::string			RESOURCES_LOAD_PATH_LUA			= "..\\..\\resources\\script\\lua\\";
+	const std::string			RESOURCES_LOAD_PATH_ADX2		= "..\\..\\resources\\script\\sound\\";
+	const std::string			RESOURCES_LOAD_PATH_2D			= "..\\..\\resources\\asset\\";
+	const std::string			RESOURCES_LOAD_PATH_3D			= "..\\..\\resources\\model\\";
+	const std::string			RESOURCES_LOAD_PATH_EFFECT	= "..\\..\\resources\\asset\\effect\\";
 
 	namespace TaskEvent
 	{

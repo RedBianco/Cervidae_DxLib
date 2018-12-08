@@ -24,9 +24,9 @@ void		StartScene::initStartScene()
 
 }
 
-void		StartScene::sceneUpdate()
+bool		StartScene::sceneUpdate()
 {
-
+	return true;
 }
 
 

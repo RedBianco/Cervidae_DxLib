@@ -1,5 +1,5 @@
 
-
+#include "DxLib.h"
 #include "../dxLibDefine.h"
 #include "dxLibSetup.h"
 #include "dxLibInit.h"

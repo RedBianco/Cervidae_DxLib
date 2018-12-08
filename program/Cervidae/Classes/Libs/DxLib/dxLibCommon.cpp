@@ -1,5 +1,5 @@
 
-
+#include "DxLib.h"
 #include "dxLibCommon.h"
 #include "dxLibDefine.h"
 #include "../../Common/CommonList.h"
