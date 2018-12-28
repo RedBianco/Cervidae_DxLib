@@ -1,6 +1,2 @@
-﻿  dxLibKeyPadUtility.cpp
-  Main.cpp
-  StartScene.cpp
-  AppSystem.cpp
-  コードを生成中...
+﻿  dxLibCommon.cpp
   program.vcxproj -> D:\Program\Project\Develop\cervidae_lib\program\cervidae.proj\x64\Debug\program.exe

@@ -14,7 +14,7 @@ bool	dxInit_CheckLowSpecModePlay( void );
 bool	dxInit_SpecModeSetEnableXAudioFlag( const int setFlag );
 
 // メインウインドウが非アクティブ状態でも処理を実行するかどうか
-int	dxInit_SetAlwaysActiveRunEnable( const int setFlag );
+int		dxInit_SetAlwaysActiveRunEnable( const int setFlag );
 
 
 

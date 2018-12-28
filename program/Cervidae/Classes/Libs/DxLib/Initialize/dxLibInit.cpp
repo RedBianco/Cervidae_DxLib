@@ -10,7 +10,7 @@ bool		dxInit_IsDxLibInit()
 {
 	auto isInit = DxLib::DxLib_IsInit();
 	if( isInit == FALSE ){
-		DEBUG_PRINT("");
+		ERROR_PRINT("");
 		return false;	// 初期化されていない
 	}
 	return true;//	初期化されている
@@ -18,26 +18,27 @@ bool		dxInit_IsDxLibInit()
 // ウインドウモードで起動するか
 bool		dxInit_CheckWindowModePlay()
 {
+	// TODO:
 	if ( MessageBox( NULL, "ウインドウモードで起動しますか？", "画面モード確認",  MB_YESNO ) == IDYES )
 	{
 		// 「はい」が選択された場合はウインドウモードで起動
 		DxLib::ChangeWindowMode( TRUE );
 		return true;
 	}
-	DEBUG_PRINT("");
+	ERROR_PRINT("");
 	return false;
 }
 // 低処理負荷モードで起動するか
 bool		dxInit_CheckLowSpecModePlay()
 {
-	// 低処理負荷モードで起動するか確認する
+	// TODO:
 	if ( MessageBox( NULL, "低処理負荷モードで起動しますか？", "処理負荷モード確認",  MB_YESNO ) == IDYES )
 	{
 		// 「はい」が選択された場合は低処理負荷モードフラグを立てる
 		dxInit_SpecModeSetEnableXAudioFlag( TRUE );
 		return true;
 	}
-	DEBUG_PRINT("");
+	ERROR_PRINT("");
 	return false;
 }
 // 低処理負荷モードかどうかでXAudioを使用するかどうかの設定を変更する
@@ -45,6 +46,8 @@ bool		dxInit_SpecModeSetEnableXAudioFlag( const int setFlag )
 {
 	// ( TRUE:使用する(デフォルト)  FALSE:使用しない )
 	auto isSuccess = DxLib::SetEnableXAudioFlag( setFlag ? FALSE : TRUE );
+	if( isSuccess == 0 ){
+	}
 
 	return true;
 }
