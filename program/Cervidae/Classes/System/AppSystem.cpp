@@ -24,13 +24,13 @@ AppSystem::AppSystem() :
 AppSystem::~AppSystem()
 {}
 
-void		AppSystem::appSystemClean()
+void	AppSystem::appSystemClean()
 {
 
 }
 
 // ( true : 正常に処理を完了した   false : エラーが発生した )
-bool		AppSystem::appSystemMain()
+bool	AppSystem::appSystemMain()
 {
 	
 	if( !appSystemInitialize() )
@@ -50,19 +50,18 @@ bool		AppSystem::appSystemMain()
 	return true;
 }
 
-// Application起動時の初期化処理
-int	AppSystem::appSystemInitialize()
+bool	AppSystem::appSystemStartSetup()
 {
-	auto isSuccess = false;
+	auto result = false;
 
-	isSuccess = dxLib_InitBeforeSetup();
-	if( isSuccess ){
+	result = dxLib_InitBeforeSetup();
+	if( result ){
 	}
-	isSuccess = dxInit_CheckWindowModePlay();
-	if( isSuccess ){
+	result = dxInit_CheckWindowModePlay();
+	if( result ){
 	}
-	isSuccess = dxInit_CheckLowSpecModePlay();
-	if( isSuccess ) {
+	result = dxInit_CheckLowSpecModePlay();
+	if( result ) {
 		setLowSpecMode( TRUE );
 	}
 
@@ -71,15 +70,28 @@ int	AppSystem::appSystemInitialize()
 		return false;
 	}
 
-	isSuccess = dxLib_InitAfterSetup();
-	if( isSuccess ){
+	result = dxLib_InitAfterSetup();
+	if( result ){
 	}
+
+	return true;
+}
+
+// Application起動時の初期化処理
+int		AppSystem::appSystemInitialize()
+{
+	auto isInitDone = appSystemStartSetup();
+	// DxLib Initialize
+	if( isInitDone ){
+		// Lua File Loading
+	}
+
 
 	// 初期化成功
 	return true;
 }
 // Application終了処理
-void		AppSystem::appSystemTerminate()
+void	AppSystem::appSystemTerminate()
 {
 
 
@@ -90,7 +102,7 @@ void		AppSystem::appSystemTerminate()
 }
 
 // Application毎フレーム処理
-bool		AppSystem::appSystemUpdate()
+bool	AppSystem::appSystemUpdate()
 {
 	LONGLONG	n_NowTime;
 
@@ -146,7 +158,7 @@ bool		AppSystem::appSystemUpdate()
 	return true;
 }
 
-void		AppSystem::appSystemRenderUpdate()
+void	AppSystem::appSystemRenderUpdate()
 {
 
 	// フレームレート

@@ -14,10 +14,14 @@
 // DXライブラリ
 // int main( int argc, char *argv[] )はコンソールウィンドウ表示
 int APIENTRY  WinMain(	HINSTANCE	hInstance,
-										HINSTANCE	hPrevInstance,
-										LPSTR				lpszCmdLine,
-										int					nCmdShow )
+						HINSTANCE	hPrevInstance,
+						LPSTR		lpCmdLine,
+						int			nCmdShow )
 {
+	UNUSED_VARIABLE(hInstance);
+	UNUSED_VARIABLE(hPrevInstance);
+	UNUSED_VARIABLE(lpCmdLine);
+
 	AppSystem * pAppSystem = new AppSystem();
 	if( pAppSystem != nullptr )
 	{

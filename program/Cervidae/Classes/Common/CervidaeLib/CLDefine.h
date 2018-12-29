@@ -1,9 +1,9 @@
 #pragma once
 
 /**
- *	@file				CLDefine.h
- *	@brief			CervidaeLibプログラム内で共通に使用する最小限の設定を置くヘッダ
- *	@date			2018/10/16.
+ *	@file		CLDefine.h
+ *	@brief		CervidaeLibプログラム内で共通に使用する最小限の設定を置くヘッダ
+ *	@date		2018/10/16.
  *	@author		kashima akihiro
  *	@note
  *		
@@ -22,10 +22,10 @@
 
 #if PROJECT_DEBUG
 	#define	DEBUG_PRINT			printfDx
-	#define	ERROR_PRINT(...)		printfDx( __VA_ARGS__ )
+	#define	ERROR_PRINT(...)	printfDx( __VA_ARGS__ )
 #else
 	#define	DEBUG_PRINT			__noop
-	#define	ERROR_PRINT(...)		printfDx( __VA_ARGS__ )
+	#define	ERROR_PRINT(...)	printfDx( __VA_ARGS__ )
 #endif
 
 
@@ -36,23 +36,19 @@
 namespace CervidaeLibDefine
 {
 	// Application Exe Name
-	const static char *				nAPP_EXE_NAME					= "CervidaeLib.exe";
+	const static char *				nAPP_EXE_NAME			= "CervidaeLib.exe";
 	// Application Version
-	const static char *				nAPP_EXE_VERSION				= "20181129";	
-	const static unsigned int		uAPP_EXE_VERSION				= 20181129;
+	const static char *				nAPP_EXE_VERSION		= "20181129";	
+	const static unsigned int		uAPP_EXE_VERSION		= 20181129;
 	// Application Service ID
-	const static char *				nAPP_SERVICE_NAME			= "PC0001-2018-00";
-	// 視聴年齢制限年齢 Parental Lock
+	const static char *				nAPP_SERVICE_NAME		= "PC0001-2018-00";
+	// 視聴年齢制限 Parental Lock
 	const static unsigned int		nAPP_RATING_AGE_LEVEL	= 0;
 	// 著作権 Application Copyright
-	const static char *				nAPP_SERVICE_COPYRIGHT = "(C) 2018 TriangleWorks";
-
+	const static char *				nAPP_SERVICE_COPYRIGHT	= "(C) 2018 TriangleWorks";
 
 
 }
-
-
-
 
 
 

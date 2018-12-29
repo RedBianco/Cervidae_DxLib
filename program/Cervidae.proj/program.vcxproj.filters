@@ -46,6 +46,15 @@
     <Filter Include="Cervidae\Classes\Libs\DxLib\Input">
       <UniqueIdentifier>{ab995803-29ae-4975-8f5a-b96ee7989af6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\Libs\Effekseer">
+      <UniqueIdentifier>{edc86f88-90ae-40f4-87a1-f57526f67185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cervidae\Classes\Common\CervidaeLib\Template">
+      <UniqueIdentifier>{ae1b72b7-2881-4aa3-9ec0-5715da614382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cervidae\Classes\Libs\CRI">
+      <UniqueIdentifier>{ceca2a2e-7283-46e7-8d0e-6c29e70ac02e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
@@ -86,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.cpp">
       <Filter>Cervidae\Classes\Libs\DxLib\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityForOperat.cpp">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +154,12 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.h">
       <Filter>Cervidae\Classes\Libs\DxLib\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityForOperat.h">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveWait.h">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,8 +11,8 @@
 bool		dxLib_InitBeforeSetup( void )
 {
 	DxLib::SetGraphMode(	DxLibCommon::Disp::DISPLAY_RESOLUTION_WIDTH,
-										DxLibCommon::Disp::DISPLAY_RESOLUTION_HEIGHT,
-										DxLibCommon::Disp::DISPLAY_PLAY_COLORBIT );
+							DxLibCommon::Disp::DISPLAY_RESOLUTION_HEIGHT,
+							DxLibCommon::Disp::DISPLAY_PLAY_COLORBIT );
 
 	DxLib::SetMainWindowText( CervidaeLibDefine::nAPP_EXE_NAME );
 

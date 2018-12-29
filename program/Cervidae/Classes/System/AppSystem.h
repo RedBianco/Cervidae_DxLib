@@ -17,14 +17,14 @@ public:
 	~AppSystem();
 
 public:
-	bool		m_LowSpecMode;				// 低処理負荷モードかどうかのフラグ
-	bool		m_IsExitApp;						// アプリを終了するかどうかのフラグ
+	bool		m_LowSpecMode;			// 低処理負荷モードかどうかのフラグ
+	bool		m_IsExitApp;			// アプリを終了するかどうかのフラグ
 
 
 	// 前回フレームレート表示用にフレームカウントをリセットした時間
-	LONGLONG		m_BackDispFrameTime;
-	int		m_FrameCounter;				// フレームレート表示用のフレームカウンタ
-	int		m_DispFrameCount;			// フレームレート表示で表示するフレームレート
+	LONGLONG	m_BackDispFrameTime;
+	int			m_FrameCounter;			// フレームレート表示用のフレームカウンタ
+	int			m_DispFrameCount;		// フレームレート表示で表示するフレームレート
 
 public:
 	bool		appSystemMain();
@@ -35,12 +35,13 @@ public:
 	void		setExitAppFlag( const bool setValue ) { m_IsExitApp = setValue; }
 	bool		isExitApp() const { return m_IsExitApp; }
 
-	int		getDispFrameCount() const { return m_DispFrameCount; }
+	int			getDispFrameCount() const { return m_DispFrameCount; }
 
 private:
 	void		appSystemClean();
 	
-	int		appSystemInitialize();				// Application起動時の初期化処理
+	bool		appSystemStartSetup();
+	int			appSystemInitialize();				// Application起動時の初期化処理
 	void		appSystemTerminate();
 	bool		appSystemUpdate();
 	void		appSystemRenderUpdate();
