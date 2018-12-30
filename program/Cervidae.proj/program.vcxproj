@@ -84,11 +84,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Cervidae\Libs\DxLib\VC\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Cervidae\Libs\DxLib\VC\include;..\Cervidae\Libs\Effekseer\VCInclude</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\Cervidae\Libs\DxLib\VC\libs</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Cervidae\Libs\DxLib\VC\libs;..\Cervidae\Libs\Effekseer\Libs</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -113,13 +113,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Cervidae\Libs\DxLib\VC\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Cervidae\Libs\DxLib\VC\include;..\Cervidae\Libs\Effekseer\VCInclude</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\Cervidae\Libs\DxLib\VC\libs</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Cervidae\Libs\DxLib\VC\libs;..\Cervidae\Libs\Effekseer\Libs</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -129,6 +129,8 @@
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibInit.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibSetup.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Main.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Scene\StartScene.cpp" />
@@ -148,6 +150,8 @@
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibSetup.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibInputConfig.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.h" />
     <ClInclude Include="..\Cervidae\Classes\Main.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\CLDefine.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CommonList.h" />
