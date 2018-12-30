@@ -1,5 +1,6 @@
 
 #include "DxLib.h"
+#include "../Common/CervidaeLib/CLDefine.h"
 #include "../Common/CommonList.h"
 #include "../Libs/DxLib/Initialize/dxLibInit.h"
 #include "../Libs/DxLib/Initialize/dxLibSetup.h"
@@ -65,6 +66,10 @@ bool	AppSystem::appSystemStartSetup()
 		setLowSpecMode( TRUE );
 	}
 
+	result = appSystemDxAfterProcess();
+	if( result ) {
+	}
+
 	if( DxLib_Init() == -1 ) 
 	{
 		return false;
@@ -72,6 +77,10 @@ bool	AppSystem::appSystemStartSetup()
 
 	result = dxLib_InitAfterSetup();
 	if( result ){
+		// DxLib_Init完了後の処理
+		result = appSystemDxBeforeProcess();
+		if( result ) {
+		}
 	}
 
 	return true;
@@ -166,3 +175,19 @@ void	AppSystem::appSystemRenderUpdate()
 }
 
 
+bool	AppSystem::appSystemDxBeforeProcess()
+{
+	return true;
+}
+bool	AppSystem::appSystemDxAfterProcess()
+{
+	#if( defined( MIDDLEWARE_EFFEKSEER_USE_ENABLE ))
+	//-----------------------------------------------------------------------
+	// Zバッファを有効にする。
+	// Effekseerを使用する場合、2DゲームでもZバッファを使用する。
+	AppLib::Effekseer::libSetZBuffer();
+	#endif
+
+
+	return true;
+}

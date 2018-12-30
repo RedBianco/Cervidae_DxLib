@@ -20,7 +20,6 @@ public:
 	bool		m_LowSpecMode;			// 低処理負荷モードかどうかのフラグ
 	bool		m_IsExitApp;			// アプリを終了するかどうかのフラグ
 
-
 	// 前回フレームレート表示用にフレームカウントをリセットした時間
 	LONGLONG	m_BackDispFrameTime;
 	int			m_FrameCounter;			// フレームレート表示用のフレームカウンタ
@@ -39,13 +38,15 @@ public:
 
 private:
 	void		appSystemClean();
-	
 	bool		appSystemStartSetup();
 	int			appSystemInitialize();				// Application起動時の初期化処理
 	void		appSystemTerminate();
 	bool		appSystemUpdate();
 	void		appSystemRenderUpdate();
 
+	bool		appSystemDxBeforeProcess();
+	bool		appSystemDxAfterProcess();
+	
 };
 
 

@@ -1,18 +1,10 @@
-﻿  UtilityForOperat.cpp
-  UtilityMoveLine.cpp
-  dxLibKeyPadUtility.cpp
-  dxLibCommon.cpp
-  dxLibInit.cpp
+﻿  dxLibInit.cpp
   dxLibSetup.cpp
   Main.cpp
-  AppSetting.cpp
   AppSystem.cpp
-  AppProcess.cpp
-  TaskInfo.cpp
-  TaskLib.cpp
   コード生成しています。
-  9 of 543 functions ( 1.7%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
+  10 of 558 functions ( 1.8%) were compiled, the rest were copied from previous compilation.
+    4 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   program.vcxproj -> D:\Program\Project\Develop\cervidae_lib\program\cervidae.proj\x64\Release\program.exe

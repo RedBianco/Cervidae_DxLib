@@ -55,6 +55,9 @@
     <Filter Include="Cervidae\Classes\Libs\CRI">
       <UniqueIdentifier>{ceca2a2e-7283-46e7-8d0e-6c29e70ac02e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\Libs\DxLib\Debug">
+      <UniqueIdentifier>{6af64b1a-26cb-4d5b-8b61-4ce11f3e1372}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
@@ -98,6 +101,12 @@
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityForOperat.cpp">
       <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.cpp">
+      <Filter>Cervidae\Classes\Libs\Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.cpp">
+      <Filter>Cervidae\Classes\Libs\Effekseer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +169,12 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveWait.h">
       <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.h">
+      <Filter>Cervidae\Classes\Libs\Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.h">
+      <Filter>Cervidae\Classes\Libs\Effekseer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -28,6 +28,9 @@
 	#define	ERROR_PRINT(...)	printfDx( __VA_ARGS__ )
 #endif
 
+#if defined( CERVIDAE_LIB )
+//	#define MIDDLEWARE_EFFEKSEER_USE_ENABLE		(1)
+#endif
 
 //=================================================================================//
 //	
