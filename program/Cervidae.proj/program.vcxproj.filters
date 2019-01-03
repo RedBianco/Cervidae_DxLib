@@ -105,6 +105,9 @@
     <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.cpp">
       <Filter>Cervidae\Classes\Libs\Effekseer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerData.cpp">
+      <Filter>Cervidae\Classes\Libs\Effekseer</Filter>
+    </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.cpp">
       <Filter>Cervidae\Classes\Libs\Effekseer</Filter>
     </ClCompile>
@@ -171,6 +174,9 @@
       <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.h">
+      <Filter>Cervidae\Classes\Libs\Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerData.h">
       <Filter>Cervidae\Classes\Libs\Effekseer</Filter>
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.h">

@@ -29,7 +29,7 @@
 #endif
 
 #if defined( CERVIDAE_LIB )
-//	#define MIDDLEWARE_EFFEKSEER_USE_ENABLE		(1)
+	#define MIDDLEWARE_EFFEKSEER_USE_ENABLE		(1)
 #endif
 
 //=================================================================================//
