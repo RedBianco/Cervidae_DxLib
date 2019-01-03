@@ -6,8 +6,9 @@
 //  appEffekseerLib.h
 //  Cervidae
 //
-//  Created by kashima akihiro on 2018/12/11.
+//  Created by kashima akihiro on 2019/01/11.
 //=================================================================================//
+
 
 #define	EFFEKSEER_DXLIB_VERSION
 
@@ -22,28 +23,15 @@
 #define	EFFEKSEER_NONHANDLE				(0xffffffff)	/*	–³Œø‚Èƒnƒ“ƒhƒ‹	*/
 
 
-
-class EffekseerContainer
+// TODO:¡ŒãİŒv‚ğC³—\’è
+namespace App
 {
-public:
-	
-	EffekseerContainer();
-	 ~EffekseerContainer(){}
-	
-public:
-	int		m_FileHandle_;
-	std::string		m_PlayFile;
-	
-};
-
-
-
-
-
-
-
-
-
+	namespace EffekseerLib
+	{
+		extern int		libSystemInit(void);
+		extern void		libSetZBuffer(void);
+	}
+}
 
 
 

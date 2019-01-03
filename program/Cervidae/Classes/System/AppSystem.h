@@ -8,9 +8,11 @@
 //=================================================================================//
 
 #include "../Libs/DxLib/Input/dxLibKeyPadUtility.h"
+#include "../Libs/Effekseer/appEffekseer.h"
 
 class AppSystem : 
-			public AppKeyPadController
+			public AppKeyPadController,
+			public AppEffekseerController
 {
 public:
 	AppSystem();

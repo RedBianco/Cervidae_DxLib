@@ -130,6 +130,7 @@
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibSetup.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerData.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Main.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibInputConfig.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerData.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.h" />
     <ClInclude Include="..\Cervidae\Classes\Main.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\CLDefine.h" />

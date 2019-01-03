@@ -4,6 +4,7 @@
 #include "../Common/CommonList.h"
 #include "../Libs/DxLib/Initialize/dxLibInit.h"
 #include "../Libs/DxLib/Initialize/dxLibSetup.h"
+#include "../Libs/Effekseer/appEffekseer.h"
 #include "AppSystem.h"
 #include "../Libs/DxLib/dxLibDefine.h"
 
@@ -21,6 +22,9 @@ AppSystem::AppSystem() :
 		m_FrameCounter( 0 ),
 		m_DispFrameCount( 0 )
 {
+#if( defined( MIDDLEWARE_EFFEKSEER_USE_ENABLE ))
+	m_EfkData.clear();
+#endif
 }
 AppSystem::~AppSystem()
 {}
@@ -39,7 +43,7 @@ bool	AppSystem::appSystemMain()
 		return false;
 	}
 
-
+	// FrameUpdate
 	if( !appSystemUpdate() )
 	{
 		return false;
@@ -55,6 +59,7 @@ bool	AppSystem::appSystemStartSetup()
 {
 	auto result = false;
 
+	// DxLib_Init完了前処理
 	result = dxLib_InitBeforeSetup();
 	if( result ){
 	}
@@ -66,19 +71,21 @@ bool	AppSystem::appSystemStartSetup()
 		setLowSpecMode( TRUE );
 	}
 
-	result = appSystemDxAfterProcess();
+	result = appSystemDxBeforeProcess();
 	if( result ) {
 	}
 
-	if( DxLib_Init() == -1 ) 
+	int success = DxLib_Init();
+	if( success == -1 ) 
 	{
 		return false;
 	}
+	DEBUG_PRINT("[AppSystem] DxLib_Init() CLEAR\n");
 
 	result = dxLib_InitAfterSetup();
 	if( result ){
 		// DxLib_Init完了後の処理
-		result = appSystemDxBeforeProcess();
+		result = appSystemDxAfterProcess();
 		if( result ) {
 		}
 	}
@@ -90,10 +97,9 @@ bool	AppSystem::appSystemStartSetup()
 int		AppSystem::appSystemInitialize()
 {
 	auto isInitDone = appSystemStartSetup();
-	// DxLib Initialize
-	if( isInitDone ){
-		// Lua File Loading
-	}
+	if( !isInitDone ){ return false; }
+	// DxLib前、後処理が全て終わった
+	// Lua File Loading
 
 
 	// 初期化成功
@@ -182,12 +188,13 @@ bool	AppSystem::appSystemDxBeforeProcess()
 bool	AppSystem::appSystemDxAfterProcess()
 {
 	#if( defined( MIDDLEWARE_EFFEKSEER_USE_ENABLE ))
-	//-----------------------------------------------------------------------
-	// Zバッファを有効にする。
-	// Effekseerを使用する場合、2DゲームでもZバッファを使用する。
-	AppLib::Effekseer::libSetZBuffer();
+	//------------------------------------------------------
+	// Effekseer関係初期化処理
+	// タイミングはDxLib_Initが終わってDxLib関係初期化後処理が終わったら
+	App::EffekseerLib::libSystemInit();
 	#endif
 
+	DEBUG_PRINT("[AppSystem] appSystemDxAfterProcess() CLEAR\n");
 
 	return true;
 }

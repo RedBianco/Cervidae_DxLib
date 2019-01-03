@@ -1,6 +1,7 @@
 #pragma once
 
 #include "appEffekseerLib.h"
+#include "appEffekseerData.h"
 
 //=================================================================================//
 //  appEffekseer.h
@@ -10,25 +11,24 @@
 //=================================================================================//
 
 #if 0
-//	警告除去
-//	※DXライブラリ用Effekseerの仕様なので必ず出る
-//	※Effekseerのlibファイル関連のWarning
-//	warning LNK4099
+// 警告除去
+// ※DXライブラリ用Effekseerの仕様なので必ず出る
+// ※Effekseerのlibファイル関連のWarning
+// warning LNK4099
 #pragma warning( disable:4099)
 #endif
-
 
 /*
 	Effekseer描画コントローラークラス
 */
 class AppEffekseerController
 {
-	
+public:
 	AppEffekseerController();
 	virtual	~AppEffekseerController();
 	
 public:
-	std::vector< EffekseerContainer >	m_EfkData;
+	std::vector< EffekseerFileData >	m_EfkData;
 
 
 public:
@@ -49,19 +49,13 @@ public:
 	int		libIsPlay2D( const int fileHandle );
 	unsigned int	libIsEfkFileExist( char * szPlayFile );
 
+	// 毎フレーム処理
 	int		libPlayUpdate(void);
 
 
 };
 
-namespace AppLib
-{
-    namespace Effekseer
-    {
-         extern int		libSystemInit(void);
-		 extern void	libSetZBuffer(void);
-    }
-}
+
    
 
 
