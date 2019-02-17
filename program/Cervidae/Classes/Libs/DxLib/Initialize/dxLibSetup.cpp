@@ -16,7 +16,7 @@ bool	dxLib_InitBeforeSetup( void )
 						 DxLibCommon::Disp::DISPLAY_RESOLUTION_HEIGHT,
 						 DxLibCommon::Disp::DISPLAY_PLAY_COLORBIT );
 
-	DxLib::SetMainWindowText( CervidaeLibDefine::nAPP_EXE_NAME );
+	DxLib::SetMainWindowText( CervidaeLib::AppInfo::CAPP_EXE_NAME );
 
 	DxLib::ChangeWindowMode( DxLibCommon::DEFAULT_SCREEN_MODE );
 

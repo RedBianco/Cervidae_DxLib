@@ -48,7 +48,14 @@ private:
 
 	bool		appSystemDxBeforeProcess();
 	bool		appSystemDxAfterProcess();
-	
+
+
+	// PROJECT_DEBUG
+	bool		appSystemDebugSetting();
+	static void		appSystemDebugStart();
+	static void		appSystemDebugEnd();
+	static int		appSystemDebugMain();
+	static void		appSystemRenderEnd();
 };
 
 

@@ -7,12 +7,14 @@
 #include "../Libs/Effekseer/appEffekseer.h"
 #include "AppSystem.h"
 #include "../Libs/DxLib/dxLibDefine.h"
+#include "../Libs/DxLib/Debug/dxLibDebug.h"
 
 //======================================================================//
 //  AppSystem.cpp
 //  Created by on 2018/11/06.
 //======================================================================//
 
+/// <image url="D:\Program\Project\Develop\cervidae_lib\resources\comment\MkYg.jpg" scale="0.3" />
 
 AppSystem::AppSystem() :
 		m_LowSpecMode( false ),
@@ -34,6 +36,8 @@ void	AppSystem::appSystemClean()
 
 }
 
+//==================================================================//
+// 
 // ( true : 正常に処理を完了した   false : エラーが発生した )
 bool	AppSystem::appSystemMain()
 {
@@ -96,11 +100,19 @@ bool	AppSystem::appSystemStartSetup()
 // Application起動時の初期化処理
 int		AppSystem::appSystemInitialize()
 {
-	auto isInitDone = appSystemStartSetup();
-	if( !isInitDone ){ return false; }
+	auto isDone = appSystemStartSetup();
+	if( !isDone){ return false; }
 	// DxLib前、後処理が全て終わった
 	// Lua File Loading
+	DEBUG_PRINT("[AppSystem] appSystemStartSetup() CLEAR\n");
 
+
+
+#if PROJECT_DEBUG
+	// DebugSetting
+	isDone = appSystemDebugSetting();
+	if( !isDone ){ return false; }
+#endif
 
 	// 初期化成功
 	return true;
@@ -116,10 +128,11 @@ void	AppSystem::appSystemTerminate()
 	DxLib::DxLib_End();
 }
 
+//==================================================================//
 // Application毎フレーム処理
 bool	AppSystem::appSystemUpdate()
 {
-	LONGLONG	n_NowTime;
+	LONGLONG n_NowTime;
 
 	DxLib::SetDrawScreen( DX_SCREEN_BACK );
 
@@ -133,7 +146,8 @@ bool	AppSystem::appSystemUpdate()
 			}
 		}
 
-#ifdef PROJECT_DEBUG
+#if PROJECT_DEBUG
+		AppLib::DebugModeOperat::getInstance()->debugAppUpdate();
 #endif
 
 		if( isExitApp() ) {
@@ -167,7 +181,7 @@ bool	AppSystem::appSystemUpdate()
 
 		// 画面クリア
 		DxLib::ClearDrawScreen();
-	}
+	}// while( DxLib::ProcessMessage() == 0 )
 
 
 	return true;
@@ -197,4 +211,40 @@ bool	AppSystem::appSystemDxAfterProcess()
 	DEBUG_PRINT("[AppSystem] appSystemDxAfterProcess() CLEAR\n");
 
 	return true;
+}
+
+bool	AppSystem::appSystemDebugSetting()
+{
+	#if PROJECT_DEBUG
+	AppLib::DebugModeOperat::getInstance()->debugMenuNameSet(
+					DxLib::DebugConfig::eDEBUG_TYPE_MAIN, "MAIN_MENU" );
+	AppLib::DebugModeOperat::getInstance()->debugModeStartProcSet(
+					DxLib::DebugConfig::eDEBUG_TYPE_MAIN, "MAIN_MENU", &appSystemDebugStart );
+	AppLib::DebugModeOperat::getInstance()->debugModeEndProcSet(
+					DxLib::DebugConfig::eDEBUG_TYPE_MAIN, "MAIN_MENU", &appSystemDebugEnd );
+	AppLib::DebugModeOperat::getInstance()->debugModeMainProcSet(
+					DxLib::DebugConfig::eDEBUG_TYPE_MAIN, "MAIN_MENU", &appSystemDebugMain );
+	AppLib::DebugModeOperat::getInstance()->debugModeRenderProcSet(
+					DxLib::DebugConfig::eDEBUG_TYPE_MAIN, "MAIN_MENU", &appSystemRenderEnd );
+
+	DEBUG_PRINT("[AppSystem] appSystemDebugSetting() CLEAR\n");
+
+	return true;
+	#else
+	return false;
+	#endif
+}
+
+void	AppSystem::appSystemDebugStart()
+{
+}
+void	AppSystem::appSystemDebugEnd()
+{
+}
+int		AppSystem::appSystemDebugMain()
+{
+	return 0;
+}
+void	AppSystem::appSystemRenderEnd()
+{
 }

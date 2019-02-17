@@ -8,7 +8,7 @@
 //=================================================================================//
 
 
-void		dxCommon_FramerateDisp( const int renderRate );
+void	dxCommon_FramerateDisp( const int renderRate );
 
 
 
