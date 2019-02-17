@@ -16,9 +16,11 @@
 #include <vector>
 #include <list>
 #include <map>
-#include <direct.h>				//	ファイル操作
-#include <complex.h>			//	複素数計算を行うための関数
+#include <direct.h>				// ファイル操作
+#include <complex.h>			// 複素数計算を行うための関数
 #include <iosfwd>
+
+#include "CervidaeLib/CLAssert.h"
 
 //=================================================================================//
 //  CommonList.h

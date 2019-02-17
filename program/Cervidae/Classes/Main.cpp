@@ -4,6 +4,7 @@
 #include "Common/CervidaeLib/CLDefine.h"
 #include "Libs/DxLib/dxLibDefine.h"
 #include "System/AppSystem.h"
+#include "Libs/DxLib/Debug/dxLibDebug.h"
 
 //=================================================================================//
 //  Main.cpp
@@ -18,9 +19,9 @@ int APIENTRY  WinMain(	HINSTANCE	hInstance,
 						LPSTR		lpCmdLine,
 						int			nCmdShow )
 {
-	UNUSED_VARIABLE(hInstance);
-	UNUSED_VARIABLE(hPrevInstance);
-	UNUSED_VARIABLE(lpCmdLine);
+	UNUSED_VARIABLE( hInstance);
+	UNUSED_VARIABLE( hPrevInstance);
+	UNUSED_VARIABLE( lpCmdLine);
 
 	AppSystem * pAppSystem = new AppSystem();
 	if( pAppSystem != nullptr )

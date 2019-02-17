@@ -23,15 +23,15 @@
 //=================================================================================//
 namespace DxLibCommon
 {
-	const static bool					DEFAULT_SCREEN_MODE						= true;
+	const static bool		DEFAULT_SCREEN_MODE				= true;
 
 	// データのVRAMメモリ配置設定
-	const static int					SETTING_MEMORY_VRAM_MAIN		= 1;		//	メインVRAM
-	const static int					SETTING_MEMORY_VRAM_SYSTEM		= 0;		//	システムメモリ
+	const static int		SETTING_MEMORY_VRAM_MAIN		= 1;		// メインVRAM
+	const static int		SETTING_MEMORY_VRAM_SYSTEM		= 0;		// システムメモリ
 	
-	const static int					FONTHANDLE_SMALL_SIZE			= 24;		// 小フォントのサイズ
-	const static int					FONTHANDLE_MIDIUM_SIZE			= 32;		// 中フォントのサイズ
-	const static int					FONTHANDLE_BIG_SIZE				= 80;		// 大フォントのサイズ
+	const static int		FONTHANDLE_SMALL_SIZE			= 24;		// 小フォントのサイズ
+	const static int		FONTHANDLE_MIDIUM_SIZE			= 32;		// 中フォントのサイズ
+	const static int		FONTHANDLE_BIG_SIZE				= 80;		// 大フォントのサイズ
 
 	namespace Disp
 	{

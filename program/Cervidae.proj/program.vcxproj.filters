@@ -111,6 +111,12 @@
     <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.cpp">
       <Filter>Cervidae\Classes\Libs\Effekseer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebug.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebugLog.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.h">
@@ -181,6 +187,18 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.h">
       <Filter>Cervidae\Classes\Libs\Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebug.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\CLAssert.h">
+      <Filter>Cervidae\Classes\Common\CervidaeLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebugConfig.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebugLog.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Debug</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

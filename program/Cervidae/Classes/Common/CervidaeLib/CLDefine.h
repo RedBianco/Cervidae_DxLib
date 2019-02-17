@@ -36,23 +36,23 @@
 //	
 //=================================================================================//
 
-namespace CervidaeLibDefine
+namespace CervidaeLib
 {
-	// Application Exe Name
-	const static char *				nAPP_EXE_NAME			= "CervidaeLib.exe";
-	// Application Version
-	const static char *				nAPP_EXE_VERSION		= "20181129";	
-	const static unsigned int		uAPP_EXE_VERSION		= 20181129;
-	// Application Service ID
-	const static char *				nAPP_SERVICE_NAME		= "PC0001-2018-00";
-	// 視聴年齢制限 Parental Lock
-	const static unsigned int		nAPP_RATING_AGE_LEVEL	= 0;
-	// 著作権 Application Copyright
-	const static char *				nAPP_SERVICE_COPYRIGHT	= "(C) 2018 TriangleWorks";
-
-
+	namespace AppInfo
+	{
+		// Application Exe Name
+		const static char *				CAPP_EXE_NAME			= "CervidaeLib.exe";
+		// Application Version
+		const static char *				CAPP_EXE_VERSION		= "20190109";
+		const static unsigned int		IAPP_EXE_VERSION		= 20190109;
+		// Application Service ID
+		const static char *				CAPP_SERVICE_NAME		= "PC0001-2018-00";
+		// プレイ年齢制限 Parental Lock
+		const static unsigned int		IAPP_RATING_LOCK_LEVEL	= 0;
+		// 著作権 Application Copyright
+		const static char *				CAPP_SERVICE_COPYRIGHT	= "(C) 2018 TriangleWorks";
+	}
 }
-
 
 
 /* End CLDefine.h */
