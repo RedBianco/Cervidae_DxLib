@@ -1,19 +1,25 @@
-﻿  dxLibDebug.cpp
+﻿  tSingleton.cpp
+  UtilityForOperat.cpp
+  UtilityMoveLine.cpp
+  dxLibDebug.cpp
   dxLibDebugLog.cpp
-  dxLibKeyPadUtility.cpp
   dxLibCommon.cpp
   dxLibInit.cpp
   dxLibSetup.cpp
+  dxLibKeyPadUtility.cpp
   appEffekseer.cpp
+  appEffekseerData.cpp
   appEffekseerLib.cpp
   Main.cpp
+  InitializeScene.cpp
+  StartScene.cpp
   AppSetting.cpp
   AppSystem.cpp
   AppProcess.cpp
+  TaskInfo.cpp
+  TaskLib.cpp
   コード生成しています。
-  0 of 1593 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  All 1593 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   コード生成が終了しました。
 EffekseerForDXLib_vs2017_x64.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB 'EffekseerForDXLib_vs2017.pdb' が 'EffekseerForDXLib_vs2017_x64.lib(EffekseerForDXLib.obj)' で、または 'D:\Program\Project\Develop\cervidae_lib\program\cervidae.proj\x64\Release\EffekseerForDXLib_vs2017.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
   program.vcxproj -> D:\Program\Project\Develop\cervidae_lib\program\cervidae.proj\x64\Release\program.exe

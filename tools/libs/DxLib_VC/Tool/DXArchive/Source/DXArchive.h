@@ -4,7 +4,7 @@
 // 
 //	Creator			: 山田 巧
 //	Creation Date	: 2003/09/11
-//	Version			: 1.02
+//	Version			: 1.08
 //
 // -------------------------------------------------------------------------------
 
@@ -67,13 +67,16 @@
 #endif
 
 #define DXA_HEAD						*((u16 *)"DX")	// ヘッダ
-#define DXA_VER							(0x0007)		// バージョン
+#define DXA_VER							(0x0008)		// バージョン
+#define DXA_VER_MIN						(0x0008)		// 対応している最低バージョン
 #define DXA_BUFFERSIZE					(0x1000000)		// アーカイブ作成時に使用するバッファのサイズ
-#define DXA_KEYSTR_LENGTH				(12)			// 鍵文字列の長さ
-#define DXA_KEYV2STR_LENGTH				(63)			// 鍵バージョン2の文字列の最大長
-#define DXA_KEYV2_LENGTH				(32)			// 鍵バージョン2の長さ
-#define DXA_KEYV2_VER					(0x0007)		// 鍵バージョン2になったバージョン
-#define DXA_KEYV2_STRING_MAXLENGTH		(2048)			// 鍵バージョン2用の鍵用文字列の最大長
+#define DXA_KEY_BYTES					(7)				// 鍵のバイト数
+#define DXA_KEY_STRING_LENGTH			(63)			// 鍵用文字列の長さ
+#define DXA_KEY_STRING_MAXLENGTH		(2048)			// 鍵用文字列バッファのサイズ
+
+// フラグ
+#define DXA_FLAG_NO_KEY					(0x00000001)	// 鍵処理無し
+#define DXA_FLAG_NO_HEAD_PRESS			(0x00000002)	// ヘッダの圧縮無し
 
 /*
 	バージョンごとの違い
@@ -83,6 +86,7 @@
 	0x0005 暗号化処理を一部変更
 	0x0006 64bit化
 	0x0007 暗号化処理を変更( パスワードを指定した場合の解読難度を向上 )
+	0x0008 暗号鍵の長さを56bitに変更
 */
 
 /*
@@ -119,7 +123,10 @@ typedef struct tagDARC_HEAD
 	u64 FileTableStartAddress ;				// ファイルテーブルの先頭アドレス(メンバ変数 FileNameTableStartAddress のアドレスを０とする)
 	u64 DirectoryTableStartAddress ;		// ディレクトリテーブルの先頭アドレス(メンバ変数 FileNameTableStartAddress のアドレスを０とする)
 											// アドレス０から配置されている DARC_DIRECTORY 構造体がルートディレクトリ
-	u64 CharCodeFormat ;					// ファイル名に使用しているコードページ番号
+	u32 CharCodeFormat ;					// ファイル名に使用しているコードページ番号
+	u32 Flags ;								// フラグ( DXA_FLAG_NO_KEY 等 )
+	u8  HuffmanEncodeKB ;					// ファイルの前後のハフマン圧縮するサイズ( 単位：キロバイト 0xff の場合はすべて圧縮する )
+	u8  Reserve[ 15 ] ;						// 予約領域
 } DARC_HEAD ;
 
 // ファイルの時間情報
@@ -142,6 +149,7 @@ typedef struct tagDARC_FILEHEAD
 								//			ディレクトリの場合：DARC_HEAD構造体 のメンバ変数 DirectoryTableStartAddress のが示すアドレスをアドレス０とする
 	u64 DataSize ;				// ファイルのデータサイズ
 	u64 PressDataSize ;			// 圧縮後のデータのサイズ( 0xffffffffffffffff:圧縮されていない ) ( Ver0x0002 で追加された )
+	u64 HuffPressDataSize ;		// ハフマン圧縮後のデータのサイズ( 0xffffffffffffffff:圧縮されていない ) ( Ver0x0008 で追加された )
 } DARC_FILEHEAD ;
 
 // ディレクトリ格納情報
@@ -154,6 +162,16 @@ typedef struct tagDARC_DIRECTORY
 } DARC_DIRECTORY ;
 
 #pragma pack(pop)
+
+// エンコード処理進行状況保存用情報
+typedef struct tagDARC_ENCODEINFO
+{
+	int TotalFileNum ;				// ファイル総数
+	int CompFileNum ;				// 処理したファイルの数
+	unsigned int PrevDispTime ;		// 前回状況出力した時間
+	char ProcessFileName[ 2048 ] ;	// 現在処理しているファイルの名前
+	bool OutputStatus ;				// 状況出力を行うかどうか
+} DARC_ENCODEINFO ;
 
 // class ----------------------------------------
 
@@ -172,13 +190,13 @@ public :
 	DXArchive( char *ArchivePath = NULL ) ;
 	~DXArchive() ;
 
-	static int			EncodeArchive( char *OutputFileName, char **FileOrDirectoryPath, int FileNum, bool Press = false, const char *KeyString = NULL ) ;	// アーカイブファイルを作成する
-	static int			EncodeArchiveOneDirectory( char *OutputFileName, char *FolderPath, bool Press = false, const char *KeyString = NULL ) ;		// アーカイブファイルを作成する(ディレクトリ一個だけ)
-	static int			DecodeArchive( char *ArchiveName, char *OutputPath, const char *KeyString = NULL ) ;								// アーカイブファイルを展開する
+	static int			EncodeArchive( char *OutputFileName, char **FileOrDirectoryPath, int FileNum, bool Press = false, bool AlwaysHuffman = false, u8 HuffmanEncodeKB = 0, const char *KeyString_ = NULL, bool NoKey = false, bool OutputStatus = true ) ;	// アーカイブファイルを作成する
+	static int			EncodeArchiveOneDirectory( char *OutputFileName, char *FolderPath, bool Press = false, bool AlwaysHuffman = false, u8 HuffmanEncodeKB = 0, const char *KeyString_ = NULL, bool NoKey = false, bool OutputStatus = true ) ;		// アーカイブファイルを作成する(ディレクトリ一個だけ)
+	static int			DecodeArchive( char *ArchiveName, char *OutputPath, const char *KeyString_ = NULL ) ;								// アーカイブファイルを展開する
 
-	int					OpenArchiveFile( const char *ArchivePath, const char *KeyString = NULL ) ;				// アーカイブファイルを開く( 0:成功  -1:失敗 )
-	int					OpenArchiveFileMem( const char *ArchivePath, const char *KeyString = NULL ) ;			// アーカイブファイルを開き最初にすべてメモリ上に読み込んでから処理する( 0:成功  -1:失敗 )
-	int					OpenArchiveMem( void *ArchiveImage, s64 ArchiveSize, const char *KeyString = NULL ) ;	// メモリ上にあるアーカイブファイルイメージを開く( 0:成功  -1:失敗 )
+	int					OpenArchiveFile( const char *ArchivePath, const char *KeyString_ = NULL ) ;				// アーカイブファイルを開く( 0:成功  -1:失敗 )
+	int					OpenArchiveFileMem( const char *ArchivePath, const char *KeyString_ = NULL ) ;			// アーカイブファイルを開き最初にすべてメモリ上に読み込んでから処理する( 0:成功  -1:失敗 )
+	int					OpenArchiveMem( void *ArchiveImage, s64 ArchiveSize, const char *KeyString_ = NULL ) ;	// メモリ上にあるアーカイブファイルイメージを開く( 0:成功  -1:失敗 )
 	int					CloseArchiveFile( void ) ;																// アーカイブファイルを閉じる
 
 	s64					LoadFileToMem( const char *FilePath, void *Buffer, u64 BufferLength ) ;		// アーカイブファイル中の指定のファイルをメモリに読み込む( -1:エラー 0以上:ファイルサイズ )
@@ -187,9 +205,8 @@ public :
 	void				*GetFileImage( void ) ;														// アーカイブファイルをメモリに読み込んだ場合のファイルイメージが格納されている先頭アドレスを取得する( メモリから開いている場合のみ有効、圧縮している場合は、圧縮された状態のデータが格納されているので注意 )
 	class DXArchiveFile *OpenFile( const char *FilePath ) ;											// アーカイブファイル中の指定のファイルを開き、ファイルアクセス用オブジェクトを作成する( ファイルから開いている場合のみ有効 )
 
-	void *				LoadFileToCash( const char *FilePath ) ;									// アーカイブファイル中の指定のファイルを、クラス内のキャッシュバッファに読み込む
-	void *				GetCash( void ) ;															// キャッシュバッファのアドレスを取得する
-	int					ClearCash( void ) ;															// キャッシュバッファを開放する
+	void *				LoadFileToCache( const char *FilePath ) ;									// アーカイブファイル中の指定のファイルを、クラス内のキャッシュバッファに読み込む
+	int					ClearCache( void ) ;															// キャッシュバッファを開放する
 
 	int					ChangeCurrentDir( const char *DirPath ) ;									// アーカイブ内のディレクトリパスを変更する( 0:成功  -1:失敗 )
 	int					GetCurrentDir( char *DirPathBuffer, int BufferLength ) ;					// アーカイブ内のカレントディレクトリパスを取得する
@@ -202,27 +219,23 @@ public :
 	static void NotConv( void *Data , s64 Size ) ;																// データを反転させる関数
 	static void NotConvFileWrite( void *Data, s64 Size, FILE *fp ) ;											// データを反転させてファイルに書き出す関数
 	static void NotConvFileRead( void *Data, s64 Size, FILE *fp ) ;												// データを反転させてファイルから読み込む関数
-	static size_t CreateKeyV2FileString( int CharCodeFormat, const char *KeyV2String, size_t KeyV2StringBytes, DARC_DIRECTORY *Directory, DARC_FILEHEAD *FileHead, u8 *FileTable, u8 *DirectoryTable, u8 *NameTable, u8 *FileString ) ;	// カレントディレクトリにある指定のファイルの鍵バージョン２用の文字列を作成する、戻り値は文字列の長さ( 単位：Byte )( FileString は DXA_KEYV2_STRING_MAXLENGTH の長さが必要 )
-	static void KeyCreate( const char *Source, unsigned char *Key ) ;											// 鍵文字列を作成
-	static void KeyV2Create( const char *Source, unsigned char *Key, size_t KeyBytes = 0 ) ;					// 鍵バージョン２文字列を作成
-	static void KeyConv( void *Data, s64 Size, s64 Position, unsigned char *Key ) ;								// 鍵文字列を使用して Xor 演算( Key は必ず DXA_KEYSTR_LENGTH の長さがなければならない )
-	static void KeyV2Conv( void *Data, s64 Size, s64 Position, unsigned char *Key ) ;							// 鍵バージョン２文字列を使用して Xor 演算( Key は必ず DXA_KEYV2_LENGTH の長さがなければならない )
-	static void KeyConvFileWrite( void *Data, s64 Size, FILE *fp, unsigned char *Key, s64 Position = -1 ) ;		// データを鍵文字列を使用して Xor 演算した後ファイルに書き出す関数( Key は必ず DXA_KEYSTR_LENGTH の長さがなければならない )
-	static void KeyV2ConvFileWrite( void *Data, s64 Size, FILE *fp, unsigned char *Key, s64 Position ) ;		// データを鍵バージョン２文字列を使用して Xor 演算した後ファイルに書き出す関数( Key は必ず DXA_KEYV2_LENGTH の長さがなければならない )
-	static void KeyConvFileRead( void *Data, s64 Size, FILE *fp, unsigned char *Key, s64 Position = -1 ) ;		// ファイルから読み込んだデータを鍵文字列を使用して Xor 演算する関数( Key は必ず DXA_KEYSTR_LENGTH の長さがなければならない )
-	static void KeyV2ConvFileRead( void *Data, s64 Size, FILE *fp, unsigned char *Key, s64 Position ) ;			// ファイルから読み込んだデータを鍵バージョン２文字列を使用して Xor 演算する関数( Key は必ず DXA_KEYV2_LENGTH の長さがなければならない )
+	static size_t CreateKeyFileString( int CharCodeFormat, const char *KeyString, size_t KeyStringBytes, DARC_DIRECTORY *Directory, DARC_FILEHEAD *FileHead, u8 *FileTable, u8 *DirectoryTable, u8 *NameTable, u8 *FileString ) ;	// カレントディレクトリにある指定のファイルの鍵用の文字列を作成する、戻り値は文字列の長さ( 単位：Byte )( FileString は DXA_KEY_STRING_MAXLENGTH の長さが必要 )
+	static void KeyCreate( const char *Source, size_t SourceBytes, u8 *Key ) ;									// 鍵文字列を作成
+	static void KeyConv( void *Data, s64 Size, s64 Position, unsigned char *Key ) ;								// 鍵文字列を使用して Xor 演算( Key は必ず DXA_KEY_BYTES の長さがなければならない )
+	static void KeyConvFileWrite( void *Data, s64 Size, FILE *fp, unsigned char *Key, s64 Position = -1 ) ;		// データを鍵文字列を使用して Xor 演算した後ファイルに書き出す関数( Key は必ず DXA_KEY_BYTES の長さがなければならない )
+	static void KeyConvFileRead( void *Data, s64 Size, FILE *fp, unsigned char *Key, s64 Position = -1 ) ;		// ファイルから読み込んだデータを鍵文字列を使用して Xor 演算する関数( Key は必ず DXA_KEY_BYTES の長さがなければならない )
 	static DATE_RESULT DateCmp( DARC_FILETIME *date1, DARC_FILETIME *date2 ) ;									// どちらが新しいかを比較する
-	static int Encode( void *Src, u32 SrcSize, void *Dest ) ;													// データを圧縮する( 戻り値:圧縮後のデータサイズ )
+	static int Encode( void *Src, u32 SrcSize, void *Dest, bool OutStatus = true ) ;							// データを圧縮する( 戻り値:圧縮後のデータサイズ )
 	static int Decode( void *Src, void *Dest ) ;																// データを解凍する( 戻り値:解凍後のデータサイズ )
-	static void HashSha256(	const void *SrcData, size_t SrcDataSize, void *DestBuffer ) ;						// バイナリデータを元に SHA-256 のハッシュ値を計算する( DestBuffer の示すアドレスを先頭に 32byte ハッシュ値が書き込まれます )
+	static u32 HashCRC32( const void *SrcData, size_t SrcDataSize ) ;											// バイナリデータを元に CRC32 のハッシュ値を計算する
 
 	DARC_DIRECTORY *GetCurrentDirectoryInfo( void ) ;															// アーカイブ内のカレントディレクトリの情報を取得する
 	DARC_FILEHEAD *GetFileInfo( const char *FilePath, DARC_DIRECTORY **DirectoryP = NULL ) ;					// ファイルの情報を得る
 	inline DARC_HEAD *GetHeader( void ){ return &Head ; }
 	inline u8 *GetKey( void ){ return Key ; }
-	inline u8 *GetKeyV2( void ){ return KeyV2 ; }
-	inline char *GetKeyV2String( void ){ return KeyV2String ; }
-	inline size_t GetKeyV2StringBytes( void ){ return KeyV2StringBytes ; }
+	inline bool GetNoKey( void ){ return NoKey ; }
+	inline char *GetKeyString( void ){ return KeyString ; }
+	inline size_t GetKeyStringBytes( void ){ return KeyStringBytes ; }
 	inline FILE *GetFilePointer( void ){ return fp ; }
 	inline u8 *GetNameP( void ){ return NameP ; }
 	inline u8 *GetFileHeadTable( void ){ return FileP ; }
@@ -235,15 +248,15 @@ protected :
 	u8 *FileP, *DirP, *NameP ;			// 各種テーブル(ファイルヘッダ情報テーブル、ディレクトリ情報テーブル、名前情報テーブル)へのポインタ
 	DARC_DIRECTORY *CurrentDirectory ;	// カレントディレクトリデータへのポインタ
 
-	void *CashBuffer ;					// 読み込んだファイルデータを一時的に保存しておくバッファ
-	u64 CashBufferSize ;				// キャッシュバッファに確保しているメモリ容量
+	void *CacheBuffer ;					// 読み込んだファイルデータを一時的に保存しておくバッファ
+	u64 CacheBufferSize ;				// キャッシュバッファに確保しているメモリ容量
 	bool MemoryOpenFlag ;				// メモリ上のファイルを開いているか、フラグ
 	bool UserMemoryImageFlag ;			// ユーザーが展開したメモリイメージを使用しているか、フラグ
 	s64 MemoryImageSize ;				// メモリ上のファイルから開いていた場合のイメージのサイズ
-	u8 Key[DXA_KEYSTR_LENGTH] ;			// 鍵文字列
-	u8 KeyV2[DXA_KEYV2_LENGTH] ;		// 鍵バージョン２
-	char KeyV2String[DXA_KEYV2STR_LENGTH + 1] ;	// 鍵バージョン2文字列
-	size_t KeyV2StringBytes ;			// 鍵バージョン2文字列の長さ
+	bool NoKey ;						// 鍵処理を行わないかどうか
+	u8 Key[ DXA_KEY_BYTES ] ;			// 鍵
+	char KeyString[ DXA_KEY_STRING_LENGTH + 1 ] ;	// 鍵文字列
+	size_t KeyStringBytes ;				// 鍵文字列のバイト数
 
 	DARC_HEAD Head ;					// アーカイブのヘッダ
 
@@ -264,16 +277,19 @@ protected :
 		u16 PackNum ;
 	} SEARCHDATA ;
 
-	static int DirectoryEncode( int CharCodeFormat, char *DirectoryName, u8 *NameP, u8 *DirP, u8 *FileP, DARC_DIRECTORY *ParentDir, SIZESAVE *Size, int DataNumber, FILE *DestP, void *TempBuffer, bool Press, const char *KeyV2String, size_t KeyV2StringBytes, char *KeyV2StringBuffer ) ;	// 指定のディレクトリにあるファイルをアーカイブデータに吐き出す
-	static int DirectoryDecode( u8 *NameP, u8 *DirP, u8 *FileP, DARC_HEAD *Head, DARC_DIRECTORY *Dir, FILE *ArcP, unsigned char *Key, const char *KeyV2String, size_t KeyV2StringBytes, char *KeyV2StringBuffer ) ;											// 指定のディレクトリデータにあるファイルを展開する
+	static int DirectoryEncode( int CharCodeFormat, char *DirectoryName, u8 *NameP, u8 *DirP, u8 *FileP, DARC_DIRECTORY *ParentDir, SIZESAVE *Size, int DataNumber, FILE *DestFp, void *TempBuffer, bool Press, bool AlwaysHuffman, u8 HuffmanEncodeKB, const char *KeyString, size_t KeyStringBytes, bool NoKey, char *KeyStringBuffer, DARC_ENCODEINFO *EncodeInfo ) ;	// 指定のディレクトリにあるファイルをアーカイブデータに吐き出す
+	static int DirectoryDecode( u8 *NameP, u8 *DirP, u8 *FileP, DARC_HEAD *Head, DARC_DIRECTORY *Dir, FILE *ArcP, unsigned char *Key, const char *KeyString, size_t KeyStringBytes, bool NoKey, char *KeyStringBuffer ) ;											// 指定のディレクトリデータにあるファイルを展開する
 	static int StrICmp( const char *Str1, const char *Str2 ) ;							// 比較対照の文字列中の大文字を小文字として扱い比較する( 0:等しい  1:違う )
 	static int ConvSearchData( SEARCHDATA *Dest, const char *Src, int *Length ) ;		// 文字列を検索用のデータに変換( ヌル文字か \ があったら終了 )
 	static int AddFileNameData( int CharCodeFormat, const char *FileName, u8 *FileNameTable ) ;				// ファイル名データを追加する( 戻り値は使用したデータバイト数 )
 	static const char *GetOriginalFileName( u8 *FileNameTable ) ;						// ファイル名データから元のファイル名の文字列を取得する
 	static int GetDirectoryFilePath( const char *DirectoryPath, char *FilePathBuffer = NULL ) ;	// ディレクトリ内のファイルのパスを取得する( FilePathBuffer は一ファイルに付き256バイトの容量が必要 )
+	static void EncodeStatusErase( void ) ;														// エンコードの進行状況を表示を消去する
+	static void EncodeStatusOutput( DARC_ENCODEINFO *EncodeInfo, bool Always = false ) ;		// エンコードの進行状況を表示する
+	static void AnalyseHuffmanEncode( u64 DataSize, u8 HuffmanEncodeKB, u64 *HeadDataSize, u64 *FootDataSize ) ;	// ハフマン圧縮をする前後のサイズを取得する
 	int	ChangeCurrentDirectoryFast( SEARCHDATA *SearchData ) ;							// アーカイブ内のディレクトリパスを変更する( 0:成功  -1:失敗 )
 	int	ChangeCurrentDirectoryBase( const char *DirectoryPath, bool ErrorIsDirectoryReset, SEARCHDATA *LastSearchData = NULL ) ;		// アーカイブ内のディレクトリパスを変更する( 0:成功  -1:失敗 )
-	int DirectoryKeyConv( DARC_DIRECTORY *Dir, char *KeyV2StringBuffer ) ;										// 指定のディレクトリデータの暗号化を解除する( 丸ごとメモリに読み込んだ場合用 )
+	int DirectoryKeyConv( DARC_DIRECTORY *Dir, char *KeyStringBuffer ) ;										// 指定のディレクトリデータの暗号化を解除する( 丸ごとメモリに読み込んだ場合用 )
 
 	// ２バイト文字か調べる( TRUE:２バイト文字 FALSE:１バイト文字 )
 	inline static int CheckMultiByteChar( const char *Buf )
@@ -295,7 +311,7 @@ protected :
 	DXArchive *Archive ;			// アーカイブクラスへのポインタ
 	void *DataBuffer ;				// メモリにデータを展開した際のバッファのポインタ
 
-	u8 KeyV2[DXA_KEYV2_VER] ;		// 鍵バージョン２
+	u8 Key[ DXA_KEY_BYTES ] ;		// 鍵
 
 	int EOFFlag ;					// EOFフラグ
 	u64 FilePoint ;					// ファイルポインタ
