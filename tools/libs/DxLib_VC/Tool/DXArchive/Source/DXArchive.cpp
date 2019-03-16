@@ -13,6 +13,8 @@
 // include ----------------------------
 #include "DXArchive.h"
 #include "CharCode.h"
+#include "Huffman.h"
+#include "FileLib.h"
 #include <stdio.h>
 #include <windows.h>
 #include <string.h>
@@ -34,6 +36,14 @@ typedef struct LZ_LIST
 	LZ_LIST *next, *prev ;
 	u32 address ;
 } LZ_LIST ;
+
+// data -------------------------------
+
+// デフォルト鍵文字列
+static char DefaultKeyString[ 9 ] = { 0x44, 0x58, 0x42, 0x44, 0x58, 0x41, 0x52, 0x43, 0x00 }; // "DXLIBARC"
+
+// ログ文字列の長さ
+int LogStringLength = 0 ;
 
 // class code -------------------------
 
@@ -433,33 +443,34 @@ void DXArchive::NotConvFileRead( void *Data, s64 Size, FILE *fp )
 	NotConv( Data, Size ) ;
 }
 
-// カレントディレクトリにある指定のファイルの鍵バージョン２用の文字列を作成する、戻り値は文字列の長さ( 単位：Byte )( FileString は DXA_KEYV2_STRING_MAXLENGTH の長さが必要 )
-size_t DXArchive::CreateKeyV2FileString( int CharCodeFormat, const char *KeyV2String, size_t KeyV2StringBytes, DARC_DIRECTORY *Directory, DARC_FILEHEAD *FileHead, u8 *FileTable, u8 *DirectoryTable, u8 *NameTable, u8 *FileString )
+// カレントディレクトリにある指定のファイルの鍵用の文字列を作成する、戻り値は文字列の長さ( 単位：Byte )( FileString は DXA_KEY_STRING_MAXLENGTH の長さが必要 )
+size_t DXArchive::CreateKeyFileString( int CharCodeFormat, const char *KeyString, size_t KeyStringBytes, DARC_DIRECTORY *Directory, DARC_FILEHEAD *FileHead, u8 *FileTable, u8 *DirectoryTable, u8 *NameTable, u8 *FileString )
 {
 	size_t StartAddr ;
 
 	// 最初にパスワードの文字列をセット
-	if( KeyV2String != NULL && KeyV2StringBytes != 0 )
+	if( KeyString != NULL && KeyStringBytes != 0 )
 	{
-		memcpy( FileString, KeyV2String, KeyV2StringBytes ) ;
-		FileString[ KeyV2StringBytes ] = '\0' ;
-		StartAddr = KeyV2StringBytes ;
+		memcpy( FileString, KeyString, KeyStringBytes ) ;
+		FileString[ KeyStringBytes ] = '\0' ;
+		StartAddr = KeyStringBytes ;
 	}
 	else
 	{
 		FileString[ 0 ] = '\0' ;
 		StartAddr = 0 ;
 	}
+	memset( &FileString[ DXA_KEY_STRING_MAXLENGTH - 8 ], 0, 8 ) ;
 
 	// 次にファイル名の文字列をセット
-	CL_strcat_s( CharCodeFormat, ( char * )&FileString[ StartAddr ], DXA_KEYV2_STRING_MAXLENGTH - StartAddr, ( char * )( NameTable + FileHead->NameAddress + 4 ) ) ;
+	CL_strcat_s( CharCodeFormat, ( char * )&FileString[ StartAddr ], ( DXA_KEY_STRING_MAXLENGTH - 8 ) - StartAddr, ( char * )( NameTable + FileHead->NameAddress + 4 ) ) ;
 
 	// その後にディレクトリの文字列をセット
 	if( Directory->ParentDirectoryAddress != 0xffffffffffffffff )
 	{
 		do
 		{
-			CL_strcat_s( CharCodeFormat, ( char * )&FileString[ StartAddr ], DXA_KEYV2_STRING_MAXLENGTH - StartAddr, ( char * )( NameTable + ( ( DARC_FILEHEAD * )( FileTable + Directory->DirectoryAddress ) )->NameAddress + 4 ) ) ;
+			CL_strcat_s( CharCodeFormat, ( char * )&FileString[ StartAddr ], ( DXA_KEY_STRING_MAXLENGTH - 8 ) - StartAddr, ( char * )( NameTable + ( ( DARC_FILEHEAD * )( FileTable + Directory->DirectoryAddress ) )->NameAddress + 4 ) ) ;
 			Directory = ( DARC_DIRECTORY * )( DirectoryTable + Directory->ParentDirectoryAddress ) ;
 		}while( Directory->ParentDirectoryAddress != 0xffffffffffffffff ) ;
 	}
@@ -468,65 +479,74 @@ size_t DXArchive::CreateKeyV2FileString( int CharCodeFormat, const char *KeyV2St
 }
 
 // 鍵文字列を作成
-void DXArchive::KeyCreate( const char *Source, unsigned char *Key )
+void DXArchive::KeyCreate( const char *Source, size_t SourceBytes, u8 *Key )
 {
-	int Len ;
+	char SourceTempBuffer[ 1024 ] ;
+	char WorkBuffer[ 1024 ] ;
+	char *UseWorkBuffer ;
+	u32 i, j ;
+	u32 CRC32_0 ;
+	u32 CRC32_1 ;
 
-	if( Source == NULL )
+	if( SourceBytes == 0 )
 	{
-		memset( Key, 0xaaaaaaaa, DXA_KEYSTR_LENGTH ) ;
+		SourceBytes = CL_strlen( CHARCODEFORMAT_ASCII, Source ) ;
+	}
+
+	if( SourceBytes < 4 )
+	{
+		CL_strcpy( CHARCODEFORMAT_ASCII, SourceTempBuffer, Source ) ;
+		CL_strcpy( CHARCODEFORMAT_ASCII, &SourceTempBuffer[ SourceBytes ], DefaultKeyString ) ;
+		Source = SourceTempBuffer ;
+		SourceBytes = CL_strlen( CHARCODEFORMAT_ASCII, Source ) ;
+	}
+
+	if( SourceBytes > sizeof( WorkBuffer ) )
+	{
+		UseWorkBuffer = ( char * )malloc( SourceBytes ) ;
 	}
 	else
 	{
-		Len = ( int )strlen( Source ) ;
-		if( Len > DXA_KEYSTR_LENGTH )
-		{
-			memcpy( Key, Source, DXA_KEYSTR_LENGTH ) ;
-		}
-		else
-		{
-			// 鍵文字列が DXA_KEYSTR_LENGTH より短かったらループする
-			int i ;
-
-			for( i = 0 ; i + Len <= DXA_KEYSTR_LENGTH ; i += Len )
-				memcpy( Key + i, Source, Len ) ;
-			if( i < DXA_KEYSTR_LENGTH )
-				memcpy( Key + i, Source, DXA_KEYSTR_LENGTH - i ) ;
-		}
+		UseWorkBuffer = WorkBuffer ;
 	}
 
-	Key[0] = ~Key[0] ;
-	Key[1] = ( Key[1] >> 4 ) | ( Key[1] << 4 ) ;
-	Key[2] = Key[2] ^ 0x8a ;
-	Key[3] = ~( ( Key[3] >> 4 ) | ( Key[3] << 4 ) ) ;
-	Key[4] = ~Key[4] ;
-	Key[5] = Key[5] ^ 0xac ;
-	Key[6] = ~Key[6] ;
-	Key[7] = ~( ( Key[7] >> 3 ) | ( Key[7] << 5 ) ) ;
-	Key[8] = ( Key[8] >> 5 ) | ( Key[8] << 3 ) ;
-	Key[9] = Key[9] ^ 0x7f ;
-	Key[10] = ( ( Key[10] >> 4 ) | ( Key[10] << 4 ) ) ^ 0xd6 ;
-	Key[11] = Key[11] ^ 0xcc ;
-}
-
-// 鍵バージョン２文字列を作成
-void DXArchive::KeyV2Create( const char *Source, unsigned char *Key, size_t KeyBytes )
-{
-	if( Source == NULL )
+	j = 0 ;
+	for( i = 0 ; i < SourceBytes ; i += 2, j++ )
 	{
-		static BYTE DefaultKeyString[ 5 ] = { 0x44, 0x58, 0x41, 0x52, 0x43 }; // "DXARC"
-		HashSha256( DefaultKeyString, sizeof( DefaultKeyString ), Key ) ;
+		UseWorkBuffer[ j ] = Source[ i ] ;
 	}
-	else
+	CRC32_0 = HashCRC32( UseWorkBuffer, j ) ;
+
+	j = 0 ;
+	for( i = 1 ; i < SourceBytes ; i += 2, j++ )
 	{
-		HashSha256( Source, KeyBytes == 0 ? CL_strlen( CHARCODEFORMAT_ASCII, Source ) : KeyBytes, Key ) ;
+		UseWorkBuffer[ j ] = Source[ i ] ;
+	}
+	CRC32_1 = HashCRC32( UseWorkBuffer, j ) ;
+
+	Key[ 0 ] = ( u8 )( CRC32_0 >>  0 ) ;
+	Key[ 1 ] = ( u8 )( CRC32_0 >>  8 ) ;
+	Key[ 2 ] = ( u8 )( CRC32_0 >> 16 ) ;
+	Key[ 3 ] = ( u8 )( CRC32_0 >> 24 ) ;
+	Key[ 4 ] = ( u8 )( CRC32_1 >>  0 ) ;
+	Key[ 5 ] = ( u8 )( CRC32_1 >>  8 ) ;
+	Key[ 6 ] = ( u8 )( CRC32_1 >> 16 ) ;
+
+	if( SourceBytes > sizeof( WorkBuffer ) )
+	{
+		free( UseWorkBuffer ) ;
 	}
 }
 
-// 鍵文字列を使用して Xor 演算( Key は必ず DXA_KEYSTR_LENGTH の長さがなければならない )
+// 鍵文字列を使用して Xor 演算( Key は必ず DXA_KEY_BYTES の長さがなければならない )
 void DXArchive::KeyConv( void *Data, s64 Size, s64 Position, unsigned char *Key )
 {
-	Position %= DXA_KEYSTR_LENGTH ;
+	if( Key == NULL )
+	{
+		return ;
+	}
+
+	Position %= DXA_KEY_BYTES ;
 
 	if( Size < 0x100000000 )
 	{
@@ -538,7 +558,7 @@ void DXArchive::KeyConv( void *Data, s64 Size, s64 Position, unsigned char *Key 
 			((u8 *)Data)[i] ^= Key[j] ;
 
 			j ++ ;
-			if( j == DXA_KEYSTR_LENGTH ) j = 0 ;
+			if( j == DXA_KEY_BYTES ) j = 0 ;
 		}
 	}
 	else
@@ -551,112 +571,58 @@ void DXArchive::KeyConv( void *Data, s64 Size, s64 Position, unsigned char *Key 
 			((u8 *)Data)[i] ^= Key[j] ;
 
 			j ++ ;
-			if( j == DXA_KEYSTR_LENGTH ) j = 0 ;
+			if( j == DXA_KEY_BYTES ) j = 0 ;
 		}
 	}
 }
 
-// 鍵バージョン２文字列を使用して Xor 演算( Key は必ず DXA_KEYV2_LENGTH の長さがなければならない )
-void DXArchive::KeyV2Conv( void *Data, s64 Size, s64 Position, unsigned char *Key )
-{
-	Position %= DXA_KEYV2_LENGTH ;
-
-	if( Size < 0x100000000 )
-	{
-		u32 i, j ;
-
-		j = ( u32 )Position ;
-		for( i = 0 ; i < Size ; i ++ )
-		{
-			((u8 *)Data)[i] ^= Key[j] ;
-
-			j ++ ;
-			if( j == DXA_KEYV2_LENGTH ) j = 0 ;
-		}
-	}
-	else
-	{
-		s64 i, j ;
-
-		j = Position ;
-		for( i = 0 ; i < Size ; i ++ )
-		{
-			((u8 *)Data)[i] ^= Key[j] ;
-
-			j ++ ;
-			if( j == DXA_KEYV2_LENGTH ) j = 0 ;
-		}
-	}
-}
-
-// データを鍵文字列を使用して Xor 演算した後ファイルに書き出す関数( Key は必ず DXA_KEYSTR_LENGTH の長さがなければならない )
+// データを鍵文字列を使用して Xor 演算した後ファイルに書き出す関数( Key は必ず DXA_KEY_BYTES の長さがなければならない )
 void DXArchive::KeyConvFileWrite( void *Data, s64 Size, FILE *fp, unsigned char *Key, s64 Position )
 {
-	s64 pos ;
+	s64 pos = 0 ;
 
-	// ファイルの位置を取得しておく
-	if( Position == -1 ) pos = _ftelli64( fp ) ;
-	else                 pos = Position ;
+	if( Key != NULL )
+	{
+		// ファイルの位置を取得しておく
+		pos = Position == -1 ? _ftelli64( fp ) : Position ;
 
-	// データを鍵文字列を使って Xor 演算する
-	KeyConv( Data, Size, pos, Key ) ;
-
-	// 書き出す
-	fwrite64( Data, Size, fp ) ;
-
-	// 再び Xor 演算
-	KeyConv( Data, Size, pos, Key ) ;
-}
-
-// データを鍵バージョン２文字列を使用して Xor 演算した後ファイルに書き出す関数( Key は必ず DXA_KEYV2_LENGTH の長さがなければならない )
-void DXArchive::KeyV2ConvFileWrite( void *Data, s64 Size, FILE *fp, unsigned char *Key, s64 Position )
-{
-	// データを鍵文字列を使って Xor 演算する
-	KeyV2Conv( Data, Size, Position, Key ) ;
+		// データを鍵文字列を使って Xor 演算する
+		KeyConv( Data, Size, pos, Key ) ;
+	}
 
 	// 書き出す
 	fwrite64( Data, Size, fp ) ;
 
-	// 再び Xor 演算
-	KeyV2Conv( Data, Size, Position, Key ) ;
+	if( Key != NULL )
+	{
+		// 再び Xor 演算
+		KeyConv( Data, Size, pos, Key ) ;
+	}
 }
 
-// ファイルから読み込んだデータを鍵文字列を使用して Xor 演算する関数( Key は必ず DXA_KEYSTR_LENGTH の長さがなければならない )
+// ファイルから読み込んだデータを鍵文字列を使用して Xor 演算する関数( Key は必ず DXA_KEY_BYTES の長さがなければならない )
 void DXArchive::KeyConvFileRead( void *Data, s64 Size, FILE *fp, unsigned char *Key, s64 Position )
 {
-	s64 pos ;
+	s64 pos = 0 ;
 
-	// ファイルの位置を取得しておく
-	if( Position == -1 ) pos = _ftelli64( fp ) ;
-	else                 pos = Position ;
+	if( Key != NULL )
+	{
+		// ファイルの位置を取得しておく
+		pos = Position == -1 ? _ftelli64( fp ) : Position ;
+	}
 
 	// 読み込む
 	fread64( Data, Size, fp ) ;
 
-	// データを鍵文字列を使って Xor 演算
-	KeyConv( Data, Size, pos, Key ) ;
+	if( Key != NULL )
+	{
+		// データを鍵文字列を使って Xor 演算
+		KeyConv( Data, Size, pos, Key ) ;
+	}
 }
-
-// ファイルから読み込んだデータを鍵バージョン２文字列を使用して Xor 演算する関数( Key は必ず DXA_KEYV2_LENGTH の長さがなければならない )
-void DXArchive::KeyV2ConvFileRead( void *Data, s64 Size, FILE *fp, unsigned char *Key, s64 Position )
-{
-	// 読み込む
-	fread64( Data, Size, fp ) ;
-
-	// データを鍵文字列を使って Xor 演算
-	KeyV2Conv( Data, Size, Position, Key ) ;
-}
-
-/*
-// ２バイト文字か調べる( TRUE:２バイト文字 FALSE:１バイト文字 )
-int DXArchive::CheckMultiByteChar( const char *Buf )
-{
-	return  ( (unsigned char)*Buf >= 0x81 && (unsigned char)*Buf <= 0x9F ) || ( (unsigned char)*Buf >= 0xE0 && (unsigned char)*Buf <= 0xFC ) ;
-}
-*/
 
 // 指定のディレクトリにあるファイルをアーカイブデータに吐き出す
-int DXArchive::DirectoryEncode( int CharCodeFormat, char *DirectoryName, u8 *NameP, u8 *DirP, u8 *FileP, DARC_DIRECTORY *ParentDir, SIZESAVE *Size, int DataNumber, FILE *DestP, void *TempBuffer, bool Press, const char *KeyV2String, size_t KeyV2StringBytes, char *KeyV2StringBuffer )
+int DXArchive::DirectoryEncode( int CharCodeFormat, char *DirectoryName, u8 *NameP, u8 *DirP, u8 *FileP, DARC_DIRECTORY *ParentDir, SIZESAVE *Size, int DataNumber, FILE *DestFp, void *TempBuffer, bool Press, bool AlwaysHuffman, u8 HuffmanEncodeKB, const char *KeyString, size_t KeyStringBytes, bool NoKey, char *KeyStringBuffer, DARC_ENCODEINFO *EncodeInfo )
 {
 	char DirPath[MAX_PATH] ;
 	WIN32_FIND_DATAA FindData ;
@@ -664,8 +630,8 @@ int DXArchive::DirectoryEncode( int CharCodeFormat, char *DirectoryName, u8 *Nam
 	DARC_DIRECTORY Dir ;
 	DARC_DIRECTORY *DirectoryP ;
 	DARC_FILEHEAD File ;
-	u8 lKeyV2[DXA_KEYV2_LENGTH] ;
-	size_t KeyV2StringBufferBytes ;
+	u8 lKey[DXA_KEY_BYTES] ;
+	size_t KeyStringBufferBytes ;
 
 	// ディレクトリの情報を得る
 	FindHandle = FindFirstFileA( DirectoryName, &FindData ) ;
@@ -673,14 +639,15 @@ int DXArchive::DirectoryEncode( int CharCodeFormat, char *DirectoryName, u8 *Nam
 	
 	// ディレクトリ情報を格納するファイルヘッダをセットする
 	{
-		File.NameAddress     = Size->NameSize ;
-		File.Time.Create     = ( ( ( LONGLONG )FindData.ftCreationTime.dwHighDateTime ) << 32 ) + FindData.ftCreationTime.dwLowDateTime ;
-		File.Time.LastAccess = ( ( ( LONGLONG )FindData.ftLastAccessTime.dwHighDateTime ) << 32 ) + FindData.ftLastAccessTime.dwLowDateTime ;
-		File.Time.LastWrite  = ( ( ( LONGLONG )FindData.ftLastWriteTime.dwHighDateTime ) << 32 ) + FindData.ftLastWriteTime.dwLowDateTime ;
-		File.Attributes      = FindData.dwFileAttributes ;
-		File.DataAddress     = Size->DirectorySize ;
-		File.DataSize        = 0 ;
-		File.PressDataSize	 = 0xffffffffffffffff ;
+		File.NameAddress       = Size->NameSize ;
+		File.Time.Create       = ( ( ( LONGLONG )FindData.ftCreationTime.dwHighDateTime ) << 32 ) + FindData.ftCreationTime.dwLowDateTime ;
+		File.Time.LastAccess   = ( ( ( LONGLONG )FindData.ftLastAccessTime.dwHighDateTime ) << 32 ) + FindData.ftLastAccessTime.dwLowDateTime ;
+		File.Time.LastWrite    = ( ( ( LONGLONG )FindData.ftLastWriteTime.dwHighDateTime ) << 32 ) + FindData.ftLastWriteTime.dwLowDateTime ;
+		File.Attributes        = FindData.dwFileAttributes ;
+		File.DataAddress       = Size->DirectorySize ;
+		File.DataSize          = 0 ;
+		File.PressDataSize	   = 0xffffffffffffffff ;
+		File.HuffPressDataSize = 0xffffffffffffffff ;
 	}
 
 	// ディレクトリ名を書き出す
@@ -749,34 +716,53 @@ int DXArchive::DirectoryEncode( int CharCodeFormat, char *DirectoryName, u8 *Nam
 			if( FindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )
 			{
 				// ディレクトリだった場合の処理
-				if( DirectoryEncode( CharCodeFormat, FindData.cFileName, NameP, DirP, FileP, &Dir, Size, i, DestP, TempBuffer, Press, KeyV2String, KeyV2StringBytes, KeyV2StringBuffer ) < 0 ) return -1 ;
+				if( DirectoryEncode( CharCodeFormat, FindData.cFileName, NameP, DirP, FileP, &Dir, Size, i, DestFp, TempBuffer, Press, AlwaysHuffman, HuffmanEncodeKB, KeyString, KeyStringBytes, NoKey, KeyStringBuffer, EncodeInfo ) < 0 ) return -1 ;
 			}
 			else
 			{
 				// ファイルだった場合の処理
 
 				// ファイルのデータをセット
-				File.NameAddress     = Size->NameSize ;
-				File.Time.Create     = ( ( ( LONGLONG )FindData.ftCreationTime.dwHighDateTime   ) << 32 ) + FindData.ftCreationTime.dwLowDateTime   ;
-				File.Time.LastAccess = ( ( ( LONGLONG )FindData.ftLastAccessTime.dwHighDateTime ) << 32 ) + FindData.ftLastAccessTime.dwLowDateTime ;
-				File.Time.LastWrite  = ( ( ( LONGLONG )FindData.ftLastWriteTime.dwHighDateTime  ) << 32 ) + FindData.ftLastWriteTime.dwLowDateTime  ;
-				File.Attributes      = FindData.dwFileAttributes ;
-				File.DataAddress     = Size->DataSize ;
-				File.DataSize        = ( ( ( LONGLONG )FindData.nFileSizeHigh ) << 32 ) + FindData.nFileSizeLow ;
-				File.PressDataSize   = 0xffffffffffffffff ;
+				File.NameAddress       = Size->NameSize ;
+				File.Time.Create       = ( ( ( LONGLONG )FindData.ftCreationTime.dwHighDateTime   ) << 32 ) + FindData.ftCreationTime.dwLowDateTime   ;
+				File.Time.LastAccess   = ( ( ( LONGLONG )FindData.ftLastAccessTime.dwHighDateTime ) << 32 ) + FindData.ftLastAccessTime.dwLowDateTime ;
+				File.Time.LastWrite    = ( ( ( LONGLONG )FindData.ftLastWriteTime.dwHighDateTime  ) << 32 ) + FindData.ftLastWriteTime.dwLowDateTime  ;
+				File.Attributes        = FindData.dwFileAttributes ;
+				File.DataAddress       = Size->DataSize ;
+				File.DataSize          = ( ( ( LONGLONG )FindData.nFileSizeHigh ) << 32 ) + FindData.nFileSizeLow ;
+				File.PressDataSize     = 0xffffffffffffffff ;
+				File.HuffPressDataSize = 0xffffffffffffffff ;
+
+				// 進行状況出力
+				if( EncodeInfo->OutputStatus )
+				{
+					// 処理ファイル名をセット
+					strcpy( EncodeInfo->ProcessFileName, FindData.cFileName ) ;
+
+					// ファイル数を増やす
+					EncodeInfo->CompFileNum ++ ;
+
+					// 表示
+					EncodeStatusOutput( EncodeInfo ) ;
+				}
 
 				// ファイル名を書き出す
 				Size->NameSize += AddFileNameData( CharCodeFormat, FindData.cFileName, NameP + Size->NameSize ) ;
 
 				// ファイル個別の鍵を作成
-				KeyV2StringBufferBytes = CreateKeyV2FileString( CharCodeFormat, KeyV2String, KeyV2StringBytes, DirectoryP, &File, FileP, DirP, NameP, ( BYTE * )KeyV2StringBuffer ) ;
-				KeyV2Create( KeyV2StringBuffer, lKeyV2 , KeyV2StringBufferBytes ) ;
+				if( NoKey == false )
+				{
+					KeyStringBufferBytes = CreateKeyFileString( CharCodeFormat, KeyString, KeyStringBytes, DirectoryP, &File, FileP, DirP, NameP, ( BYTE * )KeyStringBuffer ) ;
+					KeyCreate( KeyStringBuffer, KeyStringBufferBytes, lKey ) ;
+				}
 				
 				// ファイルデータを書き出す
 				if( File.DataSize != 0 )
 				{
 					FILE *SrcP ;
 					u64 FileSize, WriteSize, MoveSize ;
+					bool Huffman = false ;
+					bool AlwaysPress = false ;
 
 					// ファイルを開く
 					SrcP = fopen( FindData.cFileName, "rb" ) ;
@@ -785,15 +771,66 @@ int DXArchive::DirectoryEncode( int CharCodeFormat, char *DirectoryName, u8 *Nam
 					_fseeki64( SrcP, 0, SEEK_END ) ;
 					FileSize = _ftelli64( SrcP ) ;
 					_fseeki64( SrcP, 0, SEEK_SET ) ;
+
+					// 圧縮の対象となるファイルフォーマットか調べる
+					{
+						u32 Len ;
+						Len = ( u32 )strlen( FindData.cFileName ) ;
+						if( Len > 4 )
+						{
+							char *sp ;
+						
+							sp = &FindData.cFileName[Len-3] ;
+							if( StrICmp( sp, "wav" ) == 0 ||
+								StrICmp( sp, "jpg" ) == 0 ||
+								StrICmp( sp, "png" ) == 0 ||
+								StrICmp( sp, "mpg" ) == 0 ||
+								StrICmp( sp, "mp3" ) == 0 ||
+								StrICmp( sp, "mp4" ) == 0 ||
+								StrICmp( sp, "m4a" ) == 0 ||
+								StrICmp( sp, "ogg" ) == 0 ||
+								StrICmp( sp, "ogv" ) == 0 ||
+								StrICmp( sp, "ops" ) == 0 ||
+								StrICmp( sp, "wmv" ) == 0 ||
+								StrICmp( sp, "tif" ) == 0 ||
+								StrICmp( sp, "tga" ) == 0 ||
+								StrICmp( sp, "bmp" ) == 0 ||
+								StrICmp( sp - 1, "jpeg" ) == 0 )
+							{
+								Huffman = true ;
+							}
+
+							// wav や bmp の場合は必ず圧縮する
+							if( StrICmp( sp, "wav" ) == 0 ||
+								StrICmp( sp, "tga" ) == 0 ||
+								StrICmp( sp, "bmp" ) == 0 )
+							{
+								AlwaysPress = true ;
+							}
+						}
+					}
+
+					// AlwaysHuffman が true の場合は必ずハフマン圧縮する
+					if( AlwaysHuffman )
+					{
+						Huffman = true ;
+					}
+
+					// ハフマン圧縮するサイズが 0 の場合はハフマン圧縮を行わない
+					if( HuffmanEncodeKB == 0 )
+					{
+						Huffman = false ;
+					}
 					
-					// ファイルサイズが 10MB 以下の場合で、圧縮の指定がある場合は圧縮を試みる
-					if( Press == true && File.DataSize < 10 * 1024 * 1024 )
+					// 圧縮の指定がある場合で、
+					// 必ず圧縮するファイルフォーマットか、ファイルサイズが 10MB 以下の場合は圧縮を試みる
+					if( Press == true && ( AlwaysPress || File.DataSize < 10 * 1024 * 1024 ) )
 					{
 						void *SrcBuf, *DestBuf ;
 						u32 DestSize, Len ;
 						
 						// 一部のファイル形式の場合は予め弾く
-						if( ( Len = ( int )strlen( FindData.cFileName ) ) > 4 )
+						if( AlwaysPress == false && ( Len = ( int )strlen( FindData.cFileName ) ) > 4 )
 						{
 							char *sp ;
 							
@@ -803,7 +840,10 @@ int DXArchive::DirectoryEncode( int CharCodeFormat, char *DirectoryName, u8 *Nam
 								StrICmp( sp, "png" ) == 0 ||
 								StrICmp( sp, "mpg" ) == 0 ||
 								StrICmp( sp, "mp3" ) == 0 ||
+								StrICmp( sp, "mp4" ) == 0 ||
 								StrICmp( sp, "ogg" ) == 0 ||
+								StrICmp( sp, "ogv" ) == 0 ||
+								StrICmp( sp, "ops" ) == 0 ||
 								StrICmp( sp, "wmv" ) == 0 ||
 								StrICmp( sp - 1, "jpeg" ) == 0 ) goto NOPRESS ;
 						}
@@ -815,46 +855,146 @@ int DXArchive::DirectoryEncode( int CharCodeFormat, char *DirectoryName, u8 *Nam
 						// ファイルを丸ごと読み込む
 						fread64( SrcBuf, FileSize, SrcP ) ;
 						
+						// 圧縮する場合は強制的に進行状況出力を更新
+						if( EncodeInfo->OutputStatus )
+						{
+							EncodeStatusOutput( EncodeInfo, true ) ;
+						}
+
 						// 圧縮
-						DestSize = Encode( SrcBuf, ( u32 )FileSize, DestBuf ) ;
+						DestSize = Encode( SrcBuf, ( u32 )FileSize, DestBuf, EncodeInfo->OutputStatus ) ;
 						
 						// 殆ど圧縮出来なかった場合は圧縮無しでアーカイブする
-						if( (f64)DestSize / (f64)FileSize > 0.90 )
+						if( AlwaysPress == false && ( (f64)DestSize / (f64)FileSize > 0.90 ) )
 						{
 							_fseeki64( SrcP, 0L, SEEK_SET ) ;
 							free( SrcBuf ) ;
 							goto NOPRESS ;
 						}
+
+						// 圧縮データのサイズを保存する
+						File.PressDataSize = DestSize ;
 						
-						// 圧縮データを反転して書き出す
-						WriteSize = ( DestSize + 3 ) / 4 * 4 ;
-						KeyV2ConvFileWrite( DestBuf, WriteSize, DestP, lKeyV2, File.DataSize ) ;
+						// ハフマン圧縮も行うかどうかで処理を分岐
+						if( Huffman )
+						{
+							u8 *HuffData ;
+
+							// ハフマン圧縮するサイズによって処理を分岐
+							if( HuffmanEncodeKB == 0xff || DestSize <= ( u64 )( HuffmanEncodeKB * 1024 * 2 ) )
+							{
+								// ハフマン圧縮用のメモリ領域を確保
+								HuffData = ( u8 * )calloc( 1, DestSize * 2 + 256 * 2 + 32 ) ;
+
+								// ファイル全体をハフマン圧縮
+								File.HuffPressDataSize = Huffman_Encode( DestBuf, DestSize, HuffData ) ;
+
+								// 圧縮データに鍵を適用して書き出す
+								WriteSize = ( File.HuffPressDataSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
+								KeyConvFileWrite( HuffData, WriteSize, DestFp, NoKey ? NULL : lKey, File.DataSize ) ;
+							}
+							else
+							{
+								// ハフマン圧縮用のメモリ領域を確保
+								HuffData = ( u8 * )calloc( 1, HuffmanEncodeKB * 1024 * 2 * 4 + 256 * 2 + 32 ) ;
+
+								// ファイルの前後をハフマン圧縮
+								memcpy( HuffData,                                  DestBuf,                                     HuffmanEncodeKB * 1024 ) ;
+								memcpy( HuffData + HuffmanEncodeKB * 1024, ( u8 * )DestBuf + DestSize - HuffmanEncodeKB * 1024, HuffmanEncodeKB * 1024 ) ;
+								File.HuffPressDataSize = Huffman_Encode( HuffData, HuffmanEncodeKB * 1024 * 2, HuffData + HuffmanEncodeKB * 1024 * 2 ) ;
+
+								// ハフマン圧縮した部分を書き出す
+								KeyConvFileWrite( HuffData + HuffmanEncodeKB * 1024 * 2, File.HuffPressDataSize, DestFp, NoKey ? NULL : lKey, File.DataSize ) ;
+
+								// ハフマン圧縮していない箇所を書き出す
+								WriteSize = File.HuffPressDataSize + DestSize - HuffmanEncodeKB * 1024 * 2 ;
+								WriteSize = ( WriteSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
+								KeyConvFileWrite( ( u8 * )DestBuf + HuffmanEncodeKB * 1024, WriteSize - File.HuffPressDataSize, DestFp, NoKey ? NULL : lKey, File.DataSize + File.HuffPressDataSize ) ;
+							}
+
+							// メモリの解放
+							free( HuffData ) ;
+						}
+						else
+						{
+							// 圧縮データを反転して書き出す
+							WriteSize = ( DestSize + 3 ) / 4 * 4 ;
+							KeyConvFileWrite( DestBuf, WriteSize, DestFp, NoKey ? NULL : lKey, File.DataSize ) ;
+						}
 						
 						// メモリの解放
 						free( SrcBuf ) ;
-						
-						// 圧縮データのサイズを保存する
-						File.PressDataSize = DestSize ;
 					}
 					else
 					{
 NOPRESS:					
-						// 転送開始
-						WriteSize = 0 ;
-						while( WriteSize < FileSize )
+						// ハフマン圧縮も行うかどうかで処理を分岐
+						if( Press && Huffman )
 						{
-							// 転送サイズ決定
-							MoveSize = DXA_BUFFERSIZE < FileSize - WriteSize ? DXA_BUFFERSIZE : FileSize - WriteSize ;
-							MoveSize = ( MoveSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
-							
-							// ファイルの反転読み込み
-							KeyV2ConvFileRead( TempBuffer, MoveSize, SrcP, lKeyV2, File.DataSize + WriteSize ) ;
+							u8 *SrcBuf, *HuffData ;
 
-							// 書き出し
-							fwrite64( TempBuffer, MoveSize, DestP ) ;
+							// データが丸ごと入るメモリ領域の確保
+							SrcBuf = ( u8 * )calloc( 1, ( size_t )( FileSize + 32 ) ) ;
+
+							// ファイルを丸ごと読み込む
+							fread64( SrcBuf, FileSize, SrcP ) ;
+						
+							// ハフマン圧縮するサイズによって処理を分岐
+							if( HuffmanEncodeKB == 0xff || FileSize <= HuffmanEncodeKB * 1024 * 2 )
+							{
+								// ハフマン圧縮用のメモリ領域を確保
+								HuffData = ( u8 * )calloc( 1, ( size_t )( FileSize * 2 + 256 * 2 + 32 ) ) ;
+
+								// ファイル全体をハフマン圧縮
+								File.HuffPressDataSize = Huffman_Encode( SrcBuf, FileSize, HuffData ) ;
+
+								// 圧縮データに鍵を適用して書き出す
+								WriteSize = ( File.HuffPressDataSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
+								KeyConvFileWrite( HuffData, WriteSize, DestFp, NoKey ? NULL : lKey, File.DataSize ) ;
+							}
+							else
+							{
+								// ハフマン圧縮用のメモリ領域を確保
+								HuffData = ( u8 * )calloc( 1, HuffmanEncodeKB * 1024 * 2 * 4 + 256 * 2 + 32 ) ;
+
+								// ファイルの前後をハフマン圧縮
+								memcpy( HuffData,                          SrcBuf,                                     HuffmanEncodeKB * 1024 ) ;
+								memcpy( HuffData + HuffmanEncodeKB * 1024, SrcBuf + FileSize - HuffmanEncodeKB * 1024, HuffmanEncodeKB * 1024 ) ;
+								File.HuffPressDataSize = Huffman_Encode( HuffData, HuffmanEncodeKB * 1024 * 2, HuffData + HuffmanEncodeKB * 1024 * 2 ) ;
+
+								// ハフマン圧縮した部分を書き出す
+								KeyConvFileWrite( HuffData + HuffmanEncodeKB * 1024 * 2, File.HuffPressDataSize, DestFp, NoKey ? NULL : lKey, File.DataSize ) ;
+								
+								// ハフマン圧縮していない箇所を書き出す
+								WriteSize = File.HuffPressDataSize + FileSize - HuffmanEncodeKB * 1024 * 2 ;
+								WriteSize = ( WriteSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
+								KeyConvFileWrite( SrcBuf + HuffmanEncodeKB * 1024, WriteSize - File.HuffPressDataSize, DestFp, NoKey ? NULL : lKey, File.DataSize + File.HuffPressDataSize ) ;
+							}
+
+							// メモリの解放
+							free( SrcBuf ) ;
+							free( HuffData ) ;
+						}
+						else
+						{
+							// 転送開始
+							WriteSize = 0 ;
+							while( WriteSize < FileSize )
+							{
+								// 転送サイズ決定
+								MoveSize = DXA_BUFFERSIZE < FileSize - WriteSize ? DXA_BUFFERSIZE : FileSize - WriteSize ;
+								MoveSize = ( MoveSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
 							
-							// 書き出しサイズの加算
-							WriteSize += MoveSize ;
+								// ファイルの鍵適用読み込み
+								memset( TempBuffer, 0, ( size_t )MoveSize ) ;
+								KeyConvFileRead( TempBuffer, MoveSize, SrcP, NoKey ? NULL : lKey, File.DataSize + WriteSize ) ;
+
+								// 書き出し
+								fwrite64( TempBuffer, MoveSize, DestFp ) ;
+							
+								// 書き出しサイズの加算
+								WriteSize += MoveSize ;
+							}
 						}
 					}
 					
@@ -885,7 +1025,7 @@ NOPRESS:
 }
 
 // 指定のディレクトリデータにあるファイルを展開する
-int DXArchive::DirectoryDecode( u8 *NameP, u8 *DirP, u8 *FileP, DARC_HEAD *Head, DARC_DIRECTORY *Dir, FILE *ArcP, unsigned char *Key, const char *KeyV2String, size_t KeyV2StringBytes, char *KeyV2StringBuffer )
+int DXArchive::DirectoryDecode( u8 *NameP, u8 *DirP, u8 *FileP, DARC_HEAD *Head, DARC_DIRECTORY *Dir, FILE *ArcP, unsigned char *Key, const char *KeyString, size_t KeyStringBytes, bool NoKey, char *KeyStringBuffer )
 {
 	char DirPath[MAX_PATH] ;
 	
@@ -911,8 +1051,8 @@ int DXArchive::DirectoryDecode( u8 *NameP, u8 *DirP, u8 *FileP, DARC_HEAD *Head,
 	{
 		u32 i, FileHeadSize ;
 		DARC_FILEHEAD *File ;
-		size_t KeyV2StringBufferBytes ;
-		unsigned char lKeyV2[ DXA_KEYV2_LENGTH ] ;
+		size_t KeyStringBufferBytes ;
+		unsigned char lKey[ DXA_KEY_BYTES ] ;
 
 		// 格納されているファイルの数だけ繰り返す
 		FileHeadSize = sizeof( DARC_FILEHEAD ) ;
@@ -923,7 +1063,7 @@ int DXArchive::DirectoryDecode( u8 *NameP, u8 *DirP, u8 *FileP, DARC_HEAD *Head,
 			if( File->Attributes & FILE_ATTRIBUTE_DIRECTORY )
 			{
 				// ディレクトリの場合は再帰をかける
-				DirectoryDecode( NameP, DirP, FileP, Head, ( DARC_DIRECTORY * )( DirP + File->DataAddress ), ArcP, Key, KeyV2String, KeyV2StringBytes, KeyV2StringBuffer ) ;
+				DirectoryDecode( NameP, DirP, FileP, Head, ( DARC_DIRECTORY * )( DirP + File->DataAddress ), ArcP, Key, KeyString, KeyStringBytes, NoKey, KeyStringBuffer ) ;
 			}
 			else
 			{
@@ -940,12 +1080,17 @@ int DXArchive::DirectoryDecode( u8 *NameP, u8 *DirP, u8 *FileP, DARC_HEAD *Head,
 				DestP = fopen( GetOriginalFileName( NameP + File->NameAddress ), "wb" ) ;
 
 				// ファイル個別の鍵を作成
-				KeyV2StringBufferBytes = CreateKeyV2FileString( ( int )Head->CharCodeFormat, KeyV2String, KeyV2StringBytes, Dir, File, FileP, DirP, NameP, ( BYTE * )KeyV2StringBuffer ) ;
-				KeyV2Create( KeyV2StringBuffer, lKeyV2 , KeyV2StringBufferBytes ) ;
-				
+				if( NoKey == false )
+				{
+					KeyStringBufferBytes = CreateKeyFileString( ( int )Head->CharCodeFormat, KeyString, KeyStringBytes, Dir, File, FileP, DirP, NameP, ( BYTE * )KeyStringBuffer ) ;
+					KeyCreate( KeyStringBuffer, KeyStringBufferBytes, lKey ) ;
+				}
+
 				// データがある場合のみ転送
 				if( File->DataSize != 0 )
 				{
+					void *temp ;
+
 					// 初期位置をセットする
 					if( _ftelli64( ArcP ) != ( s32 )( Head->DataStartAddress + File->DataAddress ) )
 						_fseeki64( ArcP, Head->DataStartAddress + File->DataAddress, SEEK_SET ) ;
@@ -953,54 +1098,113 @@ int DXArchive::DirectoryDecode( u8 *NameP, u8 *DirP, u8 *FileP, DARC_HEAD *Head,
 					// データが圧縮されているかどうかで処理を分岐
 					if( File->PressDataSize != 0xffffffffffffffff )
 					{
-						void *temp ;
-						
 						// 圧縮されている場合
 
-						// 圧縮データが収まるメモリ領域の確保
-						temp = malloc( ( size_t )( File->PressDataSize + File->DataSize ) ) ;
-
-						// 圧縮データの読み込み
-						if( Head->Version >= DXA_KEYV2_VER )
+						// ハフマン圧縮もされているかどうかで処理を分岐
+						if( File->HuffPressDataSize != 0xffffffffffffffff )
 						{
-							KeyV2ConvFileRead( temp, File->PressDataSize, ArcP, lKeyV2, File->DataSize ) ;
+							// 圧縮データが収まるメモリ領域の確保
+							temp = malloc( ( size_t )( File->PressDataSize + File->HuffPressDataSize + File->DataSize ) ) ;
+
+							// 圧縮データの読み込み
+							KeyConvFileRead( temp, File->HuffPressDataSize, ArcP, NoKey ? NULL : lKey, File->DataSize ) ;
+
+							// ハフマン圧縮を解凍
+							Huffman_Decode( temp, (u8 *)temp + File->HuffPressDataSize ) ;
+
+							// ファイルの前後をハフマン圧縮している場合は処理を分岐
+							if( Head->HuffmanEncodeKB != 0xff && File->PressDataSize > Head->HuffmanEncodeKB * 1024 * 2 )
+							{
+								// 解凍したデータの内、後ろ半分を移動する
+								memmove( 
+									( u8 * )temp + File->HuffPressDataSize + File->PressDataSize - Head->HuffmanEncodeKB * 1024,
+									( u8 * )temp + File->HuffPressDataSize + Head->HuffmanEncodeKB * 1024,
+									Head->HuffmanEncodeKB * 1024 ) ;
+
+								// 残りのLZ圧縮データを読み込む
+								KeyConvFileRead(
+									( u8 * )temp + File->HuffPressDataSize + Head->HuffmanEncodeKB * 1024,
+									File->PressDataSize - Head->HuffmanEncodeKB * 1024 * 2,
+									ArcP, NoKey ? NULL : lKey, File->DataSize + File->HuffPressDataSize ) ;
+							}
+						
+							// 解凍
+							Decode( (u8 *)temp + File->HuffPressDataSize, (u8 *)temp + File->HuffPressDataSize + File->PressDataSize ) ;
+						
+							// 書き出し
+							fwrite64( (u8 *)temp + File->HuffPressDataSize + File->PressDataSize, File->DataSize, DestP ) ;
+						
+							// メモリの解放
+							free( temp ) ;
 						}
 						else
 						{
-							KeyConvFileRead( temp, File->PressDataSize, ArcP, Key, File->DataSize ) ;
+							// 圧縮データが収まるメモリ領域の確保
+							temp = malloc( ( size_t )( File->PressDataSize + File->DataSize ) ) ;
+
+							// 圧縮データの読み込み
+							KeyConvFileRead( temp, File->PressDataSize, ArcP, NoKey ? NULL : lKey, File->DataSize ) ;
+						
+							// 解凍
+							Decode( temp, (u8 *)temp + File->PressDataSize ) ;
+						
+							// 書き出し
+							fwrite64( (u8 *)temp + File->PressDataSize, File->DataSize, DestP ) ;
+						
+							// メモリの解放
+							free( temp ) ;
 						}
-						
-						// 解凍
-						Decode( temp, (u8 *)temp + File->PressDataSize ) ;
-						
-						// 書き出し
-						fwrite64( (u8 *)temp + File->PressDataSize, File->DataSize, DestP ) ;
-						
-						// メモリの解放
-						free( temp ) ;
 					}
 					else
 					{
 						// 圧縮されていない場合
 					
-						// 転送処理開始
+						// ハフマン圧縮はされているかどうかで処理を分岐
+						if( File->HuffPressDataSize != 0xffffffffffffffff )
+						{
+							// 圧縮データが収まるメモリ領域の確保
+							temp = malloc( ( size_t )( File->HuffPressDataSize + File->DataSize ) ) ;
+
+							// 圧縮データの読み込み
+							KeyConvFileRead( temp, File->HuffPressDataSize, ArcP, NoKey ? NULL : lKey, File->DataSize ) ;
+
+							// ハフマン圧縮を解凍
+							Huffman_Decode( temp, (u8 *)temp + File->HuffPressDataSize ) ;
+
+							// ファイルの前後のみハフマン圧縮している場合は処理を分岐
+							if( Head->HuffmanEncodeKB != 0xff && File->DataSize > Head->HuffmanEncodeKB * 1024 * 2 )
+							{
+								// 解凍したデータの内、後ろ半分を移動する
+								memmove( 
+									( u8 * )temp + File->HuffPressDataSize + File->DataSize - Head->HuffmanEncodeKB * 1024,
+									( u8 * )temp + File->HuffPressDataSize + Head->HuffmanEncodeKB * 1024,
+									Head->HuffmanEncodeKB * 1024 ) ;
+
+								// 残りのデータを読み込む
+								KeyConvFileRead(
+									( u8 * )temp + File->HuffPressDataSize + Head->HuffmanEncodeKB * 1024,
+									File->DataSize - Head->HuffmanEncodeKB * 1024 * 2,
+									ArcP, NoKey ? NULL : lKey, File->DataSize + File->HuffPressDataSize ) ;
+							}
+						
+							// 書き出し
+							fwrite64( (u8 *)temp + File->HuffPressDataSize, File->DataSize, DestP ) ;
+						
+							// メモリの解放
+							free( temp ) ;
+						}
+						else
 						{
 							u64 MoveSize, WriteSize ;
 							
+							// 転送処理開始
 							WriteSize = 0 ;
 							while( WriteSize < File->DataSize )
 							{
 								MoveSize = File->DataSize - WriteSize > DXA_BUFFERSIZE ? DXA_BUFFERSIZE : File->DataSize - WriteSize ;
 
 								// ファイルの反転読み込み
-								if( Head->Version >= DXA_KEYV2_VER )
-								{
-									KeyV2ConvFileRead( Buffer, MoveSize, ArcP, lKeyV2, File->DataSize + WriteSize ) ;
-								}
-								else
-								{
-									KeyConvFileRead( Buffer, MoveSize, ArcP, Key, File->DataSize + WriteSize ) ;
-								}
+								KeyConvFileRead( Buffer, MoveSize, ArcP, NoKey ? NULL : lKey, File->DataSize + WriteSize ) ;
 
 								// 書き出し
 								fwrite64( Buffer, MoveSize, DestP ) ;
@@ -1110,8 +1314,82 @@ int DXArchive::GetDirectoryFilePath( const char *DirectoryPath, char *FileNameBu
 	return FileNum ;
 }
 
+// エンコードの進行状況を表示を消去する
+void DXArchive::EncodeStatusErase( void )
+{
+	static char StringBuffer[ 8192 ] ;
+
+	if( LogStringLength > 0 )
+	{
+		int i ;
+		int p = 0 ;
+		for( i = 0 ; i < LogStringLength ; i ++ )
+		{
+			StringBuffer[ p ] = '\b' ;
+			p ++ ;
+		}
+		for( i = 0 ; i < LogStringLength ; i ++ )
+		{
+			StringBuffer[ p ] = ' ' ;
+			p ++ ;
+		}
+		for( i = 0 ; i < LogStringLength ; i ++ )
+		{
+			StringBuffer[ p ] = '\b' ;
+			p ++ ;
+		}
+		StringBuffer[ p ] = '\0' ;
+		printf( StringBuffer ) ;
+	}
+}
+
+// エンコードの進行状況を表示する
+void DXArchive::EncodeStatusOutput( DARC_ENCODEINFO *EncodeInfo, bool Always )
+{
+	static char StringBuffer[ 8192 ] ;
+	static char FileNameBuffer[ 2048 ] ;
+	int FileNameLength ;
+	unsigned int NowTime = GetTickCount() ;
+
+	// 前回から16ms以上時間が経過していたら表示する
+	if( Always == false && NowTime - EncodeInfo->PrevDispTime < 16 )
+	{
+		return ;
+	}
+
+	// 前回の表示内容を消去
+	EncodeStatusErase() ;
+
+	EncodeInfo->PrevDispTime = NowTime ;
+	strcpy( FileNameBuffer, EncodeInfo->ProcessFileName ) ;
+	FileNameLength = strlen( EncodeInfo->ProcessFileName ) ;
+	if( FileNameLength > 50 )
+	{
+		strncpy( FileNameBuffer, EncodeInfo->ProcessFileName, 50 ) ;
+		strcpy( &FileNameBuffer[ 50 ], "..." ) ;
+	}
+	sprintf( StringBuffer, " [%d/%d] %d%%%%  %s", EncodeInfo->CompFileNum, EncodeInfo->TotalFileNum, EncodeInfo->CompFileNum * 100 / EncodeInfo->TotalFileNum, FileNameBuffer ) ;
+	LogStringLength = strlen( StringBuffer ) ;
+	printf( StringBuffer ) ;
+}
+
+// ハフマン圧縮をする前後のサイズを取得する
+void DXArchive::AnalyseHuffmanEncode( u64 DataSize, u8 HuffmanEncodeKB, u64 *HeadDataSize, u64 *FootDataSize )
+{
+	if( HuffmanEncodeKB == 0xff || DataSize < HuffmanEncodeKB * 1024 * 2 )
+	{
+		*HeadDataSize = DataSize ;
+		*FootDataSize = 0 ;
+	}
+	else
+	{
+		*HeadDataSize = HuffmanEncodeKB * 1024 ;
+		*FootDataSize = HuffmanEncodeKB * 1024 ;
+	}
+}
+
 // エンコード( 戻り値:圧縮後のサイズ  -1 はエラー  Dest に NULL を入れることも可能 )
-int DXArchive::Encode( void *Src, u32 SrcSize, void *Dest )
+int DXArchive::Encode( void *Src, u32 SrcSize, void *Dest, bool OutStatus )
 {
 	s32 dstsize ;
 	s32    bonus,    conbo,    conbosize,    address,    addresssize ;
@@ -1223,6 +1501,11 @@ int DXArchive::Encode( void *Src, u32 SrcSize, void *Dest )
 	listaddp         = 0 ;
 	sublistnum       = 0 ;
 	nextprintaddress = 1024 * 100 ;
+	if( OutStatus )
+	{
+		printf( " 圧縮     " ) ;
+		LogStringLength += 10 ;
+	}
 	while( srcaddress < SrcSize )
 	{
 		// 残りサイズが最低圧縮サイズ以下の場合は圧縮処理をしない
@@ -1443,7 +1726,13 @@ NOENCODE:
 		if( nextprintaddress < srcaddress )
 		{
 			nextprintaddress = srcaddress + 100 * 1024 ;
+			if( OutStatus ) printf( "\b\b\b\b%3d%%", (s32)( (f32)srcaddress * 100 / SrcSize ) ) ;
 		}
+	}
+
+	if( OutStatus )
+	{
+		printf( "\b\b\b\b100%%" ) ;
 	}
 
 	// 圧縮後のデータサイズを保存する
@@ -1579,285 +1868,51 @@ int DXArchive::Decode( void *Src, void *Dest )
 	return (int)destsize ;
 }
 
-// バイナリデータを元に SHA-256 のハッシュ値を計算する( DestBuffer の示すアドレスを先頭に 32byte ハッシュ値が書き込まれます )
-#define RROT( a, n )		( u32 )( ( ( a ) >> ( n ) ) | ( u32 )( ( a ) << ( 32 - ( n ) ) ) )
-#define S0( x )				( RROT( ( x ),  2 ) ^ RROT( ( x ), 13 ) ^ RROT( ( x ),22 ) )
-#define S1( x )				( RROT( ( x ),  6 ) ^ RROT( ( x ), 11 ) ^ RROT( ( x ),25 ) )
-#define s0( x )				( RROT( ( x ),  7 ) ^ RROT( ( x ), 18 ) ^ ( ( x ) >>  3 ) )
-#define s1( x )				( RROT( ( x ), 17 ) ^ RROT( ( x ), 19 ) ^ ( ( x ) >> 10 ) )
-#define CH( x, y, z )		( ( ( x ) & ( y ) ) ^ ( ( ~( x ) ) & ( z ) ) )
-#define MAJ( x, y, z )		( ( ( x ) & ( y ) ) ^ ( ( x ) & ( z ) ) ^ ( ( y ) & ( z ) ) )
-
-#define LIT_TO_BIG( sp, b )	( ( sp[ 0 + b ] << 24 ) | ( sp[ 1 + b ] << 16 ) | ( sp[ 2 + b ] << 8 ) | sp[ 3 + b ] )
-#define W_CALC( i )			( W[ i - 16 ] + s0( W[ i - 15 ] ) + W[ i - 7 ] + s1( W[ i - 2 ] ) )
-
-static u32 K[ 64 ] =
+// バイナリデータを元に CRC32 のハッシュ値を計算する
+u32 DXArchive::HashCRC32( const void *SrcData, size_t SrcDataSize )
 {
-	0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
-	0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
-	0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
-	0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
-	0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
-	0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
-	0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
-	0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
-} ;
+	static DWORD CRC32Table[ 256 ] ;
+	static int CRC32TableInit = 0 ;
+	DWORD CRC = 0xffffffff ;
+	BYTE *SrcByte = ( BYTE * )SrcData ;
+	DWORD i ;
 
-__inline void HashSha256_Calc( const u8 *Src, u32 *H )
-{
-	u32 i ;
-	u32 X[ 8 ] ;
-	u32 W[ 64 ] ;
-
-	W[  0 ] = LIT_TO_BIG( Src, 4 *  0 ) ;		W[  1 ] = LIT_TO_BIG( Src, 4 *  1 ) ;
-	W[  2 ] = LIT_TO_BIG( Src, 4 *  2 ) ;		W[  3 ] = LIT_TO_BIG( Src, 4 *  3 ) ;
-	W[  4 ] = LIT_TO_BIG( Src, 4 *  4 ) ;		W[  5 ] = LIT_TO_BIG( Src, 4 *  5 ) ;
-	W[  6 ] = LIT_TO_BIG( Src, 4 *  6 ) ;		W[  7 ] = LIT_TO_BIG( Src, 4 *  7 ) ;
-	W[  8 ] = LIT_TO_BIG( Src, 4 *  8 ) ;		W[  9 ] = LIT_TO_BIG( Src, 4 *  9 ) ;
-	W[ 10 ] = LIT_TO_BIG( Src, 4 * 10 ) ;		W[ 11 ] = LIT_TO_BIG( Src, 4 * 11 ) ;
-	W[ 12 ] = LIT_TO_BIG( Src, 4 * 12 ) ;		W[ 13 ] = LIT_TO_BIG( Src, 4 * 13 ) ;
-	W[ 14 ] = LIT_TO_BIG( Src, 4 * 14 ) ;		W[ 15 ] = LIT_TO_BIG( Src, 4 * 15 ) ;
-
-	W[ 16 ] = W_CALC( 16 ) ;	W[ 17 ] = W_CALC( 17 ) ;	W[ 18 ] = W_CALC( 18 ) ;	W[ 19 ] = W_CALC( 19 ) ;
-	W[ 20 ] = W_CALC( 20 ) ;	W[ 21 ] = W_CALC( 21 ) ;	W[ 22 ] = W_CALC( 22 ) ;	W[ 23 ] = W_CALC( 23 ) ;
-	W[ 24 ] = W_CALC( 24 ) ;	W[ 25 ] = W_CALC( 25 ) ;	W[ 26 ] = W_CALC( 26 ) ;	W[ 27 ] = W_CALC( 27 ) ;
-	W[ 28 ] = W_CALC( 28 ) ;	W[ 29 ] = W_CALC( 29 ) ;	W[ 30 ] = W_CALC( 30 ) ;	W[ 31 ] = W_CALC( 31 ) ;
-	W[ 32 ] = W_CALC( 32 ) ;	W[ 33 ] = W_CALC( 33 ) ;	W[ 34 ] = W_CALC( 34 ) ;	W[ 35 ] = W_CALC( 35 ) ;
-	W[ 36 ] = W_CALC( 36 ) ;	W[ 37 ] = W_CALC( 37 ) ;	W[ 38 ] = W_CALC( 38 ) ;	W[ 39 ] = W_CALC( 39 ) ;
-	W[ 40 ] = W_CALC( 40 ) ;	W[ 41 ] = W_CALC( 41 ) ;	W[ 42 ] = W_CALC( 42 ) ;	W[ 43 ] = W_CALC( 43 ) ;
-	W[ 44 ] = W_CALC( 44 ) ;	W[ 45 ] = W_CALC( 45 ) ;	W[ 46 ] = W_CALC( 46 ) ;	W[ 47 ] = W_CALC( 47 ) ;
-	W[ 48 ] = W_CALC( 48 ) ;	W[ 49 ] = W_CALC( 49 ) ;	W[ 50 ] = W_CALC( 50 ) ;	W[ 51 ] = W_CALC( 51 ) ;
-	W[ 52 ] = W_CALC( 52 ) ;	W[ 53 ] = W_CALC( 53 ) ;	W[ 54 ] = W_CALC( 54 ) ;	W[ 55 ] = W_CALC( 55 ) ;
-	W[ 56 ] = W_CALC( 56 ) ;	W[ 57 ] = W_CALC( 57 ) ;	W[ 58 ] = W_CALC( 58 ) ;	W[ 59 ] = W_CALC( 59 ) ;
-	W[ 60 ] = W_CALC( 60 ) ;	W[ 61 ] = W_CALC( 61 ) ;	W[ 62 ] = W_CALC( 62 ) ;	W[ 63 ] = W_CALC( 63 ) ;
-
-	X[ 0 ] = H[ 0 ] ;
-	X[ 1 ] = H[ 1 ] ;
-	X[ 2 ] = H[ 2 ] ;
-	X[ 3 ] = H[ 3 ] ;
-	X[ 4 ] = H[ 4 ] ;
-	X[ 5 ] = H[ 5 ] ;
-	X[ 6 ] = H[ 6 ] ;
-	X[ 7 ] = H[ 7 ] ;
-#if 0
-	for( i = 0 ; i < 64 ; i ++ )
+	// テーブルが初期化されていなかったら初期化する
+	if( CRC32TableInit == 0 )
 	{
-		u32 temp1 = X[ 7 ] + S1( X[ 4 ] ) + CH( X[ 4 ], X[ 5 ], X[ 6 ] ) + K[ i ] + W[ i ] ;
-		u32 temp2 = S0( X[ 0 ] ) + MAJ( X[ 0 ], X[ 1 ], X[ 2 ] ) ;
-		X[ 7 ] = X[ 6 ] ;
-		X[ 6 ] = X[ 5 ] ;
-		X[ 5 ] = X[ 4 ] ;
-		X[ 4 ] = X[ 3 ] + temp1 ;
-		X[ 3 ] = X[ 2 ] ;
-		X[ 2 ] = X[ 1 ] ;
-		X[ 1 ] = X[ 0 ] ;
-		X[ 0 ] = temp1 + temp2 ;
-	}
-#else
-	for( i = 0 ; i < 64 ; i += 8 )
-	{
-		u32 temp1 = X[ 7 ] + S1( X[ 4 ] ) + CH( X[ 4 ], X[ 5 ], X[ 6 ] ) + K[ i ] + W[ i ] ;
-		u32 temp2 = S0( X[ 0 ] ) + MAJ( X[ 0 ], X[ 1 ], X[ 2 ] ) ;
-//		X[ 7 ] = X[ 6 ] ;
-//		X[ 6 ] = X[ 5 ] ;
-//		X[ 5 ] = X[ 4 ] ;
-//		X[ 4 ] = X[ 3 ] + temp1 ;
-//		X[ 3 ] = X[ 2 ] ;
-//		X[ 2 ] = X[ 1 ] ;
-//		X[ 1 ] = X[ 0 ] ;
-//		X[ 0 ] = temp1 + temp2 ;
-		u32 temp3 = X[ 6 ] + S1( X[ 3 ] + temp1 ) + CH( X[ 3 ] + temp1, X[ 4 ], X[ 5 ] ) + K[ i + 1 ] + W[ i + 1 ] ;
-		u32 temp4 = S0( temp1 + temp2 ) + MAJ( temp1 + temp2, X[ 0 ], X[ 1 ] ) ;
-//		X[ 7 ] = X[ 5 ] ;
-//		X[ 6 ] = X[ 4 ] ;
-//		X[ 5 ] = X[ 3 ] + temp1 ;
-//		X[ 4 ] = X[ 2 ] + temp3 ;
-//		X[ 3 ] = X[ 1 ] ;
-//		X[ 2 ] = X[ 0 ] ;
-//		X[ 1 ] = temp1 + temp2 ;
-//		X[ 0 ] = temp3 + temp4 ;
-		u32 temp5 = X[ 5 ] + S1( X[ 2 ] + temp3 ) + CH( X[ 2 ] + temp3, X[ 3 ] + temp1, X[ 4 ] ) + K[ i + 2 ] + W[ i + 2 ] ;
-		u32 temp6 = S0( temp3 + temp4 ) + MAJ( temp3 + temp4, temp1 + temp2, X[ 0 ] ) ;
-//		X[ 7 ] = X[ 4 ] ;
-//		X[ 6 ] = X[ 3 ] + temp1 ;
-//		X[ 5 ] = X[ 2 ] + temp3 ;
-//		X[ 4 ] = X[ 1 ] + temp5 ;
-//		X[ 3 ] = X[ 0 ] ;
-//		X[ 2 ] = temp1 + temp2 ;
-//		X[ 1 ] = temp3 + temp4 ;
-//		X[ 0 ] = temp5 + temp6 ;
-		u32 temp7 = X[ 4 ] + S1( X[ 1 ] + temp5 ) + CH( X[ 1 ] + temp5, X[ 2 ] + temp3, X[ 3 ] + temp1 ) + K[ i + 3 ] + W[ i + 3 ] ;
-		u32 temp8 = S0( temp5 + temp6 ) + MAJ( temp5 + temp6, temp3 + temp4, temp1 + temp2 ) ;
-//		X[ 7 ] = X[ 3 ] + temp1 ;
-//		X[ 6 ] = X[ 2 ] + temp3 ;
-//		X[ 5 ] = X[ 1 ] + temp5 ;
-//		X[ 4 ] = X[ 0 ] + temp7 ;
-//		X[ 3 ] = temp1 + temp2 ;
-//		X[ 2 ] = temp3 + temp4 ;
-//		X[ 1 ] = temp5 + temp6 ;
-//		X[ 0 ] = temp7 + temp8 ;
-		u32 temp9 = X[ 3 ] + temp1 + S1( X[ 0 ] + temp7 ) + CH( X[ 0 ] + temp7, X[ 1 ] + temp5, X[ 2 ] + temp3 ) + K[ i + 4 ] + W[ i + 4 ] ;
-		u32 temp10 = S0( temp7 + temp8 ) + MAJ( temp7 + temp8, temp5 + temp6, temp3 + temp4 ) ;
-//		X[ 7 ] = X[ 2 ] + temp3 ;
-//		X[ 6 ] = X[ 1 ] + temp5 ;
-//		X[ 5 ] = X[ 0 ] + temp7 ;
-//		X[ 4 ] = temp1 + temp2 + temp9 ;
-//		X[ 3 ] = temp3 + temp4 ;
-//		X[ 2 ] = temp5 + temp6 ;
-//		X[ 1 ] = temp7 + temp8 ;
-//		X[ 0 ] = temp9 + temp10 ;
-		u32 temp11 = X[ 2 ] + temp3 + S1( temp1 + temp2 + temp9 ) + CH( temp1 + temp2 + temp9, X[ 0 ] + temp7, X[ 1 ] + temp5 ) + K[ i + 5 ] + W[ i + 5 ] ;
-		u32 temp12 = S0( temp9 + temp10 ) + MAJ( temp9 + temp10, temp7 + temp8, temp5 + temp6 ) ;
-//		X[ 7 ] = X[ 1 ] + temp5 ;
-//		X[ 6 ] = X[ 0 ] + temp7 ;
-//		X[ 5 ] = temp1 + temp2 + temp9 ;
-//		X[ 4 ] = temp3 + temp4 + temp11 ;
-//		X[ 3 ] = temp5 + temp6 ;
-//		X[ 2 ] = temp7 + temp8 ;
-//		X[ 1 ] = temp9 + temp10 ;
-//		X[ 0 ] = temp11 + temp12 ;
-		u32 temp13 = X[ 1 ] + temp5 + S1( temp3 + temp4 + temp11 ) + CH( temp3 + temp4 + temp11, temp1 + temp2 + temp9, X[ 0 ] + temp7 ) + K[ i + 6 ] + W[ i + 6 ] ;
-		u32 temp14 = S0( temp11 + temp12 ) + MAJ( temp11 + temp12, temp9 + temp10, temp7 + temp8 ) ;
-//		X[ 7 ] = X[ 0 ] + temp7 ;
-//		X[ 6 ] = temp1 + temp2 + temp9 ;
-//		X[ 5 ] = temp3 + temp4 + temp11 ;
-//		X[ 4 ] = temp5 + temp6 + temp13 ;
-//		X[ 3 ] = temp7 + temp8 ;
-//		X[ 2 ] = temp9 + temp10 ;
-//		X[ 1 ] = temp11 + temp12 ;
-//		X[ 0 ] = temp13 + temp14 ;
-		u32 temp15 = X[ 0 ] + temp7 + S1( temp5 + temp6 + temp13 ) + CH( temp5 + temp6 + temp13, temp3 + temp4 + temp11, temp1 + temp2 + temp9 ) + K[ i + 7 ] + W[ i + 7 ] ;
-		u32 temp16 = S0( temp13 + temp14 ) + MAJ( temp13 + temp14, temp11 + temp12, temp9 + temp10 ) ;
-		X[ 7 ] = temp1 + temp2 + temp9  ;
-		X[ 6 ] = temp3 + temp4 + temp11 ;
-		X[ 5 ] = temp5 + temp6 + temp13 ;
-		X[ 4 ] = temp7 + temp8 + temp15 ;
-		X[ 3 ] = temp9 + temp10  ;
-		X[ 2 ] = temp11 + temp12 ;
-		X[ 1 ] = temp13 + temp14 ;
-		X[ 0 ] = temp15 + temp16 ;
-	}
-#endif
-	H[ 0 ] += X[ 0 ] ;
-	H[ 1 ] += X[ 1 ] ;
-	H[ 2 ] += X[ 2 ] ;
-	H[ 3 ] += X[ 3 ] ;
-	H[ 4 ] += X[ 4 ] ;
-	H[ 5 ] += X[ 5 ] ;
-	H[ 6 ] += X[ 6 ] ;
-	H[ 7 ] += X[ 7 ] ;
-}
+		DWORD Magic = 0xedb88320 ;	// 0x4c11db7 をビットレベルで順番を逆にしたものが 0xedb88320
+		DWORD j ;
 
-void DXArchive::HashSha256( const void *SrcData, size_t SrcDataSize, void *DestBuffer )
-{
-	u32 H[ 8 ] ;
-	u8 Buffer[ 128 ] ;
-	const u8 *sp = ( const u8 * )SrcData ;
-	size_t i ;
-	size_t FullBlockNum = SrcDataSize / 64 ;
-	size_t DataSize ;
-	size_t FillSize ;
-	u64 BitLength = SrcDataSize * 8 ;
-
-	H[ 0 ] = 0x6a09e667 ;
-	H[ 1 ] = 0xbb67ae85 ;
-	H[ 2 ] = 0x3c6ef372 ;
-	H[ 3 ] = 0xa54ff53a ;
-	H[ 4 ] = 0x510e527f ;
-	H[ 5 ] = 0x9b05688c ;
-	H[ 6 ] = 0x1f83d9ab ;
-	H[ 7 ] = 0x5be0cd19 ;
-
-	for( i = 0 ; i < FullBlockNum ; i ++ )
-	{
-		HashSha256_Calc( sp, H ) ;
-		sp += 64 ;
-	}
-
-	DataSize = SrcDataSize - FullBlockNum * 64 ;
-	for( i = 0 ; i < DataSize ; i ++ )
-	{
-		Buffer[ i ] = sp[ i ] ;
-	}
-	Buffer[ DataSize ] = 0x80 ;
-
-	if( DataSize + 1 + 8 > 64 )
-	{
-		FillSize = ( 128 - 8 ) - ( DataSize + 1 ) ;
-		for( i = 0 ; i < FillSize ; i ++ )
+		for( i = 0; i < 256; i++ )
 		{
-			Buffer[ DataSize + 1 + i ] = 0 ;
+			DWORD Data = i ;
+			for( j = 0; j < 8; j++ )
+			{
+				int b = ( Data & 1 ) ;
+				Data >>= 1 ;
+				if( b != 0 )
+				{
+					Data ^= Magic ;
+				}
+			}
+			CRC32Table[ i ] = Data ;
 		}
 
-		Buffer[ 127 ] = ( ( u8 * )&BitLength )[ 0 ] ;
-		Buffer[ 126 ] = ( ( u8 * )&BitLength )[ 1 ] ;
-		Buffer[ 125 ] = ( ( u8 * )&BitLength )[ 2 ] ;
-		Buffer[ 124 ] = ( ( u8 * )&BitLength )[ 3 ] ;
-		Buffer[ 123 ] = ( ( u8 * )&BitLength )[ 4 ] ;
-		Buffer[ 122 ] = ( ( u8 * )&BitLength )[ 5 ] ;
-		Buffer[ 121 ] = ( ( u8 * )&BitLength )[ 6 ] ;
-		Buffer[ 120 ] = ( ( u8 * )&BitLength )[ 7 ] ;
-
-		HashSha256_Calc( &Buffer[  0 ], H ) ;
-		HashSha256_Calc( &Buffer[ 64 ], H ) ;
+		// テーブルを初期化したフラグを立てる
+		CRC32TableInit = 1 ;
 	}
-	else
+
+	for( i = 0 ; i < SrcDataSize ; i ++ )
 	{
-		FillSize = ( 64 - 8 ) - ( DataSize + 1 ) ;
-		for( i = 0 ; i < FillSize ; i ++ )
-		{
-			Buffer[ DataSize + 1 + i ] = 0 ;
-		}
-
-		Buffer[ 63 ] = ( ( u8 * )&BitLength )[ 0 ] ;
-		Buffer[ 62 ] = ( ( u8 * )&BitLength )[ 1 ] ;
-		Buffer[ 61 ] = ( ( u8 * )&BitLength )[ 2 ] ;
-		Buffer[ 60 ] = ( ( u8 * )&BitLength )[ 3 ] ;
-		Buffer[ 59 ] = ( ( u8 * )&BitLength )[ 4 ] ;
-		Buffer[ 58 ] = ( ( u8 * )&BitLength )[ 5 ] ;
-		Buffer[ 57 ] = ( ( u8 * )&BitLength )[ 6 ] ;
-		Buffer[ 56 ] = ( ( u8 * )&BitLength )[ 7 ] ;
-
-		HashSha256_Calc( &Buffer[  0 ], H ) ;
+		CRC = CRC32Table[ ( BYTE )( CRC ^ SrcByte[ i ] ) ] ^ ( CRC >> 8 ) ;
 	}
 
-	( ( u8 * )DestBuffer )[  0 ] = ( ( u8 * )H )[ 3 ] ;
-	( ( u8 * )DestBuffer )[  1 ] = ( ( u8 * )H )[ 2 ] ;
-	( ( u8 * )DestBuffer )[  2 ] = ( ( u8 * )H )[ 1 ] ;
-	( ( u8 * )DestBuffer )[  3 ] = ( ( u8 * )H )[ 0 ] ;
-	( ( u8 * )DestBuffer )[  4 ] = ( ( u8 * )H )[ 7 ] ;
-	( ( u8 * )DestBuffer )[  5 ] = ( ( u8 * )H )[ 6 ] ;
-	( ( u8 * )DestBuffer )[  6 ] = ( ( u8 * )H )[ 5 ] ;
-	( ( u8 * )DestBuffer )[  7 ] = ( ( u8 * )H )[ 4 ] ;
-	( ( u8 * )DestBuffer )[  8 ] = ( ( u8 * )H )[ 11 ] ;
-	( ( u8 * )DestBuffer )[  9 ] = ( ( u8 * )H )[ 10 ] ;
-	( ( u8 * )DestBuffer )[ 10 ] = ( ( u8 * )H )[ 9 ] ;
-	( ( u8 * )DestBuffer )[ 11 ] = ( ( u8 * )H )[ 8 ] ;
-	( ( u8 * )DestBuffer )[ 12 ] = ( ( u8 * )H )[ 15 ] ;
-	( ( u8 * )DestBuffer )[ 13 ] = ( ( u8 * )H )[ 14 ] ;
-	( ( u8 * )DestBuffer )[ 14 ] = ( ( u8 * )H )[ 13 ] ;
-	( ( u8 * )DestBuffer )[ 15 ] = ( ( u8 * )H )[ 12 ] ;
-	( ( u8 * )DestBuffer )[ 16 ] = ( ( u8 * )H )[ 19 ] ;
-	( ( u8 * )DestBuffer )[ 17 ] = ( ( u8 * )H )[ 18 ] ;
-	( ( u8 * )DestBuffer )[ 18 ] = ( ( u8 * )H )[ 17 ] ;
-	( ( u8 * )DestBuffer )[ 19 ] = ( ( u8 * )H )[ 16 ] ;
-	( ( u8 * )DestBuffer )[ 20 ] = ( ( u8 * )H )[ 23 ] ;
-	( ( u8 * )DestBuffer )[ 21 ] = ( ( u8 * )H )[ 22 ] ;
-	( ( u8 * )DestBuffer )[ 22 ] = ( ( u8 * )H )[ 21 ] ;
-	( ( u8 * )DestBuffer )[ 23 ] = ( ( u8 * )H )[ 20 ] ;
-	( ( u8 * )DestBuffer )[ 24 ] = ( ( u8 * )H )[ 27 ] ;
-	( ( u8 * )DestBuffer )[ 25 ] = ( ( u8 * )H )[ 26 ] ;
-	( ( u8 * )DestBuffer )[ 26 ] = ( ( u8 * )H )[ 25 ] ;
-	( ( u8 * )DestBuffer )[ 27 ] = ( ( u8 * )H )[ 24 ] ;
-	( ( u8 * )DestBuffer )[ 28 ] = ( ( u8 * )H )[ 31 ] ;
-	( ( u8 * )DestBuffer )[ 29 ] = ( ( u8 * )H )[ 30 ] ;
-	( ( u8 * )DestBuffer )[ 30 ] = ( ( u8 * )H )[ 29 ] ;
-	( ( u8 * )DestBuffer )[ 31 ] = ( ( u8 * )H )[ 28 ] ;
+	return CRC ^ 0xffffffff ;
 }
 
 
 // アーカイブファイルを作成する(ディレクトリ一個だけ)
-int DXArchive::EncodeArchiveOneDirectory( char *OutputFileName, char *DirectoryPath, bool Press, const char *KeyString )
+int DXArchive::EncodeArchiveOneDirectory( char *OutputFileName, char *DirectoryPath, bool Press, bool AlwaysHuffman, u8 HuffmanEncodeKB, const char *KeyString_, bool NoKey, bool OutputStatus )
 {
 	int i, FileNum, Result ;
 	char **FilePathList, *NameBuffer ;
@@ -1876,9 +1931,9 @@ int DXArchive::EncodeArchiveOneDirectory( char *OutputFileName, char *DirectoryP
 	FilePathList = (char **)( NameBuffer + FileNum * 256 ) ;
 	for( i = 0 ; i < FileNum ; i ++ )
 		FilePathList[i] = NameBuffer + i * 256 ;
-
+	
 	// エンコード
-	Result = EncodeArchive( OutputFileName, FilePathList, FileNum, Press, KeyString ) ;
+	Result = EncodeArchive( OutputFileName, FilePathList, FileNum, Press, AlwaysHuffman, HuffmanEncodeKB, KeyString_, NoKey, OutputStatus ) ;
 
 	// 確保したメモリの解放
 	free( NameBuffer ) ;
@@ -1888,39 +1943,76 @@ int DXArchive::EncodeArchiveOneDirectory( char *OutputFileName, char *DirectoryP
 }
 
 // アーカイブファイルを作成する
-int DXArchive::EncodeArchive( char *OutputFileName, char **FileOrDirectoryPath, int FileNum, bool Press, const char *KeyString )
+int DXArchive::EncodeArchive( char *OutputFileName, char **FileOrDirectoryPath, int FileNum, bool Press, bool AlwaysHuffman, u8 HuffmanEncodeKB, const char *KeyString_, bool NoKey, bool OutputStatus )
 {
 	DARC_HEAD Head ;
 	DARC_DIRECTORY Directory, *DirectoryP ;
+	u64 HeaderHuffDataSize ;
 	SIZESAVE SizeSave ;
 	FILE *DestFp ;
 	u8 *NameP, *FileP, *DirP ;
 	int i ;
 	u32 Type ;
 	void *TempBuffer ;
-	u8 KeyV2[DXA_KEYV2_LENGTH] ;
-	char KeyV2String[DXA_KEYV2STR_LENGTH + 1] ;
-	size_t KeyV2StringBytes ;
-	char KeyV2StringBuffer[ DXA_KEYV2_STRING_MAXLENGTH ] ;
+	u8 Key[ DXA_KEY_BYTES ] ;
+	char KeyString[ DXA_KEY_STRING_LENGTH + 1 ] ;
+	size_t KeyStringBytes ;
+	char KeyStringBuffer[ DXA_KEY_STRING_MAXLENGTH ] ;
+	DARC_ENCODEINFO EncodeInfo ;
 
-	// 鍵の作成
-	KeyV2Create( KeyString, KeyV2 ) ;
-
-	// 鍵文字列の保存
-	if( KeyString == NULL )
+	// 状況出力を行う場合はファイルの総数を数える
+	EncodeInfo.CompFileNum = 0 ;
+	EncodeInfo.TotalFileNum = 0 ;
+	EncodeInfo.OutputStatus = OutputStatus ;
+	if( EncodeInfo.OutputStatus )
 	{
-		KeyV2String[ 0 ] = '\0' ;
-		KeyV2StringBytes = 0 ;
-	}
-	else
-	{
-		KeyV2StringBytes = CL_strlen( CHARCODEFORMAT_ASCII, KeyString ) ;
-		if( KeyV2StringBytes > DXA_KEYV2STR_LENGTH )
+		for( i = 0 ; i < FileNum ; i++ )
 		{
-			KeyV2StringBytes = DXA_KEYV2STR_LENGTH ;
+			// 指定されたファイルがあるかどうか検査
+			Type = GetFileAttributesA( FileOrDirectoryPath[i] ) ;
+			if( ( signed int )Type == -1 ) continue ;
+
+			// ファイルのタイプによって処理を分岐
+			if( ( Type & FILE_ATTRIBUTE_DIRECTORY ) != 0 )
+			{
+				FILE_INFOLIST FileList ;
+
+				// フォルダ以下のファイルを取得する
+				CreateFileList( FileOrDirectoryPath[i], &FileList, TRUE, TRUE, NULL, NULL, NULL ) ;
+
+				// フォルダ以下のファイル数を加算する
+				EncodeInfo.TotalFileNum += FileList.Num ;
+
+				// ファイルリスト情報の後始末
+				ReleaseFileList( &FileList ) ;
+			}
+			else
+			{
+				// ファイルだった場合はファイルの数を増やす
+				EncodeInfo.TotalFileNum ++ ;
+			}
 		}
-		memcpy( KeyV2String, KeyString, KeyV2StringBytes ) ;
-		KeyV2String[ KeyV2StringBytes ] = '\0' ;
+	}
+
+	// 鍵文字列の保存と鍵の作成
+	if( NoKey == false )
+	{
+		// 指定が無い場合はデフォルトの鍵文字列を使用する
+		if( KeyString_ == NULL )
+		{
+			KeyString_ = DefaultKeyString ;
+		}
+
+		KeyStringBytes = CL_strlen( CHARCODEFORMAT_ASCII, KeyString_ ) ;
+		if( KeyStringBytes > DXA_KEY_STRING_LENGTH )
+		{
+			KeyStringBytes = DXA_KEY_STRING_LENGTH ;
+		}
+		memcpy( KeyString, KeyString_, KeyStringBytes ) ;
+		KeyString[ KeyStringBytes ] = '\0' ;
+
+		// 鍵の作成
+		KeyCreate( KeyString, KeyStringBytes, Key ) ;
 	}
 
 	// ファイル読み込みに使用するバッファの確保
@@ -1931,6 +2023,7 @@ int DXArchive::EncodeArchive( char *OutputFileName, char **FileOrDirectoryPath, 
 
 	// アーカイブのヘッダを出力する
 	{
+		memset( &Head, 0, sizeof( Head ) ) ;
 		Head.Head						= DXA_HEAD ;
 		Head.Version					= DXA_VER ;
 		Head.HeadSize					= 0xffffffff ;
@@ -1939,9 +2032,13 @@ int DXArchive::EncodeArchive( char *OutputFileName, char **FileOrDirectoryPath, 
 		Head.DirectoryTableStartAddress	= 0xffffffffffffffff ;
 		Head.FileTableStartAddress		= 0xffffffffffffffff ;
 		Head.CharCodeFormat				= GetACP() ;
+		Head.Flags						= 0 ;
+		Head.HuffmanEncodeKB			= HuffmanEncodeKB ;
+		if( NoKey )						Head.Flags |= DXA_FLAG_NO_KEY ;
+		if( Press == false )			Head.Flags |= DXA_FLAG_NO_HEAD_PRESS ;
 		SetFileApisToANSI() ;
 
-		KeyV2ConvFileWrite( &Head, sizeof( DARC_HEAD ), DestFp, KeyV2, 0 ) ;
+		KeyConvFileWrite( &Head, sizeof( DARC_HEAD ), DestFp, NoKey ? NULL : Key, 0 ) ;
 	}
 	
 	// 各バッファを確保する
@@ -2005,44 +2102,63 @@ int DXArchive::EncodeArchive( char *OutputFileName, char **FileOrDirectoryPath, 
 		if( ( Type & FILE_ATTRIBUTE_DIRECTORY ) != 0 )
 		{
 			// ディレクトリの場合はディレクトリのアーカイブに回す
-			DirectoryEncode( ( int )Head.CharCodeFormat, FileOrDirectoryPath[i], NameP, DirP, FileP, &Directory, &SizeSave, i, DestFp, TempBuffer, Press, KeyV2String, KeyV2StringBytes, KeyV2StringBuffer ) ;
+			DirectoryEncode( ( int )Head.CharCodeFormat, FileOrDirectoryPath[i], NameP, DirP, FileP, &Directory, &SizeSave, i, DestFp, TempBuffer, Press, AlwaysHuffman, HuffmanEncodeKB, KeyString, KeyStringBytes, NoKey, KeyStringBuffer, &EncodeInfo ) ;
 		}
 		else
 		{
 			WIN32_FIND_DATAA FindData ;
 			HANDLE FindHandle ;
 			DARC_FILEHEAD File ;
-			u8 lKeyV2[DXA_KEYV2_LENGTH] ;
-			size_t KeyV2StringBufferBytes ;
+			u8 lKey[DXA_KEY_BYTES] ;
+			size_t KeyStringBufferBytes ;
 	
 			// ファイルの情報を得る
 			FindHandle = FindFirstFileA( FileOrDirectoryPath[i], &FindData ) ;
 			if( FindHandle == INVALID_HANDLE_VALUE ) continue ;
-			
+
+			// 進行状況出力
+			if( EncodeInfo.OutputStatus )
+			{
+				// 処理ファイル名をセット
+				strcpy( EncodeInfo.ProcessFileName, FindData.cFileName ) ;
+
+				// ファイル数を増やす
+				EncodeInfo.CompFileNum ++ ;
+
+				// 表示
+				EncodeStatusOutput( &EncodeInfo ) ;
+			}
+
 			// ファイルヘッダをセットする
 			{
-				File.NameAddress     = SizeSave.NameSize ;
-				File.Time.Create     = ( ( ( LONGLONG )FindData.ftCreationTime.dwHighDateTime   ) << 32 ) + FindData.ftCreationTime.dwLowDateTime   ;
-				File.Time.LastAccess = ( ( ( LONGLONG )FindData.ftLastAccessTime.dwHighDateTime ) << 32 ) + FindData.ftLastAccessTime.dwLowDateTime ;
-				File.Time.LastWrite  = ( ( ( LONGLONG )FindData.ftLastWriteTime.dwHighDateTime  ) << 32 ) + FindData.ftLastWriteTime.dwLowDateTime  ;
-				File.Attributes      = FindData.dwFileAttributes ;
-				File.DataAddress     = SizeSave.DataSize ;
-				File.DataSize        = ( ( ( LONGLONG )FindData.nFileSizeHigh ) << 32 ) + FindData.nFileSizeLow ;
-				File.PressDataSize	 = 0xffffffffffffffff ;
+				File.NameAddress       = SizeSave.NameSize ;
+				File.Time.Create       = ( ( ( LONGLONG )FindData.ftCreationTime.dwHighDateTime   ) << 32 ) + FindData.ftCreationTime.dwLowDateTime   ;
+				File.Time.LastAccess   = ( ( ( LONGLONG )FindData.ftLastAccessTime.dwHighDateTime ) << 32 ) + FindData.ftLastAccessTime.dwLowDateTime ;
+				File.Time.LastWrite    = ( ( ( LONGLONG )FindData.ftLastWriteTime.dwHighDateTime  ) << 32 ) + FindData.ftLastWriteTime.dwLowDateTime  ;
+				File.Attributes        = FindData.dwFileAttributes ;
+				File.DataAddress       = SizeSave.DataSize ;
+				File.DataSize          = ( ( ( LONGLONG )FindData.nFileSizeHigh ) << 32 ) + FindData.nFileSizeLow ;
+				File.PressDataSize	   = 0xffffffffffffffff ;
+				File.HuffPressDataSize = 0xffffffffffffffff ;
 			}
 
 			// ファイル名を書き出す
 			SizeSave.NameSize += AddFileNameData( ( int )Head.CharCodeFormat, FindData.cFileName, NameP + SizeSave.NameSize ) ;
 
 			// ファイル個別の鍵を作成
-			KeyV2StringBufferBytes = CreateKeyV2FileString( ( int )Head.CharCodeFormat, KeyV2String, KeyV2StringBytes, DirectoryP, &File, FileP, DirP, NameP, ( BYTE * )KeyV2StringBuffer ) ;
-			KeyV2Create( KeyV2StringBuffer, lKeyV2 , KeyV2StringBufferBytes ) ;
+			if( NoKey == false )
+			{
+				KeyStringBufferBytes = CreateKeyFileString( ( int )Head.CharCodeFormat, KeyString, KeyStringBytes, DirectoryP, &File, FileP, DirP, NameP, ( BYTE * )KeyStringBuffer ) ;
+				KeyCreate( KeyStringBuffer, KeyStringBufferBytes, lKey  ) ;
+			}
 
 			// ファイルデータを書き出す
 			if( File.DataSize != 0 )
 			{
 				FILE *SrcP ;
 				u64 FileSize, WriteSize, MoveSize ;
+				bool Huffman = false ;
+				bool AlwaysPress = false ;
 
 				// ファイルを開く
 				SrcP = fopen( FileOrDirectoryPath[i], "rb" ) ;
@@ -2051,15 +2167,66 @@ int DXArchive::EncodeArchive( char *OutputFileName, char **FileOrDirectoryPath, 
 				_fseeki64( SrcP, 0, SEEK_END ) ;
 				FileSize = _ftelli64( SrcP ) ;
 				_fseeki64( SrcP, 0, SEEK_SET ) ;
-				
-				// ファイルサイズが 10MB 以下の場合で、圧縮の指定がある場合は圧縮を試みる
-				if( Press == true && File.DataSize < 10 * 1024 * 1024 )
+
+				// 圧縮の対象となるファイルフォーマットか調べる
+				{
+					u32 Len ;
+					Len = ( u32 )strlen( FindData.cFileName ) ;
+					if( Len > 4 )
+					{
+						char *sp ;
+						
+						sp = &FindData.cFileName[Len-3] ;
+						if( StrICmp( sp, "wav" ) == 0 ||
+							StrICmp( sp, "jpg" ) == 0 ||
+							StrICmp( sp, "png" ) == 0 ||
+							StrICmp( sp, "mpg" ) == 0 ||
+							StrICmp( sp, "mp3" ) == 0 ||
+							StrICmp( sp, "mp4" ) == 0 ||
+							StrICmp( sp, "m4a" ) == 0 ||
+							StrICmp( sp, "ogg" ) == 0 ||
+							StrICmp( sp, "ogv" ) == 0 ||
+							StrICmp( sp, "ops" ) == 0 ||
+							StrICmp( sp, "wmv" ) == 0 ||
+							StrICmp( sp, "tif" ) == 0 ||
+							StrICmp( sp, "tga" ) == 0 ||
+							StrICmp( sp, "bmp" ) == 0 ||
+							StrICmp( sp - 1, "jpeg" ) == 0 )
+						{
+							Huffman = true ;
+						}
+
+						// wav や bmp の場合は必ず圧縮する
+						if( StrICmp( sp, "wav" ) == 0 ||
+							StrICmp( sp, "tga" ) == 0 ||
+							StrICmp( sp, "bmp" ) == 0 )
+						{
+							AlwaysPress = true ;
+						}
+					}
+				}
+
+				// AlwaysHuffman が true の場合は必ずハフマン圧縮する
+				if( AlwaysHuffman )
+				{
+					Huffman = true ;
+				}
+
+				// ハフマン圧縮するサイズが 0 の場合はハフマン圧縮を行わない
+				if( HuffmanEncodeKB == 0 )
+				{
+					Huffman = false ;
+				}
+
+				// 圧縮の指定がある場合で、
+				// 必ず圧縮するファイルフォーマットか、ファイルサイズが 10MB 以下の場合は圧縮を試みる
+				if( Press == true && ( AlwaysPress || File.DataSize < 10 * 1024 * 1024 ) )
 				{
 					void *SrcBuf, *DestBuf ;
 					u32 DestSize, Len ;
 					
 					// 一部のファイル形式の場合は予め弾く
-					if( ( Len = ( int )strlen( FindData.cFileName ) ) > 4 )
+					if( AlwaysPress == false && ( Len = ( int )strlen( FindData.cFileName ) ) > 4 )
 					{
 						char *sp ;
 						
@@ -2076,54 +2243,154 @@ int DXArchive::EncodeArchive( char *OutputFileName, char **FileOrDirectoryPath, 
 							StrICmp( sp, "wmv" ) == 0 ||
 							StrICmp( sp - 1, "jpeg" ) == 0 ) goto NOPRESS ;
 					}
-					
+
 					// データが丸ごと入るメモリ領域の確保
-					SrcBuf  = malloc( ( size_t )( FileSize + FileSize * 2 + 64 ) ) ;
+					SrcBuf  = calloc( 1, ( size_t )( FileSize + FileSize * 2 + 64 ) ) ;
 					DestBuf = (u8 *)SrcBuf + FileSize ;
 					
 					// ファイルを丸ごと読み込む
 					fread64( SrcBuf, FileSize, SrcP ) ;
+
+					// 圧縮する場合は強制的に進行状況出力を更新
+					if( EncodeInfo.OutputStatus )
+					{
+						EncodeStatusOutput( &EncodeInfo, true ) ;
+					}
 					
 					// 圧縮
-					DestSize = Encode( SrcBuf, ( u32 )FileSize, DestBuf ) ;
+					DestSize = Encode( SrcBuf, ( u32 )FileSize, DestBuf, EncodeInfo.OutputStatus ) ;
 					
 					// 殆ど圧縮出来なかった場合は圧縮無しでアーカイブする
-					if( (f64)DestSize / (f64)FileSize > 0.90 )
+					if( AlwaysPress == false && ( (f64)DestSize / (f64)FileSize > 0.90 ) )
 					{
 						_fseeki64( SrcP, 0L, SEEK_SET ) ;
 						free( SrcBuf ) ;
 						goto NOPRESS ;
 					}
-					
-					// 圧縮データを反転して書き出す
-					WriteSize = ( DestSize + 3 ) / 4 * 4 ;
-					KeyV2ConvFileWrite( DestBuf, WriteSize, DestFp, lKeyV2, File.DataSize ) ;
-					
-					// メモリの解放
-					free( SrcBuf ) ;
-					
+
 					// 圧縮データのサイズを保存する
 					File.PressDataSize = DestSize ;
+
+					// ハフマン圧縮も行うかどうかで処理を分岐
+					if( Huffman )
+					{
+						u8 *HuffData ;
+
+						// ハフマン圧縮するサイズによって処理を分岐
+						if( HuffmanEncodeKB == 0xff || DestSize <= ( u64 )( HuffmanEncodeKB * 1024 * 2 ) )
+						{
+							// ハフマン圧縮用のメモリ領域を確保
+							HuffData = ( u8 * )calloc( 1, DestSize * 2 + 256 * 2 + 32 ) ;
+
+							// ファイル全体をハフマン圧縮
+							File.HuffPressDataSize = Huffman_Encode( DestBuf, DestSize, HuffData ) ;
+
+							// 圧縮データに鍵を適用して書き出す
+							WriteSize = ( File.HuffPressDataSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
+							KeyConvFileWrite( HuffData, WriteSize, DestFp, NoKey ? NULL : lKey, File.DataSize ) ;
+						}
+						else
+						{
+							// ハフマン圧縮用のメモリ領域を確保
+							HuffData = ( u8 * )calloc( 1, HuffmanEncodeKB * 1024 * 2 * 4 + 256 * 2 + 32 ) ;
+
+							// ファイルの前後をハフマン圧縮
+							memcpy( HuffData,                                  DestBuf,                                     HuffmanEncodeKB * 1024 ) ;
+							memcpy( HuffData + HuffmanEncodeKB * 1024, ( u8 * )DestBuf + DestSize - HuffmanEncodeKB * 1024, HuffmanEncodeKB * 1024 ) ;
+							File.HuffPressDataSize = Huffman_Encode( HuffData, HuffmanEncodeKB * 1024 * 2, HuffData + HuffmanEncodeKB * 1024 * 2 ) ;
+
+							// ハフマン圧縮した部分を書き出す
+							KeyConvFileWrite( HuffData + HuffmanEncodeKB * 1024 * 2, File.HuffPressDataSize, DestFp, NoKey ? NULL : lKey, File.DataSize ) ;
+
+							// ハフマン圧縮していない箇所を書き出す
+							WriteSize = File.HuffPressDataSize + DestSize - HuffmanEncodeKB * 1024 * 2 ;
+							WriteSize = ( WriteSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
+							KeyConvFileWrite( ( u8 * )DestBuf + HuffmanEncodeKB * 1024, WriteSize - File.HuffPressDataSize, DestFp, NoKey ? NULL : lKey, File.DataSize + File.HuffPressDataSize ) ;
+						}
+
+						// メモリの解放
+						free( HuffData ) ;
+					}
+					else
+					{
+						// 圧縮データを反転して書き出す
+						WriteSize = ( DestSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
+						KeyConvFileWrite( DestBuf, WriteSize, DestFp, NoKey ? NULL : lKey, File.DataSize ) ;
+					}
+
+					// メモリの解放
+					free( SrcBuf ) ;
 				}
 				else
 				{
-NOPRESS:					
-					// 転送開始
-					WriteSize = 0 ;
-					while( WriteSize < FileSize )
+NOPRESS:
+					// ハフマン圧縮も行うかどうかで処理を分岐
+					if( Press && Huffman )
 					{
-						// 転送サイズ決定
-						MoveSize = DXA_BUFFERSIZE < FileSize - WriteSize ? DXA_BUFFERSIZE : FileSize - WriteSize ;
-						MoveSize = ( MoveSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
-						
-						// ファイルの反転読み込み
-						KeyV2ConvFileRead( TempBuffer, MoveSize, SrcP, lKeyV2, File.DataSize + WriteSize ) ;
+						u8 *SrcBuf, *HuffData ;
 
-						// 書き出し
-						fwrite64( TempBuffer, MoveSize, DestFp ) ;
+						// データが丸ごと入るメモリ領域の確保
+						SrcBuf = ( u8 * )calloc( 1, ( size_t )( FileSize + 32 ) ) ;
+
+						// ファイルを丸ごと読み込む
+						fread64( SrcBuf, FileSize, SrcP ) ;
 						
-						// 書き出しサイズの加算
-						WriteSize += MoveSize ;
+						// ハフマン圧縮するサイズによって処理を分岐
+						if( HuffmanEncodeKB == 0xff || FileSize <= HuffmanEncodeKB * 1024 * 2 )
+						{
+							// ハフマン圧縮用のメモリ領域を確保
+							HuffData = ( u8 * )calloc( 1, ( size_t )( FileSize * 2 + 256 * 2 + 32 ) ) ;
+
+							// ファイル全体をハフマン圧縮
+							File.HuffPressDataSize = Huffman_Encode( SrcBuf, FileSize, HuffData ) ;
+
+							// 圧縮データに鍵を適用して書き出す
+							WriteSize = ( File.HuffPressDataSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
+							KeyConvFileWrite( HuffData, WriteSize, DestFp, NoKey ? NULL : lKey, File.DataSize ) ;
+						}
+						else
+						{
+							// ハフマン圧縮用のメモリ領域を確保
+							HuffData = ( u8 * )calloc( 1, HuffmanEncodeKB * 1024 * 2 * 4 + 256 * 2 + 32 ) ;
+
+							// ファイルの前後をハフマン圧縮
+							memcpy( HuffData,                          SrcBuf,                                     HuffmanEncodeKB * 1024 ) ;
+							memcpy( HuffData + HuffmanEncodeKB * 1024, SrcBuf + FileSize - HuffmanEncodeKB * 1024, HuffmanEncodeKB * 1024 ) ;
+							File.HuffPressDataSize = Huffman_Encode( HuffData, HuffmanEncodeKB * 1024 * 2, HuffData + HuffmanEncodeKB * 1024 * 2 ) ;
+
+							// ハフマン圧縮した部分を書き出す
+							KeyConvFileWrite( HuffData + HuffmanEncodeKB * 1024 * 2, File.HuffPressDataSize, DestFp, NoKey ? NULL : lKey, File.DataSize ) ;
+
+							// ハフマン圧縮していない箇所を書き出す
+							WriteSize = File.HuffPressDataSize + FileSize - HuffmanEncodeKB * 1024 * 2 ;
+							WriteSize = ( WriteSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
+							KeyConvFileWrite( SrcBuf + HuffmanEncodeKB * 1024, WriteSize - File.HuffPressDataSize, DestFp, NoKey ? NULL : lKey, File.DataSize + File.HuffPressDataSize ) ;
+						}
+
+						// メモリの解放
+						free( SrcBuf ) ;
+						free( HuffData ) ;
+					}
+					else
+					{
+						// 転送開始
+						WriteSize = 0 ;
+						while( WriteSize < FileSize )
+						{
+							// 転送サイズ決定
+							MoveSize = DXA_BUFFERSIZE < FileSize - WriteSize ? DXA_BUFFERSIZE : FileSize - WriteSize ;
+							MoveSize = ( MoveSize + 3 ) / 4 * 4 ;	// サイズは４の倍数に合わせる
+						
+							// ファイルの鍵適用読み込み
+							memset( TempBuffer, 0, ( size_t )MoveSize ) ;
+							KeyConvFileRead( TempBuffer, MoveSize, SrcP, NoKey ? NULL : lKey, File.DataSize + WriteSize ) ;
+
+							// 書き出し
+							fwrite64( TempBuffer, MoveSize, DestFp ) ;
+						
+							// 書き出しサイズの加算
+							WriteSize += MoveSize ;
+						}
 					}
 				}
 				
@@ -2144,24 +2411,62 @@ NOPRESS:
 	
 	// バッファに溜め込んだ各種ヘッダデータを出力する
 	{
-		// 出力する順番は ファイルネームテーブル、 DARC_FILEHEAD テーブル、 DARC_DIRECTORY テーブル の順
-		KeyV2ConvFileWrite( NameP, SizeSave.NameSize,      DestFp, KeyV2, 0 ) ;
-		KeyV2ConvFileWrite( FileP, SizeSave.FileSize,      DestFp, KeyV2, SizeSave.NameSize ) ;
-		KeyV2ConvFileWrite( DirP,  SizeSave.DirectorySize, DestFp, KeyV2, SizeSave.NameSize + SizeSave.FileSize ) ;
+		u8 *PressSource ;
+		u64 TotalSize = SizeSave.NameSize + SizeSave.FileSize + SizeSave.DirectorySize ;
+
+		// 全部のデータを纏める
+		PressSource = ( u8 * )malloc( ( size_t )TotalSize ) ;
+		if( PressSource == NULL ) return -1 ;
+		memcpy( PressSource,                                         NameP, ( size_t )SizeSave.NameSize ) ;
+		memcpy( PressSource + SizeSave.NameSize,                     FileP, ( size_t )SizeSave.FileSize ) ;
+		memcpy( PressSource + SizeSave.NameSize + SizeSave.FileSize, DirP,  ( size_t )SizeSave.DirectorySize ) ;
+
+		// 圧縮するかどうかで処理を分岐
+		if( Press )
+		{
+			u8 *PressData ;
+			int LZDataSize ;
+
+			// 圧縮する場合
+
+			// 圧縮データを格納するメモリ領域の確保
+			PressData = ( u8 * )malloc( ( size_t )( TotalSize * 4 + 256 * 2 + 32 * 2 ) ) ;
+			if( PressData == NULL ) return -1 ;
+
+			// LZ圧縮
+			LZDataSize = Encode( PressSource, ( u32 )TotalSize, PressData, false ) ;
+
+			// ハフマン圧縮
+			HeaderHuffDataSize = Huffman_Encode( PressData, ( u64 )LZDataSize, PressData + TotalSize * 2 + 32 ) ;
+
+			// 纏めたものに鍵を適用して出力
+			KeyConvFileWrite( PressData + TotalSize * 2 + 32, HeaderHuffDataSize, DestFp, NoKey ? NULL : Key, 0 ) ;
+
+			// メモリの解放
+			free( PressData ) ;
+		}
+		else
+		{
+			// 纏めたものに鍵を適用して出力
+			KeyConvFileWrite( PressSource, TotalSize, DestFp, NoKey ? NULL : Key, 0 ) ;
+		}
+
+		// メモリの解放
+		free( PressSource ) ;
 	}
 		
 	// 再びアーカイブのヘッダを出力する
 	{
 		Head.Head                       = DXA_HEAD ;
 		Head.Version                    = DXA_VER ;
-		Head.HeadSize                   = ( u32 )( SizeSave.NameSize + SizeSave.DirectorySize + SizeSave.FileSize ) ;
+		Head.HeadSize                   = ( u32 )( SizeSave.NameSize + SizeSave.FileSize + SizeSave.DirectorySize ) ;
 		Head.DataStartAddress           = sizeof( DARC_HEAD ) ;
 		Head.FileNameTableStartAddress  = SizeSave.DataSize + Head.DataStartAddress ;
 		Head.FileTableStartAddress      = SizeSave.NameSize ;
 		Head.DirectoryTableStartAddress = Head.FileTableStartAddress + SizeSave.FileSize ;
 
 		_fseeki64( DestFp, 0, SEEK_SET ) ;
-		KeyV2ConvFileWrite( &Head, sizeof( DARC_HEAD ), DestFp, KeyV2, 0 ) ;
+		fwrite64( &Head, sizeof( DARC_HEAD ), DestFp ) ;
 	}
 	
 	// 書き出したファイルを閉じる
@@ -2173,43 +2478,45 @@ NOPRESS:
 	free( DirP ) ;
 	free( TempBuffer ) ;
 
+	// 圧縮状況表示をクリア
+	EncodeStatusErase() ;
+
 	// 終了
 	return 0 ;
 }
 
 // アーカイブファイルを展開する
-int DXArchive::DecodeArchive( char *ArchiveName, char *OutputPath, const char *KeyString )
+int DXArchive::DecodeArchive( char *ArchiveName, char *OutputPath, const char *KeyString_ )
 {
 	u8 *HeadBuffer = NULL ;
 	DARC_HEAD Head ;
 	u8 *FileP, *NameP, *DirP ;
 	FILE *ArcP = NULL ;
 	char OldDir[MAX_PATH] ;
-	u8 Key[DXA_KEYSTR_LENGTH] ;
-	u8 KeyV2[DXA_KEYV2_LENGTH] ;
-	char KeyV2String[DXA_KEYV2STR_LENGTH + 1] ;
-	size_t KeyV2StringBytes ;
-	char KeyV2StringBuffer[ DXA_KEYV2_STRING_MAXLENGTH ] ;
+	u8 Key[DXA_KEY_BYTES] ;
+	char KeyString[ DXA_KEY_STRING_LENGTH + 1 ] ;
+	size_t KeyStringBytes ;
+	char KeyStringBuffer[ DXA_KEY_STRING_MAXLENGTH ] ;
+	bool NoKey ;
 
-	// 鍵の作成
-	KeyCreate( KeyString, Key ) ;
-	KeyV2Create( KeyString, KeyV2 ) ;
-
-	// 鍵文字列の保存
-	if( KeyString == NULL )
+	// 鍵文字列の保存と鍵の作成
 	{
-		KeyV2String[ 0 ] = '\0' ;
-		KeyV2StringBytes = 0 ;
-	}
-	else
-	{
-		KeyV2StringBytes = CL_strlen( CHARCODEFORMAT_ASCII, KeyString ) ;
-		if( KeyV2StringBytes > DXA_KEYV2STR_LENGTH )
+		// 指定が無い場合はデフォルトの鍵文字列を使用する
+		if( KeyString_ == NULL )
 		{
-			KeyV2StringBytes = DXA_KEYV2STR_LENGTH ;
+			KeyString_ = DefaultKeyString ;
 		}
-		memcpy( KeyV2String, KeyString, KeyV2StringBytes ) ;
-		KeyV2String[ KeyV2StringBytes ] = '\0' ;
+
+		KeyStringBytes = CL_strlen( CHARCODEFORMAT_ASCII, KeyString_ ) ;
+		if( KeyStringBytes > DXA_KEY_STRING_LENGTH )
+		{
+			KeyStringBytes = DXA_KEY_STRING_LENGTH ;
+		}
+		memcpy( KeyString, KeyString_, KeyStringBytes ) ;
+		KeyString[ KeyStringBytes ] = '\0' ;
+
+		// 鍵の作成
+		KeyCreate( KeyString, KeyStringBytes, Key ) ;
 	}
 
 	// アーカイブファイルを開く
@@ -2222,39 +2529,75 @@ int DXArchive::DecodeArchive( char *ArchiveName, char *OutputPath, const char *K
 
 	// ヘッダを解析する
 	{
-		KeyV2ConvFileRead( &Head, sizeof( DARC_HEAD ), ArcP, KeyV2, 0 ) ;
+		s64 FileSize ;
+
+		// ヘッダの読み込み
+		fread64( &Head, sizeof( DARC_HEAD ), ArcP ) ;
 		
 		// ＩＤの検査
 		if( Head.Head != DXA_HEAD )
 		{
-			// バージョン６以前か調べる
-			fseek( ArcP, 0L, SEEK_SET ) ;
-			KeyConvFileRead( &Head, sizeof( DARC_HEAD ), ArcP, Key, 0 ) ;
-
-			if( Head.Head != DXA_HEAD )
-			{
-				goto ERR ;
-			}
+			goto ERR ;
 		}
 		
 		// バージョン検査
-		if( Head.Version > DXA_VER || Head.Version < 0x0006 ) goto ERR ;
+		if( Head.Version > DXA_VER || Head.Version < DXA_VER_MIN ) goto ERR ;
+
+		// 鍵処理が行われていないかを取得する
+		NoKey = ( Head.Flags & DXA_FLAG_NO_KEY ) != 0 ;
 		
 		// ヘッダのサイズ分のメモリを確保する
 		HeadBuffer = ( u8 * )malloc( ( size_t )Head.HeadSize ) ;
 		if( HeadBuffer == NULL ) goto ERR ;
-		
-		// ヘッダパックをメモリに読み込む
-		_fseeki64( ArcP, Head.FileNameTableStartAddress, SEEK_SET ) ;
-		if( Head.Version >= DXA_KEYV2_VER )
+
+		// ヘッダが圧縮されている場合は解凍する
+		if( ( Head.Flags & DXA_FLAG_NO_HEAD_PRESS ) != 0 )
 		{
-			KeyV2ConvFileRead( HeadBuffer, Head.HeadSize, ArcP, KeyV2, 0 ) ;
+			// 圧縮されていない場合は普通に読み込む
+			KeyConvFileRead( HeadBuffer, Head.HeadSize, ArcP, NoKey ? NULL : Key, 0 ) ;
 		}
 		else
 		{
-			KeyConvFileRead( HeadBuffer, Head.HeadSize, ArcP, Key, 0 ) ;
+			void *HuffHeadBuffer ;
+			u64 HuffHeadSize ;
+			void *LzHeadBuffer ;
+			u64 LzHeadSize ;
+
+			// ハフマン圧縮されたヘッダのサイズを取得する
+			_fseeki64( ArcP, 0, SEEK_END ) ;
+			FileSize = _ftelli64( ArcP ) ;
+			_fseeki64( ArcP, Head.FileNameTableStartAddress, SEEK_SET ) ;
+			HuffHeadSize = ( u32 )( FileSize - _ftelli64( ArcP ) ) ;
+
+			// ハフマン圧縮されたヘッダを読み込むメモリを確保する
+			HuffHeadBuffer = malloc( ( size_t )HuffHeadSize ) ;
+			if( HuffHeadBuffer == NULL ) goto ERR ;
+
+			// ハフマン圧縮されたヘッダをコピーと暗号化解除
+			KeyConvFileRead( HuffHeadBuffer, HuffHeadSize, ArcP, NoKey ? NULL : Key, 0 ) ;
+
+			// ハフマン圧縮されたヘッダの解凍後の容量を取得する
+			LzHeadSize = Huffman_Decode( HuffHeadBuffer, NULL ) ;
+
+			// ハフマン圧縮されたヘッダの解凍後のデータを格納するメモリ用域の確保
+			LzHeadBuffer = malloc( ( size_t )LzHeadSize ) ;
+			if( LzHeadBuffer == NULL )
+			{
+				free( HuffHeadBuffer ) ;
+				goto ERR ;
+			}
+
+			// ハフマン圧縮されたヘッダを解凍する
+			Huffman_Decode( HuffHeadBuffer, LzHeadBuffer ) ;
+
+			// LZ圧縮されたヘッダを解凍する
+			Decode( LzHeadBuffer, HeadBuffer ) ;
+
+			// メモリの解放
+			free( HuffHeadBuffer ) ;
+			free( LzHeadBuffer ) ;
 		}
-		
+
 		// 各アドレスをセットする
 		NameP = HeadBuffer ;
 		FileP = NameP + Head.FileTableStartAddress ;
@@ -2262,7 +2605,7 @@ int DXArchive::DecodeArchive( char *ArchiveName, char *OutputPath, const char *K
 	}
 
 	// アーカイブの展開を開始する
-	DirectoryDecode( NameP, DirP, FileP, &Head, ( DARC_DIRECTORY * )DirP, ArcP, Key, KeyV2String, KeyV2StringBytes, KeyV2StringBuffer ) ;
+	DirectoryDecode( NameP, DirP, FileP, &Head, ( DARC_DIRECTORY * )DirP, ArcP, Key, KeyString, KeyStringBytes, NoKey, KeyStringBuffer ) ;
 	
 	// ファイルを閉じる
 	fclose( ArcP ) ;
@@ -2296,7 +2639,7 @@ DXArchive::DXArchive( char *ArchivePath )
 	this->HeadBuffer = NULL ;
 	this->NameP = this->DirP = this->FileP = NULL ;
 	this->CurrentDirectory = NULL ;
-	this->CashBuffer = NULL ;
+	this->CacheBuffer = NULL ;
 
 	if( ArchivePath != NULL )
 	{
@@ -2311,7 +2654,7 @@ DXArchive::~DXArchive()
 
 	if( this->fp != NULL ) fclose( this->fp ) ;
 	if( this->HeadBuffer != NULL ) free( this->HeadBuffer ) ;
-	if( this->CashBuffer != NULL ) free( this->CashBuffer ) ;
+	if( this->CacheBuffer != NULL ) free( this->CacheBuffer ) ;
 
 	this->fp = NULL ;
 	this->HeadBuffer = NULL ;
@@ -2320,22 +2663,22 @@ DXArchive::~DXArchive()
 }
 
 // 指定のディレクトリデータの暗号化を解除する( 丸ごとメモリに読み込んだ場合用 )
-int DXArchive::DirectoryKeyConv( DARC_DIRECTORY *Dir, char *KeyV2StringBuffer )
+int DXArchive::DirectoryKeyConv( DARC_DIRECTORY *Dir, char *KeyStringBuffer )
 {
 	// メモリイメージではない場合はエラー
 	if( this->MemoryOpenFlag == false )
 		return -1 ;
 
-	// バージョン 0x0005 より前では何もしない
-	if( this->Head.Version < 0x0005 )
-		return 0 ;
+	// 鍵を使わない場合は何もせずに終了
+	if( this->NoKey )
+		return -1 ;
 	
 	// 暗号化解除処理開始
 	{
 		u32 i, FileHeadSize ;
 		DARC_FILEHEAD *File ;
-		unsigned char lKeyV2[DXA_KEYV2_LENGTH] ;
-		size_t KeyV2StringBufferBytes ;
+		unsigned char lKey[ DXA_KEY_BYTES ] ;
+		size_t KeyStringBufferBytes ;
 
 		// 格納されているファイルの数だけ繰り返す
 		FileHeadSize = sizeof( DARC_FILEHEAD ) ;
@@ -2346,7 +2689,7 @@ int DXArchive::DirectoryKeyConv( DARC_DIRECTORY *Dir, char *KeyV2StringBuffer )
 			if( File->Attributes & FILE_ATTRIBUTE_DIRECTORY )
 			{
 				// ディレクトリの場合は再帰をかける
-				DirectoryKeyConv( ( DARC_DIRECTORY * )( this->DirP + File->DataAddress ), KeyV2StringBuffer ) ;
+				DirectoryKeyConv( ( DARC_DIRECTORY * )( this->DirP + File->DataAddress ), KeyStringBuffer ) ;
 			}
 			else
 			{
@@ -2360,38 +2703,30 @@ int DXArchive::DirectoryKeyConv( DARC_DIRECTORY *Dir, char *KeyV2StringBuffer )
 					// データ位置をセットする
 					DataP = ( u8 * )this->fp + this->Head.DataStartAddress + File->DataAddress ;
 
+					// ファイル個別の鍵を作成
+					if( NoKey == false )
+					{
+						KeyStringBufferBytes = CreateKeyFileString( ( int )this->Head.CharCodeFormat, this->KeyString, this->KeyStringBytes, Dir, File, this->FileP, this->DirP, this->NameP, ( BYTE * )KeyStringBuffer ) ;
+						KeyCreate( KeyStringBuffer, KeyStringBufferBytes, lKey ) ;
+					}
+
+					// ハフマン圧縮されているかどうかで処理を分岐
+					if( File->HuffPressDataSize != 0xffffffffffffffff )
+					{
+						// ハフマン圧縮されている場合
+						KeyConv( DataP, File->HuffPressDataSize, File->DataSize, lKey ) ;
+					}
+					else
 					// データが圧縮されているかどうかで処理を分岐
 					if( File->PressDataSize != 0xffffffffffffffff )
 					{
 						// 圧縮されている場合
-						if( this->Head.Version >= DXA_KEYV2_VER )
-						{
-							// ファイル個別の鍵を作成
-							KeyV2StringBufferBytes = CreateKeyV2FileString( ( int )this->Head.CharCodeFormat, this->KeyV2String, this->KeyV2StringBytes, Dir, File, this->FileP, this->DirP, this->NameP, ( BYTE * )KeyV2StringBuffer ) ;
-							KeyV2Create( KeyV2StringBuffer, lKeyV2 , KeyV2StringBufferBytes ) ;
-
-							KeyV2Conv( DataP, File->PressDataSize, File->DataSize, lKeyV2 ) ;
-						}
-						else
-						{
-							KeyConv( DataP, File->PressDataSize, File->DataSize, this->Key ) ;
-						}
+						KeyConv( DataP, File->PressDataSize, File->DataSize, lKey ) ;
 					}
 					else
 					{
 						// 圧縮されていない場合
-						if( this->Head.Version >= DXA_KEYV2_VER )
-						{
-							// ファイル個別の鍵を作成
-							KeyV2StringBufferBytes = CreateKeyV2FileString( ( int )this->Head.CharCodeFormat, this->KeyV2String, this->KeyV2StringBytes, Dir, File, this->FileP, this->DirP, this->NameP, ( BYTE * )KeyV2StringBuffer ) ;
-							KeyV2Create( KeyV2StringBuffer, lKeyV2 , KeyV2StringBufferBytes ) ;
-
-							KeyV2Conv( DataP, File->DataSize, File->DataSize, lKeyV2 ) ;
-						}
-						else
-						{
-							KeyConv( DataP, File->DataSize, File->DataSize, this->Key ) ;
-						}
+						KeyConv( DataP, File->DataSize, File->DataSize, lKey ) ;
 					}
 				}
 			}
@@ -2402,229 +2737,8 @@ int DXArchive::DirectoryKeyConv( DARC_DIRECTORY *Dir, char *KeyV2StringBuffer )
 	return 0 ;
 }
 
-// メモリ上にあるアーカイブイメージを開く( 0:成功  -1:失敗 )
-int	DXArchive::OpenArchiveMem( void *ArchiveImage, s64 ArchiveSize, const char *KeyString )
-{
-	u8 *datp ;
-
-	// 既になんらかのアーカイブを開いていた場合はエラー
-	if( this->fp != NULL ) return -1 ;
-
-	// 鍵の作成
-	KeyCreate( KeyString, this->Key ) ;
-	KeyV2Create( KeyString, this->KeyV2 ) ;
-
-	// 鍵文字列の保存
-	if( KeyString == NULL )
-	{
-		KeyV2String[ 0 ] = '\0' ;
-		KeyV2StringBytes = 0 ;
-	}
-	else
-	{
-		KeyV2StringBytes = CL_strlen( CHARCODEFORMAT_ASCII, KeyString ) ;
-		if( KeyV2StringBytes > DXA_KEYV2STR_LENGTH )
-		{
-			KeyV2StringBytes = DXA_KEYV2STR_LENGTH ;
-		}
-		memcpy( KeyV2String, KeyString, KeyV2StringBytes ) ;
-		KeyV2String[ KeyV2StringBytes ] = '\0' ;
-	}
-
-	// 最初にヘッダの部分を反転する
-	memcpy( &this->Head, ArchiveImage, sizeof( DARC_HEAD ) ) ;
-	KeyV2Conv( &this->Head, sizeof( DARC_HEAD ), 0, this->KeyV2 ) ;
-
-	// ＩＤが違う場合はエラー
-	if( Head.Head != DXA_HEAD )
-	{
-		// バージョン６か調べる
-		memcpy( &this->Head, ArchiveImage, sizeof( DARC_HEAD ) ) ;
-		KeyConv( &this->Head, sizeof( DARC_HEAD ), 0, this->Key ) ;
-
-		// ＩＤが違う場合はエラー
-		if( Head.Head != DXA_HEAD )
-		{
-			goto ERR ;
-		}
-	}
-
-	// ポインタを保存
-	this->fp = (FILE *)ArchiveImage ;
-	datp = (u8 *)ArchiveImage ;
-
-	// ヘッダを解析する
-	{
-		datp += sizeof( DARC_HEAD ) ;
-		
-		// バージョン検査
-		if( this->Head.Version > DXA_VER || this->Head.Version < 0x0006 ) goto ERR ;
-
-		// ヘッダパックのアドレスをセットする
-		this->HeadBuffer = (u8 *)this->fp + this->Head.FileNameTableStartAddress ;
-
-		// 各アドレスをセットする
-		if( this->Head.Version >= DXA_KEYV2_VER )
-		{
-			KeyV2Conv( this->HeadBuffer, this->Head.HeadSize, 0, this->KeyV2 ) ;
-		}
-		else
-		{
-			KeyConv( this->HeadBuffer, this->Head.HeadSize, 0, this->Key ) ;
-		}
-		this->NameP = this->HeadBuffer ;
-		this->FileP = this->NameP + this->Head.FileTableStartAddress ;
-		this->DirP = this->NameP + this->Head.DirectoryTableStartAddress ;
-	}
-
-	// カレントディレクトリのセット
-	this->CurrentDirectory = ( DARC_DIRECTORY * )this->DirP ;
-
-	// メモリイメージから開いているフラグを立てる
-	MemoryOpenFlag = true ;
-
-	// 全てのファイルの暗号化を解除する
-	{
-		char KeyV2StringBuffer[ DXA_KEYV2_STRING_MAXLENGTH ] ;
-		DirectoryKeyConv( ( DARC_DIRECTORY * )this->DirP, KeyV2StringBuffer ) ;
-	}
-
-	// ユーザーのイメージから開いたフラグを立てる
-	UserMemoryImageFlag = true ;
-
-	// サイズも保存しておく
-	MemoryImageSize = ArchiveSize ;
-
-	// 終了
-	return 0 ;
-
-ERR :
-	// 終了
-	return -1 ;
-}
-
-// アーカイブファイルを開き最初にすべてメモリ上に読み込んでから処理する( 0:成功  -1:失敗 )
-int DXArchive::OpenArchiveFileMem( const char *ArchivePath, const char *KeyString )
-{
-	FILE *fp ;
-	u8 *datp ;
-	void *ArchiveImage ;
-	s64 ArchiveSize ;
-
-	// 既になんらかのアーカイブを開いていた場合はエラー
-	if( this->fp != NULL ) return -1 ;
-
-	// 鍵の作成
-	KeyCreate( KeyString, this->Key ) ;
-	KeyV2Create( KeyString, this->KeyV2 ) ;
-
-	// 鍵文字列の保存
-	if( KeyString == NULL )
-	{
-		KeyV2String[ 0 ] = '\0' ;
-		KeyV2StringBytes = 0 ;
-	}
-	else
-	{
-		KeyV2StringBytes = CL_strlen( CHARCODEFORMAT_ASCII, KeyString ) ;
-		if( KeyV2StringBytes > DXA_KEYV2STR_LENGTH )
-		{
-			KeyV2StringBytes = DXA_KEYV2STR_LENGTH ;
-		}
-		memcpy( KeyV2String, KeyString, KeyV2StringBytes ) ;
-		KeyV2String[ KeyV2StringBytes ] = '\0' ;
-	}
-
-	// メモリに読み込む
-	{
-		fp = fopen( ArchivePath, "rb" ) ;
-		if( fp == NULL ) return -1 ;
-		_fseeki64( fp, 0L, SEEK_END ) ;
-		ArchiveSize = _ftelli64( fp ) ;
-		_fseeki64( fp, 0L, SEEK_SET ) ;
-		ArchiveImage = malloc( ( size_t )ArchiveSize ) ;
-		if( ArchiveImage == NULL )
-		{
-			fclose( fp ) ;
-			return -1 ;
-		}
-		fread64( ArchiveImage, ArchiveSize, fp ) ;
-		fclose( fp ) ;
-	}
-
-	// 最初にヘッダの部分を反転する
-	memcpy( &this->Head, ArchiveImage, sizeof( DARC_HEAD ) ) ;
-	KeyV2Conv( &this->Head, sizeof( DARC_HEAD ), 0, this->KeyV2 ) ;
-
-	// ＩＤが違う場合はエラー
-	if( Head.Head != DXA_HEAD )
-	{
-		// バージョン６か調べる
-		memcpy( &this->Head, ArchiveImage, sizeof( DARC_HEAD ) ) ;
-		KeyConv( &this->Head, sizeof( DARC_HEAD ), 0, this->Key ) ;
-
-		// ＩＤが違う場合はエラー
-		if( Head.Head != DXA_HEAD )
-			return -1 ;
-	}
-
-	// ポインタを保存
-	this->fp = (FILE *)ArchiveImage ;
-	datp = (u8 *)ArchiveImage ;
-
-	// ヘッダを解析する
-	{
-		datp += sizeof( DARC_HEAD ) ;
-		
-		// バージョン検査
-		if( this->Head.Version > DXA_VER || this->Head.Version < 0x0006 ) goto ERR ;
-
-		// ヘッダパックのアドレスをセットする
-		this->HeadBuffer = (u8 *)this->fp + this->Head.FileNameTableStartAddress ;
-
-		// 各アドレスをセットする
-		if( this->Head.Version >= DXA_KEYV2_VER )
-		{
-			KeyV2Conv( this->HeadBuffer, this->Head.HeadSize, 0, this->KeyV2 ) ;
-		}
-		else
-		{
-			KeyConv( this->HeadBuffer, this->Head.HeadSize, 0, this->Key ) ;
-		}
-		this->NameP = this->HeadBuffer ;
-		this->FileP = this->NameP + this->Head.FileTableStartAddress ;
-		this->DirP = this->NameP + this->Head.DirectoryTableStartAddress ;
-	}
-
-	// カレントディレクトリのセット
-	this->CurrentDirectory = ( DARC_DIRECTORY * )this->DirP ;
-
-	// メモリイメージから開いているフラグを立てる
-	MemoryOpenFlag = true ;
-
-	// 全てのファイルの暗号化を解除する
-	{
-		char KeyV2StringBuffer[ DXA_KEYV2_STRING_MAXLENGTH ] ;
-		DirectoryKeyConv( ( DARC_DIRECTORY * )this->DirP, KeyV2StringBuffer ) ;
-	}
-	
-	// ユーザーのイメージから開いたわけではないのでフラグを倒す
-	UserMemoryImageFlag = false ;
-
-	// サイズも保存しておく
-	MemoryImageSize = ArchiveSize ;
-
-	// 終了
-	return 0 ;
-
-ERR :
-	
-	// 終了
-	return -1 ;
-}
-
 // アーカイブファイルを開く
-int DXArchive::OpenArchiveFile( const char *ArchivePath, const char *KeyString )
+int DXArchive::OpenArchiveFile( const char *ArchivePath, const char *KeyString_ )
 {
 	// 既になんらかのアーカイブを開いていた場合はエラー
 	if( this->fp != NULL ) return -1 ;
@@ -2633,62 +2747,97 @@ int DXArchive::OpenArchiveFile( const char *ArchivePath, const char *KeyString )
 	this->fp = fopen( ArchivePath, "rb" ) ;
 	if( this->fp == NULL ) return -1 ;
 
-	// 鍵文字列の作成
-	KeyCreate( KeyString, this->Key ) ;
-	KeyV2Create( KeyString, this->KeyV2 ) ;
-
-	// 鍵文字列の保存
-	if( KeyString == NULL )
+	// 鍵文字列の保存と鍵の作成
 	{
-		KeyV2String[ 0 ] = '\0' ;
-		KeyV2StringBytes = 0 ;
-	}
-	else
-	{
-		KeyV2StringBytes = CL_strlen( CHARCODEFORMAT_ASCII, KeyString ) ;
-		if( KeyV2StringBytes > DXA_KEYV2STR_LENGTH )
+		// 指定が無い場合はデフォルトの鍵文字列を使用する
+		if( KeyString_ == NULL )
 		{
-			KeyV2StringBytes = DXA_KEYV2STR_LENGTH ;
+			KeyString_ = DefaultKeyString ;
 		}
-		memcpy( KeyV2String, KeyString, KeyV2StringBytes ) ;
-		KeyV2String[ KeyV2StringBytes ] = '\0' ;
+
+		KeyStringBytes = CL_strlen( CHARCODEFORMAT_ASCII, KeyString_ ) ;
+		if( KeyStringBytes > DXA_KEY_STRING_LENGTH )
+		{
+			KeyStringBytes = DXA_KEY_STRING_LENGTH ;
+		}
+		memcpy( KeyString, KeyString_, KeyStringBytes ) ;
+		KeyString[ KeyStringBytes ] = '\0' ;
+
+		// 鍵の作成
+		KeyCreate( KeyString, KeyStringBytes, Key ) ;
 	}
 
 	// ヘッダを解析する
 	{
-		KeyV2ConvFileRead( &this->Head, sizeof( DARC_HEAD ), this->fp, this->KeyV2, 0 ) ;
+		// ヘッダの読み込み
+		fread64( &this->Head, sizeof( DARC_HEAD ), this->fp ) ;
 		
 		// ＩＤの検査
 		if( this->Head.Head != DXA_HEAD )
 		{
-			// バージョン６以前か調べる
-			fseek( this->fp, 0L, SEEK_SET ) ;
-			KeyConvFileRead( &this->Head, sizeof( DARC_HEAD ), this->fp, this->Key, 0 ) ;
-
-			if( this->Head.Head != DXA_HEAD )
-			{
-				goto ERR ;
-			}
+			goto ERR ;
 		}
 		
 		// バージョン検査
-		if( this->Head.Version > DXA_VER || this->Head.Version < 0x0006 ) goto ERR ;
+		if( this->Head.Version > DXA_VER || this->Head.Version < DXA_VER_MIN ) goto ERR ;
+
+		// 鍵処理が行われていないかを取得する
+		this->NoKey = ( Head.Flags & DXA_FLAG_NO_KEY ) != 0 ;
 		
 		// ヘッダのサイズ分のメモリを確保する
 		this->HeadBuffer = ( u8 * )malloc( ( size_t )this->Head.HeadSize ) ;
 		if( this->HeadBuffer == NULL ) goto ERR ;
-		
-		// ヘッダパックをメモリに読み込む
-		_fseeki64( this->fp, this->Head.FileNameTableStartAddress, SEEK_SET ) ;
-		if( this->Head.Version >= DXA_KEYV2_VER )
+
+		// ヘッダが圧縮されている場合は解凍する
+		if( ( Head.Flags & DXA_FLAG_NO_HEAD_PRESS ) != 0 )
 		{
-			KeyV2ConvFileRead( this->HeadBuffer, this->Head.HeadSize, this->fp, this->KeyV2, 0 ) ;
+			// 圧縮されていない場合は普通に読み込む
+			_fseeki64( this->fp, this->Head.FileNameTableStartAddress, SEEK_SET ) ;
+			KeyConvFileRead( HeadBuffer, this->Head.HeadSize, this->fp, this->NoKey ? NULL : this->Key, 0 ) ;
 		}
 		else
 		{
-			KeyConvFileRead( this->HeadBuffer, this->Head.HeadSize, this->fp, this->Key, 0 ) ;
+			void *HuffHeadBuffer ;
+			u64 HuffHeadSize ;
+			void *LzHeadBuffer ;
+			u64 LzHeadSize ;
+			s64 FileSize ;
+
+			// 圧縮されたヘッダの容量を取得する
+			_fseeki64( this->fp, 0, SEEK_END ) ;
+			FileSize = _ftelli64( this->fp ) ;
+			_fseeki64( this->fp, this->Head.FileNameTableStartAddress, SEEK_SET ) ;
+			HuffHeadSize = ( u32 )( FileSize - _ftelli64( this->fp ) ) ;
+
+			// ハフマン圧縮されたヘッダを読み込むメモリを確保する
+			HuffHeadBuffer = malloc( ( size_t )HuffHeadSize ) ;
+			if( HuffHeadBuffer == NULL ) goto ERR ;
+
+			// ハフマン圧縮されたヘッダをメモリに読み込む
+			KeyConvFileRead( HuffHeadBuffer, HuffHeadSize, this->fp, NoKey ? NULL : Key, 0 ) ;
+
+			// ハフマン圧縮されたヘッダの解凍後の容量を取得する
+			LzHeadSize = Huffman_Decode( HuffHeadBuffer, NULL ) ;
+
+			// ハフマン圧縮されたヘッダの解凍後のデータを格納するメモリ用域の確保
+			LzHeadBuffer = malloc( ( size_t )LzHeadSize ) ;
+			if( LzHeadBuffer == NULL )
+			{
+				free( HuffHeadBuffer ) ;
+				goto ERR ;
+			}
+
+			// ハフマン圧縮されたヘッダを解凍する
+			Huffman_Decode( HuffHeadBuffer, LzHeadBuffer ) ;
+
+			// LZ圧縮されたヘッダを解凍する
+			Decode( LzHeadBuffer, this->HeadBuffer ) ;
+
+			// メモリの解放
+			free( HuffHeadBuffer ) ;
+			free( LzHeadBuffer ) ;
 		}
-		
+
 		// 各アドレスをセットする
 		this->NameP = this->HeadBuffer ;
 		this->FileP = this->NameP + this->Head.FileTableStartAddress ;
@@ -2712,6 +2861,298 @@ ERR :
 	return -1 ;
 }
 
+// アーカイブファイルを開き最初にすべてメモリ上に読み込んでから処理する( 0:成功  -1:失敗 )
+int DXArchive::OpenArchiveFileMem( const char *ArchivePath, const char *KeyString_ )
+{
+	FILE *fp ;
+	u8 *datp ;
+	void *ArchiveImage ;
+	s64 ArchiveSize ;
+	void *HuffHeadBuffer = NULL ;
+
+	// 既になんらかのアーカイブを開いていた場合はエラー
+	if( this->fp != NULL ) return -1 ;
+
+	// 鍵文字列の保存と鍵の作成
+	{
+		// 指定が無い場合はデフォルトの鍵文字列を使用する
+		if( KeyString_ == NULL )
+		{
+			KeyString_ = DefaultKeyString ;
+		}
+
+		KeyStringBytes = CL_strlen( CHARCODEFORMAT_ASCII, KeyString_ ) ;
+		if( KeyStringBytes > DXA_KEY_STRING_LENGTH )
+		{
+			KeyStringBytes = DXA_KEY_STRING_LENGTH ;
+		}
+		memcpy( KeyString, KeyString_, KeyStringBytes ) ;
+		KeyString[ KeyStringBytes ] = '\0' ;
+
+		// 鍵の作成
+		KeyCreate( KeyString, KeyStringBytes, Key ) ;
+	}
+
+	// メモリに読み込む
+	{
+		fp = fopen( ArchivePath, "rb" ) ;
+		if( fp == NULL ) return -1 ;
+		_fseeki64( fp, 0L, SEEK_END ) ;
+		ArchiveSize = _ftelli64( fp ) ;
+		_fseeki64( fp, 0L, SEEK_SET ) ;
+		ArchiveImage = malloc( ( size_t )ArchiveSize ) ;
+		if( ArchiveImage == NULL )
+		{
+			fclose( fp ) ;
+			return -1 ;
+		}
+		fread64( ArchiveImage, ArchiveSize, fp ) ;
+		fclose( fp ) ;
+	}
+
+	// ヘッダの部分をコピー
+	memcpy( &this->Head, ArchiveImage, sizeof( DARC_HEAD ) ) ;
+
+	// ＩＤが違う場合はエラー
+	if( Head.Head != DXA_HEAD )
+	{
+		return -1 ;
+	}
+
+	// ポインタを保存
+	this->fp = (FILE *)ArchiveImage ;
+	datp = (u8 *)ArchiveImage ;
+
+	// ヘッダを解析する
+	{
+		datp += sizeof( DARC_HEAD ) ;
+		
+		// バージョン検査
+		if( this->Head.Version > DXA_VER || this->Head.Version < DXA_VER_MIN ) goto ERR ;
+
+		// 鍵処理が行われていないかを取得する
+		this->NoKey = ( Head.Flags & DXA_FLAG_NO_KEY ) != 0 ;
+
+		// ヘッダのサイズ分のメモリを確保する
+		this->HeadBuffer = ( u8 * )malloc( ( size_t )this->Head.HeadSize ) ;
+		if( this->HeadBuffer == NULL ) goto ERR ;
+
+		// ヘッダが圧縮されている場合は解凍する
+		if( ( Head.Flags & DXA_FLAG_NO_HEAD_PRESS ) != 0 )
+		{
+			// 圧縮されていない場合は普通に読み込む
+			memcpy( HeadBuffer, ( u8 * )this->fp + this->Head.FileNameTableStartAddress, this->Head.HeadSize ) ;
+			if( this->NoKey == false ) KeyConv( HeadBuffer, this->Head.HeadSize, 0, this->Key ) ;
+		}
+		else
+		{
+			void *HuffHeadBuffer ;
+			u64 HuffHeadSize ;
+			void *LzHeadBuffer ;
+			u64 LzHeadSize ;
+
+			// ハフマン圧縮されたヘッダの容量を取得する
+			HuffHeadSize = ( u32 )( ( u64 )ArchiveSize - this->Head.FileNameTableStartAddress ) ;
+
+			// ハフマン圧縮されたヘッダを読み込むメモリを確保する
+			HuffHeadBuffer = malloc( ( size_t )HuffHeadSize ) ;
+			if( HuffHeadBuffer == NULL ) goto ERR ;
+
+			// 圧縮されたヘッダをコピーと暗号化解除
+			memcpy( HuffHeadBuffer, ( u8 * )this->fp + this->Head.FileNameTableStartAddress, ( size_t )HuffHeadSize ) ;
+			if( this->NoKey == false ) KeyConv( HuffHeadBuffer, HuffHeadSize, 0, this->Key ) ;
+
+			// ハフマン圧縮されたヘッダの解凍後の容量を取得する
+			LzHeadSize = Huffman_Decode( HuffHeadBuffer, NULL ) ;
+
+			// ハフマン圧縮されたヘッダの解凍後のデータを格納するメモリ用域の確保
+			LzHeadBuffer = malloc( ( size_t )LzHeadSize ) ;
+			if( LzHeadBuffer == NULL )
+			{
+				free( HuffHeadBuffer ) ;
+				goto ERR ;
+			}
+
+			// ハフマン圧縮されたヘッダを解凍する
+			Huffman_Decode( HuffHeadBuffer, LzHeadBuffer ) ;
+
+			// LZ圧縮されたヘッダを解凍する
+			Decode( LzHeadBuffer, this->HeadBuffer ) ;
+
+			// メモリの解放
+			free( HuffHeadBuffer ) ;
+			free( LzHeadBuffer ) ;
+		}
+
+		// 各アドレスをセットする
+		this->NameP = this->HeadBuffer ;
+		this->FileP = this->NameP + this->Head.FileTableStartAddress ;
+		this->DirP = this->NameP + this->Head.DirectoryTableStartAddress ;
+	}
+
+	// カレントディレクトリのセット
+	this->CurrentDirectory = ( DARC_DIRECTORY * )this->DirP ;
+
+	// メモリイメージから開いているフラグを立てる
+	MemoryOpenFlag = true ;
+
+	// 全てのファイルの暗号化を解除する
+	if( this->NoKey == false )
+	{
+		char KeyStringBuffer[ DXA_KEY_STRING_MAXLENGTH ] ;
+		DirectoryKeyConv( ( DARC_DIRECTORY * )this->DirP, KeyStringBuffer ) ;
+	}
+	
+	// ユーザーのイメージから開いたわけではないのでフラグを倒す
+	UserMemoryImageFlag = false ;
+
+	// サイズも保存しておく
+	MemoryImageSize = ArchiveSize ;
+
+	// 終了
+	return 0 ;
+
+ERR :
+	
+	// 終了
+	return -1 ;
+}
+
+// メモリ上にあるアーカイブイメージを開く( 0:成功  -1:失敗 )
+int	DXArchive::OpenArchiveMem( void *ArchiveImage, s64 ArchiveSize, const char *KeyString_ )
+{
+	u8 *datp ;
+
+	// 既になんらかのアーカイブを開いていた場合はエラー
+	if( this->fp != NULL ) return -1 ;
+
+	// 鍵文字列の保存と鍵の作成
+	{
+		// 指定が無い場合はデフォルトの鍵文字列を使用する
+		if( KeyString_ == NULL )
+		{
+			KeyString_ = DefaultKeyString ;
+		}
+
+		KeyStringBytes = CL_strlen( CHARCODEFORMAT_ASCII, KeyString_ ) ;
+		if( KeyStringBytes > DXA_KEY_STRING_LENGTH )
+		{
+			KeyStringBytes = DXA_KEY_STRING_LENGTH ;
+		}
+		memcpy( KeyString, KeyString_, KeyStringBytes ) ;
+		KeyString[ KeyStringBytes ] = '\0' ;
+
+		// 鍵の作成
+		KeyCreate( KeyString, KeyStringBytes, Key ) ;
+	}
+
+	// ヘッダの部分をコピー
+	memcpy( &this->Head, ArchiveImage, sizeof( DARC_HEAD ) ) ;
+
+	// ＩＤが違う場合はエラー
+	if( Head.Head != DXA_HEAD )
+	{
+		goto ERR ;
+	}
+
+	// ポインタを保存
+	this->fp = (FILE *)ArchiveImage ;
+	datp = (u8 *)ArchiveImage ;
+
+	// ヘッダを解析する
+	{
+		datp += sizeof( DARC_HEAD ) ;
+
+		// バージョン検査
+		if( this->Head.Version > DXA_VER || this->Head.Version < DXA_VER_MIN ) goto ERR ;
+
+		// 鍵処理が行われていないかを取得する
+		this->NoKey = ( Head.Flags & DXA_FLAG_NO_KEY ) != 0 ;
+
+		// ヘッダのサイズ分のメモリを確保する
+		this->HeadBuffer = ( u8 * )malloc( ( size_t )this->Head.HeadSize ) ;
+		if( this->HeadBuffer == NULL ) goto ERR ;
+
+		// ヘッダが圧縮されている場合は解凍する
+		if( ( Head.Flags & DXA_FLAG_NO_HEAD_PRESS ) != 0 )
+		{
+			// 圧縮されていない場合は普通に読み込む
+			memcpy( HeadBuffer, ( u8 * )this->fp + this->Head.FileNameTableStartAddress, this->Head.HeadSize ) ;
+			if( this->NoKey == false ) KeyConv( HeadBuffer, this->Head.HeadSize, 0, this->Key ) ;
+		}
+		else
+		{
+			void *HuffHeadBuffer ;
+			u64 HuffHeadSize ;
+			void *LzHeadBuffer ;
+			u64 LzHeadSize ;
+
+			// ハフマン圧縮されたヘッダの容量を取得する
+			HuffHeadSize = ( u32 )( ( u64 )ArchiveSize - this->Head.FileNameTableStartAddress ) ;
+
+			// ハフマン圧縮されたヘッダを読み込むメモリを確保する
+			HuffHeadBuffer = malloc( ( size_t )HuffHeadSize ) ;
+			if( HuffHeadBuffer == NULL ) goto ERR ;
+
+			// ハフマン圧縮されたヘッダをコピーと暗号化解除
+			memcpy( HuffHeadBuffer, ( u8 * )this->fp + this->Head.FileNameTableStartAddress, ( size_t )HuffHeadSize ) ;
+			if( this->NoKey == false ) KeyConv( HuffHeadBuffer, HuffHeadSize, 0, this->Key ) ;
+
+			// ハフマン圧縮されたヘッダの解凍後の容量を取得する
+			LzHeadSize = Huffman_Decode( HuffHeadBuffer, NULL ) ;
+
+			// ハフマン圧縮されたヘッダの解凍後のデータを格納するメモリ用域の確保
+			LzHeadBuffer = malloc( ( size_t )LzHeadSize ) ;
+			if( LzHeadBuffer == NULL )
+			{
+				free( HuffHeadBuffer ) ;
+				goto ERR ;
+			}
+
+			// ハフマン圧縮されたヘッダを解凍する
+			Huffman_Decode( HuffHeadBuffer, LzHeadBuffer ) ;
+
+			// LZ圧縮されたヘッダを解凍する
+			Decode( LzHeadBuffer, this->HeadBuffer ) ;
+
+			// メモリの解放
+			free( HuffHeadBuffer ) ;
+			free( LzHeadBuffer ) ;
+		}
+
+		// 各アドレスをセットする
+		this->NameP = this->HeadBuffer ;
+		this->FileP = this->NameP + this->Head.FileTableStartAddress ;
+		this->DirP = this->NameP + this->Head.DirectoryTableStartAddress ;
+	}
+
+	// カレントディレクトリのセット
+	this->CurrentDirectory = ( DARC_DIRECTORY * )this->DirP ;
+
+	// メモリイメージから開いているフラグを立てる
+	MemoryOpenFlag = true ;
+
+	// 全てのファイルの暗号化を解除する
+	if( this->NoKey == false )
+	{
+		char KeyStringBuffer[ DXA_KEY_STRING_MAXLENGTH ] ;
+		DirectoryKeyConv( ( DARC_DIRECTORY * )this->DirP, KeyStringBuffer ) ;
+	}
+
+	// ユーザーのイメージから開いたフラグを立てる
+	UserMemoryImageFlag = true ;
+
+	// サイズも保存しておく
+	MemoryImageSize = ArchiveSize ;
+
+	// 終了
+	return 0 ;
+
+ERR :
+	// 終了
+	return -1 ;
+}
+
 // アーカイブファイルを閉じる
 int DXArchive::CloseArchiveFile( void )
 {
@@ -2724,16 +3165,11 @@ int DXArchive::CloseArchiveFile( void )
 		// アーカイブクラスが読み込んだ場合とそうでない場合で処理を分岐
 		if( UserMemoryImageFlag == true )
 		{
-			char KeyV2StringBuffer[ DXA_KEYV2_STRING_MAXLENGTH ] ;
-
 			// 反転したデータを元に戻す
-			DirectoryKeyConv( ( DARC_DIRECTORY * )this->DirP, KeyV2StringBuffer ) ;
-			if( this->Head.Version >= DXA_KEYV2_VER )
+			if( this->NoKey == false )
 			{
-				KeyV2Conv( this->HeadBuffer, this->Head.HeadSize, 0, this->KeyV2 ) ;
-			}
-			else
-			{
+				char KeyStringBuffer[ DXA_KEY_STRING_MAXLENGTH ] ;
+				DirectoryKeyConv( ( DARC_DIRECTORY * )this->DirP, KeyStringBuffer ) ;
 				KeyConv( this->HeadBuffer, this->Head.HeadSize, 0, this->Key ) ;
 			}
 		}
@@ -2747,10 +3183,10 @@ int DXArchive::CloseArchiveFile( void )
 	{
 		// アーカイブファイルを閉じる
 		fclose( this->fp ) ;
-		
-		// ヘッダバッファも解放
-		free( this->HeadBuffer ) ;
 	}
+
+	// ヘッダバッファを解放
+	free( this->HeadBuffer ) ;
 
 	// ポインタ初期化
 	this->fp = NULL ;
@@ -2986,10 +3422,11 @@ int DXArchive::GetCurrentDir( char *DirPathBuffer, int BufferLength )
 s64 DXArchive::LoadFileToMem( const char *FilePath, void *Buffer, u64 BufferLength )
 {
 	DARC_FILEHEAD *FileH ;
-	char KeyV2StringBuffer[ DXA_KEYV2_STRING_MAXLENGTH ] ;
-	size_t KeyV2StringBufferBytes ;
-	unsigned char lKeyV2[ DXA_KEYV2_LENGTH ] ;
+	char KeyStringBuffer[ DXA_KEY_STRING_MAXLENGTH ] ;
+	size_t KeyStringBufferBytes ;
+	unsigned char lKey[ DXA_KEY_BYTES ] ;
 	DARC_DIRECTORY *Directory ;
+	void *HuffDataBuffer = NULL ;
 
 	// 指定のファイルの情報を得る
 	FileH = this->GetFileInfo( FilePath, &Directory ) ;
@@ -3008,70 +3445,169 @@ s64 DXArchive::LoadFileToMem( const char *FilePath, void *Buffer, u64 BufferLeng
 	{
 		// 圧縮されている場合
 
-		// メモリ上に読み込んでいるかどうかで処理を分岐
-		if( MemoryOpenFlag == true )
+		// ハフマン圧縮されているかどうかで処理を分岐
+		if( FileH->HuffPressDataSize != 0xffffffffffffffff )
 		{
-			// メモリ上の圧縮データを解凍する
-			Decode( (u8 *)this->fp + this->Head.DataStartAddress + FileH->DataAddress, Buffer ) ;
-		}
-		else
-		{
-			void *temp ;
-
-			// 圧縮データをメモリに読み込んでから解凍する
-
-			// 圧縮データが収まるメモリ領域の確保
-			temp = malloc( ( size_t )FileH->PressDataSize ) ;
-
-			// 圧縮データの読み込み
-			_fseeki64( this->fp, this->Head.DataStartAddress + FileH->DataAddress, SEEK_SET ) ;
-			if( this->Head.Version >= DXA_KEYV2_VER )
+			// メモリ上に読み込んでいるかどうかで処理を分岐
+			if( MemoryOpenFlag == true )
 			{
-				// ファイル個別の鍵を作成
-				KeyV2StringBufferBytes = CreateKeyV2FileString( ( int )this->Head.CharCodeFormat, this->KeyV2String, this->KeyV2StringBytes, Directory, FileH, this->FileP, this->DirP, this->NameP, ( BYTE * )KeyV2StringBuffer ) ;
-				KeyV2Create( KeyV2StringBuffer, lKeyV2 , KeyV2StringBufferBytes ) ;
+				// ハフマン圧縮を解凍したデータを格納するメモリ領域の確保
+				HuffDataBuffer = malloc( ( size_t )FileH->PressDataSize ) ;
+				if( HuffDataBuffer == NULL ) return -1 ;
 
-				KeyV2ConvFileRead( temp, FileH->PressDataSize, this->fp, lKeyV2, FileH->DataSize ) ;
+				// ハフマン圧縮データを解凍
+				Huffman_Decode( (u8 *)this->fp + this->Head.DataStartAddress + FileH->DataAddress, HuffDataBuffer ) ;
+
+				// メモリ上の圧縮データを解凍する
+				Decode( HuffDataBuffer, Buffer ) ;
+
+				// メモリを解放
+				free( HuffDataBuffer ) ;
 			}
 			else
 			{
-				KeyConvFileRead( temp, FileH->PressDataSize, this->fp, this->Key, FileH->DataSize ) ;
+				void *temp ;
+
+				// 圧縮データをメモリに読み込んでから解凍する
+
+				// 圧縮データが収まるメモリ領域の確保
+				temp = malloc( ( size_t )( FileH->PressDataSize + FileH->HuffPressDataSize ) ) ;
+
+				// 圧縮データの読み込み
+				_fseeki64( this->fp, this->Head.DataStartAddress + FileH->DataAddress, SEEK_SET ) ;
+
+				// ファイル個別の鍵を作成
+				if( this->NoKey == false )
+				{
+					KeyStringBufferBytes = CreateKeyFileString( ( int )this->Head.CharCodeFormat, this->KeyString, this->KeyStringBytes, Directory, FileH, this->FileP, this->DirP, this->NameP, ( BYTE * )KeyStringBuffer ) ;
+					KeyCreate( KeyStringBuffer, KeyStringBufferBytes, lKey ) ;
+				}
+
+				// 暗号化解除読み込み
+				KeyConvFileRead( temp, FileH->HuffPressDataSize, this->fp, this->NoKey ? NULL : lKey, FileH->DataSize ) ;
+
+				// ハフマン圧縮データを解凍
+				Huffman_Decode( temp, ( u8 * )temp + FileH->HuffPressDataSize ) ;
+			
+				// 解凍
+				Decode( ( u8 * )temp + FileH->HuffPressDataSize, Buffer ) ;
+			
+				// メモリの解放
+				free( temp ) ;
 			}
+		}
+		else
+		{
+			// メモリ上に読み込んでいるかどうかで処理を分岐
+			if( MemoryOpenFlag == true )
+			{
+				// メモリ上の圧縮データを解凍する
+				Decode( (u8 *)this->fp + this->Head.DataStartAddress + FileH->DataAddress, Buffer ) ;
+			}
+			else
+			{
+				void *temp ;
+
+				// 圧縮データをメモリに読み込んでから解凍する
+
+				// 圧縮データが収まるメモリ領域の確保
+				temp = malloc( ( size_t )FileH->PressDataSize ) ;
+
+				// 圧縮データの読み込み
+				_fseeki64( this->fp, this->Head.DataStartAddress + FileH->DataAddress, SEEK_SET ) ;
+
+				// ファイル個別の鍵を作成
+				if( this->NoKey == false )
+				{
+					KeyStringBufferBytes = CreateKeyFileString( ( int )this->Head.CharCodeFormat, this->KeyString, this->KeyStringBytes, Directory, FileH, this->FileP, this->DirP, this->NameP, ( BYTE * )KeyStringBuffer ) ;
+					KeyCreate( KeyStringBuffer, KeyStringBufferBytes, lKey ) ;
+				}
+
+				KeyConvFileRead( temp, FileH->PressDataSize, this->fp, this->NoKey ? NULL : lKey, FileH->DataSize ) ;
 			
-			// 解凍
-			Decode( temp, Buffer ) ;
+				// 解凍
+				Decode( temp, Buffer ) ;
 			
-			// メモリの解放
-			free( temp ) ;
+				// メモリの解放
+				free( temp ) ;
+			}
 		}
 	}
 	else
 	{
 		// 圧縮されていない場合
 
-		// メモリ上に読み込んでいるかどうかで処理を分岐
-		if( MemoryOpenFlag == true )
+		// ハフマン圧縮されているかどうかで処理を分岐
+		if( FileH->HuffPressDataSize != 0xffffffffffffffff )
 		{
-			// コピー
-			memcpy( Buffer, (u8 *)this->fp + this->Head.DataStartAddress + FileH->DataAddress, ( size_t )FileH->DataSize ) ;
-		}
-		else
-		{
-			// ファイルポインタを移動
-			_fseeki64( this->fp, this->Head.DataStartAddress + FileH->DataAddress, SEEK_SET ) ;
-
-			// 読み込み
-			if( this->Head.Version >= DXA_KEYV2_VER )
+			// メモリ上に読み込んでいるかどうかで処理を分岐
+			if( MemoryOpenFlag == true )
 			{
-				// ファイル個別の鍵を作成
-				KeyV2StringBufferBytes = CreateKeyV2FileString( ( int )this->Head.CharCodeFormat, this->KeyV2String, this->KeyV2StringBytes, Directory, FileH, this->FileP, this->DirP, this->NameP, ( BYTE * )KeyV2StringBuffer ) ;
-				KeyV2Create( KeyV2StringBuffer, lKeyV2 , KeyV2StringBufferBytes ) ;
+				// ハフマン圧縮を解凍したデータを格納するメモリ領域の確保
+				HuffDataBuffer = malloc( ( size_t )FileH->PressDataSize ) ;
+				if( HuffDataBuffer == NULL ) return -1 ;
 
-				KeyV2ConvFileRead( Buffer, FileH->DataSize, this->fp, lKeyV2, FileH->DataSize ) ;
+				// ハフマン圧縮データを解凍
+				Huffman_Decode( (u8 *)this->fp + this->Head.DataStartAddress + FileH->DataAddress, HuffDataBuffer ) ;
+
+				// コピー
+				memcpy( Buffer, HuffDataBuffer, ( size_t )FileH->DataSize ) ;
+
+				// メモリを解放
+				free( HuffDataBuffer ) ;
 			}
 			else
 			{
-				KeyConvFileRead( Buffer, FileH->DataSize, this->fp, this->Key, FileH->DataSize ) ;
+				void *temp ;
+
+				// 圧縮データをメモリに読み込んでから解凍する
+
+				// ハフマン圧縮データが収まるメモリ領域の確保
+				temp = malloc( ( size_t )FileH->HuffPressDataSize ) ;
+
+				// 圧縮データの読み込み
+				_fseeki64( this->fp, this->Head.DataStartAddress + FileH->DataAddress, SEEK_SET ) ;
+
+				// ファイル個別の鍵を作成
+				if( this->NoKey == false )
+				{
+					KeyStringBufferBytes = CreateKeyFileString( ( int )this->Head.CharCodeFormat, this->KeyString, this->KeyStringBytes, Directory, FileH, this->FileP, this->DirP, this->NameP, ( BYTE * )KeyStringBuffer ) ;
+					KeyCreate( KeyStringBuffer, KeyStringBufferBytes, lKey ) ;
+				}
+
+				// 暗号化解除読み込み
+				KeyConvFileRead( temp, FileH->HuffPressDataSize, this->fp, this->NoKey ? NULL : lKey, FileH->DataSize ) ;
+
+				// ハフマン圧縮データを解凍
+				Huffman_Decode( temp, Buffer ) ;
+			
+				// メモリの解放
+				free( temp ) ;
+			}
+		}
+		else
+		{
+			// メモリ上に読み込んでいるかどうかで処理を分岐
+			if( MemoryOpenFlag == true )
+			{
+				// コピー
+				memcpy( Buffer, (u8 *)this->fp + this->Head.DataStartAddress + FileH->DataAddress, ( size_t )FileH->DataSize ) ;
+			}
+			else
+			{
+				// ファイルポインタを移動
+				_fseeki64( this->fp, this->Head.DataStartAddress + FileH->DataAddress, SEEK_SET ) ;
+
+				// 読み込み
+
+				// ファイル個別の鍵を作成
+				if( this->NoKey == false )
+				{
+					KeyStringBufferBytes = CreateKeyFileString( ( int )this->Head.CharCodeFormat, this->KeyString, this->KeyStringBytes, Directory, FileH, this->FileP, this->DirP, this->NameP, ( BYTE * )KeyStringBuffer ) ;
+					KeyCreate( KeyStringBuffer, KeyStringBufferBytes, lKey ) ;
+				}
+
+				KeyConvFileRead( Buffer, FileH->DataSize, this->fp, this->NoKey ? NULL : lKey, FileH->DataSize ) ;
 			}
 		}
 	}
@@ -3115,7 +3651,7 @@ int DXArchive::GetFileInfo( const char *FilePath, u64 *PositionP, u64 *SizeP )
 }
 
 // アーカイブファイル中の指定のファイルを、クラス内のバッファに読み込む
-void *DXArchive::LoadFileToCash( const char *FilePath )
+void *DXArchive::LoadFileToCache( const char *FilePath )
 {
 	s64 FileSize ;
 
@@ -3126,37 +3662,37 @@ void *DXArchive::LoadFileToCash( const char *FilePath )
 	if( FileSize < 0 ) return NULL ;
 
 	// 確保しているキャッシュバッファのサイズよりも大きい場合はバッファを再確保する
-	if( FileSize > ( s64 )this->CashBufferSize )
+	if( FileSize > ( s64 )this->CacheBufferSize )
 	{
 		// キャッシュバッファのクリア
-		this->ClearCash() ;
+		this->ClearCache() ;
 
 		// キャッシュバッファの再確保
-		this->CashBuffer = malloc( ( size_t )FileSize ) ;
+		this->CacheBuffer = malloc( ( size_t )FileSize ) ;
 
 		// 確保に失敗した場合は NULL を返す
-		if( this->CashBuffer == NULL ) return NULL ;
+		if( this->CacheBuffer == NULL ) return NULL ;
 
 		// キャッシュバッファのサイズを保存
-		this->CashBufferSize = FileSize ;
+		this->CacheBufferSize = FileSize ;
 	}
 
 	// ファイルをメモリに読み込む
-	this->LoadFileToMem( FilePath, this->CashBuffer, FileSize ) ;
+	this->LoadFileToMem( FilePath, this->CacheBuffer, FileSize ) ;
 
 	// キャッシュバッファのアドレスを返す
-	return this->CashBuffer ;
+	return this->CacheBuffer ;
 }
 
 // キャッシュバッファを開放する
-int DXArchive::ClearCash( void )
+int DXArchive::ClearCache( void )
 {
 	// メモリが確保されていたら解放する
-	if( this->CashBuffer != NULL )
+	if( this->CacheBuffer != NULL )
 	{
-		free( this->CashBuffer ) ;
-		this->CashBuffer = NULL ;
-		this->CashBufferSize = 0 ;
+		free( this->CacheBuffer ) ;
+		this->CacheBuffer = NULL ;
+		this->CacheBufferSize = 0 ;
 	}
 
 	// 終了
@@ -3200,57 +3736,98 @@ DXArchiveFile *DXArchive::OpenFile( const char *FilePath )
 // コンストラクタ
 DXArchiveFile::DXArchiveFile( DARC_FILEHEAD *FileHead, DARC_DIRECTORY *Directory, DXArchive *Archive )
 {
+	void *temp ;
+
 	this->FileData  = FileHead ;
 	this->Archive   = Archive ;
 	this->EOFFlag   = FALSE ;
 	this->FilePoint = 0 ;
 	this->DataBuffer = NULL ;
 
-	// バージョン７以降の場合は鍵バージョン２を作成する
-	if( this->Archive->GetHeader()->Version >= DXA_KEYV2_VER )
+	// 鍵を作成する
+	if( this->Archive->GetNoKey() == false )
 	{
-		char KeyV2StringBuffer[ DXA_KEYV2_STRING_MAXLENGTH ] ;
-		size_t KeyV2StringBufferBytes ;
+		char KeyStringBuffer[ DXA_KEY_STRING_MAXLENGTH ] ;
+		size_t KeyStringBufferBytes ;
 
-		KeyV2StringBufferBytes = DXArchive::CreateKeyV2FileString(
+		KeyStringBufferBytes = DXArchive::CreateKeyFileString(
 			( int )this->Archive->GetHeader()->CharCodeFormat,
-			this->Archive->GetKeyV2String(),
-			this->Archive->GetKeyV2StringBytes(),
+			this->Archive->GetKeyString(),
+			this->Archive->GetKeyStringBytes(),
 			Directory,
 			FileHead,
 			this->Archive->GetFileHeadTable(),
 			this->Archive->GetDirectoryTable(),
 			this->Archive->GetNameTable(),
-			( BYTE * )KeyV2StringBuffer
+			( BYTE * )KeyStringBuffer
 		) ;
-		DXArchive::KeyV2Create( KeyV2StringBuffer, KeyV2 , KeyV2StringBufferBytes ) ;
+		DXArchive::KeyCreate( KeyStringBuffer, KeyStringBufferBytes, Key ) ;
+	}
+
+	// ファイルが圧縮されている場合は解凍データが収まるメモリ領域の確保
+	if( FileHead->PressDataSize     != 0xffffffffffffffff ||
+		FileHead->HuffPressDataSize != 0xffffffffffffffff )
+	{
+		// 解凍データが収まるメモリ領域の確保
+		this->DataBuffer = malloc( ( size_t )FileHead->DataSize ) ;
 	}
 	
 	// ファイルが圧縮されている場合はここで読み込んで解凍してしまう
 	if( FileHead->PressDataSize != 0xffffffffffffffff )
 	{
-		void *temp ;
-
-		// 圧縮データが収まるメモリ領域の確保
-		temp = malloc( ( size_t )FileHead->PressDataSize ) ;
-
-		// 解凍データが収まるメモリ領域の確保
-		this->DataBuffer = malloc( ( size_t )FileHead->DataSize ) ;
-
-		// 圧縮データの読み込み
-		_fseeki64( this->Archive->GetFilePointer(), this->Archive->GetHeader()->DataStartAddress + FileHead->DataAddress, SEEK_SET ) ;
-		if( this->Archive->GetHeader()->Version >= DXA_KEYV2_VER )
+		// ハフマン圧縮もされているかどうかで処理を分岐
+		if( FileHead->HuffPressDataSize != 0xffffffffffffffff )
 		{
-			DXArchive::KeyV2ConvFileRead( temp, FileHead->PressDataSize, this->Archive->GetFilePointer(), KeyV2, FileHead->DataSize ) ;
+			// 圧縮データが収まるメモリ領域の確保
+			temp = malloc( ( size_t )( FileHead->PressDataSize + FileHead->HuffPressDataSize ) ) ;
+
+			// 圧縮データの読み込み
+			_fseeki64( this->Archive->GetFilePointer(), this->Archive->GetHeader()->DataStartAddress + FileHead->DataAddress, SEEK_SET ) ;
+
+			// 鍵解除読み込み
+			DXArchive::KeyConvFileRead( temp, FileHead->HuffPressDataSize, this->Archive->GetFilePointer(), this->Archive->GetNoKey() ? NULL : Key, FileHead->DataSize ) ;
+
+			// ハフマン圧縮データを解凍
+			Huffman_Decode( temp, ( u8 * )temp + FileHead->HuffPressDataSize ) ;
+		
+			// 解凍
+			DXArchive::Decode( ( u8 * )temp + FileHead->HuffPressDataSize, this->DataBuffer ) ;
+
+			// メモリの解放
+			free( temp ) ;
 		}
 		else
 		{
-			DXArchive::KeyConvFileRead( temp, FileHead->PressDataSize, this->Archive->GetFilePointer(), this->Archive->GetKey(), FileHead->DataSize ) ;
+			// 圧縮データが収まるメモリ領域の確保
+			temp = malloc( ( size_t )FileHead->PressDataSize ) ;
+
+			// 圧縮データの読み込み
+			_fseeki64( this->Archive->GetFilePointer(), this->Archive->GetHeader()->DataStartAddress + FileHead->DataAddress, SEEK_SET ) ;
+			DXArchive::KeyConvFileRead( temp, FileHead->PressDataSize, this->Archive->GetFilePointer(), this->Archive->GetNoKey() ? NULL : Key, FileHead->DataSize ) ;
+		
+			// 解凍
+			DXArchive::Decode( temp, this->DataBuffer ) ;
+
+			// メモリの解放
+			free( temp ) ;
 		}
-		
-		// 解凍
-		DXArchive::Decode( temp, this->DataBuffer ) ;
-		
+	}
+	else
+	// ハフマン圧縮だけされているかどうかで処理を分岐
+	if( FileHead->HuffPressDataSize != 0xffffffffffffffff )
+	{
+		// 圧縮データが収まるメモリ領域の確保
+		temp = malloc( ( size_t )FileHead->HuffPressDataSize ) ;
+
+		// 圧縮データの読み込み
+		_fseeki64( this->Archive->GetFilePointer(), this->Archive->GetHeader()->DataStartAddress + FileHead->DataAddress, SEEK_SET ) ;
+
+		// 暗号化解除読み込み
+		DXArchive::KeyConvFileRead( temp, FileHead->HuffPressDataSize, this->Archive->GetFilePointer(), this->Archive->GetNoKey() ? NULL : Key, FileHead->DataSize ) ;
+
+		// ハフマン圧縮データを解凍
+		Huffman_Decode( temp, this->DataBuffer ) ;
+
 		// メモリの解放
 		free( temp ) ;
 	}
@@ -3295,14 +3872,7 @@ s64 DXArchiveFile::Read( void *Buffer, s64 ReadLength )
 	// データを読み込む
 	if( this->DataBuffer == NULL )
 	{
-		if( this->Archive->GetHeader()->Version >= DXA_KEYV2_VER )
-		{
-			DXArchive::KeyV2ConvFileRead( Buffer, ReadSize, this->Archive->GetFilePointer(), KeyV2, this->FileData->DataSize + this->FilePoint ) ;
-		}
-		else
-		{
-			DXArchive::KeyConvFileRead( Buffer, ReadSize, this->Archive->GetFilePointer(), this->Archive->GetKey(), this->FileData->DataSize + this->FilePoint ) ;
-		}
+		DXArchive::KeyConvFileRead( Buffer, ReadSize, this->Archive->GetFilePointer(), this->Archive->GetNoKey() ? NULL : Key, this->FileData->DataSize + this->FilePoint ) ;
 	}
 	else
 	{

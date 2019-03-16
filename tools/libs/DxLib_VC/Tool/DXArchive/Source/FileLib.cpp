@@ -463,31 +463,32 @@ extern unsigned int Char128ToBin( void *Src, void *Dest )
 }
 
 // ファイルの内容をメモリに読み込む( 0:成功  -1:失敗 )
-extern int LoadFileMem( const char *Path, void **DataBuf, int *Size )
+extern int LoadFileMem( const char *Path, void **DataBuf, size_t *Size )
 {
 	FILE *fp = NULL ;
 	void *buf = NULL ;
-	int size ;
+	__int64 size ;
 
 	fp = fopen( Path, "rb" ) ;
 	if( fp == NULL ) goto ERR ;
 
 	// サイズを得る
 	fseek( fp, 0L, SEEK_END ) ;
-	size = ftell( fp ) ;
+	size = _ftelli64( fp ) ;
+	if( size == 0 ) goto ERR ;
 	fseek( fp, 0L, SEEK_SET ) ;
 
 	// メモリの確保
-	buf = malloc( size ) ;
+	buf = malloc( ( size_t )size ) ;
 	if( buf == NULL ) goto ERR ;
 
 	// 読み込み
-	fread( buf, size, 1, fp ) ;
+	fread( buf, ( size_t )size, 1, fp ) ;
 	fclose( fp ) ;
 
 	// セット
 	if( DataBuf != NULL ) *DataBuf = buf ;
-	if( Size != NULL ) *Size = size ;
+	if( Size != NULL ) *Size = ( size_t )size ;
 
 	// 終了
 	return 0 ;
@@ -500,33 +501,35 @@ ERR :
 }
 
 // ファイルの内容をメモリに読み込む( 0:成功  -1:失敗 )
-extern int LoadFileMem( const char *Path, void *DataBuf, int *Size )
+extern int LoadFileMem( const char *Path, void *DataBuf, size_t *Size )
 {
 	FILE *fp = NULL ;
-	int size ;
+	__int64 size ;
 
 	fp = fopen( Path, "rb" ) ;
 	if( fp == NULL ) return -1;
 
 	// サイズを得る
 	fseek( fp, 0L, SEEK_END ) ;
-	size = ftell( fp ) ;
+	size = _ftelli64( fp ) ;
 	fseek( fp, 0L, SEEK_SET ) ;
 
 	// 読み込み
 	if( DataBuf )
-		fread( DataBuf, size, 1, fp ) ;
+	{
+		fread( DataBuf, ( size_t )size, 1, fp ) ;
+	}
 	fclose( fp ) ;
 
 	// セット
-	if( Size != NULL ) *Size = size ;
+	if( Size != NULL ) *Size = ( size_t )size ;
 
 	// 終了
 	return 0 ;
 }
 
 // メモリの内容をファイルに書き出す 
-extern int SaveFileMem( const char *Path, void *Data, int Size )
+extern int SaveFileMem( const char *Path, void *Data, size_t Size )
 {
 	FILE *fp ;
 
@@ -1188,7 +1191,7 @@ extern int GetExName( const char *Path, char *ExNameBuf )
 }
 
 // 拡張子を変更する
-extern int SetExName( const char *Path, char *ExName, char *DestBuf )
+extern int SetExName( const char *Path, const char *ExName, char *DestBuf )
 {
 	char *p ;
 	char tempstr[256] ;

@@ -56,9 +56,9 @@ extern void EasyEncodeFileRead( void *Data, int Size, FILE *fp ) ;			// ƒf[ƒ^‚ğ
 extern unsigned int BinToChar128( void *Src, unsigned int SrcSize, void *Dest ) ;	// ƒoƒCƒiƒŠƒf[ƒ^‚ğ”¼Šp•¶š—ñ‚É•ÏŠ·‚·‚é( –ß‚è’l:•ÏŠ·Œã‚Ìƒf[ƒ^ƒTƒCƒY )
 extern unsigned int Char128ToBin( void *Src, void *Dest ) ;							// ”¼Šp•¶š—ñ‚ğƒoƒCƒiƒŠƒf[ƒ^‚É•ÏŠ·‚·‚é( –ß‚è’l:•ÏŠ·Œã‚Ìƒf[ƒ^ƒTƒCƒY )
 
-extern int LoadFileMem( const char *Path, void **DataBuf, int *Size ) ;		// ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğƒƒ‚ƒŠ‚É“Ç‚İ‚Ş( 0:¬Œ÷  -1:¸”s )
-extern int LoadFileMem( const char *Path, void *DataBuf, int *Size ) ;		// ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğƒƒ‚ƒŠ‚É“Ç‚İ‚Ş( 0:¬Œ÷  -1:¸”s )
-extern int SaveFileMem( const char *Path, void *Data,   int Size ) ;		// ƒƒ‚ƒŠ‚Ì“à—e‚ğƒtƒ@ƒCƒ‹‚É‘‚«o‚· 
+extern int LoadFileMem( const char *Path, void **DataBuf, size_t *Size ) ;		// ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğƒƒ‚ƒŠ‚É“Ç‚İ‚Ş( 0:¬Œ÷  -1:¸”s )
+extern int LoadFileMem( const char *Path, void *DataBuf,  size_t *Size ) ;		// ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğƒƒ‚ƒŠ‚É“Ç‚İ‚Ş( 0:¬Œ÷  -1:¸”s )
+extern int SaveFileMem( const char *Path, void *Data,     size_t  Size ) ;		// ƒƒ‚ƒŠ‚Ì“à—e‚ğƒtƒ@ƒCƒ‹‚É‘‚«o‚· 
 
 // w’è‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚éA’†ŠÔ‚ÌƒfƒBƒŒƒNƒgƒŠ‚à‘¶İ‚µ‚È‚¢ê‡‚Íì¬‚·‚é
 // ÅŒã”ö‚É '\' ‚ª‚ ‚Á‚Ä‚à–³‹‚·‚é
@@ -118,8 +118,8 @@ extern void SetEnMark( char *PathBuf ) ;			// Œê”ö‚Éw\x‚ª‚Â‚¢‚Ä‚¢‚È‚¢ê‡‚Í•t‚
 extern void SetChr( char *PathBuf, char chr ) ;		// Œê”ö‚Éw’è‚Ì•¶š‚ª‚È‚¢ê‡‚Í‚Â‚¯‚é
 extern void DelChr( char *PathBuf, char chr ) ;		// Œê”ö‚Éw’è‚Ì•¶š‚ª‚ ‚éê‡‚Ííœ‚·‚é
 
-extern int GetExName( const char *Path, char *ExNameBuf ) ;				// Šg’£q‚ğ“¾‚é
-extern int SetExName( const char *Path, char *ExName, char *DestBuf ) ;	// Šg’£q‚ğ•ÏX‚·‚é
+extern int GetExName( const char *Path, char *ExNameBuf ) ;						// Šg’£q‚ğ“¾‚é
+extern int SetExName( const char *Path, const char *ExName, char *DestBuf ) ;	// Šg’£q‚ğ•ÏX‚·‚é
 
 extern int CheckTextData( void *buffer, int size ) ;		// ƒeƒLƒXƒgƒf[ƒ^‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é( 1:ƒeƒLƒXƒgƒf[ƒ^  0:ƒoƒCƒiƒŠƒf[ƒ^ )
 extern int CheckTextFile( const char *Path ) ;				// ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é( 1:ƒeƒLƒXƒgƒf[ƒ^  0:ƒoƒCƒiƒŠƒf[ƒ^ )
