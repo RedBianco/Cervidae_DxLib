@@ -1,6 +1,7 @@
 #pragma once
 
 #include "dxLibDebugConfig.h"
+#include "../../../Common/CervidaeLib/Template/tSingleton.h"
 
 //=================================================================================//
 //  dxLibDebug.h
@@ -33,9 +34,15 @@ namespace AppLib
 		void	(*appDebRenderFunc)();	// 指定のデバッグモードを開始した時の描画関数
 	};
 
-	// SingletonClass
-	class DebugModeOperat
+	/*
+	 * SingletonClass
+	 */
+	class DebugModeOperat : public Singleton<DebugModeOperat>
 	{
+		// DebugModeOperatのインスタンスを生成する時に、コンストラクタが呼べなかった為friend指定
+		// シングルトンのテンプレート引数に自身を指定したものだけに生成をゆるす
+		friend class Singleton<DebugModeOperat>;	// Singleton でのインスタンス作成は許可
+
 	private:
 
 		// デバッグモード
@@ -44,7 +51,7 @@ namespace AppLib
 		int			m_debMenuSelIndex_;
 		// 描画用フラグ
 		int			m_debDrawEnable_;
-
+		// 各デバッグメニュー毎のデータ
 		std::vector<DebugMenuData>	m_datDebMenu;
 		
 	public:
@@ -62,22 +69,39 @@ namespace AppLib
 		// 指定のデバッグモードを開始した時の描画処理関数セット
 		int		debugModeRenderProcSet( const int setMode, const char * szName, void(*pRenderFunc)() );
 		
-		// 
+		// アップデート
 		int		debugAppUpdate();
 	
 		// printfDx で表示した簡易画面出力履歴をクリアする
 		void	debugDxPrintfLogClear();
 
 	public:
-		// インスタンスの作成、取得
-		static DebugModeOperat * getInstance();
-
-	private:
-		static DebugModeOperat * s_pInstance;
-		// 隠しコンストラクタ
-		DebugModeOperat(){
-		}
+		// コンストラクタ部分をpublicにしてしまうと、AppParameter  container; でインスタンスつくれてしまう
+		// 「そのクラスのインスタンスが1つしか生成されないことを保証することができる」
+		// と言うのに反するのでprivateにする必要がある。
+		DebugModeOperat() {					// 外部でのインスタンス作成は禁止
+			m_debMode_ = 0;
+			m_debMenuSelIndex_ = 0;
+			m_debDrawEnable_ = 0;
+		};
+	//	virtual ~DebugModeOperat();
 	};
+
+	class DebugModeMenu
+	{
+	public:
+		DebugModeMenu();
+		~DebugModeMenu();
+
+	public:
+	};
+
+	/* @brief アクセスインターフェース
+	*/
+	inline DebugModeOperat* getDebugOperatPtr(void)
+	{
+		return Singleton<DebugModeOperat>::getSingletonPtr();
+	}
 }
 
 

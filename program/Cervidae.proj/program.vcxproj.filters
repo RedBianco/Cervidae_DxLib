@@ -58,6 +58,9 @@
     <Filter Include="Cervidae\Classes\Libs\DxLib\Debug">
       <UniqueIdentifier>{6af64b1a-26cb-4d5b-8b61-4ce11f3e1372}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\Libs\DxLib\Sound">
+      <UniqueIdentifier>{a8ce28d9-9b5c-4224-937e-2453047471f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
@@ -116,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebugLog.cpp">
       <Filter>Cervidae\Classes\Libs\DxLib\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Template\tSingleton.cpp">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Template</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +205,15 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebugLog.h">
       <Filter>Cervidae\Classes\Libs\DxLib\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Template\tSingleton.h">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundManageConfig.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

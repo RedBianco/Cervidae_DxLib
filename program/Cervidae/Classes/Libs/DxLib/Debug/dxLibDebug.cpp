@@ -35,21 +35,6 @@ AppLib::DebugMenuData::~DebugMenuData()
 }
 
 
-AppLib::DebugModeOperat* AppLib::DebugModeOperat::s_pInstance;
-
-// Instance Make
-AppLib::DebugModeOperat* AppLib::DebugModeOperat::getInstance()
-{
-	if( !s_pInstance )
-	{
-		s_pInstance = new AppLib::DebugModeOperat();
-		if( s_pInstance ){
-			s_pInstance->debugParamInitialize();
-		}
-	}
-	return s_pInstance;
-};
-
 bool	AppLib::DebugModeOperat::debugParamInitialize()
 {
 	m_debMode_ = 0;
