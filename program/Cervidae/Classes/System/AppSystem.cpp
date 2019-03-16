@@ -6,6 +6,7 @@
 #include "../Libs/DxLib/Initialize/dxLibSetup.h"
 #include "../Libs/Effekseer/appEffekseer.h"
 #include "AppSystem.h"
+#include "AppSetting.h"
 #include "../Libs/DxLib/dxLibDefine.h"
 #include "../Libs/DxLib/Debug/dxLibDebug.h"
 
@@ -13,6 +14,10 @@
 //  AppSystem.cpp
 //  Created by on 2018/11/06.
 //======================================================================//
+
+using SDebugOperat = Singleton<AppLib::DebugModeOperat>;
+using SAppParameter = Singleton<AppParameter>;
+
 
 /// <image url="D:\Program\Project\Develop\cervidae_lib\resources\comment\MkYg.jpg" scale="0.3" />
 
@@ -54,7 +59,7 @@ bool	AppSystem::appSystemMain()
 	}
 
 
-	appSystemTerminate();
+	appSystemShutdown();
 
 	return true;
 }
@@ -84,7 +89,7 @@ bool	AppSystem::appSystemStartSetup()
 	{
 		return false;
 	}
-	DEBUG_PRINT("[AppSystem] DxLib_Init() CLEAR\n");
+	DEBUG_PRINT("[Process] DxLib_Init() CLEAR\n");
 
 	result = dxLib_InitAfterSetup();
 	if( result ){
@@ -93,7 +98,7 @@ bool	AppSystem::appSystemStartSetup()
 		if( result ) {
 		}
 	}
-
+	DEBUG_PRINT("[Process] AppSystem::appSystemStartSetup() CLEAR\n");
 	return true;
 }
 
@@ -101,11 +106,10 @@ bool	AppSystem::appSystemStartSetup()
 int		AppSystem::appSystemInitialize()
 {
 	auto isDone = appSystemStartSetup();
-	if( !isDone){ return false; }
+	if( !isDone ){ return false; }
 	// DxLib前、後処理が全て終わった
-	// Lua File Loading
-	DEBUG_PRINT("[AppSystem] appSystemStartSetup() CLEAR\n");
 
+	// Lua File Loading
 
 
 #if PROJECT_DEBUG
@@ -114,11 +118,12 @@ int		AppSystem::appSystemInitialize()
 	if( !isDone ){ return false; }
 #endif
 
+	DEBUG_PRINT("[Process] AppSystem::appSystemInitialize() CLEAR\n");
 	// 初期化成功
 	return true;
 }
 // Application終了処理
-void	AppSystem::appSystemTerminate()
+void	AppSystem::appSystemShutdown()
 {
 
 
@@ -147,7 +152,8 @@ bool	AppSystem::appSystemUpdate()
 		}
 
 #if PROJECT_DEBUG
-		AppLib::DebugModeOperat::getInstance()->debugAppUpdate();
+		// DEBUG
+		AppLib::getDebugOperatPtr()->debugAppUpdate();
 #endif
 
 		if( isExitApp() ) {
@@ -194,13 +200,16 @@ void	AppSystem::appSystemRenderUpdate()
 	dxCommon_FramerateDisp( getDispFrameCount() );
 }
 
-
+// DxLibInitのコール前に行っておく処理
 bool	AppSystem::appSystemDxBeforeProcess()
 {
 	return true;
 }
 bool	AppSystem::appSystemDxAfterProcess()
 {
+	auto result = getAppContainerPtr()->settingBaseInfo();
+	if( !result ){ return false; }
+
 	#if( defined( MIDDLEWARE_EFFEKSEER_USE_ENABLE ))
 	//------------------------------------------------------
 	// Effekseer関係初期化処理
@@ -208,7 +217,7 @@ bool	AppSystem::appSystemDxAfterProcess()
 	App::EffekseerLib::libSystemInit();
 	#endif
 
-	DEBUG_PRINT("[AppSystem] appSystemDxAfterProcess() CLEAR\n");
+	DEBUG_PRINT("[Process] AppSystem::appSystemDxAfterProcess() CLEAR\n");
 
 	return true;
 }
@@ -216,18 +225,18 @@ bool	AppSystem::appSystemDxAfterProcess()
 bool	AppSystem::appSystemDebugSetting()
 {
 	#if PROJECT_DEBUG
-	AppLib::DebugModeOperat::getInstance()->debugMenuNameSet(
+	AppLib::getDebugOperatPtr()->debugMenuNameSet(
 					DxLib::DebugConfig::eDEBUG_TYPE_MAIN, "MAIN_MENU" );
-	AppLib::DebugModeOperat::getInstance()->debugModeStartProcSet(
+	AppLib::getDebugOperatPtr()->debugModeStartProcSet(
 					DxLib::DebugConfig::eDEBUG_TYPE_MAIN, "MAIN_MENU", &appSystemDebugStart );
-	AppLib::DebugModeOperat::getInstance()->debugModeEndProcSet(
+	AppLib::getDebugOperatPtr()->debugModeEndProcSet(
 					DxLib::DebugConfig::eDEBUG_TYPE_MAIN, "MAIN_MENU", &appSystemDebugEnd );
-	AppLib::DebugModeOperat::getInstance()->debugModeMainProcSet(
+	AppLib::getDebugOperatPtr()->debugModeMainProcSet(
 					DxLib::DebugConfig::eDEBUG_TYPE_MAIN, "MAIN_MENU", &appSystemDebugMain );
-	AppLib::DebugModeOperat::getInstance()->debugModeRenderProcSet(
+	AppLib::getDebugOperatPtr()->debugModeRenderProcSet(
 					DxLib::DebugConfig::eDEBUG_TYPE_MAIN, "MAIN_MENU", &appSystemRenderEnd );
 
-	DEBUG_PRINT("[AppSystem] appSystemDebugSetting() CLEAR\n");
+	DEBUG_PRINT("[Process] AppSystem::appSystemDebugSetting() CLEAR\n");
 
 	return true;
 	#else

@@ -14,7 +14,7 @@ namespace DxInput
 		// 日本語文字セット
 		const static int			CHARSET_TYPE_DEFAULT		= DX_CHARSET_DEFAULT;
 		const static int			CHARSET_TYPE_SHFTJIS		= DX_CHARSET_SHFTJIS;		// シフトJIS
-		const static int			CHARSET_TYPE_UTF8			= DX_CHARSET_UTF8;
+		const static int			CHARSET_TYPE_UTF8			= DX_CHARSET_UTF8;			// UTF-8
 		//	キー同時押し可能最大数
 		const static int			SAMEINPUT_MAX				= ( 4 );
 		//	ジョイパッドの最大数

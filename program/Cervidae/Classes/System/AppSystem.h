@@ -42,7 +42,7 @@ private:
 	void		appSystemClean();
 	bool		appSystemStartSetup();
 	int			appSystemInitialize();				// Application‹N“®‚Ì‰Šú‰»ˆ—
-	void		appSystemTerminate();
+	void		appSystemShutdown();
 	bool		appSystemUpdate();
 	void		appSystemRenderUpdate();
 

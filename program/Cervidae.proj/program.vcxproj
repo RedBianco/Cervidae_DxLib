@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Template\tSingleton.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityForOperat.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveLine.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebug.cpp" />
@@ -145,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\CLAssert.h" />
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Template\tSingleton.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityForOperat.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveCalculat.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveLine.h" />
@@ -157,6 +159,8 @@
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibSetup.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibInputConfig.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundManageConfig.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerData.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.h" />
