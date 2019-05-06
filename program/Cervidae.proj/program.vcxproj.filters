@@ -61,6 +61,9 @@
     <Filter Include="Cervidae\Classes\Libs\DxLib\Sound">
       <UniqueIdentifier>{a8ce28d9-9b5c-4224-937e-2453047471f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\Game">
+      <UniqueIdentifier>{ad3bca0b-1eaf-4320-a560-203ba7df2dc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
@@ -122,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Template\tSingleton.cpp">
       <Filter>Cervidae\Classes\Common\CervidaeLib\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

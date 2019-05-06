@@ -19,6 +19,7 @@
 #include <direct.h>				// ファイル操作
 #include <complex.h>			// 複素数計算を行うための関数
 #include <iosfwd>
+#include <conio.h>
 
 #include "CervidaeLib/CLAssert.h"
 
