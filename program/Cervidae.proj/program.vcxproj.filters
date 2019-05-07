@@ -129,6 +129,15 @@
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.cpp">
       <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundBGMManager.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundVoiceManager.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundMovieManager.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.h">
@@ -219,6 +228,15 @@
       <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundBGMManager.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundVoiceManager.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundMovieManager.h">
       <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
     </ClInclude>
   </ItemGroup>

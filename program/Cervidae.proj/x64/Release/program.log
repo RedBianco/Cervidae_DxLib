@@ -7,6 +7,10 @@
   dxLibInit.cpp
   dxLibSetup.cpp
   dxLibKeyPadUtility.cpp
+  dxLibSoundBGMManager.cpp
+  dxLibSoundMovieManager.cpp
+  dxLibSoundVoiceManager.cpp
+  dxLibStreamManager.cpp
   appEffekseer.cpp
   appEffekseerData.cpp
   appEffekseerLib.cpp
@@ -14,12 +18,10 @@
   InitializeScene.cpp
   StartScene.cpp
   AppSetting.cpp
+  コンパイル中...
   AppSystem.cpp
   AppProcess.cpp
   TaskInfo.cpp
   TaskLib.cpp
-  コード生成しています。
-  All 1593 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  コード生成が終了しました。
-EffekseerForDXLib_vs2017_x64.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB 'EffekseerForDXLib_vs2017.pdb' が 'EffekseerForDXLib_vs2017_x64.lib(EffekseerForDXLib.obj)' で、または 'D:\Program\Project\Develop\cervidae_lib\program\cervidae.proj\x64\Release\EffekseerForDXLib_vs2017.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-  program.vcxproj -> D:\Program\Project\Develop\cervidae_lib\program\cervidae.proj\x64\Release\program.exe
+LINK : fatal error C1047: オブジェクトまたはライブラリ ファイル '..\Cervidae\Libs\Effekseer\Libs\EffekseerForDXLib_vs2017_x64.lib' は、他のオブジェクトよりも古いコンパイラで作成されました。古いオブジェクトおよびライブラリをリビルドしてください。
+LINK : fatal error LNK1257: コードの生成に失敗しました。

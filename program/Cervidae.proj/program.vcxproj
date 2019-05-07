@@ -132,6 +132,9 @@
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibInit.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibSetup.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundBGMManager.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundMovieManager.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundVoiceManager.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerData.cpp" />
@@ -160,7 +163,10 @@
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibSetup.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibInputConfig.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundBGMManager.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundManageConfig.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundMovieManager.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundVoiceManager.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerData.h" />
