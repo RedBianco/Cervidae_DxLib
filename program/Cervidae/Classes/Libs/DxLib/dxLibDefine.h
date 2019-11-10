@@ -37,12 +37,12 @@ namespace DxLibCommon
 	namespace Disp
 	{
 		// ‰æ–Ê‰ð‘œ“x
-		const static unsigned int		DISPLAY_RESOLUTION_WIDTH		= 1024;
-		const static unsigned int		DISPLAY_RESOLUTION_HEIGHT		= 768;
-		const static unsigned int		DISPLAY_PLAY_COLORBIT			= 32;
+		const static unsigned int		DISPLAY_RESOLUTION_WIDTH	= 1024;
+		const static unsigned int		DISPLAY_RESOLUTION_HEIGHT	= 768;
+		const static unsigned int		DISPLAY_PLAY_COLORBIT		= 32;
 
-		const static unsigned int		DISPLAY_FLAMERATE_POS_X			= (DISPLAY_RESOLUTION_WIDTH - 100);
-		const static unsigned int		DISPLAY_FLAMERATE_POS_Y			= (DISPLAY_RESOLUTION_HEIGHT - 22);
+		const static unsigned int		DISPLAY_FLAMERATE_POS_X		= (DISPLAY_RESOLUTION_WIDTH - 100);
+		const static unsigned int		DISPLAY_FLAMERATE_POS_Y		= (DISPLAY_RESOLUTION_HEIGHT - 22);
 
 
 	}

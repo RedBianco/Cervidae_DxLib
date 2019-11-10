@@ -22,32 +22,32 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{D04F8CB5-DC7E-4DAC-ACD4-C888A3E9ABAA}</ProjectGuid>
     <RootNamespace>program</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -132,6 +132,11 @@
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibInit.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibSetup.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundBGMManager.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundMovieManager.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundSEManager.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundVoiceManager.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerData.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.cpp" />
@@ -159,8 +164,13 @@
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibSetup.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibInputConfig.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Input\dxLibKeyPadUtility.h" />
-    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundManageConfig.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManageConfig.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundBGMManager.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundData.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundMovieManager.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundSEManager.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundVoiceManager.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerData.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.h" />

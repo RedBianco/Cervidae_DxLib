@@ -30,7 +30,7 @@ AppSystem::AppSystem() :
 		m_DispFrameCount( 0 )
 {
 #if( defined( MIDDLEWARE_EFFEKSEER_USE_ENABLE ))
-	m_EfkData.clear();
+		m_EfkData.clear();
 #endif
 }
 AppSystem::~AppSystem()

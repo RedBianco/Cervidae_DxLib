@@ -61,6 +61,12 @@
     <Filter Include="Cervidae\Classes\Libs\DxLib\Sound">
       <UniqueIdentifier>{a8ce28d9-9b5c-4224-937e-2453047471f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\Game">
+      <UniqueIdentifier>{ad3bca0b-1eaf-4320-a560-203ba7df2dc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cervidae\Classes\Libs\DxLib\Sound\Process">
+      <UniqueIdentifier>{9ee67734-db49-47a9-a739-2d186f9f76d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
@@ -122,6 +128,21 @@
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Template\tSingleton.cpp">
       <Filter>Cervidae\Classes\Common\CervidaeLib\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundBGMManager.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundMovieManager.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundSEManager.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundVoiceManager.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,7 +230,22 @@
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Template\tSingleton.h">
       <Filter>Cervidae\Classes\Common\CervidaeLib\Template</Filter>
     </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundManageConfig.h">
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundBGMManager.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundData.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundMovieManager.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundSEManager.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundVoiceManager.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManageConfig.h">
       <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.h">
