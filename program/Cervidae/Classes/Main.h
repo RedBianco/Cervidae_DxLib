@@ -11,7 +11,7 @@
 
 // －	Windows7 64bit
 // －	VisualStudio 2017 Community
-// －	DXライブラリ					<DxLib_VC3.20c>
+// －	DXライブラリ				<DxLib_VC3.21b>
 // －	CRI ADX2LE					<>
 // －	Effekseer For DXライブラリ	<1.41>
 // －	Lua							<>
@@ -24,8 +24,8 @@
  * 
 
 # テスト内容
-- [ ] XXXXXXXX
-- [ ] XXXXXXXX
+- [] XXXXXXXX
+- [] XXXXXXXX
 
 # 補足
 */
