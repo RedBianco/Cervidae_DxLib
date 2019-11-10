@@ -246,11 +246,12 @@ int		AppKeyPadController::padInputVibActionStart( const int vibInputType, int vi
 
 	// U“®ŠJn
 	auto nvibRResult_ = DxLib::StartJoypadVibration( vibInputType, dxJoypadInput.m_VibPower_, vibTime );
-	if( nvibRResult_ == -1 )
-	{
+#if PROJECT_DEBUG
+	if( nvibRResult_ == -1 ){
 		// ƒGƒ‰[
 		return ( -1 );
 	}
+#endif
 	// U“®‚Ì‹­‚³
 	dxJoypadInput.m_VibPower_ = dxJoypadInput.m_VibPower_;
 	// U“®‚³‚¹‚éŠÔ
@@ -308,9 +309,11 @@ int		AppKeyPadController::getPadDeviceDirectInput( DINPUT_JOYSTATE * pGetDInput 
 {
 	// “ü—Íó‘Ô‚ğæ“¾
 	DxLib::GetJoypadDirectInputState( DX_INPUT_PAD1, pGetDInput ) ;
+#if PROJECT_DEBUG
 	if( pGetDInput == nullptr ){
 		return ( -1 ); // æ“¾‚É¸”s
 	}
+#endif
 	// æ“¾‚Í¬Œ÷
 	return 0;
 }
