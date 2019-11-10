@@ -8,9 +8,21 @@
 //===================================================================//
 
 
+/*
+ *	@class
+ */
+namespace DxLib
+{
+	class AppVoicePlayManager
+	{
+	public:
+		AppVoicePlayManager();
+		virtual ~AppVoicePlayManager();
 
+	public:
 
-
+    };
+}
 
 
 

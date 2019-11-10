@@ -1,27 +1,3 @@
-﻿  tSingleton.cpp
-  UtilityForOperat.cpp
-  UtilityMoveLine.cpp
-  dxLibDebug.cpp
-  dxLibDebugLog.cpp
-  dxLibCommon.cpp
-  dxLibInit.cpp
-  dxLibSetup.cpp
-  dxLibKeyPadUtility.cpp
-  dxLibSoundBGMManager.cpp
-  dxLibSoundMovieManager.cpp
-  dxLibSoundVoiceManager.cpp
-  dxLibStreamManager.cpp
-  appEffekseer.cpp
-  appEffekseerData.cpp
-  appEffekseerLib.cpp
-  Main.cpp
-  InitializeScene.cpp
-  StartScene.cpp
-  AppSetting.cpp
-  コンパイル中...
-  AppSystem.cpp
-  AppProcess.cpp
-  TaskInfo.cpp
-  TaskLib.cpp
+﻿  dxLibSoundMovieManager.cpp
 LINK : fatal error C1047: オブジェクトまたはライブラリ ファイル '..\Cervidae\Libs\Effekseer\Libs\EffekseerForDXLib_vs2017_x64.lib' は、他のオブジェクトよりも古いコンパイラで作成されました。古いオブジェクトおよびライブラリをリビルドしてください。
 LINK : fatal error LNK1257: コードの生成に失敗しました。
