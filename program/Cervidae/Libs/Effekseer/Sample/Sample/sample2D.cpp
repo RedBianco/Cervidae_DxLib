@@ -12,20 +12,23 @@ int sample2D()
 	//描画先を裏画面に変更する。
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// DirectX9を使用するようにする。(DirectX11も可)
+	// DirectX11を使用するようにする。(DirectX9も可)
 	// Effekseerを使用するには必ず設定する。
-	SetUseDirect3DVersion(DX_DIRECT3D_9);
+	SetUseDirect3DVersion(DX_DIRECT3D_11);
 
 	// DXライブラリを初期化する。
 	if (DxLib_Init() == -1) return -1;
 
 	// Effekseerを初期化する。
 	// 引数には画面に表示する最大パーティクル数を設定する。
-	if (Effkseer_Init(8000) == -1)
+	if (Effekseer_Init(8000) == -1)
 	{
 		DxLib_End();
 		return -1;
 	}
+
+	// ネットワーク機能を使う場合、ここで起動する。60000番のポートで開始する。
+	// Effekseer_StartNetwork(60000);
 
 	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
 	// Effekseerを使用する場合は必ず設定する。
@@ -40,7 +43,8 @@ int sample2D()
 	Effekseer_Set2DSetting(640, 480);
 
 	// エフェクトリソースを読み込む。
-	int effectResourceHandle = LoadEffekseerEffect("laser.efk");
+	// Effekseerで作成したエフェクトは2D表示の場合、小さすぎることが殆どなので必ず拡大して読み込む。
+	int effectResourceHandle = LoadEffekseerEffect("laser.efk", 25.0f);
 
 	// 何でもいいので画像を読み込む。
 	int grBackgroundHandle = LoadGraph(_T("Texture/Background.png"));
@@ -74,10 +78,6 @@ int sample2D()
 		{
 			// エフェクトを再生する。
 			playingEffectHandle = PlayEffekseer2DEffect(effectResourceHandle);
-
-			// エフェクトの拡大率を設定する。
-			// Effekseerで作成したエフェクトは2D表示の場合、小さすぎることが殆どなので必ず拡大する。
-			SetScalePlayingEffekseer2DEffect(playingEffectHandle, 25.0f, 25.0f, 25.0f);
 
 			// エフェクトの位置をリセットする。
 			position_x = 100.0f;
