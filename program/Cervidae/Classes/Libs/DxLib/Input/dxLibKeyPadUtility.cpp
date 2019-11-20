@@ -1,6 +1,6 @@
 
 
-#include "../../../Common/CommonList.h"
+#include "../../../Common/appCommonParam.h"
 #include "../../../Common/CervidaeLib/CLDefine.h"
 #include "../dxLibDefine.h"
 #include "dxLibKeyPadUtility.h"

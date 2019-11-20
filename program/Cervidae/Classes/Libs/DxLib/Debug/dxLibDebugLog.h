@@ -8,6 +8,10 @@
 //=================================================================================//
 
 
+int  appDebugPrint( DxLib::DebugConfig::ENUM_DEBUG_LOG_TYPE logType, const char * logStr );
+
+
+
 
 
 

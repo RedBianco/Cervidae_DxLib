@@ -1,10 +1,10 @@
 
 #include "DxLib.h"
-#include "../../Common/CommonList.h"
+#include "../../Common/appCommonParam.h"
 #include "../../Common/CervidaeLib/CLDefine.h"
 #include "../DxLib/dxLibDefine.h"
 #include "appEffekseer.h"
-#if( defined( MIDDLEWARE_EFFEKSEER_USE_ENABLE ))
+#if( __MIDDLEWARE_EFFEKSEER_USE_ENABLE == 1 )
 #include <EffekseerForDXLib.h>
 #endif
 
@@ -47,92 +47,81 @@
 
 */
 
-#if( defined( MIDDLEWARE_EFFEKSEER_USE_ENABLE ))
+#if( __MIDDLEWARE_EFFEKSEER_USE_ENABLE == 1 )
 
 
-AppEffekseerController::AppEffekseerController()
+Lib::EffekseerController::EffekseerController()
 {
 }
-AppEffekseerController::~AppEffekseerController()
+Lib::EffekseerController::~EffekseerController()
 {
 }
-
-void	AppEffekseerController::libSetPlayZBuffer()
+void	Lib::EffekseerController::libSetPlayZBuffer()
 {
-
 }
-
-void    AppEffekseerController::libSetup()
+void    Lib::EffekseerController::libSetup()
 {
-
 }
-
-void	AppEffekseerController::libEnd()
+void	Lib::EffekseerController::libEnd()
 {
 	// EffekseerÇèIóπÇ∑ÇÈ
 	Effkseer_End();
 }
-
-int		AppEffekseerController::libFileLoad( char * szFile, int * nLoadHandle )
+void	Lib::EffekseerController::libDataClear()
+{
+}
+int		Lib::EffekseerController::libFileLoad( char * szFile, int * nLoadHandle )
 {
 	return 0;
 }
-
-int		AppEffekseerController::libFileLoad( char * szFile )
+int		Lib::EffekseerController::libFileLoad( char * szFile )
 {
 	return 0;
 }
-
-int		AppEffekseerController::libEffect2DPlay( const int fileHandle )
+int		Lib::EffekseerController::libEffect2DPlay( const int fileHandle )
 {
 	return 0;
 }
-int		AppEffekseerController::libEffect2DPlay( const int fileHandle, float fSetScale )
+int		Lib::EffekseerController::libEffect2DPlay( const int fileHandle, float fSetScale )
 {
 	return 0;
 }
-
-int		AppEffekseerController::libEffectSetPos2DPlay( const int fileHandle, float fSetX, float fSetY, float fSetScale )
+int		Lib::EffekseerController::libEffectSetPos2DPlay( const int fileHandle, float fSetX, float fSetY, float fSetScale )
 {
 	return 0;
 }
-
-int		AppEffekseerController::libSet2DPlayScale( const int fileHandle, float fSetScale )
+int		Lib::EffekseerController::libSet2DPlayScale( const int fileHandle, float fSetScale )
 {
 	return 0;
 }
-
-int		AppEffekseerController::libSet2DPlayPos( const int fileHandle, float fSetX, float fSetY )
+int		Lib::EffekseerController::libSet2DPlayPos( const int fileHandle, float fSetX, float fSetY )
 {
 	return 0;
 }
-int		AppEffekseerController::libSet2DPlayRot( const int fileHandle, float fRotX, float fRotY, float fRotZ )
+int		Lib::EffekseerController::libSet2DPlayRot( const int fileHandle, float fRotX, float fRotY, float fRotZ )
 {
 	return 0;
 }
-int		AppEffekseerController::libSet2DPlayRot( const int fileHandle, float fRotZ )
+int		Lib::EffekseerController::libSet2DPlayRot( const int fileHandle, float fRotZ )
 {
 	return 0;
 }
-
-int		AppEffekseerController::libIsPlay2D( const int fileHandle )
+int		Lib::EffekseerController::libIsPlay2D( const int fileHandle )
 {
 	return 0;
 }
-
-unsigned int	AppEffekseerController::libIsEfkFileExist( char * szPlayFile )
+unsigned int	Lib::EffekseerController::libIsEfkFileExist( char * szPlayFile )
 {
 	return 0;
 }
-
-int		AppEffekseerController::libPlayUpdate()
+int		Lib::EffekseerController::libPlayUpdate()
 {
 	return 0;
 }
 
 
 
-#endif// defined( MIDDLEWARE_EFFEKSEER_USE_ENABLE )
+#endif// ( __MIDDLEWARE_EFFEKSEER_USE_ENABLE == 1 )
 
 
 

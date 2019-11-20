@@ -13,7 +13,9 @@ namespace DxLib
 {
 	namespace DebugConfig
 	{
-		// @enum	デバッグモード登録タイプ
+		/**
+		 * @enum	デバッグモード登録タイプ
+		 */
 		typedef enum
 		{
 			eDEBUG_TYPE_NONE		= -1,
@@ -26,7 +28,9 @@ namespace DxLib
 			ENUM_DEBUG_MODE_TYPE_MAX
 		} ENUM_DEBUG_MODE_TYPE;
 
-		// @enum	デバッグメニューリスト
+		/**
+		 * @enum	デバッグメニューリスト
+		 */
 		typedef enum
 		{
 			eDEBUG_PLAY_MENU_NONE	= -1,	// 選択処理をしていない
@@ -39,7 +43,9 @@ namespace DxLib
 			ENUM_DEBUG_PLAY_MENU_MAX
 		} ENUM_DEBUG_PLAY_MENU;
 
-		// @enum	デバッグログタイプ
+		/**
+		 * @enum	デバッグログタイプ
+		 */
 		typedef enum
 		{
 			eDEBUG_LOG_COMMENT,			// コメント
@@ -48,6 +54,23 @@ namespace DxLib
 
 			ENUM_DEBUG_LOG_TYPE_MAX
 		} ENUM_DEBUG_LOG_TYPE;
+
+		/**
+		 * @enum	タグ
+		 */
+		typedef enum
+		{
+			ePRINT_LOGTAG_DXLIB = 0,
+			ePRINT_LOGTAG_GAME,
+			ePRINT_LOGTAG_STORY,
+			ePRINT_LOGTAG_BGM,
+			ePRINT_LOGTAG_SE,
+			ePRINT_LOGTAG_VOICE,
+			ePRINT_LOGTAG_MOVIE,
+			ePRINT_LOGTAG_LIBRARY,
+
+			ENUM_PRINT_LOGTAG_MAX
+		} ENUM_DEBUG_LOG_TAG;
 
 		// @enum	デバッグ
 		typedef enum

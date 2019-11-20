@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 //=================================================================================//
 //  appEffekseerLib.h
 //  Cervidae
@@ -23,7 +21,7 @@
 #define	EFFEKSEER_NONHANDLE				(0xffffffff)	/*	無効なハンドル	*/
 
 
-// TODO:今後設計を修正予定
+// TODO:今後設計を修正予定 2019.07.10
 namespace App
 {
 	namespace EffekseerLib

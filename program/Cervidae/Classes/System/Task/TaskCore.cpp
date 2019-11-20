@@ -1,14 +1,23 @@
 
-
-#include "TaskInfo.h"
-#include "../../Common/CommonList.h"
+#include "DxLib.h"
+#include "../../Common/appCommonParam.h"
+#include "TaskCore.h"
 
 //=================================================================================//
-//  TaskInfo.cpp
+//  TaskCore.cpp
 //  Cervidae
 //
 //  Created by kashima akihiro on 2018/11/05.
 //=================================================================================//
+
+/**
+ *	タスクシステム
+ */
+
+
+
+
+
 
 
 

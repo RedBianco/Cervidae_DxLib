@@ -4,8 +4,8 @@
 #include "../dxLibDefine.h"
 #include "dxLibInit.h"
 
-
-// DXライブラリが初期化されているか
+//==============================================================================//
+//	DXライブラリが初期化されているか
 bool		dxInit_IsDxLibInit()
 {
 	auto isInit = DxLib::DxLib_IsInit();
@@ -18,27 +18,27 @@ bool		dxInit_IsDxLibInit()
 // ウインドウモードで起動するか
 bool		dxInit_CheckWindowModePlay()
 {
-	// TODO:
+	// TODO:マスターデータ化したい
 	if ( MessageBox( NULL, "ウインドウモードで起動しますか？", "画面モード確認",  MB_YESNO ) == IDYES )
 	{
 		// 「はい」が選択された場合はウインドウモードで起動
 		DxLib::ChangeWindowMode( TRUE );
 		return true;
 	}
-	ERROR_PRINT("");
+	ERROR_PRINT("__ERROR__ : CheckWindowModePlay()");
 	return false;
 }
 // 低処理負荷モードで起動するか
 bool		dxInit_CheckLowSpecModePlay()
 {
-	// TODO:
+	// TODO:マスターデータ化したい
 	if ( MessageBox( NULL, "低処理負荷モードで起動しますか？", "処理負荷モード確認",  MB_YESNO ) == IDYES )
 	{
 		// 「はい」が選択された場合は低処理負荷モードフラグを立てる
 		dxInit_SpecModeSetEnableXAudioFlag( TRUE );
 		return true;
 	}
-	ERROR_PRINT("");
+	ERROR_PRINT("__ERROR__ : CheckLowSpecModePlay()");
 	return false;
 }
 // 低処理負荷モードかどうかでXAudioを使用するかどうかの設定を変更する
@@ -47,16 +47,21 @@ bool		dxInit_SpecModeSetEnableXAudioFlag( const int setFlag )
 	// ( TRUE:使用する(デフォルト)  FALSE:使用しない )
 	auto isSuccess = DxLib::SetEnableXAudioFlag( setFlag ? FALSE : TRUE );
 	if( isSuccess == 0 ){
+		return false;
 	}
 
 	return true;
 }
-// メインウインドウが非アクティブ状態でも処理を実行するかどうか
+
+//=============================================================================================//
+//	メインウインドウが非アクティブ状態でも処理を実行するかどうか
 int		dxInit_SetAlwaysActiveRunEnable( const int setFlag )
 {
 	return 0;
 }
-// ウインドウモードの時にウインドウのサイズを自由に変更出来るようにするかどうかを設定する
+
+//=============================================================================================//
+//	ウインドウモードの時にウインドウのサイズを自由に変更出来るようにするかどうかを設定する
 //	@brief		メインウインドウの端を掴んでウインドウのサイズを変更できるようにするかどうかの設定を行う
 //	@param		フラグ情報(デフォルトはFALSE)
 //				TRUE  : 変更出来るようにする
@@ -83,7 +88,8 @@ int     dxInit_WinSizeChangeSetEnable( const bool  bEnable )
 	return 0; // 設定成功
 }
 
-// メインウインドウが非アクティブ状態時の処理の実行設定
+//=============================================================================================//
+//	メインウインドウが非アクティブ状態時の処理の実行設定
 bool    dxInit_SetWindowAlwaysRunEnable( const int bEnable )
 {
 	auto isSuccess = DxLib::SetAlwaysRunFlag( bEnable );
@@ -93,7 +99,9 @@ bool    dxInit_SetWindowAlwaysRunEnable( const int bEnable )
 	return true; // 設定成功
 }
 
-// DXライブラリを使用したソフトの二重起動を可能にするかどうかの設定を行う( TRUE:可能にする FALSE:不可能にする( デフォルト ) )
+//=============================================================================================//
+//	DXライブラリを使用したソフトの二重起動を可能にするかどうかの設定を行う
+//	( TRUE:可能にする FALSE:不可能にする( デフォルト ) )
 bool	dxInit_SetDoubleStartValidEnable( const int bEnable )
 {
 	auto isSuccess = DxLib::SetDoubleStartValidFlag( bEnable );

@@ -1,7 +1,7 @@
 
 
 #include "DxLib.h"
-#include "../../../Common/CommonList.h"
+#include "../../../Common/appCommonParam.h"
 #include "../../../Common/CervidaeLib/CLDefine.h"
 #include "dxLibDebugConfig.h"
 #include "dxLibDebug.h"
@@ -22,16 +22,18 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////
 AppLib::DebugMenuData::DebugMenuData() :
-	m_debCount_(0),
-	m_debModeType_(0),
-	appDebStartFunc(NULL),
-	appDebEndFunc(NULL),
-	appDebMainFunc(NULL),
-	appDebRenderFunc(NULL)
+	m_debCount_( 0),
+	m_debModeType_( 0),
+	appDebStartFunc( NULL),
+	appDebEndFunc( NULL),
+	appDebMainFunc( NULL),
+	appDebRenderFunc( NULL)
 {
+	DEBUG_PRINT("Debug : DebugMenuData コンストラクタ\n");
 }
 AppLib::DebugMenuData::~DebugMenuData()
 {
+	DEBUG_PRINT("Debug : DebugMenuData デストラクタ\n");
 }
 
 

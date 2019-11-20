@@ -1,47 +1,44 @@
 #pragma once
 
 
-#include "AppProcess.h"
+// 処理関数マクロ
+typedef int( *appProcessExec )( void );
 
-
-
-
-//==============================================================================//
-//	処理関数マクロ
-//==============================================================================//
-typedef int( *systemProcExec )( void );
-
-
-//==============================================================================//
-//	
-//==============================================================================//
-class AppProcManage
+/**
+ *	@class	シーン管理元クラス
+ */
+class AppProcManager
 {
 // TODO：暫定でSingleton化運用、今後他の方法を検討
 private:
 	// このクラスのインスタンス
-	static AppProcManage *	s_pInstance;
+	static AppProcManager *	s_pInstance;
 
 public:
 	// コンスタラクタ
-	AppProcManage()
+	AppProcManager()
 	{}
 	// Instanceを削除する事は無いのでコメントアウト
-//  virtual ~AppProcManage();
+//  virtual ~AppProcManager();
 
-public:
+private:
 	// 処理関数ポインタ
-	systemProcExec	m_ProcessFunc;
+	appProcessExec	m_ProcessFunc;
 
 public:
-	bool	setProcessFunc( systemProcExec  pSetFunc );
 
-	int		systemProcessUpdate( void );
+	// 
+	bool	setProcessFunc( appProcessExec  p_Function );
+
+	// 
+	int		appProcessUpdate( void );
 
 public:
 	// インスタンスの作成、取得
-	static AppProcManage *    getInstance();
+	static AppProcManager *    getInstance();
 };
+
+
 
 
 
