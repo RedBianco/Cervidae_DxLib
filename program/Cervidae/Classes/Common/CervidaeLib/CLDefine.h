@@ -24,13 +24,23 @@
 #if PROJECT_DEBUG
 	#define	DEBUG_PRINT			printfDx
 	#define	ERROR_PRINT(...)	printfDx( __VA_ARGS__ )
+	#define	COMMENT				__noop
 #else
 	#define	DEBUG_PRINT			__noop
 	#define	ERROR_PRINT(...)	printfDx( __VA_ARGS__ )
 #endif
 
+/** 各ミドルウェア制御マクロ */
 #if defined( CERVIDAE_LIB )
-	#define MIDDLEWARE_EFFEKSEER_USE_ENABLE		(1)
+	// TODO
+	// 64bitReleaseでビルドすると以下エラーが出て調査中
+	// エラー	C1047	オブジェクトまたはライブラリ ファイル 'x64\Release\tSingleton.obj' は、他のオブジェクトよりも古いコンパイラで作成されました。古いオブジェクトおよびライブラリをリビルドしてください
+	#define __MIDDLEWARE_EFFEKSEER_USE_ENABLE			(0)
+
+
+	#define __APP_SCENE_PROCESS_TASK_ENABLE				(0)
+	#define __APP_SCENE_PROCESS_FUNC_POINTER_ENABLE		(0)
+
 #endif
 
 //=================================================================================//
@@ -44,14 +54,14 @@ namespace CervidaeLib
 		// Application Exe Name
 		const static char *				CAPP_EXE_NAME			= "CervidaeLib.exe";
 		// Application Version
-		const static char *				CAPP_EXE_VERSION		= "20190109";
-		const static unsigned int		IAPP_EXE_VERSION		= 20190109;
+		const static char *				CAPP_EXE_VERSION		= "20191121";
+		const static unsigned int		IAPP_EXE_VERSION		= 20191121;
 		// Application Service ID
-		const static char *				CAPP_SERVICE_NAME		= "PC0001-2018-00";
-		// プレイ年齢制限 Parental Lock
+		const static char *				CAPP_SERVICE_NAME		= "PC0001-2019-00";
+		// プレイ可能年齢 Parental Lock
 		const static unsigned int		IAPP_RATING_LOCK_LEVEL	= 0;
-		// 著作権 Application Copyright
-		const static char *				CAPP_SERVICE_COPYRIGHT	= "(C) 2018 TriangleWorks";
+		// 権利表記 Application Copyright
+		const static char *				CAPP_SERVICE_COPYRIGHT	= "(C) 2019 TriangleWorks";
 	}
 }
 

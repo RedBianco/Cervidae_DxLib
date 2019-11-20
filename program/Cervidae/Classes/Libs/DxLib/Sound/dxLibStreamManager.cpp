@@ -1,7 +1,7 @@
 
 #include "DxLib.h"
 #include "../../../Common/CervidaeLib/CLDefine.h"
-#include "../../../Common/CommonList.h"
+#include "../../../Common/appCommonParam.h"
 #include "Process/dxLibSoundData.h"
 #include "dxLibStreamManageConfig.h"
 #include "dxLibStreamManager.h"

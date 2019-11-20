@@ -7,10 +7,14 @@
 //  Created by kashima akihiro on 2018/11/15.
 //=================================================================================//
 
+/**
+ * 
+ */
+void	dxCommon_DrawFramerate( const int renderRate );
 
-void	dxCommon_FramerateDisp( const int renderRate );
-
-
+/**
+ * 
+ */
 
 
 

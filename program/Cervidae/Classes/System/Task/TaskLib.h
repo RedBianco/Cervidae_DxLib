@@ -1,12 +1,96 @@
-#pragma once
+﻿#pragma once
 
 //=================================================================================//
 //  TaskLib.h
 //  Cervidae
 //
-//  Created by kashima akihiro on 2018/11/06.
+//  Created by kashima akihiro on 2019/06/06.
 //=================================================================================//
 
+/**
+ *	@class 
+ */
+class TaskBase
+{
+public:
+    virtual ~TaskBase(){}
+    virtual void updateProcess( void ){}
+    virtual void drawProcess( void ){}
+};
+
+// NOTE:�G���[ C4430 �^�w��q������܂��� - int �Ɖ��肵�܂����B����: C++ �� int ������l�Ƃ��ăT�|�[�g���Ă��܂���
+// TaskBase �̐錾�̑O��TaskController�̑O���錾���K�v
+
+
+/**
+ *	@class 
+ */
+class TaskController
+{
+private:
+    std::list<TaskBase*>	m_TaskList;
+
+public:
+    ~TaskController()
+    {
+		std::list<TaskBase*>::iterator it = m_TaskList.begin();
+        for ( it; it != m_TaskList.end(); ++ it )
+        {
+			TaskBase* p_task = *it;
+            delete p_task;
+        }
+    }
+    /**
+     * 
+     */
+    void AddTask( TaskBase* p_task )
+    {
+		if( p_task == nullptr ){
+			return;
+		}
+		m_TaskList.push_back( p_task );
+    }
+    /**
+     * 
+     */
+    void EraseTask( TaskBase* p_task )
+    {
+		if( p_task == nullptr ){
+			return;
+		}
+        std::list<TaskBase*>::iterator it = std::find( m_TaskList.begin(), m_TaskList.end(), p_task );
+        if ( it != m_TaskList.end() )
+        {
+            delete *it;
+            m_TaskList.erase( it );
+        }
+    }
+    /**
+     * 
+     */
+    void Update( void )
+    {
+		std::list<TaskBase*>::iterator it = m_TaskList.begin();
+        for ( it; it != m_TaskList.end(); ++ it )
+        {
+			TaskBase* p_task = *it;
+            p_task->updateProcess();
+        }
+    }
+    /**
+     * 
+     */
+    void Draw( void )
+    {
+		std::list<TaskBase*>::iterator it = m_TaskList.begin();
+        for ( it; it != m_TaskList.end(); ++ it )
+        {
+			TaskBase* p_task = *it;
+            p_task->drawProcess();
+        }
+    }
+
+};
 
 
 

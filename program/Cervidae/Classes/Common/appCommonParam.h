@@ -9,22 +9,24 @@
 #include <stdio.h>	
 #include <stdlib.h>
 #include <malloc.h>
-#include <string>
+#include <string.h>
 #include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <list>
+#include <algorithm>
 #include <map>
 #include <direct.h>				// ファイル操作
 #include <complex.h>			// 複素数計算を行うための関数
 #include <iosfwd>
 #include <conio.h>
+#include <array>
 
 #include "CervidaeLib/CLAssert.h"
 
 //=================================================================================//
-//  CommonList.h
+//  appCommonParam.h
 //  Cervidae
 //
 //  Created by kashima akihiro on 2018/11/07.
@@ -89,10 +91,6 @@
 
 namespace CommonList
 {
-//	#define  RESOURCES_LOAD_PATH_LUA		""
-//	#define  RESOURCES_LOAD_PATH_2D			""
-//	#define  RESOURCES_LOAD_PATH_3D			""
-//	#define  RESOURCES_LOAD_PATH_EFFECT		""
 
 	namespace Resources
 	{
@@ -107,11 +105,11 @@ namespace CommonList
 			eEFFECT_FILE_TYPE_3D
 		};
 	}
-	const std::string			RESOURCES_LOAD_PATH_LUA		= "..\\..\\resources\\script\\lua\\";
-	const std::string			RESOURCES_LOAD_PATH_ADX2	= "..\\..\\resources\\script\\sound\\";
-	const std::string			RESOURCES_LOAD_PATH_2D		= "..\\..\\resources\\asset\\";
-	const std::string			RESOURCES_LOAD_PATH_3D		= "..\\..\\resources\\model\\";
-	const std::string			RESOURCES_LOAD_PATH_EFFECT	= "..\\..\\resources\\asset\\effect\\";
+	const std::string	RESOURCES_LOAD_PATH_LUA		= "..\\..\\resources\\script\\lua\\";
+	const std::string	RESOURCES_LOAD_PATH_ADX2	= "..\\..\\resources\\script\\sound\\";
+	const std::string	RESOURCES_LOAD_PATH_2D		= "..\\..\\resources\\asset\\";
+	const std::string	RESOURCES_LOAD_PATH_3D		= "..\\..\\resources\\model\\";
+	const std::string	RESOURCES_LOAD_PATH_EFFECT	= "..\\..\\resources\\asset\\effect\\";
 
 	namespace TaskEvent
 	{
@@ -165,4 +163,4 @@ namespace CommonList
 
 
 
-/* End CommonList.h */
+/* End appCommonParam.h */

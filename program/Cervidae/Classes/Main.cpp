@@ -1,10 +1,7 @@
 
 #include "Main.h"
-#include "Common/CommonList.h"
-#include "Common/CervidaeLib/CLDefine.h"
-#include "Libs/DxLib/dxLibDefine.h"
+#include "Common/appCommonParam.h"
 #include "System/AppSystem.h"
-#include "Libs/DxLib/Debug/dxLibDebug.h"
 
 //=================================================================================//
 //  Main.cpp
@@ -23,28 +20,19 @@ int APIENTRY  WinMain(	HINSTANCE	hInstance,
 	UNUSED_VARIABLE( hPrevInstance);
 	UNUSED_VARIABLE( lpCmdLine);
 
-	AppSystem * pAppSystem = new AppSystem();
-	if( pAppSystem != nullptr )
+	/**
+	 *	メインフロー
+	 */
 	{
-		pAppSystem->appSystemMain();
+		AppSystem * pAppSystem = new AppSystem();
+		if ( pAppSystem != nullptr )
+		{
+			pAppSystem->appSystemMain();
+		}
 	}
 
 	// メイン関数からreturnするとプログラムが終了する。0を返すと正常終了扱い。1を返すと異常終了扱い(エラーは出ない)
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -7,7 +7,6 @@
 //  Created by kashima akihiro on 2018/11/29.
 //=================================================================================//7777
 
-#include "../Common/CervidaeLib/Template/tSingleton.h"
 
 class AppParameter : public Singleton<AppParameter>
 {
@@ -22,9 +21,13 @@ private:
 	unsigned int	m_RatingAgeLevel;		//! Application Parental Lock
 	std::string		m_ServiceCopyright;		//! Application Copyright
 
+	bool			m_isSetting;
+
 public:
 
-	bool	settingBaseInfo();
+	bool	setApplicationInfo();
+
+public:
 
 	// コンストラクタ部分をpublicにしてしまうと、AppParameter  container; でインスタンスつくれてしまう
 	// 「そのクラスのインスタンスが1つしか生成されないことを保証することができる」
@@ -35,8 +38,10 @@ public:
 		m_ExeVersion.clear();
 		m_ServiceNeme.clear();
 		m_ServiceCopyright.clear();
+
+		m_isSetting = false;
 	};
-//	virtual ~AppParameter();
+	//	virtual ~AppParameter();
 
 };
 
@@ -48,12 +53,33 @@ inline AppParameter* getAppContainerPtr(void)
 }
 
 
+typedef struct	GAME_PARAM_SETTING
+{
+	struct
+	{	// screen info
+		unsigned int		width;
+		unsigned int		height;
+	} screen;
+	struct
+	{	// file info
+		unsigned int		maxRequest;
+	} file;
+	struct
+	{	// multimedia info
+		int					maxChannel;
+		int					maxSoundStream;
+		int					SampleFreq;
+	} multimedia;
+	struct
+	{	// memory info
+		unsigned int		size;
+		unsigned int		block;
+	} memory;
+
+} *LPGAME_PARAM_SETTING;
+
+
 /* End AppSetting.h */
-
-
-
-
-
 
 
 

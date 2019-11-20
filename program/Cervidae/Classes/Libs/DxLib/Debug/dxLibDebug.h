@@ -2,6 +2,7 @@
 
 #include "dxLibDebugConfig.h"
 #include "../../../Common/CervidaeLib/Template/tSingleton.h"
+#include "dxLibDebugLog.h"
 
 //=================================================================================//
 //  dxLibDebug.h

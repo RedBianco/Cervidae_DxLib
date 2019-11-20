@@ -67,25 +67,22 @@
     <Filter Include="Cervidae\Classes\Libs\DxLib\Sound\Process">
       <UniqueIdentifier>{9ee67734-db49-47a9-a739-2d186f9f76d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\Libs\DxLib\Resources">
+      <UniqueIdentifier>{976544bd-2f91-422f-a36b-c9302794d87d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cervidae\Classes\Libs\DxLib\Resources\Texture">
+      <UniqueIdentifier>{6887eb96-05b2-489e-90bf-443c919e5d73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cervidae\Classes\Libs\DxLib\Resources\Texture\Archive">
+      <UniqueIdentifier>{b4a51981-fcf7-4365-95f8-6657087908b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
-      <Filter>Cervidae\Classes\Scene\Initialize</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Cervidae\Classes\Scene\StartScene.cpp">
-      <Filter>Cervidae\Classes\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\System\Process\AppProcess.cpp">
       <Filter>Cervidae\Classes\System\Process</Filter>
     </ClCompile>
-    <ClCompile Include="..\Cervidae\Classes\System\Task\TaskInfo.cpp">
-      <Filter>Cervidae\Classes\System\Task</Filter>
-    </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\System\AppSystem.cpp">
       <Filter>Cervidae\Classes\System</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Cervidae\Classes\System\Task\TaskLib.cpp">
-      <Filter>Cervidae\Classes\System\Task</Filter>
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Main.cpp">
       <Filter>Cervidae\Classes</Filter>
@@ -98,9 +95,6 @@
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibSetup.cpp">
       <Filter>Cervidae\Classes\Libs\DxLib\Initialize</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveLine.cpp">
-      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\System\AppSetting.cpp">
       <Filter>Cervidae\Classes\System</Filter>
@@ -144,16 +138,58 @@
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.cpp">
       <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\System\Task\TaskCore.cpp">
+      <Filter>Cervidae\Classes\System\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\System\Task\TaskLib.cpp">
+      <Filter>Cervidae\Classes\System\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveLine.cpp">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityDateTime.cpp">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Scene\SceneManager.cpp">
+      <Filter>Cervidae\Classes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Scene\StartScene.cpp">
+      <Filter>Cervidae\Classes\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
+      <Filter>Cervidae\Classes\Scene\Initialize</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\Archive\appArchiveFileControl.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture\Archive</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appEntryResourcesContainer.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appFileGraphic.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appFileGraphicControl.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appFileSystem.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appResourcesLoadContainer.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramContainer.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramControl.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramFileManage.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.h">
-      <Filter>Cervidae\Classes\Scene\Initialize</Filter>
-    </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\CLDefine.h">
       <Filter>Cervidae\Classes\Common\CervidaeLib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\Scene\StartScene.h">
-      <Filter>Cervidae\Classes\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\dxLibDefine.h">
       <Filter>Cervidae\Classes\Libs\DxLib</Filter>
@@ -163,15 +199,6 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\System\AppSystem.h">
       <Filter>Cervidae\Classes\System</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\Common\CommonList.h">
-      <Filter>Cervidae\Classes\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\System\Task\TaskInfo.h">
-      <Filter>Cervidae\Classes\System\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\System\Task\TaskLib.h">
-      <Filter>Cervidae\Classes\System\Task</Filter>
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Main.h">
       <Filter>Cervidae\Classes</Filter>
@@ -185,12 +212,6 @@
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\initialize\dxLibSetup.h">
       <Filter>Cervidae\Classes\Libs\DxLib\Initialize</Filter>
     </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveLine.h">
-      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveCalculat.h">
-      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\System\AppSetting.h">
       <Filter>Cervidae\Classes\System</Filter>
     </ClInclude>
@@ -201,9 +222,6 @@
       <Filter>Cervidae\Classes\Libs\DxLib\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityForOperat.h">
-      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveWait.h">
       <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseer.h">
@@ -250,6 +268,81 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.h">
       <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\System\Task\TaskCore.h">
+      <Filter>Cervidae\Classes\System\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\System\Task\TaskLib.h">
+      <Filter>Cervidae\Classes\System\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveCalculat.h">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveLine.h">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveWait.h">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilitySilTiming.h">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityDateTime.h">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\appCommonParam.h">
+      <Filter>Cervidae\Classes\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\appErrorCode.h">
+      <Filter>Cervidae\Classes\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\appProcessCode.h">
+      <Filter>Cervidae\Classes\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Scene\SceneManager.h">
+      <Filter>Cervidae\Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Scene\StartScene.h">
+      <Filter>Cervidae\Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.h">
+      <Filter>Cervidae\Classes\Scene\Initialize</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\appResources.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\appResourcesConfig.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\Archive\appArchiveFileControl.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture\Archive</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appEntryResourcesContainer.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appFileGraphic.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appFileGraphicControl.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appFileSystem.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appResourcesLoadContainer.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramConfig.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramContainer.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramControl.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramFileManage.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

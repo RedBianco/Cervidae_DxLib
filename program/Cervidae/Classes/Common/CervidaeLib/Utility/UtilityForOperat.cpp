@@ -1,5 +1,6 @@
 
 
+#include "../../appCommonParam.h"
 #include "UtilityForOperat.h"
 
 
@@ -14,6 +15,17 @@
 //-----------------------------------------------------------------------------------
 namespace UtilityForOperat
 {
+	std::string replaceOtherStr( std::string &replacedStr, std::string from, std::string to ) 
+	{
+		const unsigned int pos = static_cast<int>( replacedStr.find( from ) );
+		const int length = static_cast<int>( from.length() );
+ 
+		if ( pos == std::string::npos || from.empty() ) {
+			return replacedStr;
+		}
+		return replacedStr.replace( pos, length, to );
+	}
+
 	/**
 	 * 文字列内の改行コード削除
 	 * @param src    対象文字列
@@ -39,7 +51,7 @@ namespace UtilityForOperat
 	 * @param	buff UTF-8の文字列
 	 * @return	引数で指定された文字列の長さ
 	 */
-	int		getUTF8StrLen( const char *buff )
+	const int	getUTF8StrLen( const char *buff )
 	{
 		// 文字列がNULLなら長さは0
 		if (buff == NULL){ return 0; }
@@ -77,7 +89,7 @@ namespace UtilityForOperat
 	 * @param	buff UTF-8の文字列
 	 * @return	引数で指定された文字列の長さ(半角は0.5としてる)
 	 */
-	float	getUTF8StrLenSingleByte( const char *buff )
+	const float	getUTF8StrLenSingleByte( const char *buff )
 	{
 		// 文字列がNULLなら長さは0
 		if (buff == NULL) { return 0; }
@@ -334,7 +346,7 @@ namespace UtilityForOperat
 	 * @param
 	 * @return	半角の長さ数値
 	 */
-	int   getStringLongTag( char * et_str )
+	const int	getStringLongTag( char * et_str )
 	{
 		int  RetX = 0;
 		unsigned char *  pNowStr;
@@ -392,7 +404,7 @@ namespace UtilityForOperat
 	 * @param
 	 * @return	文字数(半角全角区別する)
 	 */
-	int   getStringNumTag( char * et_str )
+	const int   getStringNumTag( char * et_str )
 	{
 		int   i;
 		int   j = 0, kazoe = 0, mojinum = 0;
@@ -462,16 +474,15 @@ namespace UtilityForOperat
 			}
 			else
 			{
-				if (!com)
-					num++;
-
-				if (iTxt[i] == ']')
-				{
+				if ( !com ){
+					num ++;
+				}
+				if ( iTxt[i] == ']' ){
 					com = 0;
 				}
 			}
 		}
-		if ((*oNum) < num)	(*oNum) = num;
+		if ( (*oNum) < num ){ (*oNum) = num; }
 		(*oNum)++;
 		(*oNum) /= 2;
 	}
@@ -543,7 +554,7 @@ namespace UtilityForOperat
 	 * @return	1 --> ディレクトリの区切り記号である
 	 *			0 --> ディレクトリの区切り記号でない
 	 */
-	bool	isEtcDirectoryFigure( char szCh )
+	const bool	isEtcDirectoryFigure( char szCh )
 	{
 		return (szCh == '\\' || szCh == '/');
 	}
@@ -553,7 +564,7 @@ namespace UtilityForOperat
 	 * @param	*lpSrc
 	 * @return
 	 */
-	bool	isStringCodeSJIS( const char *lpSrc )
+	const bool	isStringCodeSJIS( const char *lpSrc )
 	{
 		// SJISコードであるか調べる
 		bool ret = true;
@@ -577,7 +588,7 @@ namespace UtilityForOperat
 	 * @param	*pstr
 	 * @return
 	 */
-	bool	isStringMultiByte( const char *pstr )
+	const bool	isStringMultiByte( const char *pstr )
 	{
 		if (*pstr == '\0') {
 			return 0;
@@ -596,17 +607,43 @@ namespace UtilityForOperat
 	 * @param	len_size
 	 * @return
 	 */
-	int		getStrArryElement( char * arry[], int len_size )
+	const int	getStringArryElement( char * arry[], int len_size )
 	{
 		int len = 0;
-		for (int i = 0; i < len_size; i++)
+		for ( int i = 0; i < len_size; ++ i )
 		{
-			int n = static_cast<int>( strlen(arry[i] ));
-			if (len < n) {
+			int n = static_cast<int>( strlen( arry[i] ));
+			if ( len < n ) {
 				len = n;
 			}
 		}
 		return len;
+	}
+
+	/**
+	 * 両方の文字列の長い方を返す
+	 * @param
+	 * @param
+	 * @return
+	 */
+	const char*	getStringMaxLen( const char* strx, const char* stry ) 
+	{
+		return strx == NULL ? stry : (strlen(strx) > strlen(stry) ? strx : stry);
+	}
+	/**
+	 * セットした複数文字列の中から一番長い文字列の文字数を返す
+	 * @param	
+	 * @param	
+	 * @return
+	 */
+	const char* getStringArryMaxLen( std::vector<std::string> arry )
+	{
+		const char* result = NULL;
+		for ( int i = 0; i < arry.size(); ++ i )
+		{
+			result = getStringMaxLen( result, arry.at(i).c_str() );
+		}
+		return result;
 	}
 
 	/**
@@ -646,9 +683,66 @@ namespace UtilityForOperat
         return coefficient;
     }
 
+	/**
+	 * 特定ワードを設定文字に置換する( %Value% )
+	 * @param	char* baseText
+	 * @param	int replaceValue
+	 * @return
+	 */
+	const std::string	getReplaceTextValue( const char* baseText, int replaceValue, bool isComma )
+	{
+		int strFindPos = -1;
+		const std::string errorText = "#ERROR#";
+		std::string valueStr;
+		std::string replaceText = baseText;
 
+		// 特定ワード検索
+		strFindPos = static_cast<int>( replaceText.find("%value%") );
+		if ( strFindPos != std::string::npos )
+		{
+			// 数値を文字列に変換
+			valueStr = std::to_string( replaceValue );
 
-}
+			if ( isComma ){
+				if ( replaceValue >= 1000 ) {
+					// 「,」を入れる
+					valueStr.insert( (valueStr.length() - 3), "," );
+				}
+			}
+
+			// 特定ワードがあればsetTextに置換する
+			replaceText = replaceOtherStr( replaceText, "%value%", valueStr );
+
+			return replaceText;
+		}
+		return errorText;
+	}
+
+	/**
+	 * 特定ワードを設定文字に置換する( %text% )
+	 * @param	char* baseText
+	 * @param	char* setText
+	 * @return
+	 */
+	const std::string	getReplaceText( const char* baseText, const char* setText, bool isComma )
+	{
+		int strFindPos = -1;
+		const std::string errorText = "#ERROR#";
+		std::string replaceText = baseText;
+		std::string replaceSetText = setText;
+
+		strFindPos = static_cast<int>( replaceText.find("%text%") );
+		if ( strFindPos != std::string::npos )
+		{
+			// 特定ワードがあればsetTextに置換する
+			replaceText = replaceOtherStr( replaceText, "%text%", replaceSetText );
+
+			return replaceText;
+		}
+		return errorText;
+	}
+
+}/** namespace UtilityForOperat */
 
 
 

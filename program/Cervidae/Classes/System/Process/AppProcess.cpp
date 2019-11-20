@@ -12,25 +12,29 @@
 //  Created by kashima akihiro on 2018/11/04.
 //=================================================================================//
 
-AppProcManage* AppProcManage::s_pInstance;
+AppProcManager* AppProcManager::s_pInstance;
 
 // インスタンスが作成されていなければ作成
-AppProcManage* AppProcManage::getInstance()
+AppProcManager* AppProcManager::getInstance()
 {
 	if ( !s_pInstance )
 	{
-		s_pInstance = new AppProcManage();
+		s_pInstance = new AppProcManager();
 		if( s_pInstance == NULL ){}
 	}
 	return s_pInstance;
 };
 
-bool	AppProcManage::setProcessFunc( systemProcExec pSetFunc )
+//=================================================================================//
+// 
+// 
+//=================================================================================//
+bool	AppProcManager::setProcessFunc( appProcessExec p_Function )
 {
 	if( s_pInstance )
 	{
 		// シーン関数ポインタセット
-		m_ProcessFunc = pSetFunc;
+		m_ProcessFunc = p_Function;
 
 		// 設定確保
 		return	true;
@@ -39,18 +43,22 @@ bool	AppProcManage::setProcessFunc( systemProcExec pSetFunc )
 	return	false;
 }
 
-int		AppProcManage::systemProcessUpdate()
+//=================================================================================//
+// 
+// 
+//=================================================================================//
+int		AppProcManager::appProcessUpdate()
 {
-	int	nProcessCode = DxLibCommon::Process::eEXEC_RETURN_CODE_KEEP;
+	int	__ProcessCode = DxLibCommon::Process::eEXEC_RETURN_CODE_KEEP;
 	// 関数処理
-	nProcessCode = (m_ProcessFunc)();
-#if defined( SYSTEM_DEBUG )
-	if( nProcessCode == DxLibCommon::Process::eEXEC_RETURN_CODE_EXIT )
+	__ProcessCode = ( this->m_ProcessFunc )();
+#if PROJECT_DEBUG
+	if( __ProcessCode == DxLibCommon::Process::eEXEC_RETURN_CODE_EXIT )
 	{
 	}
 #endif
 	// eEXEC_RETURN_CODE_EXIT を返すとアプリケーション終了
-	return nProcessCode;
+	return __ProcessCode;
 }
 
 

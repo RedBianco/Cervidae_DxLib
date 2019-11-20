@@ -7,7 +7,6 @@
 //  Created by kashima akihiro on 2018/12/13.
 //===================================================================================
 
-#include "../../CommonList.h"
 
 //-----------------------------------------------------------------------------------
 // 便利関数群
@@ -25,14 +24,14 @@ namespace UtilityForOperat
 	 * @param	buff UTF-8の文字列
 	 * @return	引数で指定された文字列の長さ
 	 */
-	int		getUTF8StrLen( const char *buff );
+	const int	getUTF8StrLen( const char *buff );
     
 	/**
 	 * UTF-8の文字長を調べる(半角考慮版)
 	 * @param	buff UTF-8の文字列
 	 * @return	引数で指定された文字列の長さ(半角は0.5としてる)
 	 */
-	float	getUTF8StrLenSingleByte( const char *buff );
+	const float	getUTF8StrLenSingleByte( const char *buff );
 
     /**
      * UTF-8文字が何バイト文字か調べる
@@ -133,14 +132,14 @@ namespace UtilityForOperat
 	 * @param	
 	 * @return	半角の長さ数値
 	 */
-	int		getStringLongTag( char * et_str );
+	const int	getStringLongTag( char * et_str );
 
 	/**
 	 * タグを外した文字数(半角全角区別する)を出す
 	 * @param	
 	 * @return	文字数(半角全角区別する)
 	 */
-	int		getStringNumTag( char * et_str );
+	const int	getStringNumTag( char * et_str );
 
 	/**
 	 * 文字数取得
@@ -172,21 +171,21 @@ namespace UtilityForOperat
 	 * @param	szSrcFilePath
 	 * @return	
 	 */
-	bool	isEtcDirectoryFigure( char szCh );
+	const bool	isEtcDirectoryFigure( char szCh );
 	
 	/**
 	 * 設定した文字列がSJISかどうかを調べる
 	 * @param
 	 * @return
 	 */
-	bool	isStringCodeSJIS( const char *lpSrc );
+	const bool	isStringCodeSJIS( const char *lpSrc );
 
 	/**
 	 * マルチバイト文字かチェック
 	 * @param
 	 * @return
 	 */
-	bool	isStringMultiByte( const char *pstr);
+	const bool	isStringMultiByte( const char *pstr);
 
 	/**
 	 * 指定した配列の文字列の中から最大の文字数を返す
@@ -194,7 +193,22 @@ namespace UtilityForOperat
 	 * @param	len_size
 	 * @return
 	 */
-	int		getStrArryElement( char * arry[], int len_size );
+	const int	getStringArryElement( char* arry[], int len_size );
+
+	/**
+	 * 両方の文字列の長い方を返す
+	 * @param
+	 * @param
+	 * @return
+	 */
+	const char* getStringMaxLen( const char* strx, const char* stry );
+	/**
+	 * セットした複数文字列の中から一番長い文字列の文字数を返す
+	 * @param
+	 * @param
+	 * @return
+	 */
+	const char* getStringArryMaxLen( std::vector<std::string> arry );
 
 	/**
 	 * 有効桁以下を切り捨てる
@@ -211,6 +225,22 @@ namespace UtilityForOperat
 	 * @return
 	 */
 	bool	getStringReturnCode( char * pStr, int * type );
+
+	/**
+	 * 特定ワードを設定文字に置換する( %Value% )
+	 * @param	char* baseText
+	 * @param	int replaceValue
+	 * @return
+	 */
+	const std::string	getReplaceTextValue( const char* baseText, int replaceValue, bool isComma = false );
+
+	/**
+	 * 特定ワードを設定文字に置換する( %text% )
+	 * @param	char* baseText
+	 * @param	char* setText
+	 * @return
+	 */
+	const std::string	getReplaceText( const char* baseText, const char* setText, bool isComma = false );
 }
 
 
