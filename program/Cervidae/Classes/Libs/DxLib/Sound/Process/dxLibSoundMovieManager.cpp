@@ -3,7 +3,7 @@
 #include "../../../../Common/CervidaeLib/CLDefine.h"
 #include "../../../../Common/appCommonParam.h"
 #include "../../Input/dxLibInputConfig.h"
-#include "../dxLibStreamManageConfig.h"
+#include "../dxLibSoundManageConfig.h"
 #include "dxLibSoundMovieManager.h"
 
 //==========================================================================//
