@@ -12,11 +12,11 @@
  */
 namespace DxLib
 {
-	class StreamPlayManager
+	class SoundPlayManager : public AppFileSystem
 	{
 	public:
-		StreamPlayManager();
-		virtual ~StreamPlayManager();
+		SoundPlayManager();
+		virtual ~SoundPlayManager();
 
 	public:
 		std::vector< App::SoundDataContainer>	m_SoundData;
@@ -58,13 +58,13 @@ namespace DxLib
 		//------------------------------------------------------------------------------//
 
 		// 音声ファイル(WAV.MP3.Ogg)をメモリに読みこむ
-		int		dxLib_SoundFileMemLoad( char * loadFileName_, const int  nSoundArchive );
+		int		dxLib_SoundFileMemLoad( const char * loadFileName_, const int  nSoundArchive );
 
 		// メモリの音声ファイルがあるかチェック(soundFileName_:音声ファイルネーム)
-		int		dxLib_MemSoundDataCheck( char * SysSoundFile_ );
+		int		dxLib_MemSoundDataCheck( const char * SysSoundFile_ );
 
 		// 名前から登録ハンドルを探して返す
-		int		dxLib_GetMemSoundDataEntryHandle( char * SysSoundFile_ );
+		int		dxLib_GetMemSoundDataEntryHandle( const char * SysSoundFile_ );
 
 		// 登録データ番号の登録サウンドハンドルを取得
 		int		dxLib_GetMemSoundDataEntryIndex( const int  nEntryIndex );

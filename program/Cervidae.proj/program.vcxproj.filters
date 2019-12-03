@@ -135,9 +135,6 @@
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundVoiceManager.cpp">
       <Filter>Cervidae\Classes\Libs\DxLib\Sound\Process</Filter>
     </ClCompile>
-    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.cpp">
-      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
-    </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\System\Task\TaskCore.cpp">
       <Filter>Cervidae\Classes\System\Task</Filter>
     </ClCompile>
@@ -185,6 +182,9 @@
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramFileManage.cpp">
       <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundManager.cpp">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,12 +263,6 @@
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundVoiceManager.h">
       <Filter>Cervidae\Classes\Libs\DxLib\Sound\Process</Filter>
     </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManageConfig.h">
-      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.h">
-      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
-    </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\System\Task\TaskCore.h">
       <Filter>Cervidae\Classes\System\Task</Filter>
     </ClInclude>
@@ -343,6 +337,15 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramFileManage.h">
       <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityRenderObject.h">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundManageConfig.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundManager.h">
+      <Filter>Cervidae\Classes\Libs\DxLib\Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

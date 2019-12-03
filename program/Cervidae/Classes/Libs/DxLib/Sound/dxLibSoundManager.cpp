@@ -2,9 +2,11 @@
 #include "DxLib.h"
 #include "../../../Common/CervidaeLib/CLDefine.h"
 #include "../../../Common/appCommonParam.h"
+#include "../Resources/appResourcesConfig.h"
+#include "../Resources/Texture/appFileSystem.h"
 #include "Process/dxLibSoundData.h"
-#include "dxLibStreamManageConfig.h"
-#include "dxLibStreamManager.h"
+#include "dxLibSoundManageConfig.h"
+#include "dxLibSoundManager.h"
 
 //==========================================================================//
 //
@@ -16,11 +18,11 @@
 /*
  *	コンストラクタ
  */
-DxLib::StreamPlayManager::StreamPlayManager()
+DxLib::SoundPlayManager::SoundPlayManager()
 {
 
 }
-DxLib::StreamPlayManager::~StreamPlayManager()
+DxLib::SoundPlayManager::~SoundPlayManager()
 {
 
 }
@@ -29,7 +31,7 @@ DxLib::StreamPlayManager::~StreamPlayManager()
 // 
 // DX_MIDIMODE_DM  : DirectMusic による演奏
 // DX_MIDIMODE_MCI : MCIによる再生(デフォルト)
-void	DxLib::StreamPlayManager::setMidiPlayMode( const int  nMidiMode )
+void	DxLib::SoundPlayManager::setMidiPlayMode( const int  nMidiMode )
 {
 	//--------------------------------------------------------------------------------------------
 	// ※基本MIDIは使用せず全てmp3形式
@@ -39,7 +41,7 @@ void	DxLib::StreamPlayManager::setMidiPlayMode( const int  nMidiMode )
 #if PROJECT_DEBUG
 	if( result_ == -1 )
 	{
-		ERROR_PRINT("__ERROR__ : StreamPlayManager::setMidiPlayMode\n"); // 設定エラー
+		ERROR_PRINT("__ERROR__ : SoundPlayManager::setMidiPlayMode\n"); // 設定エラー
 	}
 #endif
 }
@@ -47,7 +49,7 @@ void	DxLib::StreamPlayManager::setMidiPlayMode( const int  nMidiMode )
 //==========================================================================//
 // 
 //
-bool	DxLib::StreamPlayManager::init()
+bool	DxLib::SoundPlayManager::init()
 {
 	return false;
 }
@@ -62,26 +64,26 @@ bool	DxLib::StreamPlayManager::init()
 //			   DX_PLAYTYPE_LOOP		:	バックグラウンド＋ループ再生
 //	戻り値    ０：成功
 //			－１：エラー発生
-int		DxLib::StreamPlayManager::streamPlay( char * playFileName, const int  SoundArchive, const int  playingType )
+int		DxLib::SoundPlayManager::streamPlay( char * playFileName, const int  SoundArchive, const int  playingType )
 {
 	char strLoadPath[ 256 ] = {};
 
 	// ファイルパス取得
-//	dxLib_FileLoadGetAccessPath( SoundArchive, playFileName, strStrmPath );
+	fileLoadGetAccessPath( SoundArchive, playFileName, strLoadPath );
 
 	// ストリーム再生処理
 	int hStreamPlay = -1;
 	hStreamPlay = DxLib::PlayMusic( strLoadPath, playingType );
 	if( hStreamPlay == -1 )
 	{
-		ERROR_PRINT("__ERROR__ : StreamPlayManager::streamPlay[%s]\n", playFileName );// 再生失敗
+		ERROR_PRINT("__ERROR__ : SoundPlayManager::streamPlay[%s]\n", playFileName );// 再生失敗
 		return ( -1); // ERROR
 	}
 
 	DEBUG_PRINT("[Sound] streamPlay：[%s]\n", playFileName );
 	return 0;
 }
-int		DxLib::StreamPlayManager::streamIdPlay( const int  playFileNo, const int  SoundArchive, const int  PlayingType )
+int		DxLib::SoundPlayManager::streamIdPlay( const int  playFileNo, const int  SoundArchive, const int  PlayingType )
 {
 	//-------------------------------------------------------------------------------------------------------
 	// TYPE②：ファイルの番号のみ指定で自動でネームを設定するVer
@@ -94,7 +96,7 @@ int		DxLib::StreamPlayManager::streamIdPlay( const int  playFileNo, const int  S
 	sprintf_s( strFileName, 256, "%d_Sound.mp3", playFileNo );
 
 	// ファイルパス取得
-//	dxLib_FileLoadGetAccessPath( SoundArchive, strFileName, strStrmPath );
+	fileLoadGetAccessPath( SoundArchive, strFileName, strLoadPath );
 
 	// ストリーム再生処理
 	int playResult = -1;
@@ -102,7 +104,7 @@ int		DxLib::StreamPlayManager::streamIdPlay( const int  playFileNo, const int  S
 #if PROJECT_DEBUG
 	if( playResult == -1 )
 	{
-		ERROR_PRINT("__ERROR__ : StreamPlayManager::streamIdPlay[%s]\n", strFileName );// 再生失敗
+		ERROR_PRINT("__ERROR__ : SoundPlayManager::streamIdPlay[%s]\n", strFileName );// 再生失敗
 		return ( -1 ); // ERROR
 	}
 #endif
@@ -115,13 +117,13 @@ int		DxLib::StreamPlayManager::streamIdPlay( const int  playFileNo, const int  S
 //	MIDI，WAV，"MP3"ファイルの再生停止
 // 	  ０：成功
 //	－１：エラー発生
-int		DxLib::StreamPlayManager::streamPlayStop()
+int		DxLib::SoundPlayManager::streamPlayStop()
 {
 	// PlayMusic関数で開始した再生を停止します
 	const int result_ = DxLib::StopMusic();
 	if( result_ == -1 )
 	{
-		ERROR_PRINT("__ERROR__ : StreamPlayManager::streamPlayStop()\n");
+		ERROR_PRINT("__ERROR__ : SoundPlayManager::streamPlayStop()\n");
 		return ( -1 );	// Error
 	}
 	// 処理成功
@@ -137,13 +139,13 @@ int		DxLib::StreamPlayManager::streamPlayStop()
 //		０：演奏(再生)中ではない
 //		１：演奏(再生)中
 //	　－１：エラー
-int		DxLib::StreamPlayManager::streamPlayState()
+int		DxLib::SoundPlayManager::streamPlayState()
 {
 	// PlayMusic関数で開始した再生がまだ続いているかチェック
 	const int result_ = DxLib::CheckMusic();
 	if( result_ == -1 )
 	{
-		ERROR_PRINT("__ERROR__ : StreamPlayManager::dtreamPlayState()\n");
+		ERROR_PRINT("__ERROR__ : SoundPlayManager::dtreamPlayState()\n");
 		return ( -1 ); // Error
 	}
 	return ( result_ ); // Errorじゃないなら情報を返す
@@ -157,7 +159,7 @@ int		DxLib::StreamPlayManager::streamPlayState()
 //	　－１：エラー発生
 //	※PlayMusic関数 で開始した演奏の音量を設定します０が無音、２５５が最大音量(デフォルト)
 //	※ＭＣＩを使用したＭＩＤＩ演奏の場合は音量を変更は不可
-int		DxLib::StreamPlayManager::setPlayVolumeConfig( const int  nStreamVolume )
+int		DxLib::SoundPlayManager::setPlayVolumeConfig( const int  nStreamVolume )
 {
 #if PROJECT_DEBUG
 	if( nStreamVolume < 0 || nStreamVolume > 255 ){
@@ -182,7 +184,7 @@ int		DxLib::StreamPlayManager::setPlayVolumeConfig( const int  nStreamVolume )
 //	MIDI，WAV，"MP3"ファイルのサウンドハンドルを使用したストリーム再生
 //
 //
-int		DxLib::StreamPlayManager::streamHandlePlay( const int  nHandle, const int  nPlaying, const int  bPlayPosition )
+int		DxLib::SoundPlayManager::streamHandlePlay( const int  nHandle, const int  nPlaying, const int  bPlayPosition )
 {
 	if( nHandle < 0 ){ return ( -1 ); }// Error 
 
@@ -204,7 +206,7 @@ int		DxLib::StreamPlayManager::streamHandlePlay( const int  nHandle, const int  
 //	<<戻り値>>
 //		    －１：エラー
 //		－１以外：サウンドハンドル
-int		DxLib::StreamPlayManager::dxLib_SoundFileMemLoad( char* loadFileName_, const int  nSoundArchive )
+int		DxLib::SoundPlayManager::dxLib_SoundFileMemLoad( const char* loadFileName_, const int  nSoundArchive )
 {
 	int		soundHandle = -1;
 	int		index = 0;
@@ -253,7 +255,7 @@ int		DxLib::StreamPlayManager::dxLib_SoundFileMemLoad( char* loadFileName_, cons
 //		char * SysSoundFile_	:	サウンドファイル名
 //	<戻り値>
 //		失敗					:	DXLSOUND_MEMORY_MAX
-int		DxLib::StreamPlayManager::dxLib_MemSoundDataCheck( char * SysSoundFile_ )
+int		DxLib::SoundPlayManager::dxLib_MemSoundDataCheck( const char * SysSoundFile_ )
 {
 	int  i = 0;
 	for ( i = 0; i < DxLibSound::BaseInfo::SETTING_FILE_MEMORY_ENTRY_MAX; i ++ )
@@ -282,7 +284,7 @@ int		DxLib::StreamPlayManager::dxLib_MemSoundDataCheck( char * SysSoundFile_ )
 //	名前から登録ハンドルを探して返す
 //		char * SysSoundFile_	:	サウンドファイル名
 //	@return		サウンドハンドル
-int		DxLib::StreamPlayManager::dxLib_GetMemSoundDataEntryHandle( char * SysSoundFile_ )
+int		DxLib::SoundPlayManager::dxLib_GetMemSoundDataEntryHandle( const char * SysSoundFile_ )
 {
 	// データ登録番号取得
 	int dataIndex  = 0;
@@ -307,7 +309,7 @@ int		DxLib::StreamPlayManager::dxLib_GetMemSoundDataEntryHandle( char * SysSound
 //==========================================================================//
 // 	データ登録番号の登録サウンドハンドルを取得
 //		int  nEntryIndex		:	データ登録番号
-int		DxLib::StreamPlayManager::dxLib_GetMemSoundDataEntryIndex( const int  nEntryIndex )
+int		DxLib::SoundPlayManager::dxLib_GetMemSoundDataEntryIndex( const int  nEntryIndex )
 {
 	App::SoundDataContainer* pFileData = &m_SoundData.at( nEntryIndex );
 #if PROJECT_DEBUG
@@ -330,7 +332,7 @@ int		DxLib::StreamPlayManager::dxLib_GetMemSoundDataEntryIndex( const int  nEntr
 //							( TRUE：移動する（デフォルト）　FALSE：移動しない )
 //	<<戻り値>>
 //		0->再生成功		-1->再生失敗
-int		DxLib::StreamPlayManager::dxLib_MemSoundPlay( char * szSoundName, const int  SoundPlay, const int  isTopPosition )
+int		DxLib::SoundPlayManager::dxLib_MemSoundPlay( char * szSoundName, const int  SoundPlay, const int  isTopPosition )
 {
 	// データ登録番号取得
 	int sndDataIndex  = 0;
@@ -373,7 +375,7 @@ int		DxLib::StreamPlayManager::dxLib_MemSoundPlay( char * szSoundName, const int
 //							DX_PLAYTYPE_NORMAL	:	ノーマル再生
 //							DX_PLAYTYPE_BACK	:	バックグラウンド再生
 //							DX_PLAYTYPE_LOOP	:	ループ再生
-int		DxLib::StreamPlayManager::dxLib_MemSoundPlay( const int  nSoundHandle, const int  SoundPlay_, const int  isTopPosition_ )
+int		DxLib::SoundPlayManager::dxLib_MemSoundPlay( const int  nSoundHandle, const int  SoundPlay_, const int  isTopPosition_ )
 {
 	if( nSoundHandle < 0 ){ return ( -1 ); }
 
@@ -400,7 +402,7 @@ int		DxLib::StreamPlayManager::dxLib_MemSoundPlay( const int  nSoundHandle, cons
 // 	int  nSoundHandle_		:	指定サウンドハンドル
 //
 //
-int		DxLib::StreamPlayManager::dxLib_MemSoundPlayStop( const int  nSoundHandle )
+int		DxLib::SoundPlayManager::dxLib_MemSoundPlayStop( const int  nSoundHandle )
 {
 	int soundResult = 0;
 	soundResult = DxLib::StopSoundMem( nSoundHandle );
@@ -420,7 +422,7 @@ int		DxLib::StreamPlayManager::dxLib_MemSoundPlayStop( const int  nSoundHandle )
 //==========================================================================//
 // システムＳＥファイルのメモリ登録
 //
-bool	DxLib::StreamPlayManager::dxLib_MemEntrySystemSound()
+bool	DxLib::SoundPlayManager::dxLib_MemEntrySystemSound()
 {
 	int handleSE = -1;
 	for( int  i = 0; i < DxLibSound::BaseInfo::SETTING_FILE_MEMORY_ENTRY_MAX; i ++ )
@@ -430,7 +432,7 @@ bool	DxLib::StreamPlayManager::dxLib_MemEntrySystemSound()
 		if( strcmp( (pFileData)->dxSoundName.c_str(), "" ) == 0 ){ break; }
 
 		// メモリロード
-//		handleSE = dxLib_SoundFileMemLoad( (pFileData)->dxSoundName.c_str(), ARCHIVE_SE );
+		handleSE = dxLib_SoundFileMemLoad( (pFileData)->dxSoundName.c_str(), AppLib::Resources::Archive::eARCHIVE_FILETYPE_SE );
 		if( handleSE == -1 )
 		{
             ERROR_PRINT("__ERROR__ : dxLib_MemEntrySystemSound [%d][%s]\n", i, (pFileData)->dxSoundName.c_str() );
@@ -439,14 +441,14 @@ bool	DxLib::StreamPlayManager::dxLib_MemEntrySystemSound()
 	}
 	return ( true );
 }
-void	DxLib::StreamPlayManager::dxLib_MemEntrySystemSoundReregist()
+void	DxLib::SoundPlayManager::dxLib_MemEntrySystemSoundReregist()
 {
 	if( dxSoundReadMode == 0 )
 	{
 		dxSoundReadMode = 1;
 	}
 }
-void	DxLib::StreamPlayManager::dxLib_MemEntrySystemSoundReset()
+void	DxLib::SoundPlayManager::dxLib_MemEntrySystemSoundReset()
 {
 	if( dxSoundReadMode == 1 )
 	{
@@ -458,7 +460,7 @@ void	DxLib::StreamPlayManager::dxLib_MemEntrySystemSoundReset()
 // システムＳＥファイルのメモリ登録の指定リストを削除
 //
 //
-int		DxLib::StreamPlayManager::dxLib_MemEntryDeleteSystemSound( char* SysSoundFile_ )
+int		DxLib::SoundPlayManager::dxLib_MemEntryDeleteSystemSound( char* SysSoundFile_ )
 {
 	// データ登録番号取得
 	int j = 0;
@@ -497,7 +499,7 @@ int		DxLib::StreamPlayManager::dxLib_MemEntryDeleteSystemSound( char* SysSoundFi
 //==========================================================================//
 // メモリにロードしたシステムＳＥファイルの再生
 // char *  _SysSoundFile  : 再生サウンドファイル名
-int		DxLib::StreamPlayManager::dxLib_MemPlaySystemSound( char * SysSoundFile_ )
+int		DxLib::SoundPlayManager::dxLib_MemPlaySystemSound( char * SysSoundFile_ )
 {
 	int playResult = -1;
 	playResult =  dxLib_MemSoundPlay( SysSoundFile_, DxLibSound::BaseInfo::SOUND_STREAM_NORMALPLAY, TRUE );
@@ -515,7 +517,7 @@ int		DxLib::StreamPlayManager::dxLib_MemPlaySystemSound( char * SysSoundFile_ )
 //			１：再生中
 //			０：再生されていない
 //		  －１：エラー発生
-int		DxLib::StreamPlayManager::dxLib_MemSoundPlayStatusCheck( const int  nSoundHandle )
+int		DxLib::SoundPlayManager::dxLib_MemSoundPlayStatusCheck( const int  nSoundHandle )
 {
 	int nSoundResult = 0, nSoundStatus = 0;
 	nSoundResult = DxLib::CheckSoundMem( nSoundHandle );
@@ -542,7 +544,7 @@ int		DxLib::StreamPlayManager::dxLib_MemSoundPlayStatusCheck( const int  nSoundH
 //		１：再生中
 //		０：再生されていない
 //	  －１：エラー発生
-int		DxLib::StreamPlayManager::dxLib_MemSoundPlayStatusCheck( char *  szSoundFile )
+int		DxLib::SoundPlayManager::dxLib_MemSoundPlayStatusCheck( char *  szSoundFile )
 {
 	//	サウンドハンドル取得
 	int _SoundHandle = 0;
@@ -578,7 +580,7 @@ int		DxLib::StreamPlayManager::dxLib_MemSoundPlayStatusCheck( char *  szSoundFil
 //	  －１：エラー発生
 //	※音の再生中に削除した場合は再生を止めてから削除
 //	※削除したサウンドは再読み込みするまで使うことは出来なくなる
-int		DxLib::StreamPlayManager::dxLib_MemLoadSoundHandleDelete( const int  nSoundHandle )
+int		DxLib::SoundPlayManager::dxLib_MemLoadSoundHandleDelete( const int  nSoundHandle )
 {
 	int deleteResult = 0;
 	deleteResult = DxLib::DeleteSoundMem( nSoundHandle );
@@ -598,7 +600,7 @@ int		DxLib::StreamPlayManager::dxLib_MemLoadSoundHandleDelete( const int  nSound
 //	  －１：エラー発生
 //	※音の再生中に削除した場合は再生を止めてから削除
 //	※削除したサウンドは再読み込みするまで使うことは出来なくなる
-int		DxLib::StreamPlayManager::dxLib_MemLoadSoundHandleDelete( char * szSoundFile )
+int		DxLib::SoundPlayManager::dxLib_MemLoadSoundHandleDelete( char * szSoundFile )
 {
 	// サウンドハンドル取得
 	int _SoundHandle = 0;
@@ -627,7 +629,7 @@ int		DxLib::StreamPlayManager::dxLib_MemLoadSoundHandleDelete( char * szSoundFil
 //	<<戻り値>>
 //		０：成功
 //	  －１：エラー発生
-int		DxLib::StreamPlayManager::dxLib_MemSoundFileVolumeSet( const int  nSysVolumePal, const int nSoundHandle )
+int		DxLib::SoundPlayManager::dxLib_MemSoundFileVolumeSet( const int  nSysVolumePal, const int nSoundHandle )
 {
 	int volumeResult = 0;
 	if( nSoundHandle < 0 )
@@ -643,7 +645,7 @@ int		DxLib::StreamPlayManager::dxLib_MemSoundFileVolumeSet( const int  nSysVolum
 	}
 	return ( 0 ); // 成功
 }
-int		DxLib::StreamPlayManager::dxLib_MemSoundFileVolumeSet( const int  nSysVolumePal, char * szSoundFile )
+int		DxLib::SoundPlayManager::dxLib_MemSoundFileVolumeSet( const int  nSysVolumePal, char * szSoundFile )
 {
 	// サウンドハンドルの取得
 	int soundHandle = 0;
@@ -670,7 +672,7 @@ int		DxLib::StreamPlayManager::dxLib_MemSoundFileVolumeSet( const int  nSysVolum
 //		ボリューム
 //	
 //==========================================================================//
-int		DxLib::StreamPlayManager::dxLib_MemSoundFileVolumeGet( const int nSoundHandle )
+int		DxLib::SoundPlayManager::dxLib_MemSoundFileVolumeGet( const int nSoundHandle )
 {
 	int soundVolume = DxLib::GetVolumeSoundMem( nSoundHandle );
 	if( soundVolume < 0 )
@@ -679,7 +681,7 @@ int		DxLib::StreamPlayManager::dxLib_MemSoundFileVolumeGet( const int nSoundHand
 	}
 	return ( soundVolume );
 }
-int		DxLib::StreamPlayManager::dxLib_MemSoundFileVolumeGet( const int nSoundHandle, char * szSoundFile )
+int		DxLib::SoundPlayManager::dxLib_MemSoundFileVolumeGet( const int nSoundHandle, char * szSoundFile )
 {
 	int soundHandle = 0;
 	soundHandle = dxLib_GetMemSoundDataEntryHandle( szSoundFile );
@@ -698,7 +700,7 @@ int		DxLib::StreamPlayManager::dxLib_MemSoundFileVolumeGet( const int nSoundHand
 //	int  nSoundHandle : 指定サウンドハンドル
 //	
 //==========================================================================//
-int		DxLib::StreamPlayManager::dxLib_SetSoundSampleFrequency( const int  nSoundHandle )
+int		DxLib::SoundPlayManager::dxLib_SetSoundSampleFrequency( const int  nSoundHandle )
 {
 	int soundResult = -1;
 	soundResult = DxLib::SetFrequencySoundMem( ( int)DxLibSound::BaseInfo::SOUND_SAMPLE_FREQUENCY, nSoundHandle );
@@ -712,7 +714,7 @@ int		DxLib::StreamPlayManager::dxLib_SetSoundSampleFrequency( const int  nSoundH
 //	int  nSoundHandle : 指定サウンドハンドル
 //	
 //==========================================================================//
-int		DxLib::StreamPlayManager::dxLib_GetSoundSampleFrequency( const int  nSoundHandle )
+int		DxLib::SoundPlayManager::dxLib_GetSoundSampleFrequency( const int  nSoundHandle )
 {
 	int  nSampleFreq = 0;
 	nSampleFreq = DxLib::GetFrequencySoundMem( nSoundHandle );
@@ -725,7 +727,7 @@ int		DxLib::StreamPlayManager::dxLib_GetSoundSampleFrequency( const int  nSoundH
 //
 //	int  nSoundHandle		:	指定サウンドハンドル
 //==========================================================================//
-int		DxLib::StreamPlayManager::dxLib_GetSoundPlayingMiriTime( const int  nSoundHandle )
+int		DxLib::SoundPlayManager::dxLib_GetSoundPlayingMiriTime( const int  nSoundHandle )
 {
 	int  nPlayingTime = 0;
 	nPlayingTime = DxLib::GetSoundTotalTime( nSoundHandle );
@@ -737,11 +739,11 @@ int		DxLib::StreamPlayManager::dxLib_GetSoundPlayingMiriTime( const int  nSoundH
 //	サウンドシステム毎フレーム処理
 //
 //==========================================================================//
-int		DxLib::StreamPlayManager::dxLib_SystemSound_Runtime( const int  nSoundMode )
+int		DxLib::SoundPlayManager::dxLib_SystemSound_Runtime( const int  nSoundMode )
 {
 	return 0;
 }
-void	DxLib::StreamPlayManager::dxLib_SystemSound_ProcAtOnce( void )
+void	DxLib::SoundPlayManager::dxLib_SystemSound_ProcAtOnce( void )
 {
 }
 
@@ -749,7 +751,7 @@ void	DxLib::StreamPlayManager::dxLib_SystemSound_ProcAtOnce( void )
 //	システムSE再生全停止
 //
 //==========================================================================//
-int		DxLib::StreamPlayManager::dxLib_MemSoundStop()
+int		DxLib::SoundPlayManager::dxLib_MemSoundStop()
 {
 	return dxLib_MemSoundPlayGroupStop();
 }
@@ -758,7 +760,7 @@ int		DxLib::StreamPlayManager::dxLib_MemSoundStop()
 //	再生中のシステムSEカテゴリのファイルを全て止める
 //
 //==========================================================================//
-int		DxLib::StreamPlayManager::dxLib_MemSoundPlayGroupStop( void )
+int		DxLib::SoundPlayManager::dxLib_MemSoundPlayGroupStop( void )
 {
 	int  nSound = 0;
 	for( int  i = 0; i < DxLibSound::BaseInfo::SETTING_FILE_MEMORY_ENTRY_MAX; i ++ )
@@ -778,7 +780,7 @@ int		DxLib::StreamPlayManager::dxLib_MemSoundPlayGroupStop( void )
 //	ボリューム値の範囲内クリッピング
 //	int * pVolume		:	ボリューム値
 //==========================================================================//
-void	DxLib::StreamPlayManager::dxLib_SoundVolumeCalcClipping( int * pVolume )
+void	DxLib::SoundPlayManager::dxLib_SoundVolumeCalcClipping( int * pVolume )
 {
 	if( *pVolume >= 255 ){ *pVolume = 255; }
 	if( *pVolume <= 0 ){ *pVolume = 0; }

@@ -142,7 +142,7 @@
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramControl.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramFileManage.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\Archive\appArchiveFileControl.cpp" />
-    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundManager.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundBGMManager.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundMovieManager.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundSEManager.cpp" />
@@ -171,6 +171,7 @@
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveCalculat.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveLine.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveWait.h" />
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityRenderObject.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilitySilTiming.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebug.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebugConfig.h" />
@@ -192,8 +193,8 @@
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramControl.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\appVramFileManage.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\Archive\appArchiveFileControl.h" />
-    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManageConfig.h" />
-    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibStreamManager.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundManageConfig.h" />
+    <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\dxLibSoundManager.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundBGMManager.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundData.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Sound\Process\dxLibSoundMovieManager.h" />
