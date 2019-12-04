@@ -2,6 +2,7 @@
 
 #include "DxLib.h"
 #include "../../../Common/CervidaeLib/Template/tSingleton.h"
+
 //============================================================================//
 //  dxLibKeyPadUtility.h
 //  Cervidae
@@ -12,10 +13,12 @@
 // NOTE:当初はクラスに継承させてそっちで各自のデバッグモードを実装する設計を
 //      考えていたが
 //      ・マルチスレッド的に同時操作出来るのか処理系統がバラバラになりそう
-//      ・
 //      の理由でSingleton管理に変更、今後修正の可能性有り
-namespace DxLib
+namespace Lib
 {
+	/**
+	 * 
+	 */
 	class KeyInputOperat
 	{
 	public:
@@ -33,6 +36,9 @@ namespace DxLib
 	#endif
 	};
 
+	/**
+	 * 
+	 */
 	class JoypadInputOperat
 	{
 	public:
@@ -75,7 +81,7 @@ namespace DxLib
 	public:
 
 		// 入力パラメータ初期化
-		bool			inputParamInitialize( void );
+		bool			inputParamInit( void );
 		// キー・パッド入力システム基本初期化処理
 		void			inputStatusClear( void );
 		// キー・パッド入力システムランタイム
@@ -101,7 +107,7 @@ namespace DxLib
 		//
 		////////////////////////////////////////////////////////////////
 		// パッドシステム基本初期化
-		bool			padParamInitialize( void );
+		bool			padParamInit( void );
 		// パッド入力システム毎フレーム処理
 		void			updateJoypadInput( void );
 		// ジョイパッドの接続数を取得する
@@ -128,11 +134,11 @@ namespace DxLib
 
 	#if PROJECT_DEBUG
 		// 
-		int			debKeyInputRuntime( const int  iKeyList = 0 );
+		int		debKeyInputRuntime( const int iKeyList = 0 );
 		// キーを"１回"押したかを判定する
-		int			debKeyInputOneCheck( const int  iKeyList, int iKeyFrame = 1 );
+		int		debKeyInputOneCheck( const int iKeyList, int iKeyFrame = 1 );
 		// キーを押し続けているか判定する
-		int			debKeyInputDirectCheck( const int  iKeyList, int iKeyFrame = 1 );
+		int		debKeyInputDirectCheck( const int iKeyList, int iKeyFrame = 1 );
 	#endif
 
 	public:
@@ -140,11 +146,18 @@ namespace DxLib
 		// 「そのクラスのインスタンスが1つしか生成されないことを保証することができる」
 		// と言うのに反するのでprivateにする必要がある。
 		AppKeyPadController() {		// 外部でのインスタンス作成は禁止
-			inputParamInitialize();
-			padParamInitialize();
+			inputParamInit();
+			padParamInit();
 		};
 	//	virtual ~DebugModeOperat();
 	};
+
+	/* @brief アクセスインターフェース
+	*/
+	inline AppKeyPadController* getKeyPadOperatPtr(void)
+	{
+		return Singleton<AppKeyPadController>::getSingletonPtr();
+	}
 }
 
 

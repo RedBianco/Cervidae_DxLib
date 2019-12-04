@@ -17,27 +17,8 @@
 //  Created by kashima akihiro on 2018/12/30.
 //=================================================================================//
 
-/////////////////////////////////////////////////////////////////////////////////////
-//
-//
-/////////////////////////////////////////////////////////////////////////////////////
-AppLib::DebugMenuData::DebugMenuData() :
-	m_debCount_( 0),
-	m_debModeType_( 0),
-	appDebStartFunc( NULL),
-	appDebEndFunc( NULL),
-	appDebMainFunc( NULL),
-	appDebRenderFunc( NULL)
-{
-	DEBUG_PRINT("Debug : DebugMenuData コンストラクタ\n");
-}
-AppLib::DebugMenuData::~DebugMenuData()
-{
-	DEBUG_PRINT("Debug : DebugMenuData デストラクタ\n");
-}
 
-
-bool	AppLib::DebugModeOperat::debugParamInitialize()
+bool	App::DebugModeOperat::debugParamInitialize()
 {
 	m_debMode_ = 0;
 	m_debMenuSelIndex_ = 0;
@@ -48,21 +29,18 @@ bool	AppLib::DebugModeOperat::debugParamInitialize()
 	return false;
 }
 
-int		AppLib::DebugModeOperat::debugMenuNameSet( const int setMode, const char * szName )
+int		App::DebugModeOperat::debugMenuNameSet( const int setMode, const char * szName )
 {
 	if( 0 > setMode || setMode >= DxLib::DebugConfig::ENUM_DEBUG_MODE_TYPE_MAX ){
 		return( -1 ); // モード設定エラー
 	}
 
 
-
-
-
 	return 0;
 }
 
 // 指定のデバッグモードを開始した時の開始関数セット
-int		AppLib::DebugModeOperat::debugModeStartProcSet( const int setMode, const char * szName, void(*pStartFunc)() )
+int		App::DebugModeOperat::debugModeStartProcSet( const int setMode, const char * szName, void(*pStartFunc)() )
 {
 	if( 0 > setMode || setMode >= DxLib::DebugConfig::ENUM_DEBUG_MODE_TYPE_MAX ){
 		return( -1 ); // モード設定エラー
@@ -75,7 +53,7 @@ int		AppLib::DebugModeOperat::debugModeStartProcSet( const int setMode, const ch
 	return 0;
 }
 // 指定のデバッグモードを開始した時の終了関数セット
-int		AppLib::DebugModeOperat::debugModeEndProcSet( const int setMode, const char * szName, void(*pEndFunc)() )
+int		App::DebugModeOperat::debugModeEndProcSet( const int setMode, const char * szName, void(*pEndFunc)() )
 {
 	if( 0 > setMode || setMode >= DxLib::DebugConfig::ENUM_DEBUG_MODE_TYPE_MAX ){
 		return( -1 ); // モード設定エラー
@@ -88,7 +66,7 @@ int		AppLib::DebugModeOperat::debugModeEndProcSet( const int setMode, const char
 	return 0;
 }
 // 指定のデバッグモードを開始した時の処理関数セット
-int		AppLib::DebugModeOperat::debugModeMainProcSet( const int setMode, const char * szName, int(*pMainFunc)() )
+int		App::DebugModeOperat::debugModeMainProcSet( const int setMode, const char * szName, int(*pMainFunc)() )
 {
 	if( 0 > setMode || setMode >= DxLib::DebugConfig::ENUM_DEBUG_MODE_TYPE_MAX ){
 		return( -1 ); // モード設定エラー
@@ -101,7 +79,7 @@ int		AppLib::DebugModeOperat::debugModeMainProcSet( const int setMode, const cha
 	return 0;
 }
 // 指定のデバッグモードを開始した時の描画処理関数セット
-int		AppLib::DebugModeOperat::debugModeRenderProcSet( const int setMode, const char * szName, void(*pRenderFunc)() )
+int		App::DebugModeOperat::debugModeRenderProcSet( const int setMode, const char * szName, void(*pRenderFunc)() )
 {
 	if( 0 > setMode || setMode >= DxLib::DebugConfig::ENUM_DEBUG_MODE_TYPE_MAX ){
 		return( -1 ); // モード設定エラー
@@ -116,7 +94,7 @@ int		AppLib::DebugModeOperat::debugModeRenderProcSet( const int setMode, const c
 
 //==================================================================//
 // 
-int		AppLib::DebugModeOperat::debugAppUpdate()
+int		App::DebugModeOperat::debugAppUpdate()
 {
 	if( DxLib::CheckHitKey( KEY_INPUT_LSHIFT ) && 
 		DxLib::CheckHitKey( KEY_INPUT_D ) )
@@ -133,7 +111,7 @@ int		AppLib::DebugModeOperat::debugAppUpdate()
 }
 
 // printfDx で表示した簡易画面出力履歴をクリアする
-void	AppLib::DebugModeOperat::debugDxPrintfLogClear()
+void	App::DebugModeOperat::debugDxPrintfLogClear()
 {
 	const int isDxResult = clsDx();
 	if( isDxResult == -1 ){}

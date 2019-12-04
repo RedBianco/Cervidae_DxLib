@@ -1,26 +1,27 @@
 
 
-#include "AppProcess.h"
+#include "appProcess.h"
 #include "../../Libs/DxLib/dxLibDefine.h"
 #include "../../Common/CervidaeLib/CLDefine.h"
 #include <stdio.h>
 
 //=================================================================================//
-//  AppProcess.cpp
+//  appProcess.cpp
 //  Cervidae
 //
 //  Created by kashima akihiro on 2018/11/04.
 //=================================================================================//
 
-AppProcManager* AppProcManager::s_pInstance;
+App::ProcessManager* App::ProcessManager::s_pInstance;
 
 // インスタンスが作成されていなければ作成
-AppProcManager* AppProcManager::getInstance()
+App::ProcessManager* App::ProcessManager::getInstance()
 {
 	if ( !s_pInstance )
 	{
-		s_pInstance = new AppProcManager();
-		if( s_pInstance == NULL ){}
+		s_pInstance = new App::ProcessManager();
+		if( s_pInstance == nullptr ){
+		}
 	}
 	return s_pInstance;
 };
@@ -29,7 +30,7 @@ AppProcManager* AppProcManager::getInstance()
 // 
 // 
 //=================================================================================//
-bool	AppProcManager::setProcessFunc( appProcessExec p_Function )
+bool	App::ProcessManager::setProcessFunc( appProcessExec p_Function )
 {
 	if( s_pInstance )
 	{
@@ -47,7 +48,7 @@ bool	AppProcManager::setProcessFunc( appProcessExec p_Function )
 // 
 // 
 //=================================================================================//
-int		AppProcManager::appProcessUpdate()
+int		App::ProcessManager::appProcessUpdate()
 {
 	int	__ProcessCode = DxLibCommon::Process::eEXEC_RETURN_CODE_KEEP;
 	// 関数処理

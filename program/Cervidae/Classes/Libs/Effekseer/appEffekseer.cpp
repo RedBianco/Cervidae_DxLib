@@ -52,9 +52,11 @@
 
 Lib::EffekseerController::EffekseerController()
 {
+	COMMENT("Lib : EffekseerController コンストラクタ\n");
 }
 Lib::EffekseerController::~EffekseerController()
 {
+	COMMENT("Lib : EffekseerController デストラクタ\n");
 }
 void	Lib::EffekseerController::libSetPlayZBuffer()
 {
@@ -70,11 +72,11 @@ void	Lib::EffekseerController::libEnd()
 void	Lib::EffekseerController::libDataClear()
 {
 }
-int		Lib::EffekseerController::libFileLoad( char * szFile, int * nLoadHandle )
+int		Lib::EffekseerController::libFileLoad( const char * szLoadFile, int * nLoadHandle )
 {
 	return 0;
 }
-int		Lib::EffekseerController::libFileLoad( char * szFile )
+int		Lib::EffekseerController::libFileLoad( const char * szLoadFile )
 {
 	return 0;
 }
@@ -110,7 +112,7 @@ int		Lib::EffekseerController::libIsPlay2D( const int fileHandle )
 {
 	return 0;
 }
-unsigned int	Lib::EffekseerController::libIsEfkFileExist( char * szPlayFile )
+unsigned int	Lib::EffekseerController::libEffectFileExist( char * szPlayFile )
 {
 	return 0;
 }

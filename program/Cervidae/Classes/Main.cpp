@@ -24,7 +24,7 @@ int APIENTRY  WinMain(	HINSTANCE	hInstance,
 	 *	メインフロー
 	 */
 	{
-		AppSystem * pAppSystem = new AppSystem();
+		AppSystem* pAppSystem = AppSystem::createInstance();
 		if ( pAppSystem != nullptr )
 		{
 			pAppSystem->appSystemMain();
@@ -34,5 +34,3 @@ int APIENTRY  WinMain(	HINSTANCE	hInstance,
 	// メイン関数からreturnするとプログラムが終了する。0を返すと正常終了扱い。1を返すと異常終了扱い(エラーは出ない)
 	return 0;
 }
-
-

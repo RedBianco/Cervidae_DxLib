@@ -1,5 +1,5 @@
-#pragma once
-
+ï»¿#pragma once
+#if 0
 //===================================================================================
 //  SceneManager.h
 //  Cervidae
@@ -9,11 +9,11 @@
 
 
 /**
- *	@class	ƒV[ƒ“ŠÇ—Œ³ƒNƒ‰ƒX
+ *	@class	ÂƒVÂ[ÂƒÂ“ÂŠÃ‡Â—ÂÂŒÅ‚ÂƒNÂƒÂ‰ÂƒX
  */
 namespace App
 {
-	class SceneManager
+	class SceneManager : public Task
 	{
 	public:
 		SceneManager();
@@ -21,8 +21,8 @@ namespace App
 
 	public:
 
-		// ˆ—ŠÖ”ƒ}ƒNƒ
-		typedef int	(*appProcessFunc)( void );
+		// ÂÂˆÂ—ÂÂŠÃ–ÂÂ”Âƒ}ÂƒNÂƒÂ
+		typedef int	(*appProcessFunc)(void);
 
 		appProcessFunc	p_funcExec;
 
@@ -30,21 +30,9 @@ namespace App
 
 		int		updateProcess();
 
-		bool	setupProcessFunc( appProcessFunc  p_Func );
+		bool	setupProcessFunc(appProcessFunc  p_Func);
 
 	};
 }
-
-
-
-
-
-
+#endif
 /* End SceneManager.h */
-
-
-
-
-
-
-

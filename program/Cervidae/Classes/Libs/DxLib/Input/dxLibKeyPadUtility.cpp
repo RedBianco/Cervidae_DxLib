@@ -14,7 +14,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 // 
-bool	AppKeyPadController::inputParamInitialize()
+bool	Lib::AppKeyPadController::inputParamInit()
 {
 	dxKeyInput.m_KeyStatus_ = 0;
 	dxKeyInput.m_KeyInputMode_ = DxInput::Command::INPUT_MODE_GAME;
@@ -32,15 +32,15 @@ bool	AppKeyPadController::inputParamInitialize()
 	// 各入力タイプロック設定
 	inputSystemApply( DxInput::Command::INPUT_TYPE_KEYPAD, FALSE );
 
-	DEBUG_PRINT("[AppLib] AppKeyPadController::inputParamInitialize() CLEAR\n");
+	DEBUG_PRINT("[AppLib] AppKeyPadController::inputParamInit() CLEAR\n");
 
 	return true;
 }
-void	AppKeyPadController::inputStatusClear( void )
+void	Lib::AppKeyPadController::inputStatusClear( void )
 {
 }
 // キー・パッド入力システムランタイム
-void	AppKeyPadController::updateInputControl( void )
+void	Lib::AppKeyPadController::updateInputControl( void )
 {
 	/*
 	 * 毎フレームキー入力制御
@@ -52,7 +52,7 @@ void	AppKeyPadController::updateInputControl( void )
 	updateJoypadInput();
 }
 // キー・パッド入力ロック設定( 0:キー入力システム, 1:パッド入力システム )
-void	AppKeyPadController::inputSystemApply( const bool  bInputApply, const bool  bApplyFlag )
+void	Lib::AppKeyPadController::inputSystemApply( const bool  bInputApply, const bool  bApplyFlag )
 {
 	if( bInputApply == DxInput::Command::INPUT_TYPE_KEYPAD )
 	{
@@ -62,18 +62,18 @@ void	AppKeyPadController::inputSystemApply( const bool  bInputApply, const bool 
 	}
 }
 // キー・パッド入力モードセット
-void	AppKeyPadController::inputKeyModeSet( const int  setMode )
+void	Lib::AppKeyPadController::inputKeyModeSet( const int  setMode )
 {
 	dxKeyInput.m_KeyInputMode_ = setMode;
 }
-bool	AppKeyPadController::inputModeDebug( void )
+bool	Lib::AppKeyPadController::inputModeDebug( void )
 {
 	return (dxKeyInput.m_KeyInputMode_ == DxInput::Command::INPUT_MODE_DEBUG ) ? true : false;
 }
 //=========================================================================//
 //
 //=========================================================================//
-int		AppKeyPadController::updateKeyInput( const int  iKeyList )
+int		Lib::AppKeyPadController::updateKeyInput( const int  iKeyList )
 {
 	if( inputKeyModeGet() == DxInput::Command::INPUT_MODE_GAME ){
 		return -1;
@@ -101,7 +101,7 @@ int		AppKeyPadController::updateKeyInput( const int  iKeyList )
 	return ( 0 );
 }
 // キーを"１回"押したかを判定する
-int		AppKeyPadController::keyInputOneCheck( const int  iKeyList, int iKeyFrame, int * pKeyOutFlag )
+int		Lib::AppKeyPadController::keyInputOneCheck( const int  iKeyList, int iKeyFrame, int * pKeyOutFlag )
 {
 	const int i = iKeyList;
 
@@ -120,7 +120,7 @@ int		AppKeyPadController::keyInputOneCheck( const int  iKeyList, int iKeyFrame, 
 	return ( 0 );
 }
 // キーを押し続けているか判定する
-int		AppKeyPadController::keyInputDirectCheck( const int  iKeyList, int iKeyFrame, int * pKeyOutFlag )
+int		Lib::AppKeyPadController::keyInputDirectCheck( const int  iKeyList, int iKeyFrame, int * pKeyOutFlag )
 {
 	const int	i = iKeyList;
 
@@ -139,7 +139,7 @@ int		AppKeyPadController::keyInputDirectCheck( const int  iKeyList, int iKeyFram
 	return ( 0 );
 }
 // キーロック設定( TRUE:ロックする, FALSE:ロック解除 )
-void	AppKeyPadController::keyInputLockEnable( const bool  bLockFlag )
+void	Lib::AppKeyPadController::keyInputLockEnable( const bool  bLockFlag )
 {
 	// デバッグモード時も適用される
 	if( bLockFlag )
@@ -152,13 +152,13 @@ void	AppKeyPadController::keyInputLockEnable( const bool  bLockFlag )
 	}
 }
 // キーロック設定を取得
-bool	AppKeyPadController::isKeyInputLockEnable( void )
+bool	Lib::AppKeyPadController::isKeyInputLockEnable( void )
 {
 	return ( ( uiInputLockBit_ & DxInput::Command::lDxKey::KEYINPUT_LOCK ) != 0 );
 }
 
 // パッドシステム基本初期化
-bool	AppKeyPadController::padParamInitialize( void )
+bool	Lib::AppKeyPadController::padParamInit( void )
 {
 	// ジョイパッド接続数を取得
 	dxJoypadInput.m_ConnectNum_ = DxLib::GetJoypadNum();
@@ -187,7 +187,7 @@ bool	AppKeyPadController::padParamInitialize( void )
 	return true;
 }
 // パッド入力システム毎フレーム処理
-void	AppKeyPadController::updateJoypadInput( void )
+void	Lib::AppKeyPadController::updateJoypadInput( void )
 {
 	if( isPadInputLockEnable() ){
 		return;	// ロックが掛かっているなら抜ける
@@ -205,12 +205,12 @@ void	AppKeyPadController::updateJoypadInput( void )
 }
 
 // ジョイパッドの接続数を取得する
-int		AppKeyPadController::getPadInputConnectNum( void )
+int		Lib::AppKeyPadController::getPadInputConnectNum( void )
 {
 	return dxJoypadInput.m_ConnectNum_;
 }
 // ジョイパッドロック設定( TRUE:ロックする, FALSE:ロック解除 )
-void	AppKeyPadController::padInputLockEnable( const bool  bLockFlag )
+void	Lib::AppKeyPadController::padInputLockEnable( const bool  bLockFlag )
 {
 	if( bLockFlag )
 	{
@@ -220,7 +220,7 @@ void	AppKeyPadController::padInputLockEnable( const bool  bLockFlag )
 	}
 }
 // ジョイパッドロック設定を取得
-bool	AppKeyPadController::isPadInputLockEnable( void )
+bool	Lib::AppKeyPadController::isPadInputLockEnable( void )
 {
 	return ((uiInputLockBit_ & DxInput::Command::lDxPad::PADINPUT_LOCK) != 0);
 }
@@ -238,7 +238,7 @@ bool	AppKeyPadController::isPadInputLockEnable( void )
 //			－１ : エラー発生
 //	【例】パッド１を最大の振動の強さで２秒間振動させます。
 //	StartJoypadVibration( DX_INPUT_PAD1, 1000, 2000 ) ;
-int		AppKeyPadController::padInputVibActionStart( const int vibInputType, int vibTime )
+int		Lib::AppKeyPadController::padInputVibActionStart( const int vibInputType, int vibTime )
 {
 	if( vibTime < 0 ){
 		vibTime = 1000;
@@ -246,12 +246,11 @@ int		AppKeyPadController::padInputVibActionStart( const int vibInputType, int vi
 
 	// 振動開始
 	auto nvibRResult_ = DxLib::StartJoypadVibration( vibInputType, dxJoypadInput.m_VibPower_, vibTime );
-#if PROJECT_DEBUG
-	if( nvibRResult_ == -1 ){
+	if( nvibRResult_ == -1 )
+	{
 		// エラー
 		return ( -1 );
 	}
-#endif
 	// 振動の強さ
 	dxJoypadInput.m_VibPower_ = dxJoypadInput.m_VibPower_;
 	// 振動させる時間
@@ -260,7 +259,7 @@ int		AppKeyPadController::padInputVibActionStart( const int vibInputType, int vi
 	return ( 0 );
 }
 // ジョイパッド振動停止処理
-void	AppKeyPadController::padInputVibActionEnd( const int vibInputType )
+void	Lib::AppKeyPadController::padInputVibActionEnd( const int vibInputType )
 {
 	if( getPadInputVibActionTime() == -1 )
 	{
@@ -268,7 +267,7 @@ void	AppKeyPadController::padInputVibActionEnd( const int vibInputType )
 	}
 }
 // ジョイパッド振動パワー値設定( 0 ～ 1000 )
-void	AppKeyPadController::setPadInputVibPower( int  setVibPower )
+void	Lib::AppKeyPadController::setPadInputVibPower( int  setVibPower )
 {
 	if( setVibPower > DxInput::Command::lDxPad::PADINPUT_VIBPOWER_MAX ){
 		ERROR_PRINT("__ERROR__ : dxLib_SetPadInputVibPower VibPowerOver[%d]\n", DxInput::Command::lDxPad::PADINPUT_VIBPOWER_MAX );
@@ -277,19 +276,19 @@ void	AppKeyPadController::setPadInputVibPower( int  setVibPower )
 	dxJoypadInput.m_VibPower_ = setVibPower;
 }
 // ジョイパッド振動時間取得(ミリ秒単位)
-int		AppKeyPadController::getPadInputVibActionTime( void )
+int		Lib::AppKeyPadController::getPadInputVibActionTime( void )
 {
 	return ( dxJoypadInput.m_VibTime_ );
 }
 // ジョイパッドの振動機能をオンに
-void	AppKeyPadController::setPadVibActionOn( void )
+void	Lib::AppKeyPadController::setPadVibActionOn( void )
 {
 	// ジョイパッドの振動機能を使用解除
 	DxLib::SetUseJoypadVibrationFlag( true );
 	dxJoypadInput.m_VibFlag_ = true;
 }
 // ジョイパッドの振動機能設定を取得
-bool	AppKeyPadController::getPadVibActionFlag( void )
+bool	Lib::AppKeyPadController::getPadVibActionFlag( void )
 {
 	return ( dxJoypadInput.m_VibFlag_ );
 }
@@ -305,32 +304,30 @@ bool	AppKeyPadController::getPadVibActionFlag( void )
 //	<戻る>
 //		　０：成功
 //		－１：エラー発生
-int		AppKeyPadController::getPadDeviceDirectInput( DINPUT_JOYSTATE * pGetDInput )
+int		Lib::AppKeyPadController::getPadDeviceDirectInput( DINPUT_JOYSTATE * pGetDInput )
 {
 	// 入力状態を取得
 	DxLib::GetJoypadDirectInputState( DX_INPUT_PAD1, pGetDInput ) ;
-#if PROJECT_DEBUG
 	if( pGetDInput == nullptr ){
 		return ( -1 ); // 取得に失敗
 	}
-#endif
 	// 取得は成功
 	return 0;
 }
 
 #if PROJECT_DEBUG
 // 
-int		AppKeyPadController::debKeyInputRuntime( const int  iKeyList )
+int		Lib::AppKeyPadController::debKeyInputRuntime( const int  iKeyList )
 {
 	return 0;
 }
 // キーを"１回"押したかを判定する
-int		AppKeyPadController::debKeyInputOneCheck( const int  iKeyList, int iKeyFrame )
+int		Lib::AppKeyPadController::debKeyInputOneCheck( const int  iKeyList, int iKeyFrame )
 {
 	return 0;
 }
 // キーを押し続けているか判定する
-int		AppKeyPadController::debKeyInputDirectCheck( const int  iKeyList, int iKeyFrame )
+int		Lib::AppKeyPadController::debKeyInputDirectCheck( const int  iKeyList, int iKeyFrame )
 {
 	return 0;
 }

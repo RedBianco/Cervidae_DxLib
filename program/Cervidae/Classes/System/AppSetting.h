@@ -1,12 +1,13 @@
 #pragma once
 
 //=================================================================================//
-//  AppSetting.h
+//  appSetting.h
 //  Cervidae
 //
 //  Created by kashima akihiro on 2018/11/29.
 //=================================================================================//7777
 
+#include "../Common/CervidaeLib/Template/tSingleton.h"
 
 class AppParameter : public Singleton<AppParameter>
 {
@@ -41,7 +42,7 @@ public:
 
 		m_isSetting = false;
 	};
-	//	virtual ~AppParameter();
+//	virtual ~AppParameter();
 
 };
 
@@ -75,11 +76,8 @@ typedef struct	GAME_PARAM_SETTING
 		unsigned int		size;
 		unsigned int		block;
 	} memory;
-
-} *LPGAME_PARAM_SETTING;
-
-
-/* End AppSetting.h */
+	
+} * LPGAME_PARAM_SETTING;
 
 
-
+/* End appSetting.h */

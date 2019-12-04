@@ -132,14 +132,14 @@ namespace UtilityForOperat
 	 * @param	
 	 * @return	”¼Šp‚Ì’·‚³”’l
 	 */
-	const int	getStringLongTag( char * et_str );
+	int		getStringLongTag( char * et_str );
 
 	/**
 	 * ƒ^ƒO‚ğŠO‚µ‚½•¶š”(”¼Šp‘SŠp‹æ•Ê‚·‚é)‚ğo‚·
 	 * @param	
 	 * @return	•¶š”(”¼Šp‘SŠp‹æ•Ê‚·‚é)
 	 */
-	const int	getStringNumTag( char * et_str );
+	int		getStringNumTag( char * et_str );
 
 	/**
 	 * •¶š”æ“¾
