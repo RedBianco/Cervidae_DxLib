@@ -108,7 +108,7 @@ namespace DxLib
 		DxLib::ResourcesLoadContainer * getElementRecordContainer( size_t index ) { return &m_resourcesContainer.at( index ); }
 		
 		// テクスチャサイズ取得
-		const ObjectSize	getTextureObjSize( const char* fileName ) { getContainer( fileName )->m_vTextureObj; }
+		const Utility::ObjectSize	getTextureObjSize( const char* fileName ) { getContainer( fileName )->m_vTextureObj; }
 
 		// 読み込み数を返す
 		int		getLoadingFileCount() const { return m_LoadedFiles; }

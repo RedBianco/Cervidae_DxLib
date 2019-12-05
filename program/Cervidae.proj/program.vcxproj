@@ -126,6 +126,7 @@
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Template\tSingleton.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityDateTime.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityForOperat.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMath.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveLine.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebug.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebugLog.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Template\tSingleton.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityDateTime.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityForOperat.h" />
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMath.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveCalculat.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveLine.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveWait.h" />

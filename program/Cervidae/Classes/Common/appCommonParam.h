@@ -1,7 +1,7 @@
 #pragma once
 
-//	STLのmin、max対策用マクロ
-//	C++標準ライブラリ側のmin、maxを無効化する
+// STLのmin、max対策用マクロ
+// C++標準ライブラリ側のmin、maxを無効化する
 #define NOMINMAX
 #include <Windows.h>
 #include <time.h>	
@@ -17,11 +17,43 @@
 #include <list>
 #include <algorithm>
 #include <map>
+#include <utility>
 #include <direct.h>				// ファイル操作
 #include <complex.h>			// 複素数計算を行うための関数
 #include <iosfwd>
 #include <conio.h>
-#include <array>
+#include <memory>				/** スマートポインタ */
+#include <array>				// since C++11
+#include <atomic>				// since C++11
+#include <cfenv>				// since C++11
+#include <chrono>				// since C++11
+#include <cinttypes>			// since C++11
+#include <condition_variable>	// since C++11
+#include <cstdint>				// since C++11
+#include <cuchar>				// since C++11
+#include <forward_list>			// since C++11
+#include <future>				// since C++11
+#include <initializer_list>		// since C++11
+#include <random>				// since C++11
+#include <ratio>				// since C++11
+#include <regex>				// since C++11
+#include <scoped_allocator>		// since C++11
+#include <mutex>				// since C++11
+#include <system_error>			// since C++11
+#include <thread>				// since C++11
+#include <tuple>				// since C++11
+#include <type_traits>			// since C++11
+#include <typeindex>			// since C++11
+#include <unordered_map>		// since C++11
+#include <unordered_set>		// since C++11
+/*
+#include <execution>			// since C++17
+#include <filesystem>			// since C++17
+#include <memory_resource>		// since C++17
+#include <optional>				// since C++17
+#include <string_view>			// since C++17
+#include <variant>				// since C++17
+*/
 
 #include "CervidaeLib/CLAssert.h"
 
@@ -91,6 +123,10 @@
 
 namespace CommonList
 {
+//	#define  RESOURCES_LOAD_PATH_LUA		""
+//	#define  RESOURCES_LOAD_PATH_2D			""
+//	#define  RESOURCES_LOAD_PATH_3D			""
+//	#define  RESOURCES_LOAD_PATH_EFFECT		""
 
 	namespace Resources
 	{
@@ -105,18 +141,19 @@ namespace CommonList
 			eEFFECT_FILE_TYPE_3D
 		};
 	}
-	const std::string	RESOURCES_LOAD_PATH_LUA		= "..\\..\\resources\\script\\lua\\";
-	const std::string	RESOURCES_LOAD_PATH_ADX2	= "..\\..\\resources\\script\\sound\\";
-	const std::string	RESOURCES_LOAD_PATH_2D		= "..\\..\\resources\\asset\\";
-	const std::string	RESOURCES_LOAD_PATH_3D		= "..\\..\\resources\\model\\";
-	const std::string	RESOURCES_LOAD_PATH_EFFECT	= "..\\..\\resources\\asset\\effect\\";
+	const std::string   RESOURCES_LOAD_PATH_LUA		= "..\\..\\resources\\script\\lua\\";
+	const std::string   RESOURCES_LOAD_PATH_ADX2	= "..\\..\\resources\\script\\sound\\";
+	const std::string   RESOURCES_LOAD_PATH_2D		= "..\\..\\resources\\asset\\";
+	const std::string   RESOURCES_LOAD_PATH_3D		= "..\\..\\resources\\model\\";
+	const std::string   RESOURCES_LOAD_PATH_EFFECT	= "..\\..\\resources\\asset\\effect\\";
 
 	namespace TaskEvent
 	{
-		static const unsigned int			EVT_CREATE	= 0;			// タスクが作成された瞬間
-		static const unsigned int			EVT_DESTROY	= 1;			// タスクが破棄された瞬間
-		static const unsigned int			EVT_RUN		= 2;			// 実行中
-		static const unsigned int			EVT_USER	= 3;			// ユーザ任意
+		static const unsigned int			EVT_CREATE		= 0;		// タスクが作成された瞬間
+		static const unsigned int			EVT_DESTROY		= 1;		// タスクが破棄された瞬間
+		static const unsigned int			EVT_RUN			= 2;		// 実行中
+		static const unsigned int			EVT_USER		= 3;		// ユーザ任意
+		static const unsigned int			EVT_SUSPENSION	= 4;		// 一時中断
 
 		static const signed int				PRIORITY_HIGHEST			= 0x7FFFFFFF;		// プライオリティ：最高
 		static const signed int				PRIORITY_ABOVE_NORMAL		= 0x3FFFFFFF;		// プライオリティ：高い
@@ -136,6 +173,13 @@ namespace CommonList
 		static const unsigned int			EVT_TASK_SUSPEND			= 3;			// 
 		static const unsigned int			EVT_TASK_CLEAR				= 4;			// 
 		static const unsigned int			EVT_TASK_DELETE				= 5;			// 
+
+		enum TASK_PRIORITY_LIST
+		{
+			eTASK_PRIORITY_MAIN = 0,
+
+			TASK_PRIORITY_LIST_MAX = 16,
+		};
 	}
 
 	/*! １秒(s)=1,000ミリ秒(ms)=1,000,000マイクロ秒(us)=1,000,000,000ナノ秒(ns)

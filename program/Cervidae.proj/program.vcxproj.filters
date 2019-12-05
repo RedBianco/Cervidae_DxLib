@@ -192,6 +192,9 @@
     <ClCompile Include="..\Cervidae\Classes\Scene\SceneManager.cpp">
       <Filter>Cervidae\Classes\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMath.cpp">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\CLDefine.h">
@@ -358,6 +361,9 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Scene\SceneManager.h">
       <Filter>Cervidae\Classes\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMath.h">
+      <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

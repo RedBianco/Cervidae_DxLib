@@ -15,39 +15,6 @@
 // －	Effekseer For DXライブラリ		<1.43d>
 // －	Lua                             <>
 
-typedef struct {
-	int		m_RenderW;
-	int		m_RenderH;
-} ObjectSize;
-
-typedef struct {
-	int		m_RenderX;
-	int		m_RenderY;
-	int		m_RenderZ;
-} ObjectPoint;
-
-typedef struct {
-	int		m_RenderScaleX;
-	int		m_RenderScaleY;
-	int		m_RenderScaleZ;
-} ObjectScale;
-
-typedef struct {
-	ObjectSize		m_ObjSize;
-	ObjectPoint		m_ObjPoint;
-	ObjectScale		m_ObjScale;
-	int				m_ObjAlpha;
-	int				m_PriorityIndexZ;
-} ObjectBase;
-
-
-class RenderManager
-{
-	// 座標、サイズ情報と描画メソッドを登録する
-
-	int		(*renderFunc)();
-};
-
 /*
 # 概要
  *

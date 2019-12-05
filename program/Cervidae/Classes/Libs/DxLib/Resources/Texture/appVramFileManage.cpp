@@ -1,6 +1,5 @@
 
 #include "DxLib.h"
-#include "../../../../Main.h"
 #include "../../../../Common/appCommonParam.h"
 #include "../../../../Common/appErrorCode.h"
 #include "../../../../Common/appProcessCode.h"
