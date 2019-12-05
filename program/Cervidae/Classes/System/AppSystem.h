@@ -10,23 +10,15 @@
 #include "../Libs/Effekseer/appEffekseer.h"
 #include "../Libs/DxLib/Resources/appResourcesConfig.h"
 #include "../Libs/DxLib/Resources/appResources.h"
-#include "Task/TaskCore.h"
 
-namespace UI {
-	class WindowObjectData;
-}
 /**
  *	@class	
  *
  */
 class AppSystem : 
 			public DxLib::AppVramFileManager
-//			, public App::WindowObjectManager
 #if( __MIDDLEWARE_EFFEKSEER_USE_ENABLE == 1 )
 			, public Lib::EffekseerController
-#endif
-#if ( defined( __APP_PROCESS_TASK_MANAGE ) )
-			, public App::TaskManager
 #endif
 {
 private:
@@ -58,11 +50,6 @@ public:
 	float		m_StepTime;			// 状態推移処理で推移させる時間
 	int			m_StepNum;			// １フレームで状態推移処理を行う回数
 
-	// タスクシステム情報
-	STaskSystemInfo	TaskSystemInfo;
-	// ゲームメインタスクのタスク情報構造体のアドレスを格納するポインタ変数
-	STaskInfo*		GameMainTaskInfo;
-
 	// 描画管理情報
 
 
@@ -70,8 +57,6 @@ public:
 #if( __MIDDLEWARE_EFFEKSEER_USE_ENABLE == 1 )
 #endif
 
-	// ウィンドウオブジェクト情報
-//	std::vector< UI::WindowObjectData*>	m_appWinObj;
 
 private:
 
@@ -106,7 +91,6 @@ private:
 	void		appSystemShutdown();
 	bool		appSystemUpdate();
 	bool		appProcessUpdate();
-	bool		appTaskUpdate();
 	void		appSystemRenderUpdate();			// 描画処理更新
 
 	bool		appSystemDxBeforeProcess();			// DxLib_Init()のコール前に実行する処理
@@ -124,8 +108,6 @@ private:
 	static void		appSystemRenderEnd();
 
 private:
-
-	STaskSystemInfo* System_GetTaskSystemInfo( void ) { return &TaskSystemInfo; }
 
 	bool		appSettingSceneRun();
 

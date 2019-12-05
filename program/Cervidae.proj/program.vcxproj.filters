@@ -10,9 +10,6 @@
     <Filter Include="Cervidae\Classes\Scene">
       <UniqueIdentifier>{4da6d29a-e15c-4cf4-8cac-01ce8ab1c7d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Cervidae\Classes\Scene\Initialize">
-      <UniqueIdentifier>{5fcadc07-2d96-4418-b7bf-699fd2455019}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Cervidae\Classes\Common">
       <UniqueIdentifier>{eb18f5e1-d0a5-4fe9-902f-3e52e67470f9}</UniqueIdentifier>
     </Filter>
@@ -60,9 +57,6 @@
     </Filter>
     <Filter Include="Cervidae\Classes\Libs\DxLib\Sound">
       <UniqueIdentifier>{a8ce28d9-9b5c-4224-937e-2453047471f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Cervidae\Classes\Game">
-      <UniqueIdentifier>{ad3bca0b-1eaf-4320-a560-203ba7df2dc6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Cervidae\Classes\Libs\DxLib\Sound\Process">
       <UniqueIdentifier>{9ee67734-db49-47a9-a739-2d186f9f76d0}</UniqueIdentifier>
@@ -138,9 +132,6 @@
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityDateTime.cpp">
       <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp">
-      <Filter>Cervidae\Classes\Scene\Initialize</Filter>
-    </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Resources\Texture\Archive\appArchiveFileControl.cpp">
       <Filter>Cervidae\Classes\Libs\DxLib\Resources\Texture\Archive</Filter>
     </ClCompile>
@@ -187,9 +178,6 @@
       <Filter>Cervidae\Classes\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Scene\appSceneManager.cpp">
-      <Filter>Cervidae\Classes\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Cervidae\Classes\Scene\SceneManager.cpp">
       <Filter>Cervidae\Classes\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMath.cpp">
@@ -293,9 +281,6 @@
     <ClInclude Include="..\Cervidae\Classes\Common\appProcessCode.h">
       <Filter>Cervidae\Classes\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.h">
-      <Filter>Cervidae\Classes\Scene\Initialize</Filter>
-    </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\Resources\appResources.h">
       <Filter>Cervidae\Classes\Libs\DxLib\Resources</Filter>
     </ClInclude>
@@ -357,9 +342,6 @@
       <Filter>Cervidae\Classes\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Scene\appSceneManager.h">
-      <Filter>Cervidae\Classes\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Cervidae\Classes\Scene\SceneManager.h">
       <Filter>Cervidae\Classes\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMath.h">

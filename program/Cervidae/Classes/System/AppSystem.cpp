@@ -4,6 +4,8 @@
 #include "../Common/appCommonParam.h"
 #include "../Common/appErrorCode.h"
 #include "../Common/appProcessCode.h"
+#include "../Libs/DxLib/dxLibDefine.h"
+#include "../Libs/DxLib/Debug/dxLibDebug.h"
 #include "../Libs/DxLib/Input/dxLibInputConfig.h"
 #include "../Libs/DxLib/Input/dxLibKeyPadUtility.h"
 #include "../Libs/Effekseer/appEffekseer.h"
@@ -12,12 +14,10 @@
 #include "../Libs/DxLib/Initialize/dxLibInit.h"
 #include "../Libs/DxLib/Initialize/dxLibSetup.h"
 #include "../Libs/Effekseer/appEffekseerLib.h"
-#include "Task/TaskCore.h"
-#include "Task/TaskLib.h"
 #include "appSystem.h"
 #include "appSetting.h"
-#include "../Libs/DxLib/dxLibDefine.h"
-#include "../Libs/DxLib/Debug/dxLibDebug.h"
+#include "Task/TaskCore.h"
+#include "Task/TaskLib.h"
 
 /*
 [NOTE]
@@ -62,7 +62,18 @@ AppSystem::~AppSystem()
  */
 AppSystem* AppSystem::createInstance()
 {
-//	std::unique_ptr<AppSystem>  pApp = std::make_unique<AppSystem>();
+#if 0
+	std::unique_ptr<AppSystem>  pApp = std::make_unique<AppSystem>();
+	if ( pApp )
+	{
+		pApp->appSystemClean();
+	}
+	else {
+		// NOTE：自動で解放をしてくれるので解放処理の明示は必要無い
+		pApp = NULL;
+	}
+	return pApp.get();
+#endif
 	AppSystem* pApp = new AppSystem();
 	if ( pApp )
 	{
@@ -123,11 +134,6 @@ int		AppSystem::appSystemInitialize()
 	auto isDone = appSystemStartSetup();
 	if( !isDone ){ return false; }
 	// DxLib前、後処理が全て終わった
-
-
-#if ( defined( __APP_PROCESS_TASK_MANAGE ) )
-	TaskSystem_Initialize( &this->TaskSystemInfo );
-#endif
 
 	// DUMMY
 	appSystemResourcesSetup( eROUTE_RESOURCES_LODING );
@@ -340,12 +346,6 @@ bool	AppSystem::appProcessUpdate()
 	return true;
 }
 
-bool	AppSystem::appTaskUpdate()
-{
-	// 正常終了
-	return true;
-}
-
 //==============================================================================//
 //	毎フレーム描画処理更新
 //
@@ -370,11 +370,6 @@ void	AppSystem::appSystemRenderUpdate()
 
 	// フレームレート
 	dxCommon_DrawFramerate( getDispFrameCount() );
-
-#if ( defined( __APP_PROCESS_TASK_MANAGE ) )
-	// タスクシステムの描画処理を行う
-	TaskSystem_Render( &this->TaskSystemInfo );
-#endif
 }
 
 //==============================================================================//
@@ -548,13 +543,6 @@ bool	AppSystem::appSystemStep(
 	float StepTime	// 推移させる時間( 単位 : 秒 )
 )
 {
-#if ( defined( __APP_PROCESS_TASK_MANAGE ) )
-	// タスクの状態推移処理を行う
-	if( !TaskSystem_Step( &this->TaskSystemInfo, StepTime ) )
-	{
-		return false;
-	}
-#endif
 
 	// 正常終了
 	return true;

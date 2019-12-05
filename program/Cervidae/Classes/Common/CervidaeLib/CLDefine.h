@@ -32,9 +32,7 @@
 
 /** 各ミドルウェア制御マクロ */
 #if defined( CERVIDAE_LIB )
-	// TODO
-	// 64bitReleaseでビルドすると以下エラーが出て調査中
-	// エラー	C1047	オブジェクトまたはライブラリ ファイル 'x64\Release\tSingleton.obj' は、他のオブジェクトよりも古いコンパイラで作成されました。古いオブジェクトおよびライブラリをリビルドしてください
+	/** Effekseerライブラリ */
 	#define __MIDDLEWARE_EFFEKSEER_USE_ENABLE		(1)
 
 
