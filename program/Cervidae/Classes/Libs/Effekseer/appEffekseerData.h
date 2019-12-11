@@ -12,21 +12,18 @@
 	.efkファイルデータ管理用クラス
 	ファイル１つの管理データ
 */
-class EffekseerFileData
+namespace Lib
 {
-public:
-	
-	EffekseerFileData();
-	 ~EffekseerFileData(){}
-	
-public:
-	// ファイルハンドル
-	int				m_FileHandle_;
-	// 再生ファイル名
-	std::string		m_PlayFile;
-	
-};
-
+	struct EffekseerFileData
+	{
+		// ファイルハンドル
+		int				m_FileHandle;
+		// 再生ファイル名
+		std::string		m_FileName;
+		// 座標情報
+		// スケール情報
+	};
+}
 
 
 

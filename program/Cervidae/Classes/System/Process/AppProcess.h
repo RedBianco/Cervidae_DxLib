@@ -1,53 +1,60 @@
 #pragma once
 
 
+//=================================================================================//
+//  appProcess.h
+//  Cervidae
+//
+//  Created by kashima akihiro on 2019/12/02.
+//=================================================================================//
+
+
 // 処理関数マクロ
-typedef int( *appProcessExec )( void );
+typedef int(*appProcessExec)(void);
 
 /**
- *	@class	シーン管理元クラス
+ *	@class
  */
-class AppProcManager
+
+
+
+ /**
+  *	@class	シーン管理元クラス
+  */
+namespace App
 {
-// TODO：暫定でSingleton化運用、今後他の方法を検討
-private:
-	// このクラスのインスタンス
-	static AppProcManager *	s_pInstance;
+	class ProcessManager
+	{
+		// TODO：暫定でSingleton化運用、今後他の方法を検討
+	private:
+		// このクラスのインスタンス
+		static ProcessManager* s_pInstance;
 
-public:
-	// コンスタラクタ
-	AppProcManager()
-	{}
-	// Instanceを削除する事は無いのでコメントアウト
-//  virtual ~AppProcManager();
+	public:
+		// コンスタラクタ
+		ProcessManager()
+		{}
+		// Instanceを削除する事は無いのでコメントアウト
+	//  virtual ~AppProcManager();
 
-private:
-	// 処理関数ポインタ
-	appProcessExec	m_ProcessFunc;
+	private:
+		// 処理関数ポインタ
+		appProcessExec	m_ProcessFunc;
 
-public:
+	public:
 
-	// 
-	bool	setProcessFunc( appProcessExec  p_Function );
+		// 
+		bool	setProcessFunc(appProcessExec  p_Function);
 
-	// 
-	int		appProcessUpdate( void );
+		// 
+		int		appProcessUpdate(void);
 
-public:
-	// インスタンスの作成、取得
-	static AppProcManager *    getInstance();
-};
-
-
-
-
-
+	public:
+		// インスタンスの作成、取得
+		static ProcessManager* getInstance();
+	};
+}
 
 
-
-
-
-
-
-
+/* End appProcess.h */
 

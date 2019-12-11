@@ -41,8 +41,11 @@ namespace DxInput
 		const static int			INPUT_MODE_GAME				= 0;				//	操作モード：ゲームモード
 		const static int			INPUT_MODE_DEBUG			= 1;				//	操作モード：デバッグモード
 
-		/*! @brief	キーボードキーリスト
-		*/
+		const static int			INPUT_CHECK_NONE			= 0;
+
+		/*! 
+		 * @brief	キーボードキーリスト
+		 */
 		namespace lDxKey
 		{
 			const unsigned int			KEYINPUT_SYSTEM			= 0;
@@ -141,8 +144,9 @@ namespace DxInput
 			const static int			KEYBOARD_LIST_A			=	KEY_INPUT_A;			// 
 		}
 
-		/*! @brief	パッドキーリスト
-		*/
+		/*! 
+		 * @brief	パッドキーリスト
+		 */
 		namespace	lDxPad
 		{
 			const static unsigned int		PADINPUT_SYSTEM				= (1);
@@ -205,8 +209,9 @@ namespace DxInput
 			const static int				PADINPUT_OK					= 0;
 			const static int				PADINPUT_CANCEL				= 0;
 		}
-		/*! @brief	マウスキーリスト
-		*/
+		/*! 
+		 * @brief	マウスキーリスト
+		 */
 		namespace	lDxMouse
 		{
 			const static unsigned int		MOUSEINPUT_SYSTEM			= (2);
@@ -249,7 +254,7 @@ namespace DxInput
 #define DX_ONEINPUT_KEYDOWN()			(DxInput::Command::lDxKey::KEYINPUT_KEYDOWN)
 #define DX_ONEINPUT_KEYLEFT()			(DxInput::Command::lDxKey::KEYINPUT_KEYLEFT)
 #define DX_ONEINPUT_KEYRIGHT()			(DxInput::Command::lDxKey::KEYINPUT_KEYRIGHT)
-#define DX_ONEINPUT_ENTER()				(DxInput::Command::lDxKey::EYINPUT_ENTER)
+#define DX_ONEINPUT_ENTER()				(DxInput::Command::lDxKey::KEYINPUT_ENTER)
 #define DX_ONEINPUT_CANCEL()			(DxInput::Command::lDxKey::KEYINPUT_CANCEL)
 
 //	キー入力(押しっぱなし判定)簡易マクロ

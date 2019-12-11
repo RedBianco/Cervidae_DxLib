@@ -1,6 +1,5 @@
 
 #include "DxLib.h"
-#include "../Common/CervidaeLib/Template/tSingleton.h"
 #include "../Common/CervidaeLib/CLDefine.h"
 #include "../Common/appCommonParam.h"
 #include "../Libs/DxLib/dxLibDefine.h"
@@ -15,7 +14,6 @@
 //======================================================================//
 //
 //
-//======================================================================//
 bool	AppParameter::setApplicationInfo()
 {
 	if ( !this->m_isSetting )
@@ -39,6 +37,4 @@ bool	AppParameter::setApplicationInfo()
 
 	return false;
 }
-
-
 

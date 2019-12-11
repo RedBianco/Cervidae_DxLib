@@ -12,16 +12,11 @@
 //=================================================================================//
 
 
-namespace AppLib
+namespace App
 {
 	// DebugModeManageData
-	class DebugMenuData
+	struct DebugMenuData
 	{
-	public:
-		DebugMenuData();
-		virtual ~DebugMenuData();
-
-	public:
 		// デバッグモード設定カウント
 		int				m_debCount_;
 		// 表示するデバッグモードタイプ
@@ -107,14 +102,5 @@ namespace AppLib
 
 
 
-
-
-
-
-
-
-
 /* End dxLibDebug.h */
-
-
 

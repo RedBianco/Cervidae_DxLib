@@ -1,7 +1,44 @@
-﻿  dxLibSoundManager.cpp
+﻿  tSingleton.cpp
+  UtilityDateTime.cpp
+  UtilityForOperat.cpp
+  UtilityMath.cpp
+  UtilityMoveLine.cpp
+  dxLibDebug.cpp
+  dxLibDebugLog.cpp
+  dxLibCommon.cpp
+  dxLibInit.cpp
+  dxLibSetup.cpp
+  dxLibKeyPadUtility.cpp
+  appEntryResourcesContainer.cpp
+  appFileGraphic.cpp
+  appFileGraphicControl.cpp
+  appFileSystem.cpp
+  appResourcesLoadContainer.cpp
+  appVramContainer.cpp
+  appVramControl.cpp
+  appVramFileManage.cpp
+  appArchiveFileControl.cpp
+  コンパイル中...
+  dxLibSoundManager.cpp
+  dxLibSoundBGMManager.cpp
+  dxLibSoundMovieManager.cpp
+  dxLibSoundSEManager.cpp
+  dxLibSoundVoiceManager.cpp
+  appEffekseer.cpp
+  appEffekseerData.cpp
+  appEffekseerLib.cpp
+  Main.cpp
+  appSceneManager.cpp
+  appScene_Base.cpp
+  appScene_Start.cpp
+  appSetting.cpp
+  appSystem.cpp
+  appProcess.cpp
+  TaskCore.cpp
+  TaskLib.cpp
   コード生成しています。
-  2 of 1133 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
-    2 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  Previous IPDB not found, fall back to full compilation.
+  All 1967 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   コード生成が終了しました。
-  program.vcxproj -> D:\Program\Project\Develop\cervidae_lib\program\cervidae.proj\x64\Release\program.exe
+EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj) : warning LNK4099: PDB 'EffekseerForDXLib_vs2019.pdb' が 'EffekseerForDXLib_vs2019_x64.lib(EffekseerForDXLib.obj)' で、または 'C:\ProgramBox\Project\CervidaeDxLib\Cervidae_DxLib\program\Cervidae.proj\x64\Release\EffekseerForDXLib_vs2019.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+  program.vcxproj -> C:\ProgramBox\Project\CervidaeDxLib\Cervidae_DxLib\program\Cervidae.proj\x64\Release\program.exe

@@ -15,16 +15,6 @@
 // －	Effekseer For DXライブラリ		<1.43d>
 // －	Lua                             <>
 
-typedef struct {
-	int		m_RenderW;
-	int		m_RenderH;
-} ObjectSize;
-
-typedef struct {
-	int		m_RenderX;
-	int		m_RenderY;
-} ObjectPoint;
-
 /*
 # 概要
  *
@@ -85,5 +75,23 @@ if ( object ) {
 */
 
 
+/*
+	http://127.0.0.1:8080/
+*/
 
+
+
+/*
+■LinkedIn
+＠メールアドレス
+sectionover@yahoo.co.jp
+＠パスワード
+section9
+
+■Slideshare
+＠ユーザーネーム
+AkihiroKashima1
+
+
+*/
 

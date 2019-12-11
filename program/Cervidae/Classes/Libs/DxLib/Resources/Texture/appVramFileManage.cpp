@@ -1,12 +1,10 @@
 
 #include "DxLib.h"
-#include "../../../../Main.h"
 #include "../../../../Common/appCommonParam.h"
 #include "../../../../Common/appErrorCode.h"
 #include "../../../../Common/appProcessCode.h"
 #include "../../../../Common/CervidaeLib/Utility/UtilityForOperat.h"
 #include "../appResourcesConfig.h"
-//#include "appResourcesLoadContainer.h"
 #include "appFileGraphic.h"
 #include "appVramFileManage.h"
 
@@ -40,7 +38,7 @@
     なお、比較可能な拡張子の文字列(szCmpExts)は1024文字(終端含む)で固定としています。通常の使用ではオーバーしませんが、
     必要に応じて動的にszCmpExtsを確保してください。
 */
-bool    CheckExtension( const char* pszPath, const char* pszCmpExts )
+bool    stringCheckExtension( const char* pszPath, const char* pszCmpExts )
 {
     // ファイルパスの拡張子を抽出
     const char* pszExt = strrchr( pszPath, '.' );
@@ -101,7 +99,8 @@ DxLib::ResourcesLoadContainer *	DxLib::AppVramFileManager::getContainer( const c
  *
  */
 DxLib::AppVramFileManager::AppVramFileManager() :
-    m_LoadedFiles( 0 ) 
+    m_LoadedFiles( 0 ),
+	m_EnteredFiles( 0 )
 {
 	m_resourcesContainer.clear();
 
@@ -201,7 +200,7 @@ int		DxLib::AppVramFileManager::vramTextureFileEntry( const AppLib::Resources::P
 {
 #if PROJECT_DEBUG
 	// ".png"形式の画像じゃ無いならエラー
-	const bool result = CheckExtension( fileName, "jpg" );
+	const bool result = stringCheckExtension( fileName, "png" );
     if ( result == false ) {
         ERROR_PRINT("__ERROR__ : TextureFileEntry TextureFormatError ! [%s]\n", fileName );
 		return App::ErrorCode::eRETURN_CODE_INVALID_FILEFORMAT;	
@@ -230,8 +229,17 @@ int		DxLib::AppVramFileManager::vramTextureFileEntry( const AppLib::Resources::P
 	}
 #endif
 
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     // 新規登録
-    DxLib::ResourcesLoadContainer * setupFileData = new DxLib::ResourcesLoadContainer();
+	// ※C++11以降では auto_ptr<T>の使用は非推奨
+	// [ unique_ptrとは ]
+	// unique_ptr<T>は、あるメモリに対する所有権を持つポインタが、ただ一つであることを保証するようなスマートポインタである。 
+	// auto_ptr<T>同様に、テンプレート引数で保持するポインタ型を指定し、
+	// スマートポインタが破棄される際にディストラクタにおいて自動的にメモリを開放する
+	// ○メモリの所有権を持つ unique_ptr<T>は、 ただ一つのみ
+	// ○配列を扱うことができる
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+	std::unique_ptr<DxLib::ResourcesLoadContainer>  setupFileData = std::make_unique<DxLib::ResourcesLoadContainer>();
 
     // 登録時に情報設定されるデータ
     {
@@ -253,9 +261,6 @@ int		DxLib::AppVramFileManager::vramTextureFileEntry( const AppLib::Resources::P
 	// 設定した情報をクラスに格納
 	m_resourcesContainer.push_back( *setupFileData );
 
-	// 用意したものは解放
-	delete setupFileData;
-
 #if PROJECT_DEBUG
 	// Containerが空か
 	if ( m_resourcesContainer.empty() ) { return App::FileVram::eRESULT_CODE_ERROR_NOTHING_REGISTERE; }
@@ -265,12 +270,12 @@ int		DxLib::AppVramFileManager::vramTextureFileEntry( const AppLib::Resources::P
 
 	DEBUG_PRINT("[VramFile] m_vTextureName:[\"%s\"] m_vFileIndex:[%d]\n", fileName,entryFileIndex );
     DEBUG_PRINT("[VramFile] m_LoadedFiles : %d\n", m_LoadedFiles );
-
+/*
 	std::string print1 = UtilityForOperat::getReplaceTextValue( "値段は%value%円です。", 19800, true );
 	std::string print2 = UtilityForOperat::getReplaceText( "値段は%text%円です。", "29800", false );
 	DEBUG_PRINT("[TEST] getReplaceTextValue:[\"%s\"] \n", print1.c_str());
 	DEBUG_PRINT("[TEST] getReplaceText:[\"%s\"] \n", print2.c_str());
-
+*/
     // 登録完了
     return App::FileProcess::eFILE_RESULT_CODE_SUCCESS;
 }
@@ -345,7 +350,7 @@ int		DxLib::AppVramFileManager::vramTextureFileSingleUpload( const char * fileNa
 #if PROJECT_DEBUG
             // 登録されているか
 			if ( pResources->m_vFileStatus != AppLib::Resources::ProcessStatus::eVRAM_FILE_STATUS_ENTRYCLEAR ) {
-				ERROR_PRINT("__ERROR__ : LoadingFileSize FileStatus NoEntry. [%s]\n", fileName );
+				ERROR_PRINT("__ERROR__ : LoadingFileSize FileStatus NoEntry. [\"%s\"]\n", fileName );
 				return App::FileVram::eRESULT_CODE_ERROR_DOUBLE_LOADING;
 			}
 #endif
@@ -608,7 +613,7 @@ int		DxLib::AppVramFileManager::getVramFileParameterLoadHandle( const char* file
             }
         }
     }
-    ERROR_PRINT("__ERROR__ : gpVramLoadFileHandleGet [%s]\n", fileName );
+    ERROR_PRINT("__ERROR__ : gpVramLoadFileHandleGet [\"%s\"]\n", fileName );
 	// 指定した名前が無かった
 	return ( App::FileVram::eRESULT_CODE_ERROR_FAILED );
 }
@@ -636,7 +641,7 @@ int		DxLib::AppVramFileManager::getVramFileParameterArchiveType( const char* fil
             }
         }
     }
-    ERROR_PRINT("__ERROR__ : gpVramLoadFileHandleGet [%s]\n", fileName );
+    ERROR_PRINT("__ERROR__ : gpVramLoadFileHandleGet [\"%s\"]\n", fileName );
 	// 指定した名前が無かった
 	return ( App::FileVram::eRESULT_CODE_ERROR_FAILED );
 }
@@ -706,7 +711,7 @@ int		DxLib::AppVramFileManager::vramContainerDataClear( const char* clearTexture
 			}
 		}
 	}
-	ERROR_PRINT("__ERROR__ : vramContainerDataClear [%s]\n", clearTexture );
+	ERROR_PRINT("__ERROR__ : vramContainerDataClear [\"%s\"]\n", clearTexture );
 	return ( App::FileVram::eRESULT_CODE_ERROR_RELEASEFAILED );
 }
 
@@ -777,9 +782,17 @@ int		DxLib::AppVramFileManager::vramTextureExecutionRelatedProcesses(
 												const AppLib::Resources::Parameter::ENUM_GRAPHIC_FILE_ENTRY_TYPE	 fileEntryUseType,
 												const int	fileUpmode )
 {
+	int  result = -1;
+	// 登録
+	result = vramTextureFileEntry( fileVramType,fileName,fileArchiveType,fileAttrType,fileEntryUseType );
+	if ( result == App::FileProcess::eFILE_RESULT_CODE_SUCCESS )
+	{
+		// 読み込み
+		result = vramTextureFileSingleUpload( fileName, fileUpmode );
 
-
-	return ( App::FileVram::eRESULT_CODE_SUCCESS );
+		return (App::FileVram::eRESULT_CODE_SUCCESS);
+	}
+	return (App::FileVram::eRESULT_CODE_ERROR_FAILED);
 }
 
 
@@ -797,7 +810,7 @@ int		DxLib::AppVramFileManager::getSetupFileNameEntryIndex( const char* checkFil
 
     configFileIndex = std::stoi( setupFileStr );
 
-    DEBUG_PRINT("[VramFile] configFileIndex : [%d]\n", configFileIndex );
+    DEBUG_PRINT("[VramFile] configEntryFileIndex : [%d]\n", configFileIndex );
 
     return configFileIndex;
 }

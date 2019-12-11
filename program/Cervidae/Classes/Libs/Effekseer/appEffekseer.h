@@ -30,8 +30,9 @@ namespace Lib
 		virtual	~EffekseerController();
 	
 	public:
-		std::vector< EffekseerFileData >	m_effectData;
+		std::vector< Lib::EffekseerFileData> m_effectData;
 
+		bool	m_3DPlayEnable;
 
 	public:
 	
@@ -39,8 +40,8 @@ namespace Lib
 		void	libSetup(void);
 		void	libEnd(void);
 		void	libDataClear(void);
-		int		libFileLoad( char * szFile, int * nLoadHandle );
-		int		libFileLoad( char * szFile );
+		int		libFileLoad( const char * szLoadFile, int * nLoadHandle );
+		int		libFileLoad( const char * szLoadFile );
 		int		libFileRelease( const int fileHandle );
 		int		libEffect2DPlay( const int fileHandle );
 		int		libEffect2DPlay( const int fileHandle, float fSetScale = 25.0f );
@@ -50,7 +51,7 @@ namespace Lib
 		int		libSet2DPlayRot( const int fileHandle, float fRotX = 1.0f, float fRotY = 1.0f, float fRotZ = 1.0f );
 		int		libSet2DPlayRot( const int fileHandle, float fRotZ = 1.0f );
 		int		libIsPlay2D( const int fileHandle );
-		unsigned int	libIsEfkFileExist( char * szPlayFile );
+		unsigned int	libEffectFileExist( char * szPlayFile );
 
 		// ñàÉtÉåÅ[ÉÄèàóù
 		int		libPlayUpdate(void);

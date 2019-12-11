@@ -126,6 +126,7 @@
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Template\tSingleton.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityDateTime.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityForOperat.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMath.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveLine.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebug.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\DxLib\Debug\dxLibDebugLog.cpp" />
@@ -151,12 +152,12 @@
     <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerData.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Libs\Effekseer\appEffekseerLib.cpp" />
     <ClCompile Include="..\Cervidae\Classes\Main.cpp" />
-    <ClCompile Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.cpp" />
-    <ClCompile Include="..\Cervidae\Classes\Scene\SceneManager.cpp" />
-    <ClCompile Include="..\Cervidae\Classes\Scene\StartScene.cpp" />
-    <ClCompile Include="..\Cervidae\Classes\System\AppSetting.cpp" />
-    <ClCompile Include="..\Cervidae\Classes\System\AppSystem.cpp" />
-    <ClCompile Include="..\Cervidae\Classes\System\Process\AppProcess.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Scene\appSceneManager.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Scene\appScene_Base.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\Scene\appScene_Start.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\System\appSetting.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\System\appSystem.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\System\Process\appProcess.cpp" />
     <ClCompile Include="..\Cervidae\Classes\System\Task\TaskCore.cpp" />
     <ClCompile Include="..\Cervidae\Classes\System\Task\TaskLib.cpp" />
   </ItemGroup>
@@ -168,6 +169,7 @@
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Template\tSingleton.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityDateTime.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityForOperat.h" />
+    <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMath.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveCalculat.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveLine.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMoveWait.h" />
@@ -206,12 +208,12 @@
     <ClInclude Include="..\Cervidae\Classes\Main.h" />
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\CLDefine.h" />
     <ClInclude Include="..\Cervidae\Classes\Libs\DxLib\dxLibDefine.h" />
-    <ClInclude Include="..\Cervidae\Classes\Scene\Initialize\InitializeScene.h" />
-    <ClInclude Include="..\Cervidae\Classes\Scene\SceneManager.h" />
-    <ClInclude Include="..\Cervidae\Classes\Scene\StartScene.h" />
-    <ClInclude Include="..\Cervidae\Classes\System\AppSetting.h" />
-    <ClInclude Include="..\Cervidae\Classes\System\AppSystem.h" />
-    <ClInclude Include="..\Cervidae\Classes\System\Process\AppProcess.h" />
+    <ClInclude Include="..\Cervidae\Classes\Scene\appSceneManager.h" />
+    <ClInclude Include="..\Cervidae\Classes\Scene\appScene_Base.h" />
+    <ClInclude Include="..\Cervidae\Classes\Scene\appScene_Start.h" />
+    <ClInclude Include="..\Cervidae\Classes\System\appSetting.h" />
+    <ClInclude Include="..\Cervidae\Classes\System\appSystem.h" />
+    <ClInclude Include="..\Cervidae\Classes\System\Process\appProcess.h" />
     <ClInclude Include="..\Cervidae\Classes\System\Task\TaskCore.h" />
     <ClInclude Include="..\Cervidae\Classes\System\Task\TaskLib.h" />
   </ItemGroup>

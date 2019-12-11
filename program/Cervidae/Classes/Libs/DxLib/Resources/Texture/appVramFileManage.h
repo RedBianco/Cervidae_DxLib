@@ -6,8 +6,8 @@
 //
 //===================================================================//
 
-#include "appFileSystem.h"
 #include "appResourcesLoadContainer.h"
+#include "appFileSystem.h"
 
 /**
  *	@class リソースファイルのマネージャークラス
@@ -27,6 +27,7 @@ namespace DxLib
 
 		// 読み込み数管理
 		int		m_LoadedFiles;
+		int		m_EnteredFiles;
 			
 	public:
 
@@ -98,7 +99,7 @@ namespace DxLib
 									const AppLib::Resources::Archive::ENUM_ARCHIVE_FILETYPE_LIST		 fileArchiveType,
 									const AppLib::Resources::Attribute::ENUM_RESFILE_ATTRIBUTE_TYPE_LIST fileAttrType,
 									const AppLib::Resources::Parameter::ENUM_GRAPHIC_FILE_ENTRY_TYPE	 fileEntryUseType,
-									const int	fileUpmode );
+									const int	fileUpmode = AppLib::Resources::ProcessStatus::eUPMODE_NORMAL );
 
 		
 	public:
@@ -107,7 +108,7 @@ namespace DxLib
 		DxLib::ResourcesLoadContainer * getElementRecordContainer( size_t index ) { return &m_resourcesContainer.at( index ); }
 		
 		// テクスチャサイズ取得
-		const ObjectSize	getTextureObjSize( const char* fileName ) { getContainer( fileName )->m_vTextureObj; }
+		const Utility::ObjectSize	getTextureObjSize( const char* fileName ) { getContainer( fileName )->m_vTextureObj; }
 
 		// 読み込み数を返す
 		int		getLoadingFileCount() const { return m_LoadedFiles; }

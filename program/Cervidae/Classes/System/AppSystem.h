@@ -1,13 +1,12 @@
 #pragma once
 
 //=================================================================================//
-//  AppSystem.h
+//  appSystem.h
 //  Cervidae
 //
 //  Created by kashima akihiro on 2018/11/06.
 //=================================================================================//
 
-#include "../Libs/DxLib/Input/dxLibKeyPadUtility.h"
 #include "../Libs/Effekseer/appEffekseer.h"
 #include "../Libs/DxLib/Resources/appResourcesConfig.h"
 #include "../Libs/DxLib/Resources/appResources.h"
@@ -17,15 +16,18 @@
  *
  */
 class AppSystem : 
-			public DxLib::AppKeyPadController,
 			public DxLib::AppVramFileManager
 #if( __MIDDLEWARE_EFFEKSEER_USE_ENABLE == 1 )
 			, public Lib::EffekseerController
 #endif
 {
 private:
-
-	const unsigned int   FRAME_UPDATE_SEC = 1000000;  // マイクロセカンド
+	/** マイクロセカンド */
+	const unsigned int	FRAME_UPDATE_SEC = 1000000;
+	/** １フレームの最大時間 */
+	const float			MAX_DELTA_TIME = (1.0f / 120.0f);
+	/** 一度に処理する最大フレーム数 */
+	const int			MAX_FRAME_NUM = (8);
 
 	enum {
 		eROUTE_INIT = 0,
@@ -44,23 +46,17 @@ public:
 
 public:
 
-	// 一つ前のフレームの時間
-	LONGLONG	m_PrevTime;
-	// 状態推移処理で推移させる時間
-	float		m_StepTime;
-	// １フレームで状態推移処理を行う回数
-	int			m_StepNum;
-
-	// タスクシステム情報
-//	STaskSystemInfo		m_TaskSystemInfo;
-	// ゲームメインタスクのタスク情報構造体のアドレスを格納するポインタ変数
-//	STaskInfo*			m_appTaskInfo;
+	LONGLONG	m_PrevTime;			// 一つ前のフレームの時間
+	float		m_StepTime;			// 状態推移処理で推移させる時間
+	int			m_StepNum;			// １フレームで状態推移処理を行う回数
 
 	// 描画管理情報
 
 
-	// Windows情報
-//	UI::WindowObjectData*	m_appBaseWin;
+	// エフェクト管理情報
+#if( __MIDDLEWARE_EFFEKSEER_USE_ENABLE == 1 )
+#endif
+
 
 private:
 
@@ -72,7 +68,7 @@ private:
 	int			m_LocalStep;			// 
 
 public:
-	AppSystem * createInstance();
+	static AppSystem * createInstance();
 
 	bool		appSystemMain();
 
@@ -88,13 +84,13 @@ public:
 private:
 
 	void		appSystemClean();
+	void		appSystemTerminate();
 
 	int			appSystemInitialize();				// Application起動時の初期化処理
 	bool		appSystemStartSetup();				// 初期化処理制御フロー
 	void		appSystemShutdown();
 	bool		appSystemUpdate();
 	bool		appProcessUpdate();
-	bool		appTaskUpdate();
 	void		appSystemRenderUpdate();			// 描画処理更新
 
 	bool		appSystemDxBeforeProcess();			// DxLib_Init()のコール前に実行する処理
@@ -110,10 +106,24 @@ private:
 	static void		appSystemDebugEnd();
 	static int		appSystemDebugMain();
 	static void		appSystemRenderEnd();
+
+private:
+
+	bool		appSettingSceneRun();
+
+	// 状態推移処理を行う
+	//     戻り値 : 処理が正常に終了したかどうか(true:正常に終了した  false:エラーが発生した)
+	bool		appSystemStep(
+		float StepTime	// 推移させる時間( 単位 : 秒 )
+	);
+
+	// フェード処理の描画を行う
+	void		appSystemFadeRender( void );
+
 };
 
 
-/* End AppSystem.h */
+/* End appSystem.h */
 
 
 

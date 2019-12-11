@@ -18,9 +18,6 @@ public:
     virtual void drawProcess( void ){}
 };
 
-// NOTE:�G���[ C4430 �^�w��q������܂��� - int �Ɖ��肵�܂����B����: C++ �� int ������l�Ƃ��ăT�|�[�g���Ă��܂���
-// TaskBase �̐錾�̑O��TaskController�̑O���錾���K�v
-
 
 /**
  *	@class 
@@ -82,15 +79,23 @@ public:
      */
     void Draw( void )
     {
-		std::list<TaskBase*>::iterator it = m_TaskList.begin();
+	/*	std::list<TaskBase*>::iterator it = m_TaskList.begin();
         for ( it; it != m_TaskList.end(); ++ it )
+        {
+			TaskBase* p_task = *it;
+            p_task->drawProcess();
+        }*/
+		for ( std::list<TaskBase*>::iterator it = m_TaskList.begin(); it != m_TaskList.end(); ++ it )
         {
 			TaskBase* p_task = *it;
             p_task->drawProcess();
         }
     }
-
 };
+
+
+
+
 
 
 

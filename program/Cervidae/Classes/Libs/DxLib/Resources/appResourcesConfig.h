@@ -265,10 +265,11 @@ namespace AppLib
 		/**
 		 *	TODO:ç°å„ä«óùï˚ñ@ÇèCê≥ó\íË 2019.07.12
 		 */
-		const static char* ResourcesFile_Name01 = "001_File.jpg";
-		const static char* ResourcesFile_Name02 = "002_File.jpg";
+		const static char* ResourcesFile_Name01 = "001_File.png";
+		const static char* ResourcesFile_Name02 = "002_File.png";
 		const static char* ResourcesFile_Name03 = "003_File.png";
-		const static char* ResourcesFile_Name04 = "004_File.jpg";
+		const static char* ResourcesFile_Name04 = "004_File.png";
+		const static char* ResourcesFile_Name05 = "005_File.png";
 
 
 	}/* namespace Resources */

@@ -346,7 +346,7 @@ namespace UtilityForOperat
 	 * @param
 	 * @return	”¼Šp‚Ì’·‚³”’l
 	 */
-	const int	getStringLongTag( char * et_str )
+	int   getStringLongTag( char * et_str )
 	{
 		int  RetX = 0;
 		unsigned char *  pNowStr;
@@ -404,7 +404,7 @@ namespace UtilityForOperat
 	 * @param
 	 * @return	•¶š”(”¼Šp‘SŠp‹æ•Ê‚·‚é)
 	 */
-	const int   getStringNumTag( char * et_str )
+	int   getStringNumTag( char * et_str )
 	{
 		int   i;
 		int   j = 0, kazoe = 0, mojinum = 0;
@@ -743,14 +743,3 @@ namespace UtilityForOperat
 	}
 
 }/** namespace UtilityForOperat */
-
-
-
-
-
-
-
-
-
-
-
