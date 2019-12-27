@@ -37,7 +37,7 @@
 
 
 	#define __APP_PROCESS_TASK_MANAGE				(0)
-	#define __APP_PROCESS_FUNC_POINTER_ENABLE		(0)
+	#define __APP_PROCESS_FLAG_SYSTEM_ENABLE		(0)
 
 #endif
 

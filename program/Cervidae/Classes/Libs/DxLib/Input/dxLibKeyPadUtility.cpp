@@ -1,5 +1,6 @@
 
-
+#include "DxLib.h"
+#include "../../../Common/CervidaeLib/Template/tSingleton.h"
 #include "../../../Common/appCommonParam.h"
 #include "../../../Common/CervidaeLib/CLDefine.h"
 #include "../dxLibDefine.h"

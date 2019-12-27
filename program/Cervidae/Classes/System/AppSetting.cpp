@@ -3,11 +3,11 @@
 #include "../Common/CervidaeLib/CLDefine.h"
 #include "../Common/appCommonParam.h"
 #include "../Libs/DxLib/dxLibDefine.h"
-#include "AppSetting.h"
+#include "appSetting.h"
 
 
 //======================================================================//
-//  AppSetting.cpp
+//  appSetting.cpp
 //  Created by on 2018/11/29.
 //======================================================================//
 

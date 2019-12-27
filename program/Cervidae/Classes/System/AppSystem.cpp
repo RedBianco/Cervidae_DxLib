@@ -14,6 +14,7 @@
 #include "../Libs/DxLib/Initialize/dxLibInit.h"
 #include "../Libs/DxLib/Initialize/dxLibSetup.h"
 #include "../Libs/Effekseer/appEffekseerLib.h"
+#include "Process/Flag/appFlag.h"
 #include "appSystem.h"
 #include "appSetting.h"
 #include "Task/TaskCore.h"
@@ -27,7 +28,7 @@
 
 
 //======================================================================//
-//  AppSystem.cpp
+//  appSystem.cpp
 //  Created by on 2018/11/06.
 //======================================================================//
 
@@ -395,6 +396,11 @@ bool	AppSystem::appSystemDxAfterProcess()
 		// ※タイミングはDxLib_Initが終わってDxLib関係初期化後処理が終わったら
 		App::EffekseerLib::libSystemInit();
 	#endif
+
+	#if ( defined( __APP_PROCESS_FLAG_SYSTEM_ENABLE ) )
+		// フラグ情報の作成
+		App::FlagManager::createFlagManager();
+	#endif
 	
 	DEBUG_PRINT("[Process] AppSystem::appSystemDxAfterProcess() CLEAR\n");
 
@@ -410,9 +416,12 @@ void	AppSystem::appSystemAdvanceSetup()
 {
 	this->m_LocalStep = eROUTE_ADVANCE_INIT;
 
-
 	appSystemResourcesSetup( eROUTE_RESOURCES_ENTRY );
 
+#if ( defined( __APP_PROCESS_FLAG_SYSTEM_ENABLE ) )
+	App::getFlagInstancePtr()->createFlag("appGamedata", 0, eFLAG_TYPE_APPDATA, eFLAG_CATEGORY_APP);
+	App::getFlagInstancePtr()->createFlag("appGameSystemdata", 0, eFLAG_TYPE_SYSTEM, eFLAG_CATEGORY_APP);
+#endif
 }
 void	AppSystem::appSystemResourcesSetup( int processStep )
 {

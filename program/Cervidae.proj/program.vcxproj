@@ -158,6 +158,7 @@
     <ClCompile Include="..\Cervidae\Classes\System\appSetting.cpp" />
     <ClCompile Include="..\Cervidae\Classes\System\appSystem.cpp" />
     <ClCompile Include="..\Cervidae\Classes\System\Process\appProcess.cpp" />
+    <ClCompile Include="..\Cervidae\Classes\System\Process\Flag\appFlag.cpp" />
     <ClCompile Include="..\Cervidae\Classes\System\Task\TaskCore.cpp" />
     <ClCompile Include="..\Cervidae\Classes\System\Task\TaskLib.cpp" />
   </ItemGroup>
@@ -214,6 +215,7 @@
     <ClInclude Include="..\Cervidae\Classes\System\appSetting.h" />
     <ClInclude Include="..\Cervidae\Classes\System\appSystem.h" />
     <ClInclude Include="..\Cervidae\Classes\System\Process\appProcess.h" />
+    <ClInclude Include="..\Cervidae\Classes\System\Process\Flag\appFlag.h" />
     <ClInclude Include="..\Cervidae\Classes\System\Task\TaskCore.h" />
     <ClInclude Include="..\Cervidae\Classes\System\Task\TaskLib.h" />
   </ItemGroup>

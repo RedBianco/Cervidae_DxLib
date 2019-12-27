@@ -123,11 +123,6 @@
 
 namespace CommonList
 {
-//	#define  RESOURCES_LOAD_PATH_LUA		""
-//	#define  RESOURCES_LOAD_PATH_2D			""
-//	#define  RESOURCES_LOAD_PATH_3D			""
-//	#define  RESOURCES_LOAD_PATH_EFFECT		""
-
 	namespace Resources
 	{
 		enum ENUM_UI_FILE_TYPE
@@ -146,6 +141,13 @@ namespace CommonList
 	const std::string   RESOURCES_LOAD_PATH_2D		= "..\\..\\resources\\asset\\";
 	const std::string   RESOURCES_LOAD_PATH_3D		= "..\\..\\resources\\model\\";
 	const std::string   RESOURCES_LOAD_PATH_EFFECT	= "..\\..\\resources\\asset\\effect\\";
+
+	namespace GameSystem
+	{
+		static const unsigned int			APP_FLAGDATA_ENTRY_MAX = (100);
+		static const unsigned int			SYSTEM_FLAGDATA_ENTRY_MAX = (30);
+		static const unsigned int			FLAGDATA_USE_MAX = (APP_FLAGDATA_ENTRY_MAX + SYSTEM_FLAGDATA_ENTRY_MAX);
+	}
 
 	namespace TaskEvent
 	{
