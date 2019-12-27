@@ -1,7 +1,5 @@
 #pragma once
 
-#include "DxLib.h"
-#include "../../../Common/CervidaeLib/Template/tSingleton.h"
 
 //============================================================================//
 //  dxLibKeyPadUtility.h
@@ -19,32 +17,24 @@ namespace Lib
 	/**
 	 * 
 	 */
-	class KeyInputOperat
+	struct KeyInputOperat
 	{
-	public:
-		KeyInputOperat(){}
-
-	public:
 		char	m_KeyBuff_[256];	//*! @param キーバッファ
 		int		m_KeyFlag_[256];	//*! @param 0:入力されていない 1:入力された瞬間 2:入力されている
 		int		m_KeyStatus_;		//*! @param 入力ステータス
 		int		m_KeyInputMode_;	//*! @param 入力キーボード(0：通常ゲーム、1：デバッグ)
 
-	#if PROJECT_DEBUG
+#if PROJECT_DEBUG
 		char	debKeyBuff_[256];	//*! @param	デバッグ用：キーバッファ
 		int		debKeyFlag_[256];	//*! @param	デバッグ用：0:入力されていない 1:入力された瞬間 2:入力されている
-	#endif
+#endif
 	};
 
 	/**
 	 * 
 	 */
-	class JoypadInputOperat
+	struct JoypadInputOperat
 	{
-	public:
-		JoypadInputOperat(){}
-
-	public:
 		int		m_ConnectNum_;		//*! @param	ジョイパッド接続数
 		bool	m_PadEnable_;		//*! @param	ジョイパッド接続制御 ON/OFF
 		int		m_InputFlag_;		//*! @param	

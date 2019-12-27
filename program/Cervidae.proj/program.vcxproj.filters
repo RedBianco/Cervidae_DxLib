@@ -70,6 +70,9 @@
     <Filter Include="Cervidae\Classes\Libs\DxLib\Resources\Texture\Archive">
       <UniqueIdentifier>{b4a51981-fcf7-4365-95f8-6657087908b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cervidae\Classes\System\Process\Flag">
+      <UniqueIdentifier>{1311188d-5441-4802-ba11-8f84ff69ff4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Cervidae\Classes\Main.cpp">
@@ -182,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMath.cpp">
       <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Cervidae\Classes\System\Process\Flag\appFlag.cpp">
+      <Filter>Cervidae\Classes\System\Process\Flag</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -346,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="..\Cervidae\Classes\Common\CervidaeLib\Utility\UtilityMath.h">
       <Filter>Cervidae\Classes\Common\CervidaeLib\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cervidae\Classes\System\Process\Flag\appFlag.h">
+      <Filter>Cervidae\Classes\System\Process\Flag</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
