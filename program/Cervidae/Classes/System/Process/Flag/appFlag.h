@@ -64,7 +64,7 @@ namespace App
 		int		m_ReadMode = 0;
 
 	public:
-		static void createFlagManager(void)
+		static void createFlagManager( void)
 		{
 			DEBUG_PRINT("[Lib] App::FlagManager CreateInstance() CLEAR\n");
 			return Singleton<FlagManager>::create();
@@ -88,10 +88,11 @@ namespace App
 		int		libFlag_isFlagNumber( const char* flagName, const ENUM_CREATE_FLAG_TYPE flagType );
 		int		libFlag_isFlagNumber( const int  listIndex, const ENUM_CREATE_FLAG_TYPE flagType );
 
-		int		libFlag_FlagMinimum(const char* fName, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType);
-		int		libFlag_FlagMinimum(const int  nID, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType);
-		int		libFlag_FlagMaximum(const char* fName, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType);
-		int		libFlag_FlagMaximum(const int  nID, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType);
+		int		libFlag_FlagMinimum( const char* flagName, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType );
+		int		libFlag_FlagMinimum( const int  index, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType );
+		int		libFlag_FlagMaximum( const char* flagName, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType );
+		int		libFlag_FlagMaximum( const int  index, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType );
+
 		int		libFlag_FlagSetUp(const char* fName, const int  nSetup, const ENUM_CREATE_FLAG_TYPE  fType);
 		int		libFlag_FlagSetUp(const int  nID, const int  nSetup, const ENUM_CREATE_FLAG_TYPE fType);
 		int		libFlag_FlagSetUpGet(const char* fName, const ENUM_CREATE_FLAG_TYPE fType);
