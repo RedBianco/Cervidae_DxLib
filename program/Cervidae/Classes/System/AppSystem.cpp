@@ -246,7 +246,9 @@ bool	AppSystem::appSystemUpdate()
 			if( DxLib::CheckHitKey( KEY_INPUT_ESCAPE ) || isExitApp() )
 			{
 				// アプリ終了フラグを立てる
-				if( !isExitApp() ){ setExitAppFlag( TRUE ); }
+				if( !isExitApp() ){
+					setExitAppFlag( TRUE );
+				}
 				break;
 			}
 

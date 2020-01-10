@@ -180,24 +180,26 @@ int		App::FlagManager::libFlag_isFlagNumber( const int  listIndex, const ENUM_CR
 	
 	return m_FlagDataList.at( listIndex).m_Num;
 }
-int		App::FlagManager::libFlag_FlagMinimum( const char* fName, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType )
+int		App::FlagManager::libFlag_FlagMinimum( const char* flagName, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType )
 {
-	int i = libFlag_FlagDataIdGet(fName, fType);
+	int i = libFlag_FlagDataIdGet(flagName, fType);
 	return libFlag_FlagMinimum(i, fNum, fType);
 }
-int		App::FlagManager::libFlag_FlagMinimum( const int  nID, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType )
+int		App::FlagManager::libFlag_FlagMinimum( const int  index, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType )
 {
 	return (0);
 }
-int		App::FlagManager::libFlag_FlagMaximum( const char* fName, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType )
+int		App::FlagManager::libFlag_FlagMaximum( const char* flagName, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType )
 {
-	int i = libFlag_FlagDataIdGet(fName, fType);
+	int i = libFlag_FlagDataIdGet(flagName, fType);
 	return libFlag_FlagMaximum(i, fNum, fType);
 }
-int		App::FlagManager::libFlag_FlagMaximum( const int  nID, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType )
+int		App::FlagManager::libFlag_FlagMaximum( const int  index, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType )
 {
 	return (0);	//	ïœçXÇ»Çµ
 }
+
+
 int		App::FlagManager::libFlag_FlagSetUp( const char* fName, const int  nSetup, const ENUM_CREATE_FLAG_TYPE fType )
 {
 	int i = libFlag_FlagDataIdGet(fName, fType);
@@ -255,7 +257,10 @@ void	App::FlagManager::libFlag_AppFlagEntry()
 }
 
 
-
+//=================================================================================//
+//  
+//  
+//=================================================================================//
 int		App::FlagManager::libFlag_NormalFlagNumCheck( const char* flagName )
 {
 	return libFlag_isFlagNumber( flagName, eFLAG_TYPE_APPDATA );
