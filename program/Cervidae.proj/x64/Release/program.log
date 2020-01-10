@@ -1,2 +1,39 @@
-﻿LINK : fatal error C1047: オブジェクトまたはライブラリ ファイル '..\Cervidae\Libs\Effekseer\Libs\EffekseerForDXLib_vs2019_x64.lib' は、他のオブジェクトよりも古いコンパイラで作成されました。古いオブジェクトおよびライブラリをリビルドしてください。
+﻿  tSingleton.cpp
+  UtilityDateTime.cpp
+  UtilityForOperat.cpp
+  UtilityMath.cpp
+  UtilityMoveLine.cpp
+  dxLibDebug.cpp
+  dxLibDebugLog.cpp
+  dxLibKeyPadUtility.cpp
+  appArchiveFileControl.cpp
+  appFileGraphic.cpp
+  appFileGraphicControl.cpp
+  appFileSystem.cpp
+  appResourcesLoadContainer.cpp
+  appVramContainer.cpp
+  appVramControl.cpp
+  appVramFileManage.cpp
+  dxLibSoundBGMManager.cpp
+  dxLibSoundMovieManager.cpp
+  dxLibSoundSEManager.cpp
+  dxLibSoundVoiceManager.cpp
+  コンパイル中...
+  dxLibSoundManager.cpp
+  dxLibCommon.cpp
+  dxLibInit.cpp
+  dxLibSetup.cpp
+  appEffekseer.cpp
+  appEffekseerData.cpp
+  appEffekseerLib.cpp
+  Main.cpp
+  appSceneManager.cpp
+  appScene_Start.cpp
+  appFlag.cpp
+  appProcess.cpp
+  TaskCore.cpp
+  TaskLib.cpp
+  appSetting.cpp
+  appSystem.cpp
+LINK : fatal error C1047: オブジェクトまたはライブラリ ファイル '..\Cervidae\Libs\Effekseer\Libs\EffekseerForDXLib_vs2019_x64.lib' は、他のオブジェクトよりも古いコンパイラで作成されました。古いオブジェクトおよびライブラリをリビルドしてください。
 LINK : fatal error LNK1257: コードの生成に失敗しました。
