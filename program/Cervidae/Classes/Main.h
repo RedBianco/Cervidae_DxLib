@@ -79,19 +79,3 @@ if ( object ) {
 	http://127.0.0.1:8080/
 */
 
-
-
-/*
-■LinkedIn
-＠メールアドレス
-sectionover@yahoo.co.jp
-＠パスワード
-section9
-
-■Slideshare
-＠ユーザーネーム
-AkihiroKashima1
-
-
-*/
-

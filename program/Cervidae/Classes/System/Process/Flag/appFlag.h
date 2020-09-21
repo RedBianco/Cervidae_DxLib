@@ -33,20 +33,24 @@ typedef enum
 
 namespace App
 {
-	/**
-	 *	フラグ情報管理用
-	 */
+	//-------------------------------------------------------
+	//	フラグ情報管理用
+	//	
 	struct FlagObjectData
 	{
-		ENUM_CREATE_FLAG_TYPE	m_FlagType;
-		std::string				m_FlagName;
-		int						m_Num;
-		int						m_Setup;
-		int						m_Init;
-		ENUM_FLAG_CATEGORY_TAG	m_FlagCategory;
+		ENUM_CREATE_FLAG_TYPE		m_FlagType;
+		std::string					m_FlagName;
+		int							m_Num;
+		int							m_Setup;
+		int							m_Init;
+		ENUM_FLAG_CATEGORY_TAG		m_FlagCategory;
 	};
 
-
+	//-------------------------------------------------------
+	//
+	//
+	//
+	//
 	class FlagManager : public Singleton<FlagManager>
 	{
 		// DebugModeOperatのインスタンスを生成する時に、コンストラクタが呼べなかった為friend指定
@@ -72,37 +76,55 @@ namespace App
 
 		// フラグ管理システム基本初期化
 		void	dataSystemInit();
+
 		// フラグ作成
 		int		createFlag( const char* flagName, const int flagValue, const ENUM_CREATE_FLAG_TYPE nType, const ENUM_FLAG_CATEGORY_TAG flagCategory );
+
 		// 指定タイプフラグの使用数を返す
 		int		libFlag_isUseFlagNum( const ENUM_CREATE_FLAG_TYPE flagType );
+
 		// 名前からフラグの登録番号を返す
 		int		libFlag_FlagDataIdGet( const char* flagName, const ENUM_CREATE_FLAG_TYPE flagType );
+
 		// フラグに数値代入
 		int		libFlag_FlagNumSet( const char* flagName, const int  flagValue, const ENUM_CREATE_FLAG_TYPE flagType );
 		int		libFlag_FlagNumSet( const int  listIndex, const int  flagValue, const ENUM_CREATE_FLAG_TYPE flagType );
+
 		// フラグの値増減
 		int		libFlag_FlagNumChange( const char* flagName, const int  flagValue, const ENUM_CREATE_FLAG_TYPE flagType );
 		int		libFlag_FlagNumChange( const int  listIndex, const int  flagValue, const ENUM_CREATE_FLAG_TYPE flagType );
+
 		// 指定インデックスのフラグ値参照
 		int		libFlag_isFlagNumber( const char* flagName, const ENUM_CREATE_FLAG_TYPE flagType );
 		int		libFlag_isFlagNumber( const int  listIndex, const ENUM_CREATE_FLAG_TYPE flagType );
 
-		int		libFlag_FlagMinimum( const char* flagName, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType );
-		int		libFlag_FlagMinimum( const int  index, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType );
-		int		libFlag_FlagMaximum( const char* flagName, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType );
-		int		libFlag_FlagMaximum( const int  index, const int  fNum, const ENUM_CREATE_FLAG_TYPE fType );
+		// フラグが指定の数値未満なら指定の数値にセット
+		int		libFlag_FlagMinimum( const char* flagName, const int  fNum, const ENUM_CREATE_FLAG_TYPE flagType );
+		int		libFlag_FlagMinimum( const int  index, const int  fNum, const ENUM_CREATE_FLAG_TYPE flagType );
+		// フラグが指定の数値より上なら指定の数値にセット
+		int		libFlag_FlagMaximum( const char* flagName, const int  fNum, const ENUM_CREATE_FLAG_TYPE flagType );
+		int		libFlag_FlagMaximum( const int  index, const int  fNum, const ENUM_CREATE_FLAG_TYPE flagType );
 
-		int		libFlag_FlagSetUp(const char* fName, const int  nSetup, const ENUM_CREATE_FLAG_TYPE  fType);
-		int		libFlag_FlagSetUp(const int  nID, const int  nSetup, const ENUM_CREATE_FLAG_TYPE fType);
-		int		libFlag_FlagSetUpGet(const char* fName, const ENUM_CREATE_FLAG_TYPE fType);
-		int		libFlag_FlagSetUpGet(const int  nID, const ENUM_CREATE_FLAG_TYPE fType);
+		// フラグ値設定
+		int		libFlag_FlagSetUp(const char* fName, const int  nSetup, const ENUM_CREATE_FLAG_TYPE  flagType);
+		int		libFlag_FlagSetUp(const int  nID, const int  nSetup, const ENUM_CREATE_FLAG_TYPE flagType);
+
+		// フラグ値設定を参照
+		int		libFlag_FlagSetUpGet(const char* fName, const ENUM_CREATE_FLAG_TYPE flagType);
+		int		libFlag_FlagSetUpGet(const int  nID, const ENUM_CREATE_FLAG_TYPE flagType);
+
+		// フラグの値を配列へ代入(セーブ時用)
 		int		libFlag_FlagAllGet(const ENUM_CREATE_FLAG_TYPE fType, int* pNum);
+		// フラグの値を配列へ代入(ロード時用)
 		int		libFlag_FlagAllSet(const ENUM_CREATE_FLAG_TYPE fType, int* pNum);
+
+
 		bool	libFlag_FlagPointerGet(const ENUM_CREATE_FLAG_TYPE nType, App::FlagObjectData** tagFlag);
 		bool	libFlag_FlagPointerGet(const ENUM_CREATE_FLAG_TYPE nType, App::FlagObjectData** tagFlag, const int nIndex);
 		void	libFlag_AppFlagEntry();
 		
+
+		// 
 		int		libFlag_NormalFlagNumCheck(const char* flagName);
 		int		libFlag_SystemFlagNumCheck(const char* flagName);
 
