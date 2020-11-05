@@ -22,7 +22,7 @@ int wmain( int argc, wchar_t *argv[] )
 
 	setlocale( LC_ALL, "Japanese" ) ;
 
-	wprintf( L"ＤＸフォントデータファイル作成ソフト  Ver0.2   Yamada Takumi\n" ) ;
+	wprintf( L"ＤＸフォントデータファイル作成ソフト  Ver0.5   Yamada Takumi\n" ) ;
 
 	for( i = 1; i < argc; i ++ )
 	{
@@ -202,7 +202,7 @@ int wmain( int argc, wchar_t *argv[] )
 				{
 					SaveCharaList = ( wchar_t * )malloc( sizeof( wchar_t ) * ( FileSize + 1 ) ) ;
 					memset( SaveCharaList, 0, sizeof( wchar_t ) * ( FileSize + 1 ) ) ;
-					ConvString( ( const char * )FileBuffer, FontCharCodeFormat, ( char * )SaveCharaList, CHARCODEFORMAT_UTF16LE ) ;
+					ConvString( ( const char * )FileBuffer, FontCharCodeFormat == -1 ? CHARCODEFORMAT_SHIFTJIS : FontCharCodeFormat, ( char * )SaveCharaList, CHARCODEFORMAT_UTF16LE ) ;
 				}
 
 				free( FileBuffer ) ;

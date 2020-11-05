@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ja-JP">
 	<head>
-    	<meta http-equiv="Content-type" content="text/html; charset=Shift_JIS">
-	<title>��Z�ς݃A���t�@�̂�����</title>
+    	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>乗算済みアルファのすすめ</title>
 	<link rel="shortcut icon" href="../../DxLib.ico">
 	<link rel="stylesheet" href="../../style.css" type="text/css">
 	</head>
@@ -10,25 +10,25 @@
 	<div class="NormalFont">
 		<font SIZE="6" COLOR="#000000">
 		<center>
-			<b>��Z�ς݃A���t�@�̂�����</B>
+			<b>乗算済みアルファのすすめ</B>
 		</center>
 		</font>
 		<hr>
 		<font SIZE="3" COLOR="#000000">
-<pre><div class="NormalFont"><b>�u��Z�ς݃A���t�@�v�Ƃ͉����B�̑O�ɁA�܂��u��Z�ς݃A���t�@�v�Ƃ����@�\���g���Ƃǂ�ȉ��b��
-���邩��\���グ�܂���
+<pre><div class="NormalFont"><b>「乗算済みアルファ」とは何か。の前に、まず「乗算済みアルファ」という機能を使うとどんな恩恵が
+あるかを申し上げますと
 
-�P�D�ʏ�̃o�C���j�A�t�B���^�����O�`��������ۂɊ��S���������Ƃ̋��E�Ɋ��S���������̃s�N�Z���̐F��
-�@��������\������Ă��܂����̉���
+１．通常のバイリニアフィルタリング描画をした際に完全透明部分との境界に完全透明部分のピクセルの色が
+　うっすら表示されてしまう問題の解消
 
-�Q�D�֐� MakeScreen �ō쐬�ł���A���t�@�`�����l���t���́w�`��Ώۂɂł���O���t�B�b�N�n���h���x��
-�@�΂��锼�����`��̌��ʂ������I�ɂȂ�
+２．関数 MakeScreen で作成できるアルファチャンネル付きの『描画対象にできるグラフィックハンドル』に
+　対する半透明描画の結果が直感的になる
 
-�̓������܂��B
+の二つがあります。
 
 
-�ŏ��ɂP�̐��������܂��B
-�܂�������̃X�N���[���V���b�g���������������B
+最初に１の説明をします。
+まずこちらのスクリーンショットをご覧ください。
 
 <img src="PMAImage00.jpg">
 
@@ -39,55 +39,55 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 {
 	int handle;
 
-	// �E�C���h�E���[�h�ŋN��
+	// ウインドウモードで起動
 	ChangeWindowMode( TRUE ) ;
 
-	// ��ʂ̃T�C�Y���c��400�s�N�Z���ɂ���
+	// 画面のサイズを縦横400ピクセルにする
 	SetGraphMode( 400, 400, 32 ) ;
 
-	// �c�w���C�u�����̏�����
+	// ＤＸライブラリの初期化
 	if( DxLib_Init() < 0 ) return -1 ;
 
-	// ���ߐF����( R:255  G:0  B:255 )�ɂ���
+	// 透過色を紫( R:255  G:0  B:255 )にする
 	SetTransColor( 255, 0, 255 ) ;
 
-	// �摜��ǂݍ���
+	// 画像を読み込む
 	handle = LoadGraph( "PMAImage01.png" ) ;
 
-	// ���ʂ�������₷���悤�ɉ�ʂ��D�F�ɂ���
+	// 結果が分かりやすいように画面を灰色にする
 	DrawBox( 0, 0, 400, 400, GetColor( 128,128,128 ), TRUE ) ;
 
-	// �`�惂�[�h���o�C���j�A�t�B���^�����O�ɂ���
+	// 描画モードをバイリニアフィルタリングにする
 	SetDrawMode( DX_DRAWMODE_BILINEAR ) ;
 
-	// ��ʂ̒��S�ɓǂݍ��񂾉摜���g�債�ĕ`�悷��
+	// 画面の中心に読み込んだ画像を拡大して描画する
 	DrawExtendGraph( 0, 0, 400, 400, handle, TRUE ) ;
 
-	// �L�[���͑҂�
+	// キー入力待ち
 	WaitKey() ;
 
-	// �c�w���C�u�����̌�n��
+	// ＤＸライブラリの後始末
 	DxLib_End() ;
 
-	// �\�t�g�̏I��
+	// ソフトの終了
 	return 0 ;
 }
 <b>
-���̃X�N���[���V���b�g�́�����
+このスクリーンショットは↓この
 
 <img src="PMAImage01.png">
 
-�c��16�s�N�Z���̉摜���g���āA���F�̕����𓧉ߐF�Ƃ��ēǂݍ��񂾌�o�C���j�A�t�B���^�����O�ݒ�
-( SetDrawMode( DX_DRAWMODE_BILINEAR ) ; )�̏�Ԃ� DrawExtendGraph ���g�p���ē��ߐF�����t����
-�c��400�s�N�Z���Ɋg�債�ĉ�ʂɕ`�悵�����̂ł��B
+縦横16ピクセルの画像を使って、紫色の部分を透過色として読み込んだ後バイリニアフィルタリング設定
+( SetDrawMode( DX_DRAWMODE_BILINEAR ) ; )の状態で DrawExtendGraph を使用して透過色処理付きで
+縦横400ピクセルに拡大して画面に描画したものです。
 
-���S�Ɋg��`�悳�ꂽ�ΐF�̎l�p�`�̉��̕����ɔ������F�������܂����A����͓��ߐF�̋@�\�ɂ����
-�`�悳��Ȃ��͂��̎��F�̃s�N�Z���̐F�ł��B
+中心に拡大描画された緑色の四角形の縁の部分に薄く紫色が見えますが、これは透過色の機能によって
+描画されないはずの紫色のピクセルの色です。
 
-���̌��ۂ͂c�w���C�u�����̒ʏ�̕`�揈���ł͔������܂���B
-�����A���񂨊��߂���u��Z�ς݃A���t�@�v���g�p����Ƃ��̖�肪��������܂��B
+この現象はＤＸライブラリの通常の描画処理では避けられません。
+ただ、今回お勧めする「乗算済みアルファ」を使用するとこの問題が解消されます。
 
-��L�X�N���[���V���b�g�Ŏ������v���O�����Ɂu��Z�ς݃A���t�@�v���g�p�������ʂ͂�����ł��B
+上記スクリーンショットで示したプログラムに「乗算済みアルファ」を使用した結果はこちらです。
 
 <img src="PMAImage02.jpg">
 
@@ -98,65 +98,65 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 {
 	int handle;
 
-	// �E�C���h�E���[�h�ŋN��
+	// ウインドウモードで起動
 	ChangeWindowMode( TRUE ) ;
 
-	// ��ʂ̃T�C�Y���c��400�s�N�Z���ɂ���
+	// 画面のサイズを縦横400ピクセルにする
 	SetGraphMode( 400, 400, 32 ) ;
 
-	// �c�w���C�u�����̏�����
+	// ＤＸライブラリの初期化
 	if( DxLib_Init() < 0 ) return -1 ;
 
-	// ���ߐF����( R:255  G:0  B:255 )�ɂ���
+	// 透過色を紫( R:255  G:0  B:255 )にする
 	SetTransColor( 255, 0, 255 ) ;
 
-	// �摜��ǂݍ��񂾌�A��Z�ς݃A���t�@�摜�ɕϊ�����ݒ��L���ɂ���
+	// 画像を読み込んだ後、乗算済みアルファ画像に変換する設定を有効にする
 	SetUsePremulAlphaConvertLoad( TRUE ) ;
 
-	// �摜��ǂݍ���
+	// 画像を読み込む
 	handle = LoadGraph( "PMAImage01.png" ) ;
 
-	// ���ʂ�������₷���悤�ɉ�ʂ��D�F�ɂ���
+	// 結果が分かりやすいように画面を灰色にする
 	DrawBox( 0, 0, 400, 400, GetColor( 128,128,128 ), TRUE ) ;
 
-	// �`�惂�[�h���o�C���j�A�t�B���^�����O�ɂ���
+	// 描画モードをバイリニアフィルタリングにする
 	SetDrawMode( DX_DRAWMODE_BILINEAR ) ;
 
-	// ��Z�ς݃A���t�@�摜�p�̃��u�����h�̐ݒ�ɂ���
+	// 乗算済みアルファ画像用のαブレンドの設定にする
 	SetDrawBlendMode( DX_BLENDMODE_PMA_ALPHA, 255 ) ;
 
-	// ��ʂ̒��S�ɓǂݍ��񂾉摜���g�債�ĕ`�悷��
+	// 画面の中心に読み込んだ画像を拡大して描画する
 	DrawExtendGraph( 0, 0, 400, 400, handle, TRUE ) ;
 
-	// �L�[���͑҂�
+	// キー入力待ち
 	WaitKey() ;
 
-	// �c�w���C�u�����̌�n��
+	// ＤＸライブラリの後始末
 	DxLib_End() ;
 
-	// �\�t�g�̏I��
+	// ソフトの終了
 	return 0 ;
 }
 <b>
-���Ɍ����Ă������F�������܂����B
-���ꂪ���b���̂P�ł��B
+縁に見えていた紫色が消えました。
+これが恩恵その１です。
 
 
 
-���ɉ��b���̂Q�̂����������܂��B
-MakeScreen ���R������ TRUE �ɂ��ČĂяo���ƃA���t�@�`�����l���t���́w�`��Ώۂɂł���
-( SetDrawScreen �̈����Ƃ��ēn���� )�O���t�B�b�N�n���h���x���쐬���邱�Ƃ��ł��܂��B
-( �w�A���t�@�`�����l���x�͗v�́w�e�s�N�Z���̕s�����x���x�ł� )
+次に恩恵その２のご説明をします。
+MakeScreen を第３引数を TRUE にして呼び出すとアルファチャンネル付きの『描画対象にできる
+( SetDrawScreen の引数として渡せる )グラフィックハンドル』を作成することができます。
+( 『アルファチャンネル』は要は『各ピクセルの不透明度情報』です )
 
-���̃O���t�B�b�N�n���h���� SetDrawScreen �ŕ`��Ώۂɂ�����Ԃŕ`�揈�����s���A���̌��
-���x�͗���ʂ�`��Ώۂɂ����ケ�̃O���t�B�b�N�n���h�����g���ĕ`�悷��΁A
-�w�O���t�B�b�N�n���h���ɑ΂��čs�����`�揈���ƑS���������ʂ�����ʂɑ΂��ĕ`�悳���x
-�Ɗ��҂�����̂ł����A�ʏ�̕`��ł͂��̊��Ғʂ�ɂ͂Ȃ�܂���B
+このグラフィックハンドルを SetDrawScreen で描画対象にした状態で描画処理を行い、その後に
+今度は裏画面を描画対象にした後このグラフィックハンドルを使って描画すれば、
+『グラフィックハンドルに対して行った描画処理と全く同じ結果が裏画面に対して描画される』
+と期待するものですが、通常の描画ではその期待通りにはなりません。
 
-�����ɗ���ʂɒ��ځw�s�����x�T�O���̐Ԃ���`�x��`�悵���ꍇ( �X�N���[���V���b�g���� )�ƁA
-�w�A���t�@�`�����l���t���̕`��Ώۂɂł���O���t�B�b�N�n���h���x�ɑ΂��āw�s�����x�T�O����
-�Ԃ���`�x��`�悵�āA���̃O���t�B�b�N�n���h���𗠉�ʂɕ`�悵���ꍇ( �X�N���[���V���b�g�̉E�� )
-�̌��ʂ�������ł��B
+試しに裏画面に直接『不透明度５０％の赤い矩形』を描画した場合( スクリーンショット左側 )と、
+『アルファチャンネル付きの描画対象にできるグラフィックハンドル』に対して『不透明度５０％の
+赤い矩形』を描画して、そのグラフィックハンドルを裏画面に描画した場合( スクリーンショットの右側 )
+の結果がこちらです。
 
 <img src="PMAImage03.png">
 
@@ -167,57 +167,57 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 {
 	int screen ;
 
-	// �E�C���h�E���[�h�ŋN��
+	// ウインドウモードで起動
 	ChangeWindowMode( TRUE ) ;
 
-	// ��ʃT�C�Y��400x200�ɂ���
+	// 画面サイズを400x200にする
 	SetGraphMode( 400, 200, 32 ) ;
 
-	// �c�w���C�u�����̏�����
+	// ＤＸライブラリの初期化
 	if( DxLib_Init() < 0 ) return -1 ;
 
-	// �A���t�@�`�����l���t���̕`��Ώۂɂł���O���t�B�b�N�n���h�����쐬
+	// アルファチャンネル付きの描画対象にできるグラフィックハンドルを作成
 	screen = MakeScreen( 200, 200, TRUE ) ;
 
-	// �쐬�����O���t�B�b�N�n���h����`��Ώۂɂ���
+	// 作成したグラフィックハンドルを描画対象にする
 	SetDrawScreen( screen ) ;
 
-	// �A���t�@�u�����h���[�h���g���āA�s�����x�T�O���̐Ԃ�����`��
+	// アルファブレンドモードを使って、不透明度５０％の赤い箱を描画
 	SetDrawBlendMode( DX_BLENDMODE_ALPHA, 128 ) ;
 	DrawBox( 32, 32, 168, 168, GetColor( 255, 0, 0 ), TRUE ) ;
 	SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 255 ) ;
 
-	// �`���𗠉�ʂɕύX
+	// 描画先を裏画面に変更
 	SetDrawScreen( DX_SCREEN_BACK ) ;
 
-	// ���ʂ�������₷���悤�ɉ�ʂ����F�ɂ���
+	// 結果が分かりやすいように画面を黄色にする
 	DrawBox( 0, 0, 400, 200, GetColor( 255, 255, 0 ), TRUE ) ;
 
-	// ����ʂɒ��ڕs�����x�T�O���̐Ԃ�����`��
+	// 裏画面に直接不透明度５０％の赤い箱を描画
 	SetDrawBlendMode( DX_BLENDMODE_ALPHA, 128 ) ;
 	DrawBox( 32, 32, 168, 168, GetColor( 255, 0, 0 ), TRUE ) ;
 	SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 255 ) ;
 
-	// ��ʉE�����ɍ쐬�����O���t�B�b�N�n���h����`��
+	// 画面右半分に作成したグラフィックハンドルを描画
 	DrawGraph( 200, 0, screen, TRUE ) ;
 
-	// ����ʂ̓��e��\��ʂɔ��f
+	// 裏画面の内容を表画面に反映
 	ScreenFlip() ;
 
-	// �L�[���͑҂�
+	// キー入力待ち
 	WaitKey() ;
 
-	// �c�w���C�u�����̌�n��
+	// ＤＸライブラリの後始末
 	DxLib_End() ;
 
-	// �\�t�g�̏I��
+	// ソフトの終了
 	return 0 ;
 }
 <b>
-���҂���͍̂��E���Ɂw�s�����x�T�O���̐Ԃ���`�x���\������邱�Ƃł����A���ۂɂ́w�`��Ώۂɂł���
-�O���t�B�b�N�n���h���x����Ă�����͕s�����x���Q�T���ɂȂ��Ă��܂��Ă��܂��B
+期待するのは左右共に『不透明度５０％の赤い矩形』が表示されることですが、実際には『描画対象にできる
+グラフィックハンドル』を介している方は不透明度が２５％になってしまっています。
 
-�����Łu��Z�ς݃A���t�@�v���g�p����Ɗ��Ғʂ�̌��ʂ������܂��B
+ここで「乗算済みアルファ」を使用すると期待通りの結果が得られます。
 
 <img src="PMAImage04.png">
 
@@ -228,172 +228,172 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 {
 	int screen ;
 
-	// �E�C���h�E���[�h�ŋN��
+	// ウインドウモードで起動
 	ChangeWindowMode( TRUE ) ;
 
-	// ��ʃT�C�Y��400x200�ɂ���
+	// 画面サイズを400x200にする
 	SetGraphMode( 400, 200, 32 ) ;
 
-	// �c�w���C�u�����̏�����
+	// ＤＸライブラリの初期化
 	if( DxLib_Init() < 0 ) return -1 ;
 
-	// �A���t�@�`�����l���t���̕`��Ώۂɂł���O���t�B�b�N�n���h�����쐬
+	// アルファチャンネル付きの描画対象にできるグラフィックハンドルを作成
 	screen = MakeScreen( 200, 200, TRUE ) ;
 
-	// �쐬�����O���t�B�b�N�n���h����`��Ώۂɂ���
+	// 作成したグラフィックハンドルを描画対象にする
 	SetDrawScreen( screen ) ;
 
-	// ��Z�ς݃A���t�@�p�̃A���t�@�u�����h���[�h���g���āA�s�����x�T�O���̐Ԃ�����`��
+	// 乗算済みアルファ用のアルファブレンドモードを使って、不透明度５０％の赤い箱を描画
 	SetDrawBlendMode( DX_BLENDMODE_PMA_ALPHA, 128 ) ;
 	DrawBox( 32, 32, 168, 168, GetColor( 255, 0, 0 ), TRUE ) ;
 	SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 255 ) ;
 
-	// �`���𗠉�ʂɕύX
+	// 描画先を裏画面に変更
 	SetDrawScreen( DX_SCREEN_BACK ) ;
 
-	// ���ʂ�������₷���悤�ɉ�ʂ����F�ɂ���
+	// 結果が分かりやすいように画面を黄色にする
 	DrawBox( 0, 0, 400, 200, GetColor( 255, 255, 0 ), TRUE ) ;
 
-	// ����ʂɒ��ڕs�����x�T�O���̐Ԃ�����`��
+	// 裏画面に直接不透明度５０％の赤い箱を描画
 	SetDrawBlendMode( DX_BLENDMODE_ALPHA, 128 ) ;
 	DrawBox( 32, 32, 168, 168, GetColor( 255, 0, 0 ), TRUE ) ;
 	SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 255 ) ;
 
-	// ��Z�ς݃A���t�@�p�̃A���t�@�u�����h���[�h���g����
-	// ��ʉE�����ɍ쐬�����O���t�B�b�N�n���h����`��
+	// 乗算済みアルファ用のアルファブレンドモードを使って
+	// 画面右半分に作成したグラフィックハンドルを描画
 	SetDrawBlendMode( DX_BLENDMODE_PMA_ALPHA, 255 ) ;
 	DrawGraph( 200, 0, screen, TRUE ) ;
 	SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 255 ) ;
 
-	// ����ʂ̓��e��\��ʂɔ��f
+	// 裏画面の内容を表画面に反映
 	ScreenFlip() ;
 
-	// �L�[���͑҂�
+	// キー入力待ち
 	WaitKey() ;
 
-	// �c�w���C�u�����̌�n��
+	// ＤＸライブラリの後始末
 	DxLib_End() ;
 
-	// �\�t�g�̏I��
+	// ソフトの終了
 	return 0 ;
 }
 <b>
-���ꂪ���b���̂Q�ł��B
+これが恩恵その２です。
 
 
 
-�u��Z�ς݃A���t�@�v�̗��p����ɂ͕K���ȉ��́u��Z�ς݃A���t�@�p�`��u�����h���[�h�v��
-�g�p���܂��B
+「乗算済みアルファ」の利用するには必ず以下の「乗算済みアルファ用描画ブレンドモード」を
+使用します。
 </b>
-    // ��Z�ς݃A���t�@�p�̃A���t�@�u�����h
+    // 乗算済みアルファ用のアルファブレンド
     DX_BLENDMODE_PMA_ALPHA
 
-    // ��Z�ς݃A���t�@�p�̉��Z�u�����h
+    // 乗算済みアルファ用の加算ブレンド
     DX_BLENDMODE_PMA_ADD
 
-    // ��Z�ς݃A���t�@�p�̌��Z�u�����h
+    // 乗算済みアルファ用の減算ブレンド
     DX_BLENDMODE_PMA_SUB
 <b>
-�����āA��L�̃u�����h���[�h���g�p���� DrawGraph �ȂǂŃO���t�B�b�N�n���h���̉摜��`�悷��ۂ́A
-�u��Z�ς݃A���t�@�̉摜�v�̃O���t�B�b�N�n���h�����g�p���܂��B
+そして、上記のブレンドモードを使用して DrawGraph などでグラフィックハンドルの画像を描画する際は、
+「乗算済みアルファの画像」のグラフィックハンドルを使用します。
 
-LoadGraph �œǂݍ��ݍ쐬����O���t�B�b�N�n���h���̉摜���u��Z�ς݃A���t�@�̉摜�v�ɂ���ɂ�
-LoadGraph �ŉ摜�t�@�C����ǂݍ��ޑO�� SetUsePremulAlphaConvertLoad( TRUE ) ; �����s���Ă����܂��B
-SetUsePremulAlphaConvertLoad �͓ǂݍ��񂾉摜�t�@�C���̉摜���u��Z�ς݃A���t�@�̉摜�v��
-���邩�ǂ�����ݒ肷��ׂ̊֐��ŁA�f�t�H���g�ł� FALSE ���ݒ肳�ꂽ��ԂƂȂ��Ă��܂��B
+LoadGraph で読み込み作成するグラフィックハンドルの画像を「乗算済みアルファの画像」にするには
+LoadGraph で画像ファイルを読み込む前に SetUsePremulAlphaConvertLoad( TRUE ) ; を実行しておきます。
+SetUsePremulAlphaConvertLoad は読み込んだ画像ファイルの画像を「乗算済みアルファの画像」に
+するかどうかを設定する為の関数で、デフォルトでは FALSE が設定された状態となっています。
 
-���݂Ɂu��Z�ς݃A���t�@�̉摜�v�̃O���t�B�b�N�n���h�����u��Z�ς݃A���t�@�p�v�ł͂Ȃ��ʏ��
-�u�����h���[�h( DX_BLENDMODE_ALPHA �Ȃ� )�ŕ`�悷��ƁA�`�挋�ʂ��ςɂȂ�܂��̂ŁA
-�u��Z�ς݃A���t�@�̉摜�v�͕K���u��Z�ς݃A���t�@�p�̃u�����h���[�h�v�ŕ`�悷��K�v������܂��B
+因みに「乗算済みアルファの画像」のグラフィックハンドルを「乗算済みアルファ用」ではない通常の
+ブレンドモード( DX_BLENDMODE_ALPHA など )で描画すると、描画結果が変になりますので、
+「乗算済みアルファの画像」は必ず「乗算済みアルファ用のブレンドモード」で描画する必要があります。
 
-MakeScreen �ō쐬�����w�A���t�@�`�����l���t���̕`��Ώۂɂł���O���t�B�b�N�n���h���x�ɑ΂���
-�u��Z�ς݃A���t�@�̉摜�v���u��Z�ς݃A���t�@�p�̃u�����h���[�h�v�ŕ`�悵���ꍇ�́A
-�O���t�B�b�N�n���h���ɏ������܂��摜�́u��Z�ς݃A���t�@�̉摜�v�ƂȂ�܂��̂ŁA
-���̃O���t�B�b�N�n���h�����g���ė���ʂɑ΂��� DrawGraph �Ȃǂŕ`�悷��ꍇ��
-�u��Z�ς݃A���t�@�p�̃u�����h���[�h�v���g�p����K�v������܂��B
+MakeScreen で作成した『アルファチャンネル付きの描画対象にできるグラフィックハンドル』に対して
+「乗算済みアルファの画像」を「乗算済みアルファ用のブレンドモード」で描画した場合は、
+グラフィックハンドルに書き込まれる画像は「乗算済みアルファの画像」となりますので、
+そのグラフィックハンドルを使って裏画面に対して DrawGraph などで描画する場合は
+「乗算済みアルファ用のブレンドモード」を使用する必要があります。
 
-��A�t�H���g�ɂ��u��Z�ς݃A���t�@�p�̃t�H���g�v����邽�߂̊֐� SetFontCacheUsePremulAlphaFlag ������܂��B
-������� SetUsePremulAlphaConvertLoad �Ɠ��l�� CreateFontToHandle ���ĂԑO�� TRUE ��n���ČĂ�ł����ƁA
-���̌� CreateFontToHandle �쐬���ꂽ�t�H���g���u��Z�ς݃A���t�@�p�̃t�H���g�v�ƂȂ�܂��B
-�u��Z�ς݃A���t�@�p�̃t�H���g�v�͗v�̓t�H���g�̉摜���u��Z�ς݃A���t�@�̉摜�v�ɂȂ��������ł��̂ŁA
-���̃t�H���g���g�p���� DrawStringToHandle �Ȃǂŕ������`�悷��ۂ� DX_BLENDMODE_PMA_ALPHA ����
-�u��Z�ς݃A���t�@�̉摜�v�p�̃u�����h���[�h���g�p����悤�ɐݒ肵�Ă����K�v������܂��̂ł����ӂ��������B
+後、フォントにも「乗算済みアルファ用のフォント」を作るための関数 SetFontCacheUsePremulAlphaFlag があります。
+こちらも SetUsePremulAlphaConvertLoad と同様に CreateFontToHandle を呼ぶ前に TRUE を渡して呼んでおくと、
+その後 CreateFontToHandle 作成されたフォントが「乗算済みアルファ用のフォント」となります。
+「乗算済みアルファ用のフォント」は要はフォントの画像が「乗算済みアルファの画像」になっただけですので、
+このフォントを使用して DrawStringToHandle などで文字列を描画する際は DX_BLENDMODE_PMA_ALPHA 等の
+「乗算済みアルファの画像」用のブレンドモードを使用するように設定しておく必要がありますのでご注意ください。
 
-�u��Z�ς݃A���t�@�v�𗘗p������@�͈ȏ�ł��B
-����u���b���̂P�v�ɂ��āA������₷���悤�Ƀo�C���j�A�t�B���^�����O�{�g��`��ł��������܂������A
-DrawGraphF �Ȃǂ��g�p���ď����_�ȉ����O�ł͂Ȃ����r���[�ȍ��W�ɕ`�悵���ꍇ�ɂ������ۂ��������܂��̂ŁA
-���{�ł����`�揈�����s��Ȃ��ꍇ�� DrawGraphF �ŏ����_�ȉ��̍��W���w�肵�ĕ`�悷��@�����ꍇ��
-���b������܂��B( ���ƃo�C���j�A�t�B���^�����O���g�p����ݒ�� DrawRotaGraph �� DrawModiGraph ��
-��] or �ό`�`�悷��ꍇ���E�E�E )
-
-
-���݂ɁAMakeScreen �ō쐬�����w�A���t�@�`�����l���t���̕`��Ώۂɂł���O���t�B�b�N�n���h���x( �ȍ~�u����ʁv�Ƃ��܂� )�ɑ΂���
-�u��Z�ς݃A���t�@�v�̋@�\���g���ĕ`�揈�����s�����ꍇ���A���̉���ʂ𗠉�ʂɕ`�悵���ꍇ��
-�u����ʂɕ`�悳��錋�ʁv���u����ʂɑ΂��čs�����`�揈���ƌ��ʂ���v�v����̂�
-����ʂɑ΂��Ĉ�̃u�����h���[�h�ŕ`����s���A����ʂ𗠉�ʂɕ`�悷��ۂ�
-���l�̃u�����h���[�h�ŕ`��������ꍇ�݂̂ƂȂ�܂��̂ł����ӂ��������B
-
-�Ƃ����̂��A����ʂ̊e�s�N�Z���́u���̃u�����h���[�h�ŕ`�悳�ꂽ�s�N�Z�����v�͋L�����Ă��Ȃ��̂ŁA
-�Ⴆ�Η���ʂɑ΂��ĉ���ʂ��u��Z�ς݃A���t�@�p�̃A���t�@�u�����h�v�ŕ`�悵���ꍇ�A
-����ʂ̑S�Ẵs�N�Z���́u��Z�ς݃A���t�@�p�̃A���t�@�u�����h�v�ŕ`�悳��܂��B
-�Ȃ̂ŁA����ʂɑ΂��āu��Z�ς݃A���t�@�p�̉��Z�u�����h�v�ŕ`�悳�ꂽ�s�N�Z�����������Ƃ��Ă�
-���̃s�N�Z��������ʂɕ`�悷��ۂɁu��Z�ς݃A���t�@�p�̃A���t�@�u�����h�v�ŕ`�悳��Ă��܂��̂ŁA
-����ʂɑ΂��čs�����u��Z�ς݃A���t�@�p�̉��Z�u�����h�v�Ƃ͈قȂ������ʂ�����ʂɕ`�悳��Ă��܂��A�Ƃ����킯�ł��B
+「乗算済みアルファ」を利用する方法は以上です。
+今回「恩恵その１」について、分かりやすいようにバイリニアフィルタリング＋拡大描画でご説明しましたが、
+DrawGraphF などを使用して小数点以下が０ではない中途半端な座標に描画した場合にも同現象が発生しますので、
+等倍でしか描画処理を行わない場合も DrawGraphF で小数点以下の座標を指定して描画する機会がある場合は
+恩恵があります。( あとバイリニアフィルタリングを使用する設定で DrawRotaGraph や DrawModiGraph で
+回転 or 変形描画する場合も・・・ )
 
 
+因みに、MakeScreen で作成した『アルファチャンネル付きの描画対象にできるグラフィックハンドル』( 以降「仮画面」とします )に対して
+「乗算済みアルファ」の機能を使って描画処理を行った場合も、その仮画面を裏画面に描画した場合に
+「裏画面に描画される結果」が「仮画面に対して行った描画処理と結果が一致」するのは
+仮画面に対して一つのブレンドモードで描画を行い、仮画面を裏画面に描画する際も
+同様のブレンドモードで描画をした場合のみとなりますのでご注意ください。
+
+というのも、仮画面の各ピクセルは「何のブレンドモードで描画されたピクセルか」は記憶していないので、
+例えば裏画面に対して仮画面を「乗算済みアルファ用のアルファブレンド」で描画した場合、
+仮画面の全てのピクセルは「乗算済みアルファ用のアルファブレンド」で描画されます。
+なので、仮画面に対して「乗算済みアルファ用の加算ブレンド」で描画されたピクセルがあったとしても
+そのピクセルも裏画面に描画する際に「乗算済みアルファ用のアルファブレンド」で描画されてしまうので、
+仮画面に対して行った「乗算済みアルファ用の加算ブレンド」とは異なった結果が裏画面に描画されてしまう、というわけです。
 
 
 
 
-�����܂��F�����u��Z�ς݁v�Ȃ̂���
 
-���ō��񂲏Љ�̋@�\���u��Z�ς݃A���t�@�v�Ȃ̂��Ƃ������b�ł��B
-�܂��ŏ��ɁA�ʏ�̉摜�Œʏ�̃A���t�@�u�����h�`��������ۂ̕`��F����̎��͈ȉ��̂悤�ɂȂ�܂��B
+
+＜おまけ：何が「乗算済み」なのか＞
+
+何で今回ご紹介の機能が「乗算済みアルファ」なのかというお話です。
+まず最初に、通常の画像で通常のアルファブレンド描画をした際の描画色決定の式は以下のようになります。
 
     DR' = SA * SR + ( 1.0f - SA ) * DR 
     DG' = SA * SG + ( 1.0f - SA ) * DG 
     DB' = SA * SB + ( 1.0f - SA ) * DB 
     DA' = SA * SA + ( 1.0f - SA ) * DA 
 
-    ( 0�`255 �̒l�� 0.0f�`1.0f �̒l�ŕ\�����Ă��܂� )
+    ( 0～255 の値を 0.0f～1.0f の値で表現しています )
 
-    ( SR:SG:SB:SA �������݌��̐ԁE�΁E�E�s�����x�̒l
-      DR:DG:DB:DA �������ݐ�̐ԁE�΁E�E�s�����x�̒l
-      DR':DG':DB':DA' �`�揈����̏������ݐ�̐ԁE�΁E�E�s�����x�̒l )
+    ( SR:SG:SB:SA 書き込み元の赤・緑・青・不透明度の値
+      DR:DG:DB:DA 書き込み先の赤・緑・青・不透明度の値
+      DR':DG':DB':DA' 描画処理後の書き込み先の赤・緑・青・不透明度の値 )
 
-��Z�ς݃A���t�@�̉摜���g������Z�ς݃A���t�@�p�̃A���t�@�u�����h�`��̍ۂ̎��͈ȉ��̂悤�ɂȂ�܂�
+乗算済みアルファの画像を使った乗算済みアルファ用のアルファブレンド描画の際の式は以下のようになります
 
     DR' = SR + ( 1.0f - SA ) * DR 
     DG' = SG + ( 1.0f - SA ) * DG 
     DB' = SB + ( 1.0f - SA ) * DB 
     DA' = SA + ( 1.0f - SA ) * DA 
 
-�����̒ʂ� SR,SG,SB,SA �ɑ΂��čs���Ă��� SA * �������Ȃ��Ă��܂��B
-���̓� SR,SG,SB �ɑ΂��Ă̓A���t�@�u�����h�̎��Ƃ��� SA * �����Ɛ������v�Z�ɂȂ�Ȃ��̂ł���
-( SA �ɑ΂��Ă� SA * �������̂��������ł� )�A�����Ȃ��Ă��܂��B
-���̂���Ŗ��Ȃ��̂��ƌ����܂��ƁA�u��Z�ς݃A���t�@�̉摜�v�͊e�s�N�Z���� R,G,B �ɑ΂���
-���� A ����Z���ꂽ��̒l������ł��B
+ご覧の通り SR,SG,SB,SA に対して行っていた SA * が無くなっています。
+この内 SR,SG,SB に対してはアルファブレンドの式として SA * 無いと正しい計算にならないのですが
+( SA に対しては SA * が無いのが正しいです )、無くなっています。
+何故それで問題ないのかと言いますと、「乗算済みアルファの画像」は各ピクセルの R,G,B に対して
+既に A が乗算された後の値だからです。
 
-�摜�̃s�N�Z���̐F�̎��_�� R,G,B �� A �̏�Z�͍ς�ł���E�E�E������u��Z�ς݃A���t�@�v
-�Ƃ����킯�ł��B( �������́uA�Ƃ̏�Z�ς݂�RGB�v�ł����E�E�E )
+画像のピクセルの色の時点で R,G,B と A の乗算は済んでいる・・・だから「乗算済みアルファ」
+というわけです。( 正しくは「Aとの乗算済みのRGB」ですが・・・ )
 
-���A�ʏ�̃A���t�@�u�����h�� DA' �ɑ������Ă���l��
+尚、通常のアルファブレンドで DA' に代入されている値が
 
     DA' = SA * SA + ( 1.0f - SA ) * DA 
 
-�ƂȂ��Ă��܂����A�������v�Z�Ƃ��Ă�
+となっていますが、正しい計算としては
 
     DA' = SA + ( 1.0f - SA ) * DA 
 
-�ƂȂ�܂��B
+となります。
 
-�Ȃ��ʏ�̃A���t�@�u�����h�ł��������v�Z�����g�p���Ȃ��̂��ƌ����܂��ƁA������ƌÂ� GPU �ł�
-R,G,B �Ŏg�p����v�Z���ƁAA �Ŏg�p����v�Z����ʂ̂��̂ɂ��邱�Ƃ��ł��Ȃ�����ł��B
+なぜ通常のアルファブレンドでも正しい計算式を使用しないのかと言いますと、ちょっと古い GPU では
+R,G,B で使用する計算式と、A で使用する計算式を別のものにすることができないからです。
 
-�����āA�u��Z�ς݃A���t�@�̉摜�v���g�p����΁AR,G,B �̌v�Z���� A �̐������v�Z������v����̂ŁA
-�F�X�s������������Ƃ����킯�ł��B
+そして、「乗算済みアルファの画像」を使用すれば、R,G,B の計算式と A の正しい計算式が一致するので、
+色々不具合が解消されるというわけです。
 
-<A HREF="../../dxtec.html">�߂�</A>
+<A HREF="../../dxtec.html">戻る</A>
 
 </div></pre>
 	</div>

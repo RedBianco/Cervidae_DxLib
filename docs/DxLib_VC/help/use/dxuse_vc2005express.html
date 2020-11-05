@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ja-JP">
 	<HEAD>
-	<meta http-equiv="Content-type" content="text/html; charset=Shift_JIS">
-    <TITLE>�c�w���C�u�����u����@�g��������</TITLE>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <TITLE>ＤＸライブラリ置き場　使い方説明</TITLE>
 	<link rel="shortcut icon" href="../DxLib.ico">
 	<link rel="stylesheet" href="../style.css" type="text/css">
 	</HEAD>
@@ -12,7 +12,7 @@
 		<TR>
 		<TD ALIGN="CENTER">
 		<FONT SIZE="4" COLOR="#000000"><B>
-			�u�����������b�{�{ �Q�O�O�T �d������������ �d������������ ���g�p�����ꍇ�̂c�w���C�u�����̎g����
+			ＶｉｓｕａｌＣ＋＋ ２００５ Ｅｘｐｒｅｓｓ Ｅｄｉｔｉｏｎ を使用した場合のＤＸライブラリの使い方
 		</B></FONT>
 		</TD></TR>
 		<TR><TD>
@@ -20,132 +20,132 @@
 		<FONT SIZE="3" COLOR="#000000"><B>
 		<BR>
 
-		�@VisualC++ 2005 Express Edition ���g�p���Ăc�w���C�u�������g�����\�t�g�𐧍삷��ɂ͈ȉ��̂悤�Ȏ菇�𓥂݂܂��B<BR><BR>
+		　VisualC++ 2005 Express Edition を使用してＤＸライブラリを使ったソフトを制作するには以下のような手順を踏みます。<BR><BR>
 
-		<A HREF="#R1">1.�c�w���C�u�������g�����߂ɕK�v�Ȃ��𑵂̂���<BR><BR></A>
-		<A HREF="#R2">2.VisualC++ 2005 Express Edition �̃Z�b�e�B���O������<BR><BR></A>
-		<A HREF="#R3">3.�v���W�F�N�g�̍쐬<BR><BR></A>
-		<A HREF="#R5">4.�v���W�F�N�g�֐V�K�v���O�����t�@�C�����쐬�E�ǉ�<BR><BR></A>
-		<A HREF="#R4">5.�c�w���C�u�������g�p���邽�߂̃v���W�F�N�g�̐ݒ���s��<BR><BR></A>
-		<A HREF="#R6">6.�v���O������g��<BR><BR></A>
-		<A HREF="#R7">7.�v���W�F�N�g�̃r���h�A���s<BR><BR><BR><BR></A>
+		<A HREF="#R1">1.ＤＸライブラリを使うために必要なものを揃える<BR><BR></A>
+		<A HREF="#R2">2.VisualC++ 2005 Express Edition のセッティングをする<BR><BR></A>
+		<A HREF="#R3">3.プロジェクトの作成<BR><BR></A>
+		<A HREF="#R5">4.プロジェクトへ新規プログラムファイルを作成・追加<BR><BR></A>
+		<A HREF="#R4">5.ＤＸライブラリを使用するためのプロジェクトの設定を行う<BR><BR></A>
+		<A HREF="#R6">6.プログラムを組む<BR><BR></A>
+		<A HREF="#R7">7.プロジェクトのビルド、実行<BR><BR><BR><BR></A>
 
 
 		<A NAME="R1">
 		<FONT COLOR="#008800">
-		1.�c�w���C�u�������g�����߂ɕK�v�Ȃ��𑵂̂���<BR><BR>
+		1.ＤＸライブラリを使うために必要なものを揃える<BR><BR>
 		</FONT>
 		</A>
 
-		VisualC++ 2005 Express Edition �łc�w���C�u�������g���ɂ͈ȉ��̂��̂��K�v�ł��B<BR><BR>
+		VisualC++ 2005 Express Edition でＤＸライブラリを使うには以下のものが必要です。<BR><BR>
 
 		<FONT COLOR="#880022">
-�@�@�@�@�EVisualC++ 2005 Express Edition<BR>
-�@�@�@�@�EPlatform SDK<BR>
-�@�@�@�@�E�c�w���C�u���� Windows�� VisualStudio( C++ )�p<BR><BR>
+　　　　・VisualC++ 2005 Express Edition<BR>
+　　　　・Platform SDK<BR>
+　　　　・ＤＸライブラリ Windows版 VisualStudio( C++ )用<BR><BR>
 		</FONT>
 
-		�@�܂� <FONT COLOR="#880022">VisualC++ 2005 Express Edition</FONT> �́A
-		�v���O�������R���p�C�����Ď��s�\�ȃt�@�C�����쐬����ۂ̃��C���ƂȂ�\�t�g�ł��B<BR>
-		�@�ȑO�̓}�C�N���\�t�g�̃E�F�u�T�C�g���疳���Ń_�E�����[�h���邱�Ƃ��ł��܂������A
-		���݂͖����_�E�����[�h���I�����Ă��܂��̂ł��̃y�[�W�͊��� Visual C++ 2005 Express Edition ���������̕��ނ��̉���ƂȂ�܂��B<BR><BR>
+		　まず <FONT COLOR="#880022">VisualC++ 2005 Express Edition</FONT> は、
+		プログラムをコンパイルして実行可能なファイルを作成する際のメインとなるソフトです。<BR>
+		　以前はマイクロソフトのウェブサイトから無償でダウンロードすることができましたが、
+		現在は無償ダウンロードが終了していますのでこのページは既に Visual C++ 2005 Express Edition をお持ちの方むけの解説となります。<BR><BR>
 
-		�@���� <FONT COLOR="#880022">Platform SDK</FONT> �́AVisualC++ 2005 Express Edition �ŃE�C���h�E�Y�n�r�̋@�\���g�p�����\�t�g���쐬����ׂɕK�v�Ȃ��̂ŁA
-		�c�w���C�u�������g�p�����\�t�g���쐬����ۂɂ��K�v�ɂȂ�܂��B<BR>
-		�@����������݂̓_�E�����[�h�����i�������Ȃ��Ă��܂��̂ŁA���� Platform SDK ���������̕��݂̂����̐�ɐi�߂܂��B<BR><BR>
+		　次の <FONT COLOR="#880022">Platform SDK</FONT> は、VisualC++ 2005 Express Edition でウインドウズＯＳの機能を使用したソフトを作成する為に必要なもので、
+		ＤＸライブラリを使用したソフトを作成する際にも必要になります。<BR>
+		　こちらも現在はダウンロードする手段が無くなっていますので、既に Platform SDK をお持ちの方のみがこの先に進めます。<BR><BR>
 
-		�@�Ō�� <FONT COLOR="#880022">�c�w���C�u���� Windows�� VisualStudio( C++ )�p</FONT>�͖{�T�C�g��<A HREF="../dxdload.html">����</A>����_�E�����[�h���邱�Ƃ�
-		�o���܂��B���ꂪ�Ȃ��Ƃc�w���C�u�������g�����Ƃ��o���܂���̂ŁA�܂��_�E�����[�h����Ă��Ȃ����̓_�E�����[�h���Ă����Ă��������B<BR><BR><BR><BR>
+		　最後の <FONT COLOR="#880022">ＤＸライブラリ Windows版 VisualStudio( C++ )用</FONT>は本サイトの<A HREF="../dxdload.html">ここ</A>からダウンロードすることが
+		出来ます。これがないとＤＸライブラリを使うことが出来ませんので、まだダウンロードされていない方はダウンロードしておいてください。<BR><BR><BR><BR>
 
 		<A NAME="R2">
 		<FONT COLOR="#008800">
-		2.VisualC++ 2005 Express Edition �̃Z�b�e�B���O������<BR><BR>
+		2.VisualC++ 2005 Express Edition のセッティングをする<BR><BR>
 		</FONT>
 		</A>
 
-		�@�c�w���C�u�������g�p�����\�t�g�E�G�A�̊J���ɕK�v�ȃA�C�e���͈ȏ�ő������킯�ł����A
-		�܂��c�w���C�u�������g�p�����\�t�g�E�G�A�̊J���ɂ͑��ɂ��������K�v�ł��B<BR>
-		�@�Ƃ����킯�ŁA�����ł͎��̍�Ƃ��s���܂��B<BR><BR><BR>
+		　ＤＸライブラリを使用したソフトウエアの開発に必要なアイテムは以上で揃ったわけですが、
+		まだＤＸライブラリを使用したソフトウエアの開発には他にも準備が必要です。<BR>
+		　というわけで、ここでは次の作業を行います。<BR><BR><BR>
 
 		<FONT COLOR="#880022">
-		�@1.Platform SDK �̃C���X�g�[���ꏊ�� �c�w���C�u���� �̏ꏊ�� VisualC++ 2005 Express Edition �ɋ�����<BR><BR>
-		�@2.VisualC++ 2005 Express Edition �ŃE�C���h�E�x�[�X�̃\�t�g���쐬�ł���悤�ɂ���<BR><BR><BR>
+		　1.Platform SDK のインストール場所と ＤＸライブラリ の場所を VisualC++ 2005 Express Edition に教える<BR><BR>
+		　2.VisualC++ 2005 Express Edition でウインドウベースのソフトを作成できるようにする<BR><BR><BR>
 		</FONT>
 
-		�@�܂��P����n�߂܂��傤�B<BR>
-		�@Platform SDK �� VisualC++ 2005 Express Edition �� WindowsOS ��p�̋@�\���g�p���邽�߂ɕK�v�Ȃ��̂ł����A
-		�C���X�g�[�������������ł͋@�\���܂���B������� VisualC++ 2005 Express Edition ��
-		�w�����ɃC���X�g�[����������g���Ăˁx�Ƌ����Ă�����(�ݒ肷��)�K�v������̂ł��B<BR>
-		�@�����āA�c�w���C�u�������_�E�����[�h���������ł͎g�����Ƃ͏o���Ȃ��̂ŁA
-		Platorm SDK �Ɠ����� VisualC++ 2005 Express Edition �ɏꏊ�������Ă�����K�v������܂��B<BR>	
-		�@�Ƃ����킯�ŁA���� VisualC++ 2005 Express Edition �� Platform SDK �̃C���X�g�[���ꏊ�� �c�w���C�u�����̏ꏊ����������(�ݒ肵��)�����܂��傤�B<BR><BR><BR>
+		　まず１から始めましょう。<BR>
+		　Platform SDK は VisualC++ 2005 Express Edition で WindowsOS 専用の機能を使用するために必要なものですが、
+		インストールをしただけでは機能しません。きちんと VisualC++ 2005 Express Edition に
+		『ここにインストールしたから使ってね』と教えてあげる(設定する)必要があるのです。<BR>
+		　そして、ＤＸライブラリもダウンロードしただけでは使うことは出来ないので、
+		Platorm SDK と同じく VisualC++ 2005 Express Edition に場所を教えてあげる必要があります。<BR>	
+		　というわけで、早速 VisualC++ 2005 Express Edition に Platform SDK のインストール場所と ＤＸライブラリの場所をを教えて(設定して)あげましょう。<BR><BR><BR>
 
 		<FONT COLOR="#550088">
-		�@�@�@�@�C���X�g�[�������Ă� VisualC++ 2005 Express Edition ���N��<BR><BR>
-		�@�@�@�A���j���[����w�c�[���x���w�I�v�V�����x��I�����ăI�v�V�����_�C�A���O��\��<BR><BR>
-		�@�@�@�B�@�_�C�A���O���̃��X�g����w�v���W�F�N�g����у\�����[�V�����x���J���A<BR>
-		�@�@�@�@���́wVC++ �f�B���N�g���x���N���b�N<BR><BR>
-		�@�@�@�C�w�f�B���N�g����\������v���W�F�N�g�x���w�C���N���[�h�t�@�C���x�ɕύX<BR><BR>
+		　　　①インストールしたての VisualC++ 2005 Express Edition を起動<BR><BR>
+		　　　②メニューから『ツール』→『オプション』を選択してオプションダイアログを表示<BR><BR>
+		　　　③　ダイアログ左のリストから『プロジェクトおよびソリューション』を開き、<BR>
+		　　　　中の『VC++ ディレクトリ』をクリック<BR><BR>
+		　　　④『ディレクトリを表示するプロジェクト』を『インクルードファイル』に変更<BR><BR>
 
-		�@�@�@�D�f�B���N�g�����X�g�̈�ԉ��̍s���_�u���N���b�N���āAPlatform SDK ��<BR>
-		�@�@�@�@�@�C���X�g�[�������t�H���_�̒��ɂ���wInclude�x�t�H���_�̃p�X�����<BR>
-		�@�@�@�@( �����ݒ��ύX�����ɃC���X�g�[�������ꍇ��<BR>
-		�@�@�@�@�@ <FONT COLOR="#880022">C:\Program Files\Microsoft Platform SDK\Include</FONT><BR>
-		�@�@�@�@�ɂȂ�܂�)<BR><BR>
-		�@�@�@�E�����v�̂ŁA���x�͂c�w���C�u�����̃p�b�P�[�W���ɓ����Ă���<BR>
-		�@�@�@�@�@�@�w�v���W�F�N�g�ɒǉ����ׂ��t�@�C��_VC�p�x�t�H���_�̃p�X���f�B���N�g�����X�g�ɒǉ��B<BR><BR>
-		�@�@�@�F�w�f�B���N�g����\������v���W�F�N�g�x���w���C�u�����t�@�C���x�ɕύX<BR><BR>
-		�@�@�@�G�f�B���N�g�����X�g�̈�ԉ��̍s���_�u���N���b�N���āAPlatform SDK ��<BR>
-		�@�@�@�@�@�C���X�g�[�������t�H���_�̒��ɂ���wLib�x�t�H���_�̃p�X�����<BR>
-		�@�@�@�@( �����ݒ��ύX�����ɃC���X�g�[�������ꍇ��<BR>
-		�@�@�@�@�@ <FONT COLOR="#880022">C:\Program Files\Microsoft Platform SDK\Lib</FONT><BR>
-		�@�@�@�@�ɂȂ�܂�)<BR><BR>
-		�@�@�@�H�����v�̂ŁA�c�w���C�u�����̃p�b�P�[�W���ɓ����Ă���<BR>
-		�@�@�@�@�@�@�w�v���W�F�N�g�ɒǉ����ׂ��t�@�C��_VC�p�x�t�H���_�̃p�X���f�B���N�g�����X�g�ɒǉ��B<BR>
-		�@�@�@�@�@(�c�w���C�u�����̓C���N���[�h�f�B���N�g���ƃ��C�u�����t�@�C���̃p�X�͓����ɂȂ�܂�)<BR><BR>
-		�@�@�@�I�w�n�j�x�{�^���������ăI�v�V�����_�C�A���O����Ċ���<BR><BR>
+		　　　⑤ディレクトリリストの一番下の行をダブルクリックして、Platform SDK を<BR>
+		　　　　　インストールしたフォルダの中にある『Include』フォルダのパスを入力<BR>
+		　　　　( 何も設定を変更せずにインストールした場合は<BR>
+		　　　　　 <FONT COLOR="#880022">C:\Program Files\Microsoft Platform SDK\Include</FONT><BR>
+		　　　　になります)<BR><BR>
+		　　　⑥同じ要領で、今度はＤＸライブラリのパッケージ内に入っている<BR>
+		　　　　　　『プロジェクトに追加すべきファイル_VC用』フォルダのパスをディレクトリリストに追加。<BR><BR>
+		　　　⑦『ディレクトリを表示するプロジェクト』を『ライブラリファイル』に変更<BR><BR>
+		　　　⑧ディレクトリリストの一番下の行をダブルクリックして、Platform SDK を<BR>
+		　　　　　インストールしたフォルダの中にある『Lib』フォルダのパスを入力<BR>
+		　　　　( 何も設定を変更せずにインストールした場合は<BR>
+		　　　　　 <FONT COLOR="#880022">C:\Program Files\Microsoft Platform SDK\Lib</FONT><BR>
+		　　　　になります)<BR><BR>
+		　　　⑨同じ要領で、ＤＸライブラリのパッケージ内に入っている<BR>
+		　　　　　　『プロジェクトに追加すべきファイル_VC用』フォルダのパスをディレクトリリストに追加。<BR>
+		　　　　　(ＤＸライブラリはインクルードディレクトリとライブラリファイルのパスは同じになります)<BR><BR>
+		　　　⑩『ＯＫ』ボタンを押してオプションダイアログを閉じて完了<BR><BR>
 		</FONT>
 
-		�@����� VisualC++ 2005 Express Editon �� Platform SDK �̃C���X�g�[���ꏊ�Ƃc�w���C�u�����̏ꏊ��ݒ肷�邱�Ƃ��o���܂����B<BR><BR><BR>
+		　これで VisualC++ 2005 Express Editon に Platform SDK のインストール場所とＤＸライブラリの場所を設定することが出来ました。<BR><BR><BR>
 
-		�@���ɂQ�� VisualC++ 2005 Express Edition �ŃE�C���h�E�x�[�X�̃\�t�g���쐬�ł���悤�ɂ����Ƃ��s���܂��傤�B<BR><BR>
-		�@�E�C���h�E�x�[�X�̃\�t�g�Ƃ����̂́A�������ʂ̃E�C���h�E���g�����\�t�g�ł��B�E�C���h�E�x�[�X
-		�ł͂Ȃ��\�t�g�Ƃ����̂͗]�肨�ڂɂ����邱�Ƃ͖����Ǝv���܂����A�^�����̉�ʏ�ɕ��������\���ł��Ȃ�
-		�w�R���\�[���E�C���h�E�x��œ��삷��w�R���\�[���A�v���P�[�V�����x�̂��Ƃł��B<BR>
-		�@���� VisualC++ 2005 Express Edition �͊w�K�p�\�t�g�Ƃ����ʒu�t���ׂ̈��A������Ԃł�
-		���̃R���\�[���A�v���P�[�V���������쐬�o���܂���B
-		�b����̎Q�l���ɍڂ��Ă��� main �֐����珈�����J�n�����v���O�����̓E�C���h�E�Y�n�r��ł̓R���\�[���E�C���h�E��œ��삷��̂ŁA
-		�w�K�p�Ƃ��Ă͂��ꂾ���o����Ηǂ����낤�A�Ƃ������ƂȂ̂�������܂���B<BR>
-		�@�������A�c�w���C�u�������g�����\�t�g�̓R���\�[���A�v���P�[�V�����ł͂Ȃ����ʂ̃E�C���h�E�x�[�X�̃\�t�g�Ȃ̂ŁA
-		VisualC++ 2005 Express Edition �ŃE�C���h�E�x�[�X�̃\�t�g���쐬�ł���悤�ɐݒ��ύX���Ȃ���΂����Ȃ��A�Ƃ����킯�ł��B<BR><BR>
-		�@�O�u���������Ȃ�܂����������ݒ��ύX���܂��傤�B<BR><BR><BR>
+		　次に２の VisualC++ 2005 Express Edition でウインドウベースのソフトを作成できるようにする作業を行いましょう。<BR><BR>
+		　ウインドウベースのソフトというのは、所謂普通のウインドウを使ったソフトです。ウインドウベース
+		ではないソフトというのは余りお目にかかることは無いと思いますが、真っ黒の画面上に文字しか表示できない
+		『コンソールウインドウ』上で動作する『コンソールアプリケーション』のことです。<BR>
+		　実は VisualC++ 2005 Express Edition は学習用ソフトという位置付けの為か、初期状態では
+		このコンソールアプリケーションしか作成出来ません。
+		Ｃ言語の参考書に載っている main 関数から処理が開始されるプログラムはウインドウズＯＳ上ではコンソールウインドウ上で動作するので、
+		学習用としてはそれだけ出来れば良いだろう、ということなのかもしれません。<BR>
+		　しかし、ＤＸライブラリを使ったソフトはコンソールアプリケーションではなく普通のウインドウベースのソフトなので、
+		VisualC++ 2005 Express Edition でウインドウベースのソフトを作成できるように設定を変更しなければいけない、というわけです。<BR><BR>
+		　前置きが長くなりましたが早速設定を変更しましょう。<BR><BR><BR>
 
 		<FONT COLOR="#550088">
-		�@VisualC++ 2005 Express Edition ���N�����Ă�����I������<BR><BR>
-		�AVisualC++ 2005 Express Edition ���C���X�g�[������Ă���t�H���_����<BR><BR>
-		�@VC �t�H���_��VCProjectDefaults �t�H���_<BR>
-		�@( �����ݒ��ύX�����ɃC���X�g�[�������ꍇ��<BR>
-		�@<FONT COLOR="#880022"> C:\Program Files\Microsoft Visual Studio 8\VC\VCProjectDefaults</FONT> )<BR><BR>
-		�@�̒��ɂ��� <FONT COLOR="#880022">corewin_express.vsprops</FONT> �Ƃ����t�@�C�����A�������Ȃǂ̃e�L�X�g�G�f�B�^�ŊJ��<BR><BR><BR>
+		①VisualC++ 2005 Express Edition が起動していたら終了する<BR><BR>
+		②VisualC++ 2005 Express Edition がインストールされているフォルダから<BR><BR>
+		　VC フォルダ→VCProjectDefaults フォルダ<BR>
+		　( 何も設定を変更せずにインストールした場合は<BR>
+		　<FONT COLOR="#880022"> C:\Program Files\Microsoft Visual Studio 8\VC\VCProjectDefaults</FONT> )<BR><BR>
+		　の中にある <FONT COLOR="#880022">corewin_express.vsprops</FONT> というファイルを、メモ帳などのテキストエディタで開く<BR><BR><BR>
 
-		�B<FONT COLOR="#880022">corewin_express.vsprops</FONT> �� �W�s�ڂ�<BR><BR>
+		③<FONT COLOR="#880022">corewin_express.vsprops</FONT> の ８行目の<BR><BR>
 
 		<FONT COLOR="#880022">AdditionalDependencies="kernel32.lib" /></FONT><BR><BR>
 
-		�@�Ƃ���������<BR><BR>
+		　という部分を<BR><BR>
 
 		<FONT COLOR="#880022">AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib" /></FONT><BR><BR>
 
-		�@�ɕύX���ĕۑ�<BR><BR><BR>
+		　に変更して保存<BR><BR><BR>
 
-		�CVisualC++ 2005 Express Edition ���C���X�g�[������Ă���t�H���_����<BR><BR>
-		�@VC �t�H���_��VCWizards �t�H���_��AppWiz �t�H���_��Generic �t�H���_��<BR>
-		�@Application �t�H���_��html �t�H���_��1041 �t�H���_<BR>
-		�@( �����ݒ��ύX�����ɃC���X�g�[�������ꍇ��<BR>
+		④VisualC++ 2005 Express Edition がインストールされているフォルダから<BR><BR>
+		　VC フォルダ→VCWizards フォルダ→AppWiz フォルダ→Generic フォルダ→<BR>
+		　Application フォルダ→html フォルダ→1041 フォルダ<BR>
+		　( 何も設定を変更せずにインストールした場合は<BR>
 		<FONT COLOR="#880022"> C:\Program Files\Microsoft Visual Studio 8\VC\VCWizards\AppWiz\Generic\Application\html\1041</FONT> )<BR><BR>
-		�@�̒��ɂ��� <FONT COLOR="#880022">AppSettings.htm</FONT> �Ƃ����t�@�C�����A�������������Ȃǂ̃e�L�X�g�G�f�B�^�ŊJ��<BR><BR><BR>
+		　の中にある <FONT COLOR="#880022">AppSettings.htm</FONT> というファイルを、同じくメモ帳などのテキストエディタで開く<BR><BR><BR>
 
-		�D<FONT COLOR="#880022">AppSettings.htm</FONT> �� 441�s�ڂ��� 444�s�ڂ܂ł�<BR><BR>
+		⑤<FONT COLOR="#880022">AppSettings.htm</FONT> の 441行目から 444行目までの<BR><BR>
 
 		<FONT COLOR="#880022">
 		WIN_APP.disabled = true;<BR>
@@ -154,7 +154,7 @@
 		DLL_APP_LABEL.disabled = true;<BR><BR>
 		</FONT>
 
-		�@�Ƃ���������(441�s�ڂɖ��������ꍇ�̓t�@�C������ WIN_APP_LABEL �Ō������Ă݂ĉ�����)<BR><BR>
+		　という部分を(441行目に無かった場合はファイル内を WIN_APP_LABEL で検索してみて下さい)<BR><BR>
 
 		<FONT COLOR="#880022">
 		// WIN_APP.disabled = true;<BR>
@@ -163,194 +163,194 @@
 		// DLL_APP_LABEL.disabled = true;<BR><BR>
 		</FONT>
 
-		�@�ɕύX���ĕۑ��B<BR><BR>
+		　に変更して保存。<BR><BR>
 		</FONT>
 
-		�@�ȏ�� VisualC++ 2005 Express Editon �ŃE�C���h�E�x�[�X�̃\�t�g������悤�ɂȂ�܂��B<BR>
-		(�Ȃ񂾂����Z�݂����ȕ��@�ł����A�}�C�N���\�t�g�̃I�t�B�V�����y�[�W�ɍڂ��Ă��鐳�K�̕��@�ł�(��))<BR><BR><BR><BR>
+		　以上で VisualC++ 2005 Express Editon でウインドウベースのソフトを作れるようになります。<BR>
+		(なんだか裏技みたいな方法ですが、マイクロソフトのオフィシャルページに載っている正規の方法です(汗))<BR><BR><BR><BR>
 
 
 
 		<A NAME="R3">
 		<FONT COLOR="#008800">
-		3.�v���W�F�N�g�̍쐬<BR><BR>
+		3.プロジェクトの作成<BR><BR>
 		</FONT>
 		</A>
 
-		�@VisualC++ 2005 Express Edition �̖ʓ|�Ȑݒ��Ƃ��I���A
-		����Ƃ܂Ƃ��ɃE�C���h�E�x�[�X�̃\�t�g������悤�ɂȂ����Ƃ���ň�ȒP�ȃ\�t�g������Ă݂܂��傤�B<BR>
-		�@�����ł́w��ʂ̒��S�ɓ_��łx�Ƃ������������\�t�g�����菇���L�������Ǝv���܂��B<BR>
-		�@VisualC++ 2005 Express Edition �Ń\�t�g�����ɂ͂܂��w�v���W�F�N�g�x���쐬����K�v������̂ňȉ��ɂ��̕��@�������܂��B<BR><BR>
+		　VisualC++ 2005 Express Edition の面倒な設定作業が終わり、
+		やっとまともにウインドウベースのソフトが作れるようになったところで一つ簡単なソフトを作ってみましょう。<BR>
+		　ここでは『画面の中心に点を打つ』という動作をするソフトを作る手順を記したいと思います。<BR>
+		　VisualC++ 2005 Express Edition でソフトを作るにはまず『プロジェクト』を作成する必要があるので以下にその方法を示します。<BR><BR>
 
 		<FONT COLOR="#550088">
-�@		�@�@�@VisualC++ 2005 Express Edition �̃��j���[��<BR>
-�@�@�@�@�@�@�@�@�@�@�@�w�t�@�C���x���w�V�K�쐬�x���w�v���W�F�N�g�x��I�т܂��B<BR><BR>
-�@		�@�A�@�w�v���W�F�N�g�̎�ށx���ڂ���wVisualC++�x���wWin32�x��I�т܂��B<BR><BR>
-�@		�@�B�@�w�e���v���[�g�x���ڂ���wWin32 �R���\�[�� �A�v���P�[�V�����x��I�т܂��B<BR><BR>
-�@		�@�C�@���Ƀv���W�F�N�g���쐬����t�H���_�p�X���w�ꏊ�x�Őݒ肵�܂��B<BR><BR>
-�@		�@�D�@���Ƀv���W�F�N�g�̖��O���w�v���W�F�N�g���x�ɓ��͂��܂��B<BR>
-		�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�����ł͉��Ɂwtest�x�Ƃ��܂��B<BR><BR>
-�@		�@�E�@�w�\�����[�V�����̃f�B���N�g�����쐬�x�̃`�F�b�N���O���Ă���w�n�j�x�������܂��B<BR><BR>
-�@		�@�F�@����Ǝ��ɁwWin32�A�v���P�[�V�����E�B�U�[�h�x�E�C���h�E���o��̂�<BR>
-		�@�@�@�@�E�C���h�E�̍����ɂ���w�A�v���P�[�V�����̐ݒ�x��I�����܂��B<BR><BR>
-	�@	�@�G�@�E���ɂȂɂ���R���ڂ��o�Ă��܂����A�w�A�v���P�[�V�����̎�ށx��<BR>
-	�@�@�@�@�@�wWindows �A�v���P�[�V�����x�ɕύX���A�w�ǉ��̃I�v�V�����x����<BR>
-	�@�@�@�@�@�w��̃v���W�F�N�g�x�Ƀ`�F�b�N������ĉ��́w�����x�{�^���������܂��B<BR><BR>
+　		　①　VisualC++ 2005 Express Edition のメニューの<BR>
+　　　　　　　　　　　『ファイル』→『新規作成』→『プロジェクト』を選びます。<BR><BR>
+　		　②　『プロジェクトの種類』項目から『VisualC++』→『Win32』を選びます。<BR><BR>
+　		　③　『テンプレート』項目から『Win32 コンソール アプリケーション』を選びます。<BR><BR>
+　		　④　次にプロジェクトを作成するフォルダパスを『場所』で設定します。<BR><BR>
+　		　⑤　次にプロジェクトの名前を『プロジェクト名』に入力します。<BR>
+		　　　　　　　　　　　　　　　　　　　　　　　ここでは仮に『test』とします。<BR><BR>
+　		　⑥　『ソリューションのディレクトリを作成』のチェックを外してから『ＯＫ』を押します。<BR><BR>
+　		　⑦　すると次に『Win32アプリケーションウィザード』ウインドウが出るので<BR>
+		　　　　ウインドウの左側にある『アプリケーションの設定』を選択します。<BR><BR>
+	　	　⑧　右側になにやら沢山項目が出てきますが、『アプリケーションの種類』を<BR>
+	　　　　　『Windows アプリケーション』に変更し、『追加のオプション』欄の<BR>
+	　　　　　『空のプロジェクト』にチェックをいれて下の『完了』ボタンを押します。<BR><BR>
 		</FONT>
 
-		�@����Ńv���W�F�N�g�̍쐬�͊����ł��B<BR><BR><BR><BR>
+		　これでプロジェクトの作成は完了です。<BR><BR><BR><BR>
 
 		<A NAME="R5">
 		<FONT COLOR="#008800">
-		4.�v���W�F�N�g�֐V�K�v���O�����t�@�C�����쐬�E�ǉ�<BR><BR>
+		4.プロジェクトへ新規プログラムファイルを作成・追加<BR><BR>
 		</FONT>
 		</A>
 
-		�@���ɐV�K�̃v���O�����t�@�C������쐬���v���W�F�N�g�ɒǉ����܂��B<BR>
-		�@�\�t�g���̃��C���ƂȂ�v���O�����t�@�C���̒ǉ��ł��B<BR><BR>
+		　次に新規のプログラムファイルを一つ作成しプロジェクトに追加します。<BR>
+		　ソフト作りのメインとなるプログラムファイルの追加です。<BR><BR>
 
 		<FONT COLOR="#550088">
-		�@�@�@�@VisualC++ 2005 Express Edition �̃��j���[����<BR>
-		�@�@�@�@�w�v���W�F�N�g�x���w�V�������ڂ̒ǉ��x��I�сA�w�V�������ڂ̒ǉ��x��<BR>
-		�@�@�@�@�J���܂��B<BR><BR>
-		�@�@�A�@�E�C���h�E�����́w�J�e�S���x����wVisualC++�x��I�сA�E�́w�e���v���[�g�x<BR>
-		�@�@�@�@�@����́wC++�t�@�C��(cpp)�x��I�сA���́w�t�@�C�����x���Ƀt�@�C����<BR>
-		�@�@�@�@�@����͂�(�����ł͉��ɁwDrawPixel�Ƃ��܂��x)�A�w�ǉ��x�{�^���������܂��B<BR><BR>
+		　　①　VisualC++ 2005 Express Edition のメニューから<BR>
+		　　　　『プロジェクト』→『新しい項目の追加』を選び、『新しい項目の追加』を<BR>
+		　　　　開きます。<BR><BR>
+		　　②　ウインドウ左側の『カテゴリ』から『VisualC++』を選び、右の『テンプレート』<BR>
+		　　　　　からは『C++ファイル(cpp)』を選び、下の『ファイル名』欄にファイル名<BR>
+		　　　　　を入力し(ここでは仮に『DrawPixelとします』)、『追加』ボタンを押します。<BR><BR>
 		</FONT>
 
-		�@����Ńv���O�����t�@�C���̐V�K�ǉ��͊����ł����A<BR>
-		��ԍŏ��̃v���O�����t�@�C����ǉ������������A���̍�Ƃ��s���Ă��������B<BR><BR><BR><BR>
+		　これでプログラムファイルの新規追加は完了ですが、<BR>
+		一番最初のプログラムファイルを追加した時だけ、次の作業を行ってください。<BR><BR><BR><BR>
 
 		<A NAME="R4">
 		<FONT COLOR="#008800">
-		5.�c�w���C�u�������g�p���邽�߂̃v���W�F�N�g�̐ݒ���s��<BR><BR>
+		5.ＤＸライブラリを使用するためのプロジェクトの設定を行う<BR><BR>
 		</FONT>
 		</A>
 
-		�@�����v���O������g�݂����Ƃ���ł����A�ŏ��̃v���O�����t�@�C���ǉ���͂c�w���C�u�������g�p����v���O�����̃R���p�C���ɕK�v�ȃv���W�F�N�g�̐ݒ���s���܂��B<BR>
-		�@��̓I�ɂ́A�c�w���C�u�����̓R���p�C�����Ƀ}���`�X���b�h�p���C�u�������g�p����悤�ɐݒ肳��Ă���̂ŁA�c�w���C�u�������g�p����\�t�g�E�G�A���g�p���郉�C�u�������}���`�X���b�h�p�ɕύX����K�v������܂��B<BR><BR>
+		　早速プログラムを組みたいところですが、最初のプログラムファイル追加後はＤＸライブラリを使用するプログラムのコンパイルに必要なプロジェクトの設定を行います。<BR>
+		　具体的には、ＤＸライブラリはコンパイル時にマルチスレッド用ライブラリを使用するように設定されているので、ＤＸライブラリを使用するソフトウエアも使用するライブラリをマルチスレッド用に変更する必要があります。<BR><BR>
 
 		<FONT COLOR="#550088">
-	�@�@�@�@VisualC++ 2005 Express Edition �̃��j���[��<BR>
-	�@�@�@�@�@�@�w�v���W�F�N�g�x���w(�v���W�F�N�g��) �v���p�e�B�x��I�т܂��B<BR>
-	�@�@�@�@((�v���W�F�N�g��)�̕����́A����́wtest�x�ɂȂ��Ă��锤�ł�)<BR><BR>
+	　　①　VisualC++ 2005 Express Edition のメニューの<BR>
+	　　　　　　『プロジェクト』→『(プロジェクト名) プロパティ』を選びます。<BR>
+	　　　　((プロジェクト名)の部分は、今回は『test』になっている筈です)<BR><BR>
 
-	�@�@�A�@�v���p�e�B�_�C�A���O���J������A�_�C�A���O�̍���ɂ���w�\��(C)�x��<BR>
-	�@�@�@�@�@������Ă��鍀�ڂ��w�A�N�e�B�u(Debug)�x����w���ׂĂ̍\���x�ɕύX���܂��B<BR><BR>
+	　　②　プロパティダイアログが開いたら、ダイアログの左上にある『構成(C)』と<BR>
+	　　　　　書かれている項目を『アクティブ(Debug)』から『すべての構成』に変更します。<BR><BR>
 
-	�@�@�B�@���Ƀ_�C�A���O�̍����̃��X�g����w�\���v���p�e�B�x���w�S�ʁx��I�т܂��B<BR><BR>
+	　　③　次にダイアログの左側のリストから『構成プロパティ』→『全般』を選びます。<BR><BR>
 
-	�@�@�C�@�_�C�A���O�E���ɕ\������Ă���w�����Z�b�g�x�̍��ڂ�<BR>
-	�@�@�@�@�@�w�}���` �o�C�g�����Z�b�g���g�p����x�ɕύX�������ƁA�_�C�A���O�E���ɂ���w�K�p�x�{�^���������܂��B<BR><BR>
+	　　④　ダイアログ右側に表示されている『文字セット』の項目を<BR>
+	　　　　　『マルチ バイト文字セットを使用する』に変更したあと、ダイアログ右下にある『適用』ボタンを押します。<BR><BR>
 
-	�@�@�D�@�_�C�A���O�̍���ɂ���w�\��(C)�x�Ə�����Ă��鍀�ڂ��w���ׂĂ̍\���x����<BR>
-	�@�@�@�@�@�wRelease�x�ɕύX���܂��B<BR><BR>
+	　　⑤　ダイアログの左上にある『構成(C)』と書かれている項目を『すべての構成』から<BR>
+	　　　　　『Release』に変更します。<BR><BR>
 
-	�@�@�E�@�����̃��X�g���獡�x�́w�\���v���p�e�B�x���w�b�^�b�{�{�x���w�R�[�h�����x��<BR>
-	�@�@�@�@�@�I�т܂��B<BR><BR>
+	　　⑥　左側のリストから今度は『構成プロパティ』→『Ｃ／Ｃ＋＋』→『コード生成』を<BR>
+	　　　　　選びます。<BR><BR>
 
-	�@�@�F�@�_�C�A���O�E���ɕ\������Ă���w�����^�C�� ���C�u�����x�̍��ڂ�<BR>
-	�@�@�@�@�@�w�}���`�X���b�h(/MT)�x�ɕύX�������ƁA�_�C�A���O�E���ɂ���w�K�p�x�{�^���������܂��B<BR><BR>
+	　　⑦　ダイアログ右側に表示されている『ランタイム ライブラリ』の項目を<BR>
+	　　　　　『マルチスレッド(/MT)』に変更したあと、ダイアログ右下にある『適用』ボタンを押します。<BR><BR>
 
-	�@�@�G�@�_�C�A���O�̍���ɂ���w�\��(C)�x�Ə�����Ă��鍀�ڂ��wRelease�x����<BR>
-	�@�@�@�@�@�wDebug�x�ɕύX���܂��B<BR><BR>
+	　　⑧　ダイアログの左上にある『構成(C)』と書かれている項目を『Release』から<BR>
+	　　　　　『Debug』に変更します。<BR><BR>
 
-	�@�@�H�@�_�C�A���O�E���ɕ\������Ă���w�����^�C�� ���C�u�����x�̍��ڂ�<BR>
-	�@�@�@�@�@���x�́w�}���`�X���b�h �f�o�b�O(/MTd)�x�ɕύX���܂��B<BR><BR>
+	　　⑨　ダイアログ右側に表示されている『ランタイム ライブラリ』の項目を<BR>
+	　　　　　今度は『マルチスレッド デバッグ(/MTd)』に変更します。<BR><BR>
 
-	�@�@�I�@�Ō�Ƀ_�C�A���O�̉��̕��ɂ���w�n�j�x�������ă_�C�A���O����܂��B<BR><BR>
+	　　⑩　最後にダイアログの下の方にある『ＯＫ』を押してダイアログを閉じます。<BR><BR>
 		</FONT>
 		
-		�@�ȏ�ł��B<BR>
-		�@���āA�V���ɍ쐬���ꂽ�v���O�����t�@�C���ɂ͉���������Ă��Ȃ��̂ŁA<BR>
-		���Ɏ����v���O��������͂��܂��B<BR><BR><BR><BR>
+		　以上です。<BR>
+		　さて、新たに作成されたプログラムファイルには何も書かれていないので、<BR>
+		次に示すプログラムを入力します。<BR><BR><BR><BR>
 
 		<A NAME="R6">
 		<FONT COLOR="#008800">
-		6.�v���O������g��<BR><BR>
+		6.プログラムを組む<BR><BR>
 		</FONT>
 		</A>
 
-		�@��̓v���O������g�ނ����ł��B<BR>
-		����T���v���Ƃ��Ď��s����v���O�����͎��̂悤�ɂȂ�܂��B<BR>
+		　後はプログラムを組むだけです。<BR>
+		今回サンプルとして実行するプログラムは次のようになります。<BR>
 
 	<HR>
 <PRE><div class="NormalFont">#include "DxLib.h"
 
-// �v���O������ WinMain ����n�܂�܂�
+// プログラムは WinMain から始まります
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 						LPSTR lpCmdLine, int nCmdShow )
 {
-	if( DxLib_Init() == -1 )		// �c�w���C�u��������������
+	if( DxLib_Init() == -1 )		// ＤＸライブラリ初期化処理
 	{
-		return -1 ;			// �G���[���N�����璼���ɏI��
+		return -1 ;			// エラーが起きたら直ちに終了
 	}
 
-	DrawPixel( 320 , 240 , GetColor( 255,255,255 ) ) ;	// �_��ł�
+	DrawPixel( 320 , 240 , GetColor( 255,255,255 ) ) ;	// 点を打つ
 
-	WaitKey() ;				// �L�[���͑҂�
+	WaitKey() ;				// キー入力待ち
 
-	DxLib_End() ;				// �c�w���C�u�����g�p�̏I������
+	DxLib_End() ;				// ＤＸライブラリ使用の終了処理
 
-	return 0 ;				// �\�t�g�̏I�� 
+	return 0 ;				// ソフトの終了 
 }
 </div></PRE>
 	<HR><BR><BR>
 
-		�@�v���O�����͂��ꂾ���ł��A�ǂ̕������������Ă���̂��ȒP�ɐ������܂��B
-		�܂��ŏ��̂P�s�͂c�w���C�u�������g�p���邽�߂ɕK�v�ȃt�@�C�����C���N���[�h���Ă��܂��B<BR>
-		�@����<FONT COLOR="#880022">�wint WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
-		LPSTR lpCmdLine, int nCmdShow )�x</FONT>�̓E�C���h�E�Y�̃v���O�����̃X�^�[�g�n�_�ƂȂ�
-		�֐��̐錾�ł��B���ꂼ��̒P�ꂪ�����Ӗ����Ă��邩�͓��ɍl����K�v�͂���܂���B
-		�E�C���h�E���̃X�^�[�g�֐��͂��ׂĂ��̌`�̐錾���Ƃ�܂��B<BR>
-		�@�����ʊ֐��ŏ��̕�<FONT COLOR="#880022">�wif( !DxLib_Init() ) return -1;�x</FONT>�͂c�w���C�u������
-		���������Ďg�����Ԃɂ��邽�߂ɕK�v�Ȋ֐�<FONT COLOR="#880022">�wDxLib_Init�x</FONT>���Ă�ł��܂��B
-		���̊֐��͂c�w���C�u�������g���v���O������g�ލۂɂ͗�O�������Ă܂�
-		�ŏ��ɌĂяo���K�v������܂��B���݂Ɂwif(...�x�Ə�����Ă���̂͏�������
-		���s�����炻�̎��_�Ń\�t�g���I��������Ƃ����������s�����߂̕��ł��B<BR>
-		�@<FONT COLOR="#880022">�wDrawPixel�x</FONT>�͂��̂܂ܓ_��`�悷�邽�߂̊֐��ł��B<BR>
-		�@���̎���<FONT COLOR="#880022">�wWaitKey�x</FONT>�̓L�[���������܂ŏ������~�߂�֐��ł��B<BR>
-		�@�Ō��<FONT COLOR="#880022">�wDxLib_End() ;�x</FONT>�͒��߂ɂ������Ă���ʂ�c�w���C�u�����̎g�p��
-		�I�����鏈�����s���֐���ǂ�ł��镶�ł��B�c�w���C�u�������g�p���Ă���
-		�v���O�����͍Ō�ɕK�����̊֐����Ă΂Ȃ��Ă͂Ȃ�܂���B������Ă΂Ȃ��ŏI���
-		��ςȎ��ɂȂ�܂��̂Œ��ӂ��Ă��������B<BR><BR><BR><BR>
+		　プログラムはこれだけです、どの部分が何をしているのか簡単に説明します。
+		まず最初の１行はＤＸライブラリを使用するために必要なファイルをインクルードしています。<BR>
+		　次の<FONT COLOR="#880022">『int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
+		LPSTR lpCmdLine, int nCmdShow )』</FONT>はウインドウズのプログラムのスタート地点となる
+		関数の宣言です。それぞれの単語が何を意味しているかは特に考える必要はありません。
+		ウインドウ環境のスタート関数はすべてこの形の宣言をとります。<BR>
+		　中括弧関数最初の文<FONT COLOR="#880022">『if( !DxLib_Init() ) return -1;』</FONT>はＤＸライブラリを
+		初期化して使える状態にするために必要な関数<FONT COLOR="#880022">『DxLib_Init』</FONT>を呼んでいます。
+		この関数はＤＸライブラリを使うプログラムを組む際には例外を除いてまず
+		最初に呼び出す必要があります。因みに『if(...』と書かれているのは初期化に
+		失敗したらその時点でソフトを終了させるという処理を行うための物です。<BR>
+		　<FONT COLOR="#880022">『DrawPixel』</FONT>はそのまま点を描画するための関数です。<BR>
+		　その次の<FONT COLOR="#880022">『WaitKey』</FONT>はキーが押されるまで処理を止める関数です。<BR>
+		　最後の<FONT COLOR="#880022">『DxLib_End() ;』</FONT>は注釈にも書いてある通りＤＸライブラリの使用を
+		終了する処理を行う関数を読んでいる文です。ＤＸライブラリを使用している
+		プログラムは最後に必ずこの関数を呼ばなくてはなりません。これを呼ばないで終ると
+		大変な事になりますので注意してください。<BR><BR><BR><BR>
 
 
 
 		<A NAME="R7">
 		<FONT COLOR="#008800">
-		7.�v���W�F�N�g�̃r���h�A���s<BR><BR>
+		7.プロジェクトのビルド、実行<BR><BR>
 		</FONT>
 		</A>
 
-		�@���͂��I��������s���Ă݂܂��傤�B���s���邽�߂ɂ�<BR><BR>
+		　入力が終ったら実行してみましょう。実行するためには<BR><BR>
 
 		<FONT COLOR="#550088">
-		�@�@�@�@VisualC++ 2005 Express Edition �̃��j���[����m�f�o�b�O�n���m�f�o�b�O�J�n�n<BR><BR>
-		�@�@�A�@����Ɓw�v���W�F�N�g�̍\���͕ύX����Ă��܂��@�r���h���܂����H�x��<BR>
-		�@�@�@�o��̂Łw�͂��x�������܂��B<BR><BR>
-		�@�@�B�@�G���[���Ȃ���Ύ��s����܂��B�G���[���������ꍇ�͉�ʉ��̃E�C���h�E<BR>
-		�@�@�@�ɃG���[���e���o�Ă��܂��̂Ŏw���ɂ��������ďC�����Ă��������B<BR><BR>
+		　　①　VisualC++ 2005 Express Edition のメニューから［デバッグ］→［デバッグ開始］<BR><BR>
+		　　②　すると『プロジェクトの構成は変更されています　ビルドしますか？』と<BR>
+		　　　出るので『はい』を押します。<BR><BR>
+		　　③　エラーがなければ実行されます。エラーがあった場合は画面下のウインドウ<BR>
+		　　　にエラー内容が出てきますので指示にしたがって修正してください。<BR><BR>
 		</FONT>
 
-		�@���ĉ�ʒ��S�ɓ_�������ꂽ�ł��傤���H<BR>
-		�@���s����܂łɂ��Ȃ蒷�������悤�ȋC�����܂������̖w�ǂ� VisualC++ 2005 Express Edition �ł�
-		�\�t�g�E�G�A����ɕK���K�v�ȍ�Ƃł��̂Ŋ���v���O������g��ł����΂����Ɋ����
-		���܂����ł��B<BR><BR><BR>
+		　さて画面中心に点がうたれたでしょうか？<BR>
+		　実行するまでにかなり長かったような気がしますがその殆どが VisualC++ 2005 Express Edition での
+		ソフトウエア制作に必ず必要な作業ですので幾つかプログラムを組んでいけばすぐに慣れて
+		しまう筈です。<BR><BR><BR>
 
-		�@���ďo�������������s�\�t�@�C���ł����A����̓v���W�F�N�g�̃t�H���_�̒��́wDebug�x
-		�t�H���_���wRelease�x�t�H���_�̒��ɍ쐬����܂��B���ꂪ����܂ł̍�Ƃ̐��ʂƂȂ�܂��B<BR>
-		�@����łc�w���C�u�������g���Ẵ\�t�g����̕��@�͂킩��܂����B��͍D����
-		�v���O������g��ŃQ�[������邾���ł��B�ł����܂��c�w���C�u�����̋@�\��
-		�������ƏI���ƃh�b�g��`�悷��֐������킩���Ă��܂���B
-		�@���̑��̊֐���<A HREF="../dxfunc.html">�c�w���C�u�����֐����t�@�����X�̃y�[�W</A>�ŉ������Ă��܂��̂ł������
-		�Q�Ƃ��ĉ������B<BR><BR><BR><BR><BR>
+		　さて出来あがった実行可能ファイルですが、それはプロジェクトのフォルダの中の『Debug』
+		フォルダか『Release』フォルダの中に作成されます。これがこれまでの作業の成果となります。<BR>
+		　これでＤＸライブラリを使ってのソフト制作の方法はわかりました。後は好きに
+		プログラムを組んでゲームを作るだけです。ですがまだＤＸライブラリの機能は
+		初期化と終了とドットを描画する関数しかわかっていません。
+		　この他の関数は<A HREF="../dxfunc.html">ＤＸライブラリ関数リファレンスのページ</A>で解説されていますのでそちらを
+		参照して下さい。<BR><BR><BR><BR><BR>
 
 
 
 
 		<HR>
-		<A HREF="../dxuse.html">�߂�</A>
+		<A HREF="../dxuse.html">戻る</A>
 
 		</B></FONT>
 		</TD></TR>

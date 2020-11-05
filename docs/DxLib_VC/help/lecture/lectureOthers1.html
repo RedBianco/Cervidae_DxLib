@@ -1,218 +1,218 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ja-JP">
 	<head>
-	<meta http-equiv="Content-type" content="text/html; charset=Shift_JIS">
-		<title>�ԊO��</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>番外編</title>
 		<link rel="shortcut icon" href="../DxLib.ico">
 		<link rel="stylesheet" href="../style.css" type="text/css">
 	</head>
 	<body bgcolor="#ffffff" text="#000000" link="#0033cc" vlink="#800040">
 	<div class="NormalFont">
 
-		<font size="2">�ԊO��<br><br></font>
-		<font size="6"><b>�P�D�b����̃|�C���^�̐���</b></font>
+		<font size="2">番外編<br><br></font>
+		<font size="6"><b>１．Ｃ言語のポインタの説明</b></font>
 		<hr><br><br>
 
 		<font size="3"><B>
 
-		�@�ԊO�҂ł��B�����ł͂b����̍��܌����i���o�[�����Ƃ����Ă���|�C���^�ɂ���<BR>
-		�������������Ǝv���܂��B<BR>
-		�@�����ł͂����܂Ń|�C���^�Ƃ������̂̃C���[�W��͂�ł��炤���߂̐����ɗ��߂܂��̂�<BR>
-		���łɃ|�C���^�Ƃ������̂̃C���[�W��͂߂Ă�����͓ǂ�ł��Ӗ����Ȃ���������܂���c<BR><BR><BR>
+		　番外編です。ここではＣ言語の挫折原因ナンバーワンといわれているポインタについて<BR>
+		ご説明したいと思います。<BR>
+		　ここではあくまでポインタというもののイメージを掴んでもらうための説明に留めますので<BR>
+		すでにポインタというもののイメージを掴めている方は読んでも意味がないかもしれません…<BR><BR><BR>
 
-		�@�ł͎n�߂܂��B<BR>
-		�@�܂�<FONT COLOR="#770000">�|�C���^�Ƃ͉����I�H</font>�ł����A<FONT COLOR="#770000">�|�C���^</font>�Ƃ�<FONT COLOR="#770000">�ϐ��̃A�h���X��ێ����鎖�̏o����ϐ�</font>�A<BR>
-		�����A<FONT COLOR="#770000">�ϐ�</font>�ł��B<BR><BR>
+		　では始めます。<BR>
+		　まず<FONT COLOR="#770000">ポインタとは何か！？</font>ですが、<FONT COLOR="#770000">ポインタ</font>とは<FONT COLOR="#770000">変数のアドレスを保持する事の出来る変数</font>、<BR>
+		そう、<FONT COLOR="#770000">変数</font>です。<BR><BR>
 
-		�@���i�g���Ă��� <FONT COLOR="#770000">int�^</font> �� <FONT COLOR="#770000">char�^</font> �̕ϐ��͈�x������ꂽ���l�͕ϐ��������ɂȂ�܂�<BR>
-		�L������Â��܂��B��̂��̃f�[�^�͂ǂ��ɋL������Ă���̂��Ƃ����܂��ƁA���R�w<FONT COLOR="#770000">������</font>�x<BR>
-		�ɋL������Ă��܂��B�ŋ߂ł͕͂W����<FONT COLOR="#770000">�P�Q�W���K�o�C�g</font>�Ƃ�<FONT COLOR="#770000">�Q�T�U���K�o�C�g</font>�Ƃ��]�T�Őςނ悤<BR>
-		�ɂȂ������́w<FONT COLOR="#770000">������</font>�x�ł��B<BR><BR>
+		　普段使っている <FONT COLOR="#770000">int型</font> や <FONT COLOR="#770000">char型</font> の変数は一度代入された数値は変数が無効になるまで<BR>
+		記憶されつづけます。一体そのデータはどこに記憶されているのかといいますと、当然『<FONT COLOR="#770000">メモリ</font>』<BR>
+		に記憶されています。最近ではは標準で<FONT COLOR="#770000">１２８メガバイト</font>とか<FONT COLOR="#770000">２５６メガバイト</font>とか余裕で積むよう<BR>
+		になったあの『<FONT COLOR="#770000">メモリ</font>』です。<BR><BR>
 
-		�@����<FONT COLOR="#770000">������</font>�A�ŋ߂̖c��ȃ�������Ԃ��g����p�\�R���ł̃\�t�g�J���ł͖w�ǋC�ɂ��Ȃ�<BR>
-		�Ȃ�܂������A���̂Q�T�U���K�o�C�g��P�Q�W���K�o�C�g�̃T�C�Y�̃������ɂ͈�� <FONT COLOR="#770000">int�^<BR>
-		�ϐ��� char�^ �ϐ������L���ł���</font>�̂ł��傤���B<BR>
-		�@������ƒE�����܂����l���Ă݂܂��傤�B<BR><BR>
+		　この<FONT COLOR="#770000">メモリ</font>、最近の膨大なメモリ空間を使えるパソコンでのソフト開発では殆ど気にしなく<BR>
+		なりましたが、この２５６メガバイトや１２８メガバイトのサイズのメモリには一体 <FONT COLOR="#770000">int型<BR>
+		変数や char型 変数が何個記憶できる</font>のでしょうか。<BR>
+		　ちょっと脱線しますが考えてみましょう。<BR><BR>
 
-		�@�܂� <FONT COLOR="#770000">Windows95�ȍ~�̊�</font> �� <FONT COLOR="#770000">int�^�̕ϐ���� </font>�̃f�[�^���L������ɂ�<FONT COLOR="#770000">�S�o�C�g�̃�����<BR>
-		�̈�</font>���A <FONT COLOR="#770000">char�^�̕ϐ����</font> �̃f�[�^���L������ɂ�<FONT COLOR="#770000">�P�o�C�g�̃������̈�</font>���K�v�ł��B<BR><BR>
+		　まず <FONT COLOR="#770000">Windows95以降の環境</font> で <FONT COLOR="#770000">int型の変数一個 </font>のデータを記憶するには<FONT COLOR="#770000">４バイトのメモリ<BR>
+		領域</font>が、 <FONT COLOR="#770000">char型の変数一個</font> のデータを記憶するには<FONT COLOR="#770000">１バイトのメモリ領域</font>が必要です。<BR><BR>
 
-		�@���Ȃ݂�<FONT COLOR="#770000">�P�o�C�g�̂P�O�Q�S�{</font>��<FONT COLOR="#770000">�P�L���o�C�g</font>�A<FONT COLOR="#770000">�P�L���o�C�g�̂P�O�Q�S�{</font>��<FONT COLOR="#770000">�P���K�o�C�g</font>�A<BR>
-		<FONT COLOR="#770000">�P���K�o�C�g�̂P�O�Q�S�{</font>��<FONT COLOR="#770000">�P�M�K�o�C�g</font>�A<FONT COLOR="#770000">�P�M�K�o�C�g�̂P�O�Q�S�{</font>��<FONT COLOR="#770000">�P�e���o�C�g</font>��<BR>
-		�Ȃ�܂��B<BR><BR>
+		　ちなみに<FONT COLOR="#770000">１バイトの１０２４倍</font>が<FONT COLOR="#770000">１キロバイト</font>、<FONT COLOR="#770000">１キロバイトの１０２４倍</font>が<FONT COLOR="#770000">１メガバイト</font>、<BR>
+		<FONT COLOR="#770000">１メガバイトの１０２４倍</font>が<FONT COLOR="#770000">１ギガバイト</font>、<FONT COLOR="#770000">１ギガバイトの１０２４倍</font>が<FONT COLOR="#770000">１テラバイト</font>と<BR>
+		なります。<BR><BR>
 
-		�@�ł͌v�Z���Ă݂܂��傤�B<BR><BR>
+		　では計算してみましょう。<BR><BR>
 <FONT COLOR="#000066">
-		�@�P�Q�W���K�o�C�g = �P,�O�Q�S�L���o�C�g �~ �P�Q�W = 131,072�L���o�C�g<BR>
-		�@131,072�L���o�C�g = �P,�O�Q�S�o�C�g �~ 131,072 = 134,217,728�o�C�g<BR><BR>
+		　１２８メガバイト = １,０２４キロバイト × １２８ = 131,072キロバイト<BR>
+		　131,072キロバイト = １,０２４バイト × 131,072 = 134,217,728バイト<BR><BR>
 		
-		�@134,217,728�o�C�g �� 4�o�C�g = 33,554,432��<BR><BR>
+		　134,217,728バイト ÷ 4バイト = 33,554,432個<BR><BR>
 </font>
-		�@�Ȃ�ƂP�Q�W�l�a�t���� int�^�ϐ� ���L���o������ <FONT COLOR="#770000">3355��4432��</font> ���� int�^�ϐ� ���L��<BR>
-		���鎖���o���܂��B�������ł��ˁB<BR><BR>
+		　なんと１２８ＭＢフルに int型変数 を記憶出来たら <FONT COLOR="#770000">3355万4432個</font> もの int型変数 を記憶<BR>
+		する事が出来ます。すごいですね。<BR><BR>
 
-		�@���Ă��̖c��ȃ��������<FONT COLOR="#770000">�ǂ���</font>�� <FONT COLOR="#770000">int�^�ϐ��P���̃f�[�^���L��</font> ����킯�ł����A�b����ł�<BR>
-		<FONT COLOR="#770000">��������̂ǂ��ɋL������邩</font>��A<FONT COLOR="#770000">�������ɂǂ�����ċL������Ă��邩</font>�Ȃǂ̂��Ƃ͑S���C��<BR>
-		�����ɁA�����錾�����ϐ����������Ă����ɐ��l�������邱�ƂŖړI�͒B���ł��܂��B<BR><BR>
+		　さてこの膨大なメモリ上の<FONT COLOR="#770000">どこか</font>に <FONT COLOR="#770000">int型変数１個分のデータを記憶</font> するわけですが、Ｃ言語では<BR>
+		<FONT COLOR="#770000">メモリ上のどこに記憶されるか</font>や、<FONT COLOR="#770000">メモリにどうやって記憶されているか</font>などのことは全く気に<BR>
+		せずに、ただ宣言した変数名を書いてそこに数値を代入することで目的は達成できます。<BR><BR>
 <FONT COLOR="#000066">
-		�@�@int c ;<BR><BR>
+		　　int c ;<BR><BR>
 
-		�@�@c = 100 ;<BR><BR>
+		　　c = 100 ;<BR><BR>
 </font>
-		�@�ƌ����������Ɂc<BR>
-		�@�ł����A�b�o�t���x���c�܂�b�o�t�������ł���<FONT COLOR="#770000">�}�V���ꃌ�x��</font>�ł͓��R�w<FONT COLOR="#770000">�ϐ���</font>�x�Ȃ��<BR>
-		���̂͂���܂���̂ŁA�ʂ̕��@�������ă��������<FONT COLOR="#770000">�ǂ�</font>�ɋL�����邩�w�肵�Ă��܂��B<BR>
-		�@�����Ń}�V����Ƃقڈ�Έ�̊֌W�ɂ���<FONT COLOR="#770000">�A�Z���u���R�[�h</font>�̖��߂�<FONT COLOR="#770000">�������ɐ��l���L��</font>����<BR>
-		�R�[�h�̗���ȉ��ɂ��߂������Ǝv���܂��B<BR><BR>
+		　と言った感じに…<BR>
+		　ですが、ＣＰＵレベル…つまりＣＰＵが理解できる<FONT COLOR="#770000">マシン語レベル</font>では当然『<FONT COLOR="#770000">変数名</font>』なんて<BR>
+		ものはありませんので、別の方法をつかってメモリ上の<FONT COLOR="#770000">どこ</font>に記憶するか指定しています。<BR>
+		　そこでマシン語とほぼ一対一の関係にある<FONT COLOR="#770000">アセンブラコード</font>の命令で<FONT COLOR="#770000">メモリに数値を記憶</font>する<BR>
+		コードの例を以下にしめしたいと思います。<BR><BR>
 <FONT COLOR="#000066">
-		�@MOV [1222], 100<BR><BR>
+		　MOV [1222], 100<BR><BR>
 </font>
-		�@���Ȃ肢�������ȋL�q�ł����A�w<FONT COLOR="#770000">MOV</font>�x�Ƃ����̂̓}�V����̖��߂ŁA��L�̃R�[�h�͋�̓I<BR>
-		�ɂ́w<FONT COLOR="#770000">�������A�h���X�u1222�v�o�C�g�Ԓn�ɐ��l�P�O�O���L������</font>�x�Ƃ����Ӗ��ɂȂ�܂��B<BR>
-		�@������<FONT COLOR="#770000">�������A�h���X�u1222�v</font>�Ƃ����̂��Q�T�U�l�a��P�Q�W�l�a����<FONT COLOR="#770000">��������</font>�́u<FONT COLOR="#770000">�ǂ�</font>�v��������<BR>
-		���܂��B��L�̗�ł� <FONT COLOR="#770000">�O</font> ���琔���� <FONT COLOR="#770000">1222�o�C�g��</font> �̏ꏊ�� <FONT COLOR="#770000">100</font> �Ƃ������l���L������A<BR>
-		�Ƃ����R�[�h�ɂȂ�܂��B���������P�Q�W�l�a����΁A�ő�� <FONT COLOR="#770000">[134217728]�o�C�g�Ԓn</font> �܂�<BR>
-		�w��ł��鎖�ɂȂ�܂��B<BR>
-		�@���̐����ł��킩�������Ǝv���܂������̂悤��<FONT COLOR="#770000">�b�o�t���x��</font>�ł̓������́w<FONT COLOR="#770000">�ǂ�</font>�x��������<BR>
-		��<FONT COLOR="#770000">�P�̐��l</font>�ŕ\�����Ă��܂��B<BR><BR>
+		　かなりいい加減な記述ですが、『<FONT COLOR="#770000">MOV</font>』というのはマシン語の命令で、上記のコードは具体的<BR>
+		には『<FONT COLOR="#770000">メモリアドレス「1222」バイト番地に数値１００を記憶せよ</font>』という意味になります。<BR>
+		　そして<FONT COLOR="#770000">メモリアドレス「1222」</font>というのが２５６ＭＢや１２８ＭＢある<FONT COLOR="#770000">メモリ上</font>の「<FONT COLOR="#770000">どこ</font>」を示して<BR>
+		います。上記の例では <FONT COLOR="#770000">０</font> から数えて <FONT COLOR="#770000">1222バイト目</font> の場所に <FONT COLOR="#770000">100</font> という数値を記憶する、<BR>
+		というコードになります。メモリが１２８ＭＢあれば、最大で <FONT COLOR="#770000">[134217728]バイト番地</font> まで<BR>
+		指定できる事になります。<BR>
+		　今の説明でもわかったかと思いますがこのように<FONT COLOR="#770000">ＣＰＵレベル</font>ではメモリの『<FONT COLOR="#770000">どこ</font>』を示すの<BR>
+		に<FONT COLOR="#770000">１つの数値</font>で表現しています。<BR><BR>
 
-		�@�b�����ɖ߂��܂��A���̂悤�ɂ��ׂĂ̕ϐ��̃f�[�^�͂���<FONT COLOR="#770000">�O</font>����<FONT COLOR="#770000">�������̏���l</font>�܂ł�<BR>
-		<FONT COLOR="#770000">�A�h���X</font>�Ŏw��ł��郁������Ԃ́w<FONT COLOR="#770000">�ǂ���</font>�x�ɋL������Ă��邱�ƂɂȂ�܂��B���́w<FONT COLOR="#770000">�ǂ�</font>�x��<BR>
-		������<FONT COLOR="#770000">�ϐ��̃A�h���X</font>�ł���A����<FONT COLOR="#770000">�A�h���X</font>��<FONT COLOR="#770000">�L�����邽�߂̕ϐ�</font>��<FONT COLOR="#770000">�|�C���^�ϐ�</font>�Ƃ������ƂɂȂ�܂��B<BR><BR>
+		　話を元に戻します、このようにすべての変数のデータはこの<FONT COLOR="#770000">０</font>から<FONT COLOR="#770000">メモリの上限値</font>までの<BR>
+		<FONT COLOR="#770000">アドレス</font>で指定できるメモリ空間の『<FONT COLOR="#770000">どこか</font>』に記憶されていることになります。その『<FONT COLOR="#770000">どこ</font>』が<BR>
+		いわゆる<FONT COLOR="#770000">変数のアドレス</font>であり、その<FONT COLOR="#770000">アドレス</font>を<FONT COLOR="#770000">記憶するための変数</font>が<FONT COLOR="#770000">ポインタ変数</font>ということになります。<BR><BR>
 
-		�@����<FONT COLOR="#770000">�|�C���^�ϐ�</font>��錾������@�����ɋL���܂��B<BR>
-		�@��Ƃ��� <FONT COLOR="#770000">int�^�ϐ��̃A�h���X���L��</font> ���邽�߂�<FONT COLOR="#770000">�|�C���^�ϐ�</font>��錾����ɂ�<BR><BR>
+		　その<FONT COLOR="#770000">ポインタ変数</font>を宣言する方法を次に記します。<BR>
+		　例として <FONT COLOR="#770000">int型変数のアドレスを記憶</font> するための<FONT COLOR="#770000">ポインタ変数</font>を宣言するには<BR><BR>
 <FONT COLOR="#000066">		
-		�@�@int *Point ;<BR><BR>
+		　　int *Point ;<BR><BR>
 </font>
-		�@�ƁA���ʂ� <FONT COLOR="#770000">int�^�ϐ�</font> ��錾����̂ƈႢ<FONT COLOR="#770000">�ϐ����̑O�Ɂw*�x</font>��t���܂��B����� <FONT COLOR="#770000">Point</font> ��<BR>
-		<FONT COLOR="#770000">int�^�ϐ��̃A�h���X���L���ł���ϐ�</font> �Ƃ������ƂɂȂ�܂����B<BR>
-		�@�ł͎��ۂ� <FONT COLOR="#770000">Point</font> �� <FONT COLOR="#770000">int�^�ϐ��̃A�h���X</font> ���L�����Ă݂܂��傤�B<BR>
-		�@�Ƃ肠�������ʂ� <FONT COLOR="#770000">int�^�ϐ� i</font> ��錾���܂��A������ <FONT COLOR="#770000">Point</font> �� <FONT COLOR="#770000">int�^�ϐ� i</font> ��<FONT COLOR="#770000">�A�h���X</font>��<BR>
-		�L�����Ă݂����Ǝv���܂��B<BR><BR>
+		　と、普通の <FONT COLOR="#770000">int型変数</font> を宣言するのと違い<FONT COLOR="#770000">変数名の前に『*』</font>を付けます。これで <FONT COLOR="#770000">Point</font> は<BR>
+		<FONT COLOR="#770000">int型変数のアドレスを記憶できる変数</font> ということになりました。<BR>
+		　では実際に <FONT COLOR="#770000">Point</font> に <FONT COLOR="#770000">int型変数のアドレス</font> を記憶してみましょう。<BR>
+		　とりあえず普通の <FONT COLOR="#770000">int型変数 i</font> を宣言します、そして <FONT COLOR="#770000">Point</font> に <FONT COLOR="#770000">int型変数 i</font> の<FONT COLOR="#770000">アドレス</font>を<BR>
+		記憶してみたいと思います。<BR><BR>
 <FONT COLOR="#000066">
-		�@�@int *Point ;<BR>
-		�@�@int i ;<BR><BR>
+		　　int *Point ;<BR>
+		　　int i ;<BR><BR>
 
-		�@�@i = 800 ;<BR>
-		�@�@Point = &i ;<BR><BR>
+		　　i = 800 ;<BR>
+		　　Point = &i ;<BR><BR>
 </font>
-		�@�ƂȂ�܂��A�w��H�Ȃ񂾂��́u<FONT COLOR="#770000">&</font>�v�́x�Ǝv���邩�Ǝv���܂��B�w<FONT COLOR="#770000">&</font>�x��t���Ȃ��� <FONT COLOR="#770000">Point</font><BR>
-		�ɂ� <FONT COLOR="#770000">i</font> �̒l�A�܂� <FONT COLOR="#770000">800</font> ���L������܂����A<FONT COLOR="#770000">�ϐ����̑O</font>�Ɂw<FONT COLOR="#770000">&</font>�x�����鎖�ɂ���āw<FONT COLOR="#770000">�ϐ����L��<BR>
-		����Ă��郁������̃A�h���X</font>�x��\���Ă��鎖�ƂȂ�܂��B<BR>
-		�@�Ⴆ�Εϐ� <FONT COLOR="#770000">i</font> ��<FONT COLOR="#770000">�������A�h���X 30</font> �ɑ������Ă���l���L�����Ă���Ƃ������L�̋L�q��<BR>
-		<FONT COLOR="#770000">Point</font> �ɂ� <FONT COLOR="#770000">30</font> �Ƃ����l���L������鎖�ɂȂ�܂��B<BR><BR>
+		　となります、『ん？なんだこの「<FONT COLOR="#770000">&</font>」は』と思われるかと思います。『<FONT COLOR="#770000">&</font>』を付けないと <FONT COLOR="#770000">Point</font><BR>
+		には <FONT COLOR="#770000">i</font> の値、つまり <FONT COLOR="#770000">800</font> が記憶されますが、<FONT COLOR="#770000">変数名の前</font>に『<FONT COLOR="#770000">&</font>』をつける事によって『<FONT COLOR="#770000">変数が記憶<BR>
+		されているメモリ上のアドレス</font>』を表している事となります。<BR>
+		　例えば変数 <FONT COLOR="#770000">i</font> は<FONT COLOR="#770000">メモリアドレス 30</font> に代入されている値を記憶しているとしたら上記の記述で<BR>
+		<FONT COLOR="#770000">Point</font> には <FONT COLOR="#770000">30</font> という値が記憶される事になります。<BR><BR>
 
-		�@���Ă���� <FONT COLOR="#770000">Point</font> �ɂ͂߂ł����ϐ� <FONT COLOR="#770000">i</font> �̒l���L������Ă���A�h���X���L�����鎖���ł��܂������A<BR>
-		��̂�����ǂ������A�Ƃ������ƂɂȂ�܂���ˁB<BR>
-		�@�Ƃ肠������̗��p���@�Ƃ���<FONT COLOR="#770000">�L�������A�h���X</font>�������������̈��<FONT COLOR="#770000">�l����</font>������<FONT COLOR="#770000">�Q��</font>�����肷��A<BR>
-		�Ƃ������̂�����܂��B<BR>
-		�@�܂�ϐ� <FONT COLOR="#770000">i</font> �ł��Ȃ��̂�<FONT COLOR="#770000">�������A�h���X 30</font> �ɋL������Ă��鐔�l��<FONT COLOR="#770000">�Q��</font>������<FONT COLOR="#770000">�ʂ̒l��<BR>
-		��������������o����</font>�킯�ł��B����ɂ���ē��R�ϐ� <FONT COLOR="#770000">i</font> �̒l��<FONT COLOR="#770000">�ς��܂�</font>�B<BR>
-		�@���Ă��́w<FONT COLOR="#770000">�L�������A�h���X�������Ă��郁�����̈�ɃA�N�Z�X������@</font>�x�ł����A����͐錾��������<BR>
-		�����悤�Ƀ|�C���^�ϐ����̑O�Ɂw<FONT COLOR="#770000">*</font>�x�����鎖�ɂ���āw<FONT COLOR="#770000">�L�������A�h���X�������������̈�</font>�x���Q��<BR>
-		���邱�Ƃ��o���܂��B<BR>
-		�@�Ⴆ�ΐ�قǂ̗�̑����Ƃ���<BR><BR>
+		　さてこれで <FONT COLOR="#770000">Point</font> にはめでたく変数 <FONT COLOR="#770000">i</font> の値が記憶されているアドレスを記憶する事ができましたが、<BR>
+		一体だからどうした、ということになりますよね。<BR>
+		　とりあえず一つの利用方法として<FONT COLOR="#770000">記憶したアドレス</font>が示すメモリ領域に<FONT COLOR="#770000">値を代入</font>したり<FONT COLOR="#770000">参照</font>したりする、<BR>
+		というものがあります。<BR>
+		　つまり変数 <FONT COLOR="#770000">i</font> でもないのに<FONT COLOR="#770000">メモリアドレス 30</font> に記憶されている数値を<FONT COLOR="#770000">参照</font>したり<FONT COLOR="#770000">別の値を<BR>
+		代入しちゃったり出来る</font>わけです。これによって当然変数 <FONT COLOR="#770000">i</font> の値も<FONT COLOR="#770000">変わります</font>。<BR>
+		　さてその『<FONT COLOR="#770000">記憶したアドレスが示しているメモリ領域にアクセスする方法</font>』ですが、それは宣言した時と<BR>
+		同じようにポインタ変数名の前に『<FONT COLOR="#770000">*</font>』をつける事によって『<FONT COLOR="#770000">記憶したアドレスが示すメモリ領域</font>』を参照<BR>
+		することが出来ます。<BR>
+		　例えば先ほどの例の続きとして<BR><BR>
 <FONT COLOR="#000066">
-		�@�@*Point = 100 ;<BR><BR>
+		　　*Point = 100 ;<BR><BR>
 </font>
-		�@�Ƃ��邱�Ƃɂ���� <FONT COLOR="#770000">Point</font> ���L�����Ă���<FONT COLOR="#770000"> �������A�h���X30</font> ���f�[�^�̊i�[�̈�ɂ��Ă���<BR>
-		<FONT COLOR="#770000">�ϐ�i</font> �̓��e�͂߂ł���	<FONT COLOR="#770000">100</font> �ɂȂ��Ă��܂��킯�ł��B<BR>
-		�@���ɂ�<BR><BR>
+		　とすることによって <FONT COLOR="#770000">Point</font> が記憶している<FONT COLOR="#770000"> メモリアドレス30</font> をデータの格納領域にしている<BR>
+		<FONT COLOR="#770000">変数i</font> の内容はめでたく	<FONT COLOR="#770000">100</font> になってしまうわけです。<BR>
+		　他にも<BR><BR>
 <FONT COLOR="#000066">
-		�@�@int a ;<BR><BR>
+		　　int a ;<BR><BR>
 
-		�@�@a = *Point + 300 ;<BR><BR>
+		　　a = *Point + 300 ;<BR><BR>
 </font>
-		�@�Ƃ���� int�^�ϐ� <FONT COLOR="#770000">a</font> �ɂ� <FONT COLOR="#770000">Point ���L�����Ă��郁�����A�h���X 30</font> �Ɋi�[����Ă���l�A<BR>
-		���̃v���O�����̑������Ƃ���� <FONT COLOR="#770000">100</font> �Ƃ������l���i�[����Ă��܂����� <FONT COLOR="#770000">100 + 300 = 400 </font><BR>
-		�̒l���ϐ� <FONT COLOR="#770000">a</font> �ɋL������鎖�ɂȂ�܂��B <BR><BR>
+		　とすれば int型変数 <FONT COLOR="#770000">a</font> には <FONT COLOR="#770000">Point が記憶しているメモリアドレス 30</font> に格納されている値、<BR>
+		今のプログラムの続きだとすると <FONT COLOR="#770000">100</font> という数値が格納されていますから <FONT COLOR="#770000">100 + 300 = 400 </font><BR>
+		の値が変数 <FONT COLOR="#770000">a</font> に記憶される事になります。 <BR><BR>
 
-		�@�����炢<BR><BR>
+		　おさらい<BR><BR>
 <FONT COLOR="#000066">
-		�@�@int *Point ;<BR>
-		�@�@int i , a ;�@�@�@�@�@�@�@// &i : 30�@�@&a: 85<BR><BR>
+		　　int *Point ;<BR>
+		　　int i , a ;　　　　　　　// &i : 30　　&a: 85<BR><BR>
 
-		�@�@i = 800 ;�@�@�@�@�@�@�@�@// i : 800�@�@�܂�@�@[30] : 800<BR>
-		�@�@Point = &i ;�@�@�@�@�@�@// Point : &i�@�@�܂�@�@Point : 30<BR><BR>
+		　　i = 800 ;　　　　　　　　// i : 800　　つまり　　[30] : 800<BR>
+		　　Point = &i ;　　　　　　// Point : &i　　つまり　　Point : 30<BR><BR>
 
-		�@�@*Point = 100 ;�@�@�@�@// *Point : 100�@�@�܂�@�@[30] : 100<BR>
-		�@�@a = *Point * 20 ;�@�@// a : *Point * 20�@�@�܂�@�@a : [30] * 20<BR><BR>
+		　　*Point = 100 ;　　　　// *Point : 100　　つまり　　[30] : 100<BR>
+		　　a = *Point * 20 ;　　// a : *Point * 20　　つまり　　a : [30] * 20<BR><BR>
 
-		�@�@i = i + 60 ;�@�@�@�@�@�@// i : i + 60�@�@�܂�@�@i : 100 + 60<BR><BR><BR>
+		　　i = i + 60 ;　　　　　　// i : i + 60　　つまり　　i : 100 + 60<BR><BR><BR>
 		
 
-		�@(���c &�ϐ� �� �ϐ� �̃A�h���X�@�@[��] �� �A�h���X[��] �̎Q��)<BR><BR><BR>
+		　(注… &変数 は 変数 のアドレス　　[数] は アドレス[数] の参照)<BR><BR><BR>
 </font>
 
-		�@����Ȋ����ł��B�C���[�W���o�����ł��傤���H<BR>
-		�@�Ȃ���̒��߂ł� <FONT COLOR="#770000">�ϐ�i</font> �� <FONT COLOR="#770000">�ϐ�a</font> �̃������A�h���X�� <FONT COLOR="#770000">30</font> �� <FONT COLOR="#770000">85</font> �Ə���Ɍ��߂Ă��܂����A<BR>
-		���ۂ͂b�R���p�C����\�t�g��<FONT COLOR="#770000">�ǂ̃A�h���X�ɋL�����邩</font>�����߂�̂ŁA�v���O���}���C�ӂ�<BR>
-		�ϐ����L������A�h���X���w�肷��悤�Ȏ��͏o���܂���̂ł������炸�A�ł��B<BR><BR>
+		　こんな感じです。イメージが出来たでしょうか？<BR>
+		　なお上の注釈では <FONT COLOR="#770000">変数i</font> や <FONT COLOR="#770000">変数a</font> のメモリアドレスを <FONT COLOR="#770000">30</font> や <FONT COLOR="#770000">85</font> と勝手に決めていますが、<BR>
+		実際はＣコンパイラやソフトが<FONT COLOR="#770000">どのアドレスに記憶するか</font>を決めるので、プログラマが任意に<BR>
+		変数を記憶するアドレスを指定するような事は出来ませんのであしからず、です。<BR><BR>
 
-		�@���� <FONT COLOR="#770000">int�^�ϐ��̃A�h���X���L��</font> ���� <FONT COLOR="#770000">�|�C���^�ϐ�Point</font> �ł����A���R <FONT COLOR="#770000">Point</font> �� <FONT COLOR="#770000">�ϐ�</font> �Ȃ̂�<BR>
-		�L�����Ă���A�h���X�̓��e��<FONT COLOR="#770000">��������̂ǂ����ɋL��</font>����Ă��܂��B���� <FONT COLOR="#770000">Point�̓��e</font> ��<FONT COLOR="#770000">������<BR>
-		�A�h���X 120</font> �ɋL������Ă���Ƃ�����<FONT COLOR="#770000">�������A�h���X 120</font> �̓��e�������ς��鎖�ɂ���� <FONT COLOR="#770000">�|�C���^<BR>
-		�ϐ�Point</font> �̓��e�����ς��邱�Ƃ��o���Ă��܂��̂ł��B<BR><BR>
+		　さて <FONT COLOR="#770000">int型変数のアドレスを記憶</font> する <FONT COLOR="#770000">ポインタ変数Point</font> ですが、当然 <FONT COLOR="#770000">Point</font> も <FONT COLOR="#770000">変数</font> なので<BR>
+		記憶しているアドレスの内容は<FONT COLOR="#770000">メモリ上のどこかに記憶</font>されています。もし <FONT COLOR="#770000">Pointの内容</font> が<FONT COLOR="#770000">メモリ<BR>
+		アドレス 120</font> に記憶されているとしたら<FONT COLOR="#770000">メモリアドレス 120</font> の内容を書き変える事によって <FONT COLOR="#770000">ポインタ<BR>
+		変数Point</font> の内容も改変することが出来てしまうのです。<BR><BR>
 
-		�@�ł́A<FONT COLOR="#770000">int�^�ϐ��̃A�h���X���L������|�C���^�ϐ�Point�̃A�h���X</font> ���L������ <FONT COLOR="#770000">�|�C���^�ϐ�</font> �Ƃ�<BR>
-		��̂ǂ�����Đ錾�����炢���̂��Ƃ����܂��ƁA�ϐ����̑O�Ɂw<FONT COLOR="#770000">*</font>�x���Q�t���邾���ł��B<BR>
-		�@�܂�<BR><BR>
+		　では、<FONT COLOR="#770000">int型変数のアドレスを記憶するポインタ変数Pointのアドレス</font> を記憶する <FONT COLOR="#770000">ポインタ変数</font> とは<BR>
+		一体どうやって宣言したらいいのかといいますと、変数名の前に『<FONT COLOR="#770000">*</font>』を２つ付けるだけです。<BR>
+		　つまり<BR><BR>
 <FONT COLOR="#000066">
-		�@�@int *Point ;<BR><BR>
+		　　int *Point ;<BR><BR>
 </font>
-		�@�ŕ��ʂ� <FONT COLOR="#770000">int�^�ϐ��̃A�h���X���L���ł���|�C���^�ϐ�</font> ��\���̂ł�����A<BR><BR>
+		　で普通の <FONT COLOR="#770000">int型変数のアドレスを記憶できるポインタ変数</font> を表すのですから、<BR><BR>
 <FONT COLOR="#000066">
-		�@�@int **Point ;<BR><BR>
+		　　int **Point ;<BR><BR>
 </font>
-		�@�Ƃ��鎖�ɂ���� <FONT COLOR="#770000">int�^�ϐ��̃A�h���X���L���o����|�C���^�ϐ��̃A�h���X���L���ł���|�C���^�ϐ�</font><BR>
-		�Ƃ������ƂɂȂ�܂��B<BR>
-		�@�g�����͓����ł��B<BR><BR><BR>
-
-<FONT COLOR="#000066">
-		�@�@int *Point ;<BR>
-		�@�@int **Point2 ;<BR>
-		�@�@int i , a ;<BR><BR>
-
-		�@�@a = 200 ;<BR>
-		�@�@i = 800 ;<BR><BR>
-
-		�@�@Point = &i ;<BR>
-		�@�@Point2 = &Point ;<BR><BR>
-
-		�@�@*Point2 = &a ;<BR>
-		�@�@*Point = 500 ;<BR><BR><BR>
-</font>
-
-		�@���ł��B��̃v���O�����ōŏI�I�� <FONT COLOR="#770000">int�^�ϐ� i</font> �� <FONT COLOR="#770000">a</font> �ɂ��ꂼ��Ȃ�̒l���L�������ł��傤���H<BR>
-		�@������ <FONT COLOR="#770000">i</font> �� <FONT COLOR="#770000">800</font> �� <FONT COLOR="#770000">a</font> �� <FONT COLOR="#770000">500</font> �ł��B�������ꂪ����Ȃ�킩�������ł�����|�C���^�̃C���[�W�͌��\<BR>
-		���߂Ă���Ǝv���܂��B<BR><BR>
-
-		�@����<BR><BR><BR>
+		　とする事によって <FONT COLOR="#770000">int型変数のアドレスを記憶出来るポインタ変数のアドレスを記憶できるポインタ変数</font><BR>
+		ということになります。<BR>
+		　使い方は同じです。<BR><BR><BR>
 
 <FONT COLOR="#000066">
-		�@�@int *Point ;�@�@�@�@// ( &Point : 120 )<BR>
-		�@�@int **Point2 ;�@�@�@// ( &Point2 : 300 )<BR>
-		�@�@int i , a ;�@�@�@�@�@�@// ( &i : 30�@�@&a : 85 )<BR><BR>
+		　　int *Point ;<BR>
+		　　int **Point2 ;<BR>
+		　　int i , a ;<BR><BR>
 
-		�@�@a = 200 ;�@�@�@�@�@// ( a : 200�@�܂�@[85] : 200 )<BR>
-		�@�@i = 800 ;�@�@�@�@�@// ( i : 800�@�܂�@[30] : 800 )<BR><BR>
+		　　a = 200 ;<BR>
+		　　i = 800 ;<BR><BR>
 
-		�@�@Point = &i ;�@�@�@�@// ( Point : 30�@�܂�@[120] : 30 )<BR>
-		�@�@Point2 = &Point ;�@// ( Point2 : 120�@�܂�@[300] : 120 )<BR><BR>
+		　　Point = &i ;<BR>
+		　　Point2 = &Point ;<BR><BR>
 
-		�@�@*Point2 = &a ;�@�@�@// ( *[300] : 85 �܂�  [120] : 85 ) <BR>
-		�@�@*Point = 500 ;�@�@�@// ( *[120] : 500 �܂� [85] : 500 )<BR><BR><BR>
+		　　*Point2 = &a ;<BR>
+		　　*Point = 500 ;<BR><BR><BR>
 </font>
 
-		�@�Ƃ������ƂɂȂ�܂��B���ʓ��̉E�����S�������ŁA�܂�Ń}�V����݂����ł����A���ۓ����ł͂����<BR>
-		���Ƃ��s���Ă��܂��B<BR><BR>
+		　問題です。上のプログラムで最終的に <FONT COLOR="#770000">int型変数 i</font> と <FONT COLOR="#770000">a</font> にそれぞれなんの値が記憶されるでしょうか？<BR>
+		　答えは <FONT COLOR="#770000">i</font> が <FONT COLOR="#770000">800</font> で <FONT COLOR="#770000">a</font> が <FONT COLOR="#770000">500</font> です。もしこれがすんなりわかった方でしたらポインタのイメージは結構<BR>
+		つかめていると思います。<BR><BR>
 
-		�@���ă|�C���^�̗��p���@�͐F�X����̂ł����A������������Ƒ�ςȂ̂ł����ł͂����܂ŃC���[�W<BR>
-		���ɖ𗧂Ă���x�ɂ��Ă��������Ǝv���܂��̂ł���ɂĐ������I���ɂ������Ƃ������܂��B<BR>
+		　内訳<BR><BR><BR>
+
+<FONT COLOR="#000066">
+		　　int *Point ;　　　　// ( &Point : 120 )<BR>
+		　　int **Point2 ;　　　// ( &Point2 : 300 )<BR>
+		　　int i , a ;　　　　　　// ( &i : 30　　&a : 85 )<BR><BR>
+
+		　　a = 200 ;　　　　　// ( a : 200　つまり　[85] : 200 )<BR>
+		　　i = 800 ;　　　　　// ( i : 800　つまり　[30] : 800 )<BR><BR>
+
+		　　Point = &i ;　　　　// ( Point : 30　つまり　[120] : 30 )<BR>
+		　　Point2 = &Point ;　// ( Point2 : 120　つまり　[300] : 120 )<BR><BR>
+
+		　　*Point2 = &a ;　　　// ( *[300] : 85 つまり  [120] : 85 ) <BR>
+		　　*Point = 500 ;　　　// ( *[120] : 500 つまり [85] : 500 )<BR><BR><BR>
+</font>
+
+		　ということになります。括弧内の右側が全部数字で、まるでマシン語みたいですが、実際内部ではこんな<BR>
+		ことが行われています。<BR><BR>
+
+		　さてポインタの利用方法は色々あるのですが、それを説明すると大変なのでここではあくまでイメージ<BR>
+		作りに役立てる程度にしておきたいと思いますのでこれにて説明を終わりにしたいとおもいます。<BR>
 		<hr>
 
-		<A href="../dxlecture_main.html">�߂�</a>
+		<A href="../dxlecture_main.html">戻る</a>
 
 		</b></font>
 	</div>

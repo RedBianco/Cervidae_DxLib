@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ja-JP">
 	<HEAD>
-	<meta http-equiv="Content-type" content="text/html; charset=Shift_JIS">
-	<TITLE>�c�w���C�u�����u����@�t���l�����ˊ�{</TITLE>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<TITLE>ＤＸライブラリ置き場　フレネル反射基本</TITLE>
 	<link rel="shortcut icon" href="../DxLib.ico">
 	<link rel="stylesheet" href="../style.css" type="text/css">
 	</HEAD>
@@ -10,46 +10,46 @@
 	<div class="NormalFont">
 		<FONT SIZE="6" COLOR="#000000"><B>
 		<CENTER>
-			�T���v���v���O�����@�t���l�����ˊ�{�@( Direct3D 9�p�A�v�V�F�[�_�[���f���Q�D�O )
+			サンプルプログラム　フレネル反射基本　( Direct3D 9用、要シェーダーモデル２．０ )
 		</CENTER>
 		</B></FONT>
 		<HR>
-		<IMG SRC="../Image/FresnelReflection0.jpg" HSPACE="0" VSPACE="0" ALT="�t���l�����ˊ�{">
+		<IMG SRC="../Image/FresnelReflection0.jpg" HSPACE="0" VSPACE="0" ALT="フレネル反射基本">
 		<FONT SIZE="3" COLOR="#000000"><B>
 			<BR>
-			�@<A HREF="dxprogram_Mirror_Shader.html"><B>���ʌ��ʊ�{�i �V�F�[�_�[�g�p�� �j</B></A> �̔��˂̕������t���l�����˂ɕύX�����T���v���v���O�����ł��B<BR>
-			�@�t���l�����˂Ƃ́A�ȒP�ɐ�������Ɛ��ʂ̂悤�ɐ����ɋ߂��p�x���猩��Ɣ��˗��͗����āA�����ɋ߂��p�x���猩��Ɣ��˗����オ�锽�˂̂��Ƃ������܂��B<BR><BR>
+			　<A HREF="dxprogram_Mirror_Shader.html"><B>鏡面効果基本（ シェーダー使用版 ）</B></A> の反射の方式をフレネル反射に変更したサンプルプログラムです。<BR>
+			　フレネル反射とは、簡単に説明すると水面のように垂直に近い角度から見ると反射率は落ちて、鉛直に近い角度から見ると反射率が上がる反射のことを言います。<BR><BR>
 
-			��������̃X�N���[���V���b�g�̓L�����N�^�[�̍��̕ӂ�ɂ��镽�ʂɃt���l�����˂��{���Ă��܂��B<BR>
-			�@�J����( ���_ )�ɋ߂������قǔ��˗����Ⴍ�Ȃ��Ă���̂́A��O�̕����قǃJ����( ���_ )���畽�ʂւ̊p�x�������ɋ߂��Ȃ邩��ł��B<BR>
-			<IMG SRC="../Image/FresnelReflection0.jpg" HSPACE="0" VSPACE="0" ALT="�t���l�����ˊ�{"><BR><BR>
+			↓こちらのスクリーンショットはキャラクターの腰の辺りにある平面にフレネル反射を施しています。<BR>
+			　カメラ( 視点 )に近い部分ほど反射率が低くなっているのは、手前の部分ほどカメラ( 視点 )から平面への角度が垂直に近くなるからです。<BR>
+			<IMG SRC="../Image/FresnelReflection0.jpg" HSPACE="0" VSPACE="0" ALT="フレネル反射基本"><BR><BR>
 
-			�@�Ȃ̂Ł��̃X�N���[���V���b�g�ł̓L�����N�^�[�������Ă��邠����̕��ʂ͂قڔ��˗��P�O�O���ƂȂ蕽�ʂ̉����̏����w�ǌ����܂��񂪁A<BR>
-			�L�����N�^�[�ɃJ�������߂Â��ƃL�����N�^�[�̎��͂̕��ʂ��J����( ���_ )���琂���ɋ߂��p�x�ɂȂ�̂Ł��̃X�N���[���V���b�g�̂悤��<BR>
-			�L�����N�^�[�̍����牺��������悤�ɂȂ�܂��B<BR>
-			<IMG SRC="../Image/FresnelReflection1.jpg" HSPACE="0" VSPACE="0" ALT="�t���l�����ˊ�{"><BR><BR>
+			　なので↑のスクリーンショットではキャラクターが立っているあたりの平面はほぼ反射率１００％となり平面の下側の床が殆ど見えませんが、<BR>
+			キャラクターにカメラが近づくとキャラクターの周囲の平面がカメラ( 視点 )から垂直に近い角度になるので↓のスクリーンショットのように<BR>
+			キャラクターの腰から下も見えるようになります。<BR>
+			<IMG SRC="../Image/FresnelReflection1.jpg" HSPACE="0" VSPACE="0" ALT="フレネル反射基本"><BR><BR>
 
-			�@���ʂ̔��˂͂��̃t���l�����˂Ȃ̂ŁA���A���Ȑ��ʕ\�����������ꍇ�ɗL���ł��B<BR><BR>
+			　水面の反射はこのフレネル反射なので、リアルな水面表現をしたい場合に有効です。<BR><BR>
 
 
-			�@���A���̃T���v���ł̓t���l�����˂̌v�Z�����Ɂu�}���y�P����[�ǂ��ƃR���v�l�̃t���l�����ˉ���ɂ���s�N�Z���V�F�[�_�[�v���O������<BR>
-			�g�p�����Ă��������Ă���܂��Bm(_ _)m<BR><BR>
+			　尚、このサンプルではフレネル反射の計算処理に「マルペケつくろーどっとコム」様のフレネル反射解説にあるピクセルシェーダープログラムを<BR>
+			使用させていただいております。m(_ _)m<BR><BR>
 
-			���}���y�P����[�ǂ��ƃR����<BR>
+			＜マルペケつくろーどっとコム＞<BR>
 			<A HREF="http://marupeke296.com/index.html"><B>http://marupeke296.com/index.html</B></A><BR><BR><BR>
 
 
-			�@�v���O�����̎��s�ɕK�v�ȃt�@�C���̃Z�b�g��<A HREF="http://dxlib.o.oo7.jp/file/FresnelReflection.zip"><B>������</B></A>�ɂ���܂��B<BR><BR><BR>
+			　プログラムの実行に必要なファイルのセットは<A HREF="https://dxlib.xsrv.jp/file/FresnelReflection.zip"><B>こちら</B></A>にあります。<BR><BR><BR>
 
 
-			<A HREF="FresnelReflection/FresnelReflection.cpp"><B>�b�{�{�̃v���O����</B></A><BR><BR>
+			<A HREF="FresnelReflection/FresnelReflection.cpp"><B>Ｃ＋＋のプログラム</B></A><BR><BR>
 
-			<A HREF="FresnelReflection/FresnelReflectionVS.fx"><B>�t���l�����ˏ����̒��_�V�F�[�_�[�v���O����</B></A><BR><BR>
-			<A HREF="FresnelReflection/FresnelReflectionPS.fx"><B>�t���l�����ˏ����̃s�N�Z���V�F�[�_�[�v���O����</B></A><BR><BR>
+			<A HREF="FresnelReflection/FresnelReflectionVS.fx"><B>フレネル反射処理の頂点シェーダープログラム</B></A><BR><BR>
+			<A HREF="FresnelReflection/FresnelReflectionPS.fx"><B>フレネル反射処理のピクセルシェーダープログラム</B></A><BR><BR>
 
 
 			<HR>
-			<A HREF="dxprogram_3D.html">�߂�</A><BR><BR>
+			<A HREF="dxprogram_3D.html">戻る</A><BR><BR>
 		</B></FONT>
 	</div>
 	</BODY>

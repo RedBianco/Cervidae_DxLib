@@ -59,38 +59,40 @@ unsigned char Char128ToBinTable[ 256 ] =
 
 // ファイルオブジェクト列挙用関数( -1:エラー  0以上:ファイルの数 )
 // flist は NULL でも良い
-static int __EnumObject( char *Path, char *CurrentPath, FILE_INFOLIST *FileList,
+static int __EnumObject( TCHAR *Path, TCHAR *CurrentPath, FILE_INFOLIST *FileList,
 							int OmitDirectory, int SubDirectory,
-							char **OmitName, char **OmitExName, char **ValidExName ) ;
+							TCHAR **OmitName, TCHAR **OmitExName, TCHAR **ValidExName, int *TotalFileNumCounter, int TotalFileNum,
+						void ( *EnumFileCallback )( int Phase, int NowFileNum, int TotalFileNum, const TCHAR *FileName, const TCHAR *RelDirPath, const TCHAR *AbsDirPath ) ) ;
 
 // function code --------------------------------
 
 // ファイルオブジェクト列挙用関数( -1:エラー  0以上:ファイルの数 )
 // flist は NULL でも良い
-static int __EnumObject( char *Path, char *CurrentPath, FILE_INFOLIST *FileList,
+static int __EnumObject( TCHAR *Path, TCHAR *CurrentPath, FILE_INFOLIST *FileList,
 							int OmitDirectory, int SubDirectory,
-							char **OmitName, char **OmitExName, char **ValidExName )
+							TCHAR **OmitName, TCHAR **OmitExName, TCHAR **ValidExName, int *TotalFileNumCounter, int TotalFileNum,
+						void ( *EnumFileCallback )( int Phase, int NowFileNum, int TotalFileNum, const TCHAR *FileName, const TCHAR *RelDirPath, const TCHAR *AbsDirPath ) )
 {
-	WIN32_FIND_DATAA FindData ;
+	WIN32_FIND_DATA FindData ;
 	HANDLE FindHandle = INVALID_HANDLE_VALUE ;
 	int FileNum, IsDirectory ;
-	char RelDir[PATH_LENGTH] ;
-	char *AbsDir ;
+	TCHAR RelDir[PATH_LENGTH] ;
+	TCHAR *AbsDir ;
 	int RelDirLen, AbsDirLen, StartNum ;
 
 	// ディレクトリパスの作成
 	AbsDir = Path ;
-	AbsDirLen = ( int )strlen( AbsDir ) ;
-	strcpy( RelDir, AbsDir + strlen( CurrentPath ) ) ;
-	RelDirLen = ( int )strlen( RelDir ) ;
+	AbsDirLen = ( int )_tcslen( AbsDir ) ;
+	_tcscpy( RelDir, AbsDir + _tcslen( CurrentPath ) ) ;
+	RelDirLen = ( int )_tcslen( RelDir ) ;
 
 	// ファイルの列挙開始
 	{
-		char temp[PATH_LENGTH] ;
+		TCHAR temp[PATH_LENGTH] ;
 
-		strcpy( temp, AbsDir ) ;
-		strcat( temp, "*" ) ;
-		FindHandle = FindFirstFileA( temp, &FindData ) ;
+		_tcscpy( temp, AbsDir ) ;
+		_tcscat( temp, TEXT( "*" ) ) ;
+		FindHandle = FindFirstFile( temp, &FindData ) ;
 		if( FindHandle == INVALID_HANDLE_VALUE )
 			return -1 ;
 	}
@@ -101,7 +103,7 @@ static int __EnumObject( char *Path, char *CurrentPath, FILE_INFOLIST *FileList,
 	do
 	{
 		// 上のフォルダに戻ったりするためのパスは無視する
-		if( strcmp( FindData.cFileName, "." ) == 0 || strcmp( FindData.cFileName, ".." ) == 0 ) continue ;
+		if( _tcscmp( FindData.cFileName, TEXT( "." ) ) == 0 || _tcscmp( FindData.cFileName, TEXT( ".." ) ) == 0 ) continue ;
 
 		// ディレクトリかどうかを得る
 		IsDirectory = ( FindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ) != 0 ? 1 : 0 ;
@@ -110,13 +112,13 @@ static int __EnumObject( char *Path, char *CurrentPath, FILE_INFOLIST *FileList,
 		if( ValidExName != NULL && IsDirectory == 0 )
 		{
 			int i ;
-			char *name ;
+			const TCHAR *name ;
 
-			name = strchr( FindData.cFileName, '.' ) ;
-			if( name == NULL ) name = "" ;
+			name = _tcschr( FindData.cFileName, TEXT( '.' ) ) ;
+			if( name == NULL ) name = TEXT( "" ) ;
 			else name ++ ;
 
-			for( i = 0 ; ValidExName[i] != NULL && stricmp( name, ValidExName[i] ) != 0 ; i ++ ){}
+			for( i = 0 ; ValidExName[i] != NULL && _tcsicmp( name, ValidExName[i] ) != 0 ; i ++ ){}
 			if( ValidExName[i] == NULL ) continue ;
 		}
 
@@ -125,7 +127,7 @@ static int __EnumObject( char *Path, char *CurrentPath, FILE_INFOLIST *FileList,
 		{
 			int i ;
 
-			for( i = 0 ; OmitName[i] != NULL && strcmp( FindData.cFileName, OmitName[i] ) != 0 ; i ++ ){}
+			for( i = 0 ; OmitName[i] != NULL && _tcscmp( FindData.cFileName, OmitName[i] ) != 0 ; i ++ ){}
 			if( OmitName[i] != NULL ) continue ;
 		}
 
@@ -133,13 +135,13 @@ static int __EnumObject( char *Path, char *CurrentPath, FILE_INFOLIST *FileList,
 		if( OmitExName != NULL && IsDirectory == 0 )
 		{
 			int i ;
-			char *name ;
+			const TCHAR *name ;
 
-			name = strchr( FindData.cFileName, '.' ) ;
-			if( name == NULL ) name = "" ;
+			name = _tcschr( FindData.cFileName, TEXT( '.' ) ) ;
+			if( name == NULL ) name = TEXT( "" ) ;
 			else name ++ ;
 
-			for( i = 0 ; OmitExName[i] != NULL && strcmp( name, OmitExName[i] ) != 0 ; i ++ ){}
+			for( i = 0 ; OmitExName[i] != NULL && _tcscmp( name, OmitExName[i] ) != 0 ; i ++ ){}
 			if( OmitExName[i] != NULL ) continue ;
 		}
 
@@ -147,23 +149,29 @@ static int __EnumObject( char *Path, char *CurrentPath, FILE_INFOLIST *FileList,
 		if( IsDirectory == 1 && SubDirectory == 1 )
 		{
 			int res ;
-			char tempAbs[PATH_LENGTH], tempRel[PATH_LENGTH] ;
+			TCHAR tempAbs[PATH_LENGTH], tempRel[PATH_LENGTH] ;
 
 			// 絶対パスの作成
-			strcpy( tempAbs, AbsDir ) ;
-			strcat( tempAbs, FindData.cFileName ) ;
-			strcat( tempAbs, "\\" ) ;
+			_tcscpy( tempAbs, AbsDir ) ;
+			_tcscat( tempAbs, FindData.cFileName ) ;
+			_tcscat( tempAbs, TEXT( "\\" ) ) ;
 
 			// 相対パスの作成
-			strcpy( tempRel, RelDir ) ;
-			strcat( tempRel, FindData.cFileName ) ;
-			strcat( tempRel, "\\" ) ;
+			_tcscpy( tempRel, RelDir ) ;
+			_tcscat( tempRel, FindData.cFileName ) ;
+			_tcscat( tempRel, TEXT( "\\" ) ) ;
 			
 			// 列挙
-			res = __EnumObject( tempAbs, CurrentPath, FileList, OmitDirectory, SubDirectory, OmitName, OmitExName, ValidExName ) ;
+			res = __EnumObject( tempAbs, CurrentPath, FileList, OmitDirectory, SubDirectory, OmitName, OmitExName, ValidExName, TotalFileNumCounter, TotalFileNum, EnumFileCallback ) ;
 			if( res < 0 )
 				goto ERR ;
 			FileNum += res ;
+			*TotalFileNumCounter += res ;
+		}
+
+		if( EnumFileCallback != 0 )
+		{
+			EnumFileCallback( FileList == NULL ? 0 : 1, *TotalFileNumCounter, TotalFileNum, FindData.cFileName, RelDir, AbsDir ) ;
 		}
 
 		// データを格納することが出来る場合はデータを格納する
@@ -181,24 +189,24 @@ static int __EnumObject( char *Path, char *CurrentPath, FILE_INFOLIST *FileList,
 			info->Date.LastAccess	= ( ( ( LONGLONG )FindData.ftLastAccessTime	.dwHighDateTime ) << 32 ) + FindData.ftLastAccessTime	.dwLowDateTime ;
 			info->Date.LastWrite	= ( ( ( LONGLONG )FindData.ftLastWriteTime	.dwHighDateTime ) << 32 ) + FindData.ftLastWriteTime	.dwLowDateTime ;
 
-			info->Size			= FindData.nFileSizeLow ;		// サイズを保存
+			info->Size			= ( u64 )FindData.nFileSizeLow | ( ( ( u64 )FindData.nFileSizeHigh ) << 32 ) ;		// サイズを保存
 			info->Attributes	= FindData.dwFileAttributes ;	// 属性を保存
 			info->IsDirectory	= (u8)IsDirectory ;
 
 			// パス系の保存
 			{
 				// パス系を保存するメモリ領域の確保
-				FileNameLen = ( int )strlen( FindData.cFileName ) ;
-				info->FileName = ( char * )malloc( ( FileNameLen + 1 ) + ( AbsDirLen + 1 ) + ( RelDirLen + 1 ) ) ;
+				FileNameLen = ( int )_tcslen( FindData.cFileName ) ;
+				info->FileName = ( TCHAR * )malloc( sizeof( TCHAR ) * ( ( FileNameLen + 1 ) + ( AbsDirLen + 1 ) + ( RelDirLen + 1 ) ) ) ;
 				if( info->FileName == NULL )
 					goto ERR ;
 				info->RelDirectoryPath = info->FileName + FileNameLen + 1 ;
 				info->AbsDirectoryPath = info->RelDirectoryPath + RelDirLen + 1 ;
 
 				// コピー
-				strcpy( info->FileName, FindData.cFileName ) ;
-				strcpy( info->RelDirectoryPath, RelDir ) ;
-				strcpy( info->AbsDirectoryPath, AbsDir ) ;
+				_tcscpy( info->FileName, FindData.cFileName ) ;
+				_tcscpy( info->RelDirectoryPath, RelDir ) ;
+				_tcscpy( info->AbsDirectoryPath, AbsDir ) ;
 			}
 
 			// ファイルの数を増やす
@@ -207,8 +215,9 @@ static int __EnumObject( char *Path, char *CurrentPath, FILE_INFOLIST *FileList,
 
 		// ファイルの数を増やす
 		FileNum ++ ;
+		*TotalFileNumCounter += 1 ;
 	}
-	while( FindNextFileA( FindHandle, &FindData ) != 0 ) ;
+	while( FindNextFile( FindHandle, &FindData ) != 0 ) ;
 
 	// 列挙終了
 	FindClose( FindHandle ) ;
@@ -463,31 +472,32 @@ extern unsigned int Char128ToBin( void *Src, void *Dest )
 }
 
 // ファイルの内容をメモリに読み込む( 0:成功  -1:失敗 )
-extern int LoadFileMem( const char *Path, void **DataBuf, int *Size )
+extern int LoadFileMem( const TCHAR *Path, void **DataBuf, size_t *Size )
 {
 	FILE *fp = NULL ;
 	void *buf = NULL ;
-	int size ;
+	__int64 size ;
 
-	fp = fopen( Path, "rb" ) ;
+	fp = _tfopen( Path, TEXT( "rb" ) ) ;
 	if( fp == NULL ) goto ERR ;
 
 	// サイズを得る
 	fseek( fp, 0L, SEEK_END ) ;
-	size = ftell( fp ) ;
+	size = _ftelli64( fp ) ;
+	if( size == 0 ) goto ERR ;
 	fseek( fp, 0L, SEEK_SET ) ;
 
 	// メモリの確保
-	buf = malloc( size ) ;
+	buf = malloc( ( size_t )size ) ;
 	if( buf == NULL ) goto ERR ;
 
 	// 読み込み
-	fread( buf, size, 1, fp ) ;
+	fread( buf, ( size_t )size, 1, fp ) ;
 	fclose( fp ) ;
 
 	// セット
 	if( DataBuf != NULL ) *DataBuf = buf ;
-	if( Size != NULL ) *Size = size ;
+	if( Size != NULL ) *Size = ( size_t )size ;
 
 	// 終了
 	return 0 ;
@@ -500,37 +510,39 @@ ERR :
 }
 
 // ファイルの内容をメモリに読み込む( 0:成功  -1:失敗 )
-extern int LoadFileMem( const char *Path, void *DataBuf, int *Size )
+extern int LoadFileMem( const TCHAR *Path, void *DataBuf, size_t *Size )
 {
 	FILE *fp = NULL ;
-	int size ;
+	__int64 size ;
 
-	fp = fopen( Path, "rb" ) ;
+	fp = _tfopen( Path, TEXT( "rb" ) ) ;
 	if( fp == NULL ) return -1;
 
 	// サイズを得る
 	fseek( fp, 0L, SEEK_END ) ;
-	size = ftell( fp ) ;
+	size = _ftelli64( fp ) ;
 	fseek( fp, 0L, SEEK_SET ) ;
 
 	// 読み込み
 	if( DataBuf )
-		fread( DataBuf, size, 1, fp ) ;
+	{
+		fread( DataBuf, ( size_t )size, 1, fp ) ;
+	}
 	fclose( fp ) ;
 
 	// セット
-	if( Size != NULL ) *Size = size ;
+	if( Size != NULL ) *Size = ( size_t )size ;
 
 	// 終了
 	return 0 ;
 }
 
 // メモリの内容をファイルに書き出す 
-extern int SaveFileMem( const char *Path, void *Data, int Size )
+extern int SaveFileMem( const TCHAR *Path, void *Data, size_t Size )
 {
 	FILE *fp ;
 
-	fp = fopen( Path, "wb" ) ;
+	fp = _tfopen( Path, TEXT( "wb" ) ) ;
 	if( fp == NULL ) return -1 ;
 	fwrite( Data, Size, 1, fp ) ;
 	fclose( fp ) ;
@@ -542,9 +554,9 @@ extern int SaveFileMem( const char *Path, void *Data, int Size )
 // 指定のディレクトリを作成する、中間のディレクトリも存在しない場合は作成する
 // 最後尾に '\' があっても無視する
 // ドライブ名の後に '\' がない場合は正常に動作しない
-extern int __CreateDirectory( const char *Path )
+extern int __CreateDirectory( const TCHAR *Path )
 {
-	char dir[MAX_PATH] ;
+	TCHAR dir[MAX_PATH] ;
 
 	// フルパスを得る
 	ConvertFullPath__( Path, dir, NULL ) ;
@@ -552,10 +564,10 @@ extern int __CreateDirectory( const char *Path )
 
 	// 指定のディレクトリが存在したら何もせず終了
 	{
-		WIN32_FIND_DATAA FindData ;
+		WIN32_FIND_DATA FindData ;
 		HANDLE FindHandle ;
 
-		FindHandle = FindFirstFileA( dir, &FindData ) ;
+		FindHandle = FindFirstFile( dir, &FindData ) ;
 		if( FindHandle != INVALID_HANDLE_VALUE )
 		{
 			FindClose( FindHandle ) ;
@@ -565,15 +577,15 @@ extern int __CreateDirectory( const char *Path )
 
 	// ディレクトリを作成するループ
 	{
-		char *p ;
-		p = strchr( dir, '\\' ) ;
+		TCHAR *p ;
+		p = _tcschr( dir, TEXT( '\\' ) ) ;
 		while( p != NULL )
 		{
 			*p = '\0' ;
-			CreateDirectoryA( dir, NULL ) ;
+			CreateDirectory( dir, NULL ) ;
 			*p = '\\' ;
 
-			p = strchr( p + 1, '\\' ) ;
+			p = _tcschr( p + 1, TEXT( '\\' ) ) ;
 		}
 	}
 
@@ -583,13 +595,13 @@ extern int __CreateDirectory( const char *Path )
 
 
 // 指定のパスが示しているものがディレクトリかどうかを得る
-extern int IsDirectory( const char *Path )
+extern int IsDirectory( const TCHAR *Path )
 {
-	WIN32_FIND_DATAA FindData ;
+	WIN32_FIND_DATA FindData ;
 	HANDLE FindHandle ;
 	
 	// ファイルの情報を得る
-	FindHandle = FindFirstFileA( Path, &FindData ) ;
+	FindHandle = FindFirstFile( Path, &FindData ) ;
 	if( FindHandle == INVALID_HANDLE_VALUE ) return -1 ;
 	FindClose( FindHandle ) ;
 	
@@ -598,29 +610,29 @@ extern int IsDirectory( const char *Path )
 }
 
 // 指定のパスの情報を得る
-extern int CreateFileInfo( const char *Path, FILE_INFO *FileInfoBuffer )
+extern int CreateFileInfo( const TCHAR *Path, FILE_INFO *FileInfoBuffer )
 {
 	FILE_INFO *info ;
-	WIN32_FIND_DATAA FindData ;
+	WIN32_FIND_DATA FindData ;
 	HANDLE FindHandle = INVALID_HANDLE_VALUE ;
 	int AbsDirLen, RelDirLen ;
-	char RelDir[1] ;
-	char AbsDir[PATH_LENGTH] ;
+	TCHAR RelDir[1] ;
+	TCHAR AbsDir[PATH_LENGTH] ;
 	
 	info = FileInfoBuffer ;
 	
 	// ディレクトリパスの作成
 	{
 		ConvertFullPath__( Path, AbsDir ) ;
-		DelChr( AbsDir, '\\' ) ;
-		strrchr( AbsDir, '\\' )[1] = '\0' ;
-		AbsDirLen = ( int )strlen( AbsDir ) ;
+		DelChr( AbsDir, TEXT( '\\' ) ) ;
+		_tcsrchr( AbsDir, TEXT( '\\' ) )[1] = TEXT( '\0' ) ;
+		AbsDirLen = ( int )_tcslen( AbsDir ) ;
 		RelDir[0] = '\0' ;
 		RelDirLen = 0 ;
 	}
 
 	// ファイルの情報を得る
-	FindHandle = FindFirstFileA( Path, &FindData ) ;
+	FindHandle = FindFirstFile( Path, &FindData ) ;
 	if( FindHandle == INVALID_HANDLE_VALUE ) return -1 ;
 	FindClose( FindHandle ) ;
 	
@@ -641,16 +653,16 @@ extern int CreateFileInfo( const char *Path, FILE_INFO *FileInfoBuffer )
 		int FileNameLen ;
 	
 		// パス系を保存するメモリ領域の確保
-		FileNameLen = ( int )strlen( FindData.cFileName ) ;
-		info->FileName = ( char * )malloc( ( FileNameLen + 1 ) + ( AbsDirLen + 1 ) + ( RelDirLen + 1 ) ) ;
+		FileNameLen = ( int )_tcslen( FindData.cFileName ) ;
+		info->FileName = ( TCHAR * )malloc( sizeof( TCHAR ) * ( ( FileNameLen + 1 ) + ( AbsDirLen + 1 ) + ( RelDirLen + 1 ) ) ) ;
 		if( info->FileName == NULL ) return -1 ;
 		info->RelDirectoryPath = info->FileName + FileNameLen + 1 ;
 		info->AbsDirectoryPath = info->RelDirectoryPath + RelDirLen + 1 ;
 
 		// コピー
-		strcpy( info->FileName, FindData.cFileName ) ;
-		strcpy( info->RelDirectoryPath, RelDir ) ;
-		strcpy( info->AbsDirectoryPath, AbsDir ) ;
+		_tcscpy( info->FileName, FindData.cFileName ) ;
+		_tcscpy( info->RelDirectoryPath, RelDir ) ;
+		_tcscpy( info->AbsDirectoryPath, AbsDir ) ;
 	}
 	
 	// 終了
@@ -668,12 +680,12 @@ extern int ReleaseFileInfo( FILE_INFO *FileInfo )
 }
 
 // 指定のパスのファイルのタイムスタンプを FileInfo に格納されているタイムスタンプにする
-extern int SetFileTimeStamp( const char *Path, FILE_INFO *FileInfo )
+extern int SetFileTimeStamp( const TCHAR *Path, FILE_INFO *FileInfo )
 {
 	HANDLE HFile ;
 	FILETIME CreateTime, LastAccessTime, LastWriteTime ;
 
-	HFile = CreateFileA( Path,
+	HFile = CreateFile( Path,
 						GENERIC_WRITE, 0, NULL,
 						OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL ) ;
 	if( HFile == INVALID_HANDLE_VALUE )
@@ -714,14 +726,17 @@ extern int CmpFileTimeStamp( FILE_INFO *FileInfo1, FILE_INFO *FileInfo2, bool Cr
 // OmitExName に除外したい拡張子を渡すとその拡張子を持つファイルを除外してくれる( ';'で複数の文字列を連結可能 )
 // ValidExName に有効にしたい拡張子を渡すとその拡張子を持つファイルのみ列挙してくれる( Omit系よりも優先度が高い, ';'で複数の文字列を連結可能 )
 // 戻り値 : -1 = エラー  0以上 = 列挙したファイルの数
-extern int CreateFileList( const char *DirectoryPath, FILE_INFOLIST *FileListInfo,
+extern int CreateFileList( const TCHAR *DirectoryPath, FILE_INFOLIST *FileListInfo,
 							int OmitDirectory, int SubDirectory,
-							const char *OmitName, const char *OmitExName, const char *ValidExName )
+							const TCHAR *OmitName, const TCHAR *OmitExName, const TCHAR *ValidExName,
+						void ( *EnumFileCallback )( int Phase, int NowFileNum, int TotalFileNum, const TCHAR *FileName, const TCHAR *RelDirPath, const TCHAR *AbsDirPath ) )
 {
-	char DirPath[PATH_LENGTH] ;
+	TCHAR DirPath[PATH_LENGTH] ;
 	FILE_INFOLIST FileList ;
-	char *OmitStrBuf = NULL, *OmitExStrBuf = NULL, *ValidExStrBuf = NULL ;
-	char *OmitStr[50], *OmitExStr[50], *ValidExStr[100] ;
+	TCHAR *OmitStrBuf = NULL, *OmitExStrBuf = NULL, *ValidExStrBuf = NULL ;
+	TCHAR *OmitStr[50], *OmitExStr[50], *ValidExStr[100] ;
+	int TotalFileNum ;
+	int TotalFileNumCounter ;
 	
 	// フルパスを得る
 	ConvertFullPath__( DirectoryPath, DirPath, NULL ) ;
@@ -751,27 +766,27 @@ extern int CreateFileList( const char *DirectoryPath, FILE_INFOLIST *FileListInf
 	// 初期化
 	FileList.Num = 0 ;
 	FileList.List = NULL ;
-	OmitStrBuf = ( char * )malloc( 1024 ) ;
+	OmitStrBuf = ( TCHAR * )malloc( sizeof( TCHAR ) * 2048 ) ;
 	if( OmitStrBuf == NULL ) goto ERR ;
-	OmitExStrBuf = ( char * )malloc( 1024 ) ;
+	OmitExStrBuf = ( TCHAR * )malloc( sizeof( TCHAR ) * 2048 ) ;
 	if( OmitExStrBuf == NULL ) goto ERR ;
-	ValidExStrBuf = ( char * )malloc( 1024 ) ;
+	ValidExStrBuf = ( TCHAR * )malloc( sizeof( TCHAR ) * 2048 ) ;
 	if( ValidExStrBuf == NULL ) goto ERR ;
 
 	// 除外文字列リストの作成
 	if( OmitName != NULL )
 	{
 		int i ;
-		char *p ;
+		TCHAR *p ;
 
-		strcpy( OmitStrBuf, OmitName ) ;
+		_tcscpy( OmitStrBuf, OmitName ) ;
 		i = 0 ;
 		p = OmitStrBuf ;
 		OmitStr[i] = p ;
 		i ++ ;
-		while( ( p = strchr( p, ';' ) ) != NULL )
+		while( ( p = _tcschr( p, TEXT( ';' ) ) ) != NULL )
 		{
-			*p = '\0' ;
+			*p = TEXT( '\0' ) ;
 			p ++ ;
 			OmitStr[i] = p ;
 			i ++ ;
@@ -784,16 +799,16 @@ extern int CreateFileList( const char *DirectoryPath, FILE_INFOLIST *FileListInf
 	if( OmitExName != NULL )
 	{
 		int i ;
-		char *p ;
+		TCHAR *p ;
 
-		strcpy( OmitExStrBuf, OmitExName ) ;
+		_tcscpy( OmitExStrBuf, OmitExName ) ;
 		i = 0 ;
 		p = OmitExStrBuf ;
 		OmitExStr[i] = p ;
 		i ++ ;
-		while( ( p = strchr( p, ';' ) ) != NULL )
+		while( ( p = _tcschr( p, TEXT( ';' ) ) ) != NULL )
 		{
-			*p = '\0' ;
+			*p = TEXT( '\0' ) ;
 			p ++ ;
 			OmitExStr[i] = p ;
 			i ++ ;
@@ -806,16 +821,16 @@ extern int CreateFileList( const char *DirectoryPath, FILE_INFOLIST *FileListInf
 	if( ValidExName != NULL )
 	{
 		int i ;
-		char *p ;
+		TCHAR *p ;
 
-		strcpy( ValidExStrBuf, ValidExName ) ;
+		_tcscpy( ValidExStrBuf, ValidExName ) ;
 		i = 0 ;
 		p = ValidExStrBuf ;
 		ValidExStr[i] = p ;
 		i ++ ;
-		while( ( p = strchr( p, ';' ) ) != NULL )
+		while( ( p = _tcschr( p, TEXT( ';' ) ) ) != NULL )
 		{
-			*p = '\0' ;
+			*p = TEXT( '\0' ) ;
 			p ++ ;
 			ValidExStr[i] = p ;
 			i ++ ;
@@ -825,9 +840,11 @@ extern int CreateFileList( const char *DirectoryPath, FILE_INFOLIST *FileListInf
 	else ValidExStr[0] = NULL ;
 
 	// 列挙用関数に投げてファイルの数を得る
-	FileList.Num = __EnumObject( DirPath, DirPath, NULL, OmitDirectory, SubDirectory, OmitStr, OmitExStr, ValidExStr[0] != NULL ? ValidExStr : NULL ) ;
+	TotalFileNumCounter = 0 ;
+	FileList.Num = __EnumObject( DirPath, DirPath, NULL, OmitDirectory, SubDirectory, OmitStr, OmitExStr, ValidExStr[0] != NULL ? ValidExStr : NULL, &TotalFileNumCounter, 0, EnumFileCallback ) ;
 	if( FileList.Num < 0 )
 		goto ERR ;
+	TotalFileNum = FileList.Num ;
 
 	// ファイルリストのデータが格納できるメモリ領域を確保
 	FileList.List = ( FILE_INFO * )malloc( FileList.Num * sizeof( FILE_INFO ) ) ;
@@ -836,8 +853,9 @@ extern int CreateFileList( const char *DirectoryPath, FILE_INFOLIST *FileListInf
 	memset( FileList.List, 0, FileList.Num * sizeof( FILE_INFO ) ) ;
 
 	// ファイルリストにデータを格納する
+	TotalFileNumCounter = 0 ;
 	FileList.Num = 0 ;
-	if( __EnumObject( DirPath, DirPath, &FileList, OmitDirectory, SubDirectory, OmitStr, OmitExStr, ValidExStr[0] != NULL ? ValidExStr : NULL ) < 0 )
+	if( __EnumObject( DirPath, DirPath, &FileList, OmitDirectory, SubDirectory, OmitStr, OmitExStr, ValidExStr[0] != NULL ? ValidExStr : NULL, &TotalFileNumCounter, TotalFileNum, EnumFileCallback ) < 0 )
 		goto ERR ;
 
 	// データを格納
@@ -892,19 +910,19 @@ extern int ReleaseFileList( FILE_INFOLIST *DirectoryInfo )
 // ( CurrentDir はフルパスである必要がある(語尾に『\』があっても無くても良い) )
 // ( CurrentDir が 0 の場合は実際のカレントディレクトリを使用する )
 extern int AnalyseFilePath(
-	const char *Src,
-	char *FullPath, char *DirPath, char *FileName, char *Name, char *ExeName, const char *CurrentDir )
+	const TCHAR *Src,
+	TCHAR *FullPath, TCHAR *DirPath, TCHAR *FileName, TCHAR *Name, TCHAR *ExeName, const TCHAR *CurrentDir )
 {
-	char full[256], dir[256], fname[256], name[256], exename[256];
+	TCHAR full[1124], dir[1124], fname[1124], name[1124], exename[1124];
 
 	ConvertFullPath__( Src, full, CurrentDir );
 	AnalysisFileNameAndDirPath( full, fname, dir );
 	AnalysisFileNameAndExeName( fname, name, exename );
-	if( FullPath ) strcpy( FullPath, full    );
-	if( DirPath  ) strcpy( DirPath,  dir     );
-	if( FileName ) strcpy( FileName, fname   );
-	if( Name     ) strcpy( Name,     name    );
-	if( ExeName  ) strcpy( ExeName,  exename );
+	if( FullPath ) _tcscpy( FullPath, full    );
+	if( DirPath  ) _tcscpy( DirPath,  dir     );
+	if( FileName ) _tcscpy( FileName, fname   );
+	if( Name     ) _tcscpy( Name,     name    );
+	if( ExeName  ) _tcscpy( ExeName,  exename );
 
 	return 0;
 }
@@ -912,20 +930,20 @@ extern int AnalyseFilePath(
 // フルパスではないパス文字列をフルパスに変換する
 // ( CurrentDir はフルパスである必要がある(語尾に『\』があっても無くても良い) )
 // ( CurrentDir が NULL の場合は実際のカレントディレクトリを使用する )
-extern int ConvertFullPath__( const char *Src, char *Dest, const char *CurrentDir )
+extern int ConvertFullPath__( const TCHAR *Src, TCHAR *Dest, const TCHAR *CurrentDir )
 {
 	int i, j, k ;
-	char iden[256], cur[MAX_PATH] ;
+	TCHAR iden[512], cur[1024] ;
 
 	if( CurrentDir == NULL )
 	{
-		GetCurrentDirectoryA( MAX_PATH, cur ) ;
+		GetCurrentDirectory( 1024, cur ) ;
 		CurrentDir = cur ;
 	}
 
 	if( Src == NULL )
 	{
-		strcpy( Dest, CurrentDir ) ;
+		_tcscpy( Dest, CurrentDir ) ;
 		goto END ;
 	}
 
@@ -934,47 +952,47 @@ extern int ConvertFullPath__( const char *Src, char *Dest, const char *CurrentDi
 	k = 0 ;
 	
 	// 最初に『\』又は『/』が２回連続で続いている場合はネットワークを介していると判断
-	if( ( Src[0] == '\\' && Src[1] == '\\' ) ||
-		( Src[0] == '/'  && Src[1] == '/'  ) )
+	if( ( Src[0] == TEXT( '\\' ) && Src[1] == TEXT( '\\' ) ) ||
+		( Src[0] == TEXT( '/'  ) && Src[1] == TEXT( '/'  ) ) )
 	{
-		Dest[0] = '\\';
-		Dest[1] = '\0';
+		Dest[0] = TEXT( '\\' );
+		Dest[1] = TEXT( '\0' );
 
 		i += 2;
 		j ++ ;
 	}
 	else
 	// 最初が『\』又は『/』の場合はカレントドライブのルートディレクトリまで落ちる
-	if( Src[0] == '\\' )
+	if( Src[0] == TEXT( '\\' ) )
 	{
 		Dest[0] = CurrentDir[0] ;
 		Dest[1] = CurrentDir[1] ;
-		Dest[2] = '\0' ;
+		Dest[2] = TEXT( '\0' ) ;
 
 		i ++ ;
 		j = 2 ;
 	}
 	else
 	// ドライブ名が書かれていたらそのドライブへ
-	if( Src[1] == ':' )
+	if( Src[1] == TEXT( ':' ) )
 	{
 		Dest[0] = Src[0] ;
 		Dest[1] = Src[1] ;
-		Dest[2] = '\0' ;
+		Dest[2] = TEXT( '\0' ) ;
 
 		i = 2 ;
 		j = 2 ;
 
-		if( Src[i] == '\\' ) i ++ ;
+		if( Src[i] == TEXT( '\\' ) ) i ++ ;
 	}
 	else
 	// それ以外の場合はカレントディレクトリ
 	{
-		strcpy( Dest, CurrentDir ) ;
-		j = ( int )strlen( Dest ) ;
-		if( Dest[j-1] == '\\' || Dest[j-1] == '/' )
+		_tcscpy( Dest, CurrentDir ) ;
+		j = ( int )_tcslen( Dest ) ;
+		if( Dest[j-1] == TEXT( '\\' ) || Dest[j-1] == TEXT( '/' ) )
 		{
-			Dest[j-1] = '\0' ;
+			Dest[j-1] = TEXT( '\0' ) ;
 			j -- ;
 		}
 	}
@@ -983,41 +1001,41 @@ extern int ConvertFullPath__( const char *Src, char *Dest, const char *CurrentDi
 	{
 		switch( Src[i] )
 		{
-		case '\0' :
+		case TEXT( '\0' ) :
 			if( k != 0 )
 			{
-				Dest[j] = '\\' ; j ++ ;
-				strcpy( &Dest[j], iden ) ;
+				Dest[j] = TEXT( '\\' ) ; j ++ ;
+				_tcscpy( &Dest[j], iden ) ;
 				j += k ;
 				k = 0 ;
 			}
 			goto END ;
 
-		case '\\' :
-		case '/' :
+		case TEXT( '\\' ) :
+		case TEXT( '/'  ) :
 			// 文字列が無かったらスキップ
 			if( k == 0 )
 			{
 				i ++ ;
 				break;
 			}
-			if( strcmp( iden, "." ) == 0 )
+			if( _tcscmp( iden, TEXT( "." ) ) == 0 )
 			{
 				// なにもしない
 			}
 			else
-			if( strcmp( iden, ".." ) == 0 )
+			if( _tcscmp( iden, TEXT( ".." ) ) == 0 )
 			{
 				// 一つ下のディレクトリへ
 				j -- ;
-				while( Dest[j] != '\\' && Dest[j] != '/' && Dest[j] != ':' ) j -- ;
-				if( Dest[j] != ':' ) Dest[j] = '\0' ;
+				while( Dest[j] != TEXT( '\\' ) && Dest[j] != TEXT( '/' ) && Dest[j] != TEXT( ':' ) ) j -- ;
+				if( Dest[j] != TEXT( ':' ) ) Dest[j] = TEXT( '\0' ) ;
 				else j ++ ;
 			}
 			else
 			{
-				Dest[j] = '\\' ; j ++ ;
-				strcpy( &Dest[j], iden ) ;
+				Dest[j] = TEXT( '\\' ) ; j ++ ;
+				_tcscpy( &Dest[j], iden ) ;
 				j += k ;
 			}
 
@@ -1026,6 +1044,12 @@ extern int ConvertFullPath__( const char *Src, char *Dest, const char *CurrentDi
 			break ;
 		
 		default :
+#ifdef _UNICODE
+			iden[k] = Src[i] ;
+			iden[k+1] = 0 ; 
+			k ++ ;
+			i ++ ;
+#else // _UNICODE
 			if( _mbsbtype( ( const unsigned char * )&Src[i], 0 ) == 0/*(_MBC_SINGLE)*/ )
 			{
 				iden[k] = Src[i] ;
@@ -1040,6 +1064,7 @@ extern int ConvertFullPath__( const char *Src, char *Dest, const char *CurrentDi
 				k += 2 ;
 				i += 2 ;
 			}
+#endif // _UNICODE
 			break ;
 		}
 	}
@@ -1051,15 +1076,19 @@ END :
 
 // ファイル名も一緒になっていると分かっているパス中からファイル名とディレクトリパスを分割する
 // フルパスである必要は無い、ファイル名だけでも良い
-extern int AnalysisFileNameAndDirPath( const char *Src, char *FileName, char *DirPath )
+extern int AnalysisFileNameAndDirPath( const TCHAR *Src, TCHAR *FileName, TCHAR *DirPath )
 {
 	int i, Last ;
 	
 	// ファイル名を抜き出す
 	i = 0 ;
 	Last = -1 ;
-	while( Src[i] != '\0' )
+	while( Src[i] != TEXT( '\0' ) )
 	{
+#ifdef _UNICODE
+		if( Src[i] == TEXT( '\\' ) || Src[i] == TEXT( '/' ) || Src[i] == TEXT( '\0' ) || Src[i] == TEXT( ':' ) ) Last = i ;
+		i ++ ;
+#else // _UNICODE
 		if( _mbsbtype( ( const unsigned char * )&Src[i], 0 ) == 0/*(_MBC_SINGLE)*/ )
 		{
 			if( Src[i] == '\\' || Src[i] == '/' || Src[i] == '\0' || Src[i] == ':' ) Last = i ;
@@ -1069,11 +1098,12 @@ extern int AnalysisFileNameAndDirPath( const char *Src, char *FileName, char *Di
 		{
 			i += 2 ;
 		}
+#endif // _UNICODE
 	}
 	if( FileName != NULL )
 	{
-		if( Last != -1 ) strcpy( FileName, &Src[Last+1] ) ;
-		else strcpy( FileName, Src ) ;
+		if( Last != -1 ) _tcscpy( FileName, &Src[Last+1] ) ;
+		else _tcscpy( FileName, Src ) ;
 	}
 	
 	// ディレクトリパスを抜き出す
@@ -1081,12 +1111,12 @@ extern int AnalysisFileNameAndDirPath( const char *Src, char *FileName, char *Di
 	{
 		if( Last != -1 )
 		{
-			strncpy( DirPath, Src, Last ) ;
-			DirPath[Last] = '\0' ;
+			_tcsncpy( DirPath, Src, Last ) ;
+			DirPath[Last] = TEXT( '\0' ) ;
 		}
 		else
 		{
-			DirPath[0] = '\0' ;
+			DirPath[0] = TEXT( '\0' ) ;
 		}
 	}
 	
@@ -1095,116 +1125,116 @@ extern int AnalysisFileNameAndDirPath( const char *Src, char *FileName, char *Di
 }
 
 // ファイルパスからファイル名と拡張子を取得する
-extern int AnalysisFileNameAndExeName( const char *Src, char *Name, char *ExeName )
+extern int AnalysisFileNameAndExeName( const TCHAR *Src, TCHAR *Name, TCHAR *ExeName )
 {
-	char FileName[256], *p, ename[128], name[128] ;
+	TCHAR FileName[256], *p, ename[256], name[256] ;
 
 	// ファイル名のみを取得
 	AnalysisFileNameAndDirPath( Src, FileName, 0 ) ;
 
 	// 『.』があるかどうかで処理を分岐
-	if( ( p = strrchr( FileName, '.' ) ) == NULL )
+	if( ( p = _tcsrchr( FileName, TEXT( '.' ) ) ) == NULL )
 	{
-		strcpy( name, FileName ) ;
-		ename[0] = '\0' ;
+		_tcscpy( name, FileName ) ;
+		ename[0] = TEXT( '\0' ) ;
 	}
 	else
 	{
-		strncpy( name, FileName, p - FileName ) ;
-		name[p - FileName] = '\0' ;
-		strcpy( ename, p + 1 ) ;
+		_tcsncpy( name, FileName, p - FileName ) ;
+		name[p - FileName] = TEXT( '\0' ) ;
+		_tcscpy( ename, p + 1 ) ;
 	}
 
-	if( Name != NULL ) strcpy( Name, name ) ;
-	if( ExeName != NULL ) strcpy( ExeName, ename ) ;
+	if( Name != NULL ) _tcscpy( Name, name ) ;
+	if( ExeName != NULL ) _tcscpy( ExeName, ename ) ;
 
 	// 終了
 	return 0 ;
 }
 
 // ファイルパスの拡張子を変えた文字列を得る
-extern int GetChangeExeNamePath( const char *Src, char *Dest, const char *ExeName )
+extern int GetChangeExeNamePath( const TCHAR *Src, TCHAR *Dest, const TCHAR *ExeName )
 {
-	char DirPath[256], FileName[128] ;
+	TCHAR DirPath[1024], FileName[1024] ;
 
 	AnalysisFileNameAndDirPath( Src, NULL, DirPath ) ;
 	AnalysisFileNameAndExeName( Src, FileName, 0 ) ;
 	SetEnMark( DirPath ) ;
-	sprintf( Dest, "%s%s.%s", DirPath, FileName, ExeName ) ;
-	
+	_stprintf( Dest, TEXT( "%s%s.%s" ), DirPath, FileName, ExeName ) ;
+
 	// 終了
 	return 0 ;
 }
 
 
 // 語尾に『\』がついていない場合は付ける
-extern void SetEnMark( char *PathBuf )
+extern void SetEnMark( TCHAR *PathBuf )
 {
-	int Len = ( int )strlen( PathBuf ) ;
+	int Len = ( int )_tcslen( PathBuf ) ;
 	
-	if( PathBuf[Len-1] != '\\' )
+	if( PathBuf[Len-1] != TEXT( '\\' ) )
 	{
-		PathBuf[Len] = '\\' ;
-		PathBuf[Len+1] = '\0' ;
+		PathBuf[Len] = TEXT( '\\' ) ;
+		PathBuf[Len+1] = TEXT( '\0' ) ;
 	}
 }
 
 // 語尾に指定の文字がない場合はつける
-extern void SetChr( char *PathBuf, char chr )
+extern void SetChr( TCHAR *PathBuf, TCHAR chr )
 {
-	int Len = ( int )strlen( PathBuf ) ;
+	int Len = ( int )_tcslen( PathBuf ) ;
 	
 	if( PathBuf[Len-1] != chr )
 	{
 		PathBuf[Len] = chr ;
-		PathBuf[Len+1] = '\0' ;
+		PathBuf[Len+1] = TEXT( '\0' ) ;
 	}
 }
 
 // 語尾に指定の文字がある場合は削除する
-extern void DelChr( char *PathBuf, char chr )
+extern void DelChr( TCHAR *PathBuf, TCHAR chr )
 {
-	int Len = ( int )strlen( PathBuf ) ;
+	int Len = ( int )_tcslen( PathBuf ) ;
 
 	if( PathBuf[Len-1] == chr )
 	{
-		PathBuf[Len-1] = '\0' ;
+		PathBuf[Len-1] = TEXT( '\0' ) ;
 	}
 }
 
 
 // 拡張子を得る
-extern int GetExName( const char *Path, char *ExNameBuf )
+extern int GetExName( const TCHAR *Path, TCHAR *ExNameBuf )
 {
-	char *p ;
+	TCHAR *p ;
 	
 	// 一番最後に '.' が出る部分を取得する
-	p = strrchr( ( char * )Path, '.' ) ;
-	if( p == NULL ) ExNameBuf[0] = '\0' ;
-	else strcpy( ExNameBuf, p + 1 ) ;
+	p = _tcsrchr( ( TCHAR * )Path, TEXT( '.' ) ) ;
+	if( p == NULL ) ExNameBuf[0] = TEXT( '\0' ) ;
+	else _tcscpy( ExNameBuf, p + 1 ) ;
 
 	// 終了
 	return 0 ;
 }
 
 // 拡張子を変更する
-extern int SetExName( const char *Path, char *ExName, char *DestBuf )
+extern int SetExName( const TCHAR *Path, const TCHAR *ExName, TCHAR *DestBuf )
 {
-	char *p ;
-	char tempstr[256] ;
+	TCHAR *p ;
+	TCHAR tempstr[1024] ;
 	
-	strcpy( tempstr, Path ) ;
+	_tcscpy( tempstr, Path ) ;
 
 	// 一番最後に '.' が出る部分を取得する
-	p = strrchr( tempstr, '.' ) ;
+	p = _tcsrchr( tempstr, TEXT( '.' ) ) ;
 	if( p == NULL )
 	{
-		sprintf( DestBuf, "%s.%s", tempstr, ExName ) ;
+		_stprintf( DestBuf, TEXT( "%s.%s" ), tempstr, ExName ) ;
 	}
 	else
 	{
-		strncpy( DestBuf, tempstr, p - tempstr + 1 ) ;
-		strcpy( DestBuf + ( p - tempstr + 1 ), ExName ) ;
+		_tcsncpy( DestBuf, tempstr, p - tempstr + 1 ) ;
+		_tcscpy( DestBuf + ( p - tempstr + 1 ), ExName ) ;
 	}
 
 	// 終了
@@ -1277,13 +1307,13 @@ extern int CheckTextData( void *buffer, int size )
 }
 
 // テキストファイルかどうかを判定する( 1:テキストデータ  0:バイナリデータ )
-extern int CheckTextFile( const char *Path )
+extern int CheckTextFile( const TCHAR *Path )
 {
 	void *buf ;
 	int size, res ;
 	FILE *fp ;
 
-	fp = fopen( Path, "rb" ) ;
+	fp = _tfopen( Path, TEXT( "rb" ) ) ;
 	if( fp == NULL ) return -1 ;
 	
 	fseek( fp, 0L, SEEK_END ) ;

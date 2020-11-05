@@ -1,213 +1,213 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ja-JP">
 	<head>
-	<meta http-equiv="Content-type" content="text/html; charset=Shift_JIS">
-		<title>�Q�[���v���O�����̊�b�m��</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>ゲームプログラムの基礎知識</title>
 		<link rel="shortcut icon" href="../DxLib.ico">
 		<link rel="stylesheet" href="../style.css" type="text/css">
 	</head>
 	<body bgcolor="#ffffff" text="#000000" link="#0033cc" vlink="#800040">
 	<div class="NormalFont">
 
-		<font size="2">�Q�[������u���S<br><br></font>
-		<font size="6"><b>�S�D�L�[�{�[�h�ŊG�𓮂�����</b></font>
+		<font size="2">ゲーム制作講座４<br><br></font>
+		<font size="6"><b>４．キーボードで絵を動かそう</b></font>
 		<hr><br><br>
 
 		<font size="3"><B>
-		�@�O��܂łŁA���ꂵ���Ȃ��G�𓮂������@���K�����܂����B���x�͂��̊G���L�[�{�[�h�Ŏ��݂�<BR>
-		�������Ă݂܂��傤�B<BR><BR>
+		　前回までで、見苦しくなく絵を動かす方法を習得しました。今度はその絵をキーボードで自在に<BR>
+		動かしてみましょう。<BR><BR>
 
-		�@�G���L�[�{�[�h�̓��͂Ŏ��݂ɓ������ɂ͂܂�<font color="#770000">�L�[�{�[�h�̓��͏�Ԃ�m����@</font>���o���Ȃ��Ă�<BR>
-		�Ȃ�܂���B�����ł͂܂��L�[�{�[�h�̓��͏�Ԃ�m����@���o���܂��傤�B<BR>
-		�@�c�w���C�u�����̓Q�[���Ɏg�������ȋ@�\�͈�ʂ葵���Ă��܂��̂ŁA�L�[�{�[�h�̓��͏�Ԃ�<BR>
-		�m�邽�߂̊֐�����������p�ӂ���Ă��܂��B<BR>
-		�@���̊֐��̖��O�� <a href="../dxfunc.html#R5N2">CheckHitKey</a> �A�ǂ̃L�[�̓��͏�Ԃ�m�肽���̂����w����������������<BR>
-		�֐��ł��B�֐����t�@�����X���݂Ē�����ΑS���ڂ��Ă��܂����A�Ƃ肠�������K�v�ȃL�[��<BR>
-		�㉺���E�̕����L�[�̓��͏�Ԃł��̂ŁA�g�������͎��̂S�ɂȂ�܂��B<BR><BR>
+		　絵をキーボードの入力で自在に動かすにはまず<font color="#770000">キーボードの入力状態を知る方法</font>を覚えなくては<BR>
+		なりません。ここではまずキーボードの入力状態を知る方法を覚えましょう。<BR>
+		　ＤＸライブラリはゲームに使えそうな機能は一通り揃っていますので、キーボードの入力状態を<BR>
+		知るための関数もしっかり用意されています。<BR>
+		　その関数の名前は <a href="../dxfunc.html#R5N2">CheckHitKey</a> 、どのキーの入力状態を知りたいのかを指し示す引数を一つ取る<BR>
+		関数です。関数リファレンスをみて頂ければ全部載っていますが、とりあえず今必要なキーは<BR>
+		上下左右の方向キーの入力状態ですので、使う引数は次の４つになります。<BR><BR>
 
 <font color="#770000">
-			KEY_INPUT_UP : ���L�[�̓��͏��<BR>
-			KEY_INPUT_DOWN : ���L�[�̓��͏��<BR>
-			KEY_INPUT_LEFT : ���L�[�̓��͏��<BR>
-			KEY_INPUT_RIGHT : ���L�[�̓��͏��<BR><BR>
+			KEY_INPUT_UP : ↑キーの入力状態<BR>
+			KEY_INPUT_DOWN : ↓キーの入力状態<BR>
+			KEY_INPUT_LEFT : ←キーの入力状態<BR>
+			KEY_INPUT_RIGHT : →キーの入力状態<BR><BR>
 </font>
 
-		�@������ <font color="#770000">CheckHitkey</font> �֐��̖߂�l�͎w�肵���L�[��<font color="#770000">������Ă���΂P</font>�A<font color="#770000">������Ă��Ȃ���΂O</font>��<BR>
-		�Ԃ��Ă��܂��B<BR><BR>
+		　そして <font color="#770000">CheckHitkey</font> 関数の戻り値は指定したキーが<font color="#770000">押されていれば１</font>、<font color="#770000">押されていなければ０</font>が<BR>
+		返ってきます。<BR><BR>
 
-		�@�Ⴆ��<font color="#770000">���L�[</font>��������Ă��邩�m�肽���ꍇ��<BR><BR>
+		　例えば<font color="#770000">↓キー</font>が押されているか知りたい場合は<BR><BR>
 
-		�@<font color="#000066">CheckHitKey( KEY_INPUT_DOWN )</font><BR> <BR>
+		　<font color="#000066">CheckHitKey( KEY_INPUT_DOWN )</font><BR> <BR>
 
-		�@�����<font color="#770000">���L�[</font>��������Ă�����<font color="#770000">�ϐ���</font>�ɐ��l�̂P�Q�����������ꍇ��<BR><BR>
+		　さらに<font color="#770000">↓キー</font>が押されていたら<font color="#770000">変数ａ</font>に数値の１２を代入したい場合は<BR><BR>
 
 		<font color="#000066">
-		�@if( CheckHitKey( KEY_INPUT_DOWN ) == 1 )<BR>
-		�@{<BR>
-		�@�@�@a = 12 ;<BR>
-		�@}<BR><BR>
+		　if( CheckHitKey( KEY_INPUT_DOWN ) == 1 )<BR>
+		　{<BR>
+		　　　a = 12 ;<BR>
+		　}<BR><BR>
 		</font>
 
-		�@�Ƃ��邱�Ƃŉ\�ł��B<BR>
-		�@�Ȃ� <font color="#770000">KEY_INPUT_UP</font> �Ȃǂ����̕\�L�͂��ׂ� <font color="#770000">#define</font> �Œ�`���ꂽ�����̐��l�ł��A�ǂ̃L�[��<BR>
-		�ǂ̐��l�Ȃ̂��͈ӎ�����K�v�͂���܂���B<BR><BR>
+		　とすることで可能です。<BR>
+		　なお <font color="#770000">KEY_INPUT_UP</font> などこれらの表記はすべて <font color="#770000">#define</font> で定義されたただの数値です、どのキーが<BR>
+		どの数値なのかは意識する必要はありません。<BR><BR>
 
-		�@����<font color="#770000">CheckHitKey</font> �֐��̎g�����͕������Ă����������ł��傤���B<BR>
-		�@�ł͏��������ł����������̋@�\���g���ĊG���L�[�{�[�h�ŏ㉺���E�Ɏ��݂ɑ���v���O����������<BR>
-		�����Ǝv���܂��B<BR><BR>
+		　さて<font color="#770000">CheckHitKey</font> 関数の使い方は分かっていただけたでしょうか。<BR>
+		　では少し早いですが早速この機能を使って絵をキーボードで上下左右に自在に操るプログラムを示し<BR>
+		たいと思います。<BR><BR>
 
 <font color="#000066"><PRE><div class="NormalFont">#include "DxLib.h"
 
-// WinMain�֐�
+// WinMain関数
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 					 LPSTR lpCmdLine, int nCmdShow )
 {
 	int x , y ;
 
-	// �c�w���C�u��������������
+	// ＤＸライブラリ初期化処理
 	if( DxLib_Init() == -1 ) return -1;
 
-	// �`����ʂ𗠉�ʂɂ���
+	// 描画先画面を裏画面にする
 	SetDrawScreen( DX_SCREEN_BACK ) ;
 
 <font color="#550000">	x = 0 ; y = 0 ; </font>
 <font color="#550000">	while( 1 )</font>
 	{
-		// ��ʂɕ`����Ă�����̂����ׂď���
+		// 画面に描かれているものをすべて消す
 		ClearDrawScreen() ;
 
-<font color="#550000">		// �㉺���E�̃L�[���͂ɑΉ����� x, y �̍��W�l��ύX����
+<font color="#550000">		// 上下左右のキー入力に対応して x, y の座標値を変更する
 		if( CheckHitKey( KEY_INPUT_LEFT ) == 1 ) x -= 8 ;
 		if( CheckHitKey( KEY_INPUT_RIGHT ) == 1 ) x += 8 ;
 		if( CheckHitKey( KEY_INPUT_UP ) == 1 ) y -= 8 ;
 		if( CheckHitKey( KEY_INPUT_DOWN ) == 1 ) y += 8 ;
 
-		// x , y ��������ʍ��W�ɂa�l�o�摜 test1.bmp ��`�悷��
+		// x , y が示す画面座標にＢＭＰ画像 test1.bmp を描画する
 		LoadGraphScreen( x , y , "test1.bmp" , TRUE ) ;</font>
 
-		// ����ʂ̓��e��\��ʂɔ��f������
+		// 裏画面の内容を表画面に反映させる
 		ScreenFlip() ;
 
-		// �҂��Ȃ��Ə�������������̂ł����łQ�O�~���b�҂�
+		// 待たないと処理が早すぎるのでここで２０ミリ秒待つ
 		WaitTimer( 20 ) ;
 
-<font color="#550000">		// Windows �V�X�e�����炭�������������
+<font color="#550000">		// Windows システムからくる情報を処理する
 		if( ProcessMessage() == -1 ) break ;
 
-		// �d�r�b�L�[�������ꂽ�烋�[�v���甲����
+		// ＥＳＣキーが押されたらループから抜ける
 		if( CheckHitKey( KEY_INPUT_ESCAPE ) == 1 ) break ;</font>
 	}
 
-	// �c�w���C�u�����g�p�̏I������
+	// ＤＸライブラリ使用の終了処理
 	DxLib_End() ;
 
-	// �\�t�g�̏I��
+	// ソフトの終了
 	return 0 ;
 }
 </font></div></pre>
 
-		<font color="#008800">�����s�၄</font><BR>
+		<font color="#008800">＜実行例＞</font><BR>
 		<IMG SRC="image/i5.jpg" WIDTH="256" HEIGHT="192" HSPACE="20" VSPACE="20"><BR>
-		�@���s��ʂ͑S���ς��Ȃ��̂ňȑO�̂𗬗p���܂��B(^^;<BR>
-		�@���̃v���O���������s����ƃL�[�{�[�h�̕��@�L�[�Ŏ��݂ɃO���t�B�b�N�𑀍삷�鎖���o�����<BR>
-		�v���܂��B<BR>
-		�@�ł͑������̃v���O�����̉���ɓ���܂��B<BR><BR>
+		　実行画面は全く変わらないので以前のを流用します。(^^;<BR>
+		　このプログラムを実行するとキーボードの方法キーで自在にグラフィックを操作する事が出来ると<BR>
+		思います。<BR>
+		　では早速このプログラムの解説に入ります。<BR><BR>
 
-		�@�F�Ⴂ�̍ŏ��A<font color="#000066">x = 0 ; y = 0 ;</font> �ł����A���C�t�����Ǝv���܂����A���� <font color="#770000">x</font> �� <font color="#770000">y</font> �Ƃ���<font color="#770000">�ϐ�</font>��<BR>
-		�� <a href="../dxfunc.html#R3N1">LoadGraphScreen</a> �֐��ŊG��\�����鎞�̍��W�w��Ɏg���Ă���Ƃ��납��킩��悤�ɁA���΂�<BR>
-		�w<font color="#770000">�G��\������ʒu</font>�x������<font color="#770000">�ϐ�</font>�ł��B<BR>
-		�@<font color="#770000">�ϐ� x</font> �̒l��<font color="#770000">������Α�����قǊG�͉E�̂ق��ɕ\��</font>����A<font color="#770000">�ϐ� y</font> �̒l��<font color="#770000">����Ό���قǊG�͏��<BR>
-		���ɕ\��</font>�����Ƃ����d�g�݂ł��B�����ł��A���̂Q�̕ϐ��̒l��ύX���鎖�ɂ���ĊG��\������<BR>
-		�ʒu�𑀍�ł���ƌ����킯�ł��B���̎d�g�݂��猩�Ă킩��悤�ɁA�Q�c�Q�[���ŃL�����N�^�[��<BR>
-		���݈ʒu�͂��̂悤�� <font color="#770000">x</font> �� <font color="#770000">y</font> �̂Q�̕ϐ����g���ċL�����Ă����̂���ʓI�ł��B<BR>
-		�@�Ȃ����Ă̒ʂ�A�ŏ��� <font color="#770000">x</font> �� <font color="#770000">y</font> ��<font color="#770000">�O</font>�������āA�G�͉�ʍ���ɕ\�������悤�ɂ��Ă��܂��B<BR><BR><BR>
+		　色違いの最初、<font color="#000066">x = 0 ; y = 0 ;</font> ですが、お気付きかと思いますが、この <font color="#770000">x</font> と <font color="#770000">y</font> という<font color="#770000">変数</font>は<BR>
+		は <a href="../dxfunc.html#R3N1">LoadGraphScreen</a> 関数で絵を表示する時の座標指定に使われているところからわかるように、ずばり<BR>
+		『<font color="#770000">絵を表示する位置</font>』を示す<font color="#770000">変数</font>です。<BR>
+		　<font color="#770000">変数 x</font> の値が<font color="#770000">増えれば増えるほど絵は右のほうに表示</font>され、<font color="#770000">変数 y</font> の値が<font color="#770000">減れば減るほど絵は上の<BR>
+		方に表示</font>されるという仕組みです。そうです、この２つの変数の値を変更する事によって絵を表示する<BR>
+		位置を操作できると言うわけです。この仕組みから見てわかるように、２Ｄゲームでキャラクターの<BR>
+		存在位置はこのように <font color="#770000">x</font> と <font color="#770000">y</font> の２つの変数を使って記憶しておくのが一般的です。<BR>
+		　なお見ての通り、最初は <font color="#770000">x</font> と <font color="#770000">y</font> に<font color="#770000">０</font>を代入して、絵は画面左上に表示されるようにしています。<BR><BR><BR>
 
 
-		�@���� <font color="#000066">while( 1 )</font> ������������Ǝv���܂��B�����<font color="#770000">���������Ŗ������[�v������</font>����<BR>
-		�����Ă��܂��B<BR>
-		�@�Ȃ� <font color="#000066">while( 1 )</font> ��<font color="#770000">�������[�v</font>�ɂȂ�̂��H������Ɠ�������Đ������܂��B<BR>
-		�@<font color="#770000">while ��</font>�� <font color="#770000">()</font> ����<font color="#770000">�������Z��</font>��<font color="#770000">�^</font>�ł���΁A�܂�<font color="#770000">��������΃��[�v�𑱂�</font>�A<font color="#770000">�U</font>�ł���΁A�܂�<BR>
-		<font color="#770000">�������Ă��Ȃ���΃��[�v���甲����</font>�A�Ƃ����d�g�݂ł��鎖�͊F���񂲑��m���Ǝv���܂��B<BR>
-		�@�ł��� <font color="#770000">while</font> ���ł͎���<font color="#770000">���������������Ă��邩���Ȃ����Ȃǂ͓��ɋC�ɂ��Ă��܂���</font>�B���ۂ�<BR>
-		�Ƃ���� <font color="#770000">while</font> ���� <font color="#770000">()</font> ���̉��Z���ʂ�<font color="#770000">�O�ȊO�������烋�[�v�𑱂��A�O�������烋�[�v���甲����</font><BR>
-		�Ƃ����P���ȏ����������Ă��܂���B<BR>
-		�@���Ⴀ��� <font color="#770000">()</font> ���ōs���Ă���������͈�̂Ȃ�Ȃ񂾁A�Ǝv���邩�Ǝv���܂��B<BR>
-		�@�ł͂����ň���A���̎���<font color="#770000">�ϐ� b</font> �ɂ͈�̂Ȃ�̒l����������ł��傤���B<BR><BR>
+		　次に <font color="#000066">while( 1 )</font> を説明したいと思います。これは<font color="#770000">条件無しで無限ループをする</font>事を<BR>
+		示しています。<BR>
+		　なぜ <font color="#000066">while( 1 )</font> で<font color="#770000">無限ループ</font>になるのか？ちょっと道をそれて説明します。<BR>
+		　<font color="#770000">while 文</font>は <font color="#770000">()</font> 内の<font color="#770000">条件演算式</font>が<font color="#770000">真</font>であれば、つまり<font color="#770000">成立すればループを続け</font>、<font color="#770000">偽</font>であれば、つまり<BR>
+		<font color="#770000">成立していなければループから抜ける</font>、という仕組みである事は皆さんご存知かと思います。<BR>
+		　ですが <font color="#770000">while</font> 文では実は<font color="#770000">条件式が成立しているかいないかなどは特に気にしていません</font>。実際の<BR>
+		ところは <font color="#770000">while</font> 文の <font color="#770000">()</font> 内の演算結果が<font color="#770000">０以外だったらループを続け、０だったらループから抜ける</font><BR>
+		という単純な処理しかしていません。<BR>
+		　じゃあ一体 <font color="#770000">()</font> 内で行われている条件式は一体なんなんだ、と思われるかと思います。<BR>
+		　ではここで一つ問題、次の式で<font color="#770000">変数 b</font> には一体なんの値が代入されるでしょうか。<BR><BR>
 
 <font color="#000066"><PRE><div class="NormalFont">b = 100 > 10 ;
 </div></pre></font><BR>
 
-		�@������<font color="#770000">�P</font>�A�ł͎��̎��ł� <font color="#770000">b</font> �ɉ��̒l����������ł��傤���B<BR><BR>
+		　答えは<font color="#770000">１</font>、では次の式では <font color="#770000">b</font> に何の値が代入されるでしょうか。<BR><BR>
 
 <font color="#000066"><PRE><div class="NormalFont">b = 10 != 10 ;
 </div></pre></font><BR>
 
-		�@������<font color="#770000">�O</font>�A���킩�肢���������ł��傤���H �Ƃǂ̂܂�<font color="#770000">�������Z�q</font>�ł��� <font color="#770000">==</font> �� <font color="#770000">></font> �� <font color="#770000"><=</font> �� <font color="#770000">!=</font> ����<BR>
-		���ׂ�<font color="#770000">����������</font>����Ή��Z�̌��ʂƂ���<font color="#770000">�P</font>���A<font color="#770000">�������Ȃ���΂O</font>��<font color="#770000">���Z�̌���</font>�ƂȂ�悤�ɂȂ��Ă����<BR>
-		�ł��B�ł����� <font color="#770000">while</font> ���ł�<font color="#770000">���Z����</font>��<font color="#770000">�^</font>�ł�������<font color="#770000">�U</font>�ł��������͌v�Z���Ȃǂ͌��Ȃ��Ă��A���ʂ�<BR>
-		<font color="#770000">�O</font>��<font color="#770000">�O�ȊO</font>���Ŕ��f����Ύ��͑���Ă��܂��̂ł��B( ���� <font color="#770000">if</font> ���� <font color="#770000">for</font> ���̃��[�v�������������d�g�݂ł� )<BR>
-		�@������ <font color="#770000">while</font> ��<font color="#770000">�������[�v</font>���������Ƃ��͂��̒P���Ȏd�g�݂��t��Ɏ��܂��B<BR>
-		�@�p�� <font color="#770000">while</font> �� <font color="#770000">()</font> ���̉��Z���ʂ�<font color="#770000">�O�ȊO</font>�Ȃ�΃��[�v�͑��s�����̂ŁA<font color="#000066">while( 1 )</font> �Ƃ���Ή��Z���ʂ�<BR>
-		<font color="#770000">��ɂO�ȊO</font>(���Z�͂��Ă��܂��񂪁c)�ɂȂ�̂ŁA���i�v�I�ɂ��̃��[�v�͌J��Ԃ���鎖�ɂȂ�̂ł��B<BR>
-		�ȏ�A�������[�v�̎d�g�݂ł����B<BR><BR>
+		　答えは<font color="#770000">０</font>、おわかりいただけたでしょうか？ とどのつまり<font color="#770000">条件演算子</font>である <font color="#770000">==</font> や <font color="#770000">></font> や <font color="#770000"><=</font> や <font color="#770000">!=</font> 等は<BR>
+		すべて<font color="#770000">条件が成立</font>すれば演算の結果として<font color="#770000">１</font>が、<font color="#770000">成立しなければ０</font>が<font color="#770000">演算の結果</font>となるようになっているの<BR>
+		です。ですから <font color="#770000">while</font> 文では<font color="#770000">演算結果</font>が<font color="#770000">真</font>であったか<font color="#770000">偽</font>であったかは計算式などは見なくても、結果が<BR>
+		<font color="#770000">０</font>か<font color="#770000">０以外</font>かで判断すれば事は足りてしまうのです。( 実は <font color="#770000">if</font> 文や <font color="#770000">for</font> 文のループ条件部も同じ仕組みです )<BR>
+		　そして <font color="#770000">while</font> で<font color="#770000">無限ループ</font>をしたいときはこの単純な仕組みを逆手に取ります。<BR>
+		　用は <font color="#770000">while</font> の <font color="#770000">()</font> 内の演算結果が<font color="#770000">０以外</font>ならばループは続行されるので、<font color="#000066">while( 1 )</font> とすれば演算結果は<BR>
+		<font color="#770000">常に０以外</font>(演算はしていませんが…)になるので、半永久的にそのループは繰り返される事になるのです。<BR>
+		以上、無限ループの仕組みでした。<BR><BR>
 
-		�@���Ď��ɂȂ����̖������[�v���s���K�v�����邩�����b���܂��B<BR>
-		�@�O�X��A�G�𓮂��Ă���悤�ɂ݂���ɂ�<font color="#770000">�w�������炵�ĕ\���A�������炵�ĕ\�����J��Ԃ��x</font>�Ƃ����܂����B<BR>
-		�ł����� <font color="#770000">for</font> ����<font color="#770000">�w�������炵�ĕ\���x</font>���J��Ԃ����킯�ł����A����͕ʂ�<font color="#770000">�w�����������ĕ\���x</font>��<font color="#770000">�񐔂�<BR>
-		��������K�v�͂���܂���</font>�B�ł��̂�<font color="#770000">�������[�v</font>�ƂȂ��Ă���̂ł��B<BR><BR>
+		　さて次になぜその無限ループを行う必要があるかをお話します。<BR>
+		　前々回、絵を動いているようにみせるには<font color="#770000">『少しずらして表示、少しずらして表示を繰り返す』</font>といいました。<BR>
+		ですから <font color="#770000">for</font> 文で<font color="#770000">『少しずらして表示』</font>を繰り返したわけですが、今回は別に<font color="#770000">『少し動かして表示』</font>の<font color="#770000">回数を<BR>
+		制限する必要はありません</font>。ですので<font color="#770000">無限ループ</font>となっているのです。<BR><BR>
 
-		�@���ɍ���̖{��̃L�[���͕����ł��B<BR>
-		�@�Ƃ����Ă������������Ƃ͂��Ă��܂���B�v��<font color="#770000">�w���x�L�[�������Ă�����G���E</font>�ɁA<font color="#770000">�w���x�L�[�������Ă�����<BR>
-		�G����</font>�ɓ����Ηǂ��킯�ł��B������������ʂ�A����A�G��\��������W�� <font color="#770000">x</font> �� <font color="#770000">y</font> �Ƃ����ϐ����g���đ���<BR>
-		���Ă���̂�<font color="#770000">�w���x�������Ă����� x �̒l���������₵��</font>���A<font color="#770000">�w���x�������Ă����� y �̒l���������₵��<BR>
-		����</font>�����̂ł��B<BR>
-		�@�����Ă��邩�ǂ����𔻒f����ɂ� <font color="#770000">CheckHitKey</font> �֐��ɉ����Ă��邩���ׂ����L�[�̃}�N����n���āA�֐�<BR>
-		����Ԃ��Ă���l�𒲂ׂ�Ό����̂Ō��ʓI��<BR><BR>
+		　次に今回の本題のキー入力部分です。<BR>
+		　といってもたいしたことはしていません。要は<font color="#770000">『→』キーを押していたら絵が右</font>に、<font color="#770000">『↓』キーを押していたら<BR>
+		絵が下</font>に動けば良いわけです。先程説明した通り、今回、絵を表示する座標は <font color="#770000">x</font> と <font color="#770000">y</font> という変数を使って操作<BR>
+		しているので<font color="#770000">『→』を押していたら x の値を少し増やして</font>やり、<font color="#770000">『↓』を押していたら y の値を少し増やして<BR>
+		やれば</font>いいのです。<BR>
+		　押しているかどうかを判断するには <font color="#770000">CheckHitKey</font> 関数に押しているか調べたいキーのマクロを渡して、関数<BR>
+		から返ってくる値を調べれば言いので結果的に<BR><BR>
 
-		��@�w���x�L�[�������Ă���ϐ� x �ɂW�̒l�����Z����<BR><BR>
+		例　『→』キーを押してたら変数 x に８の値を加算する<BR><BR>
 
 <font color="#000066"><PRE><div class="NormalFont">if( CheckHitKey( KEY_INPUT_RIGHT ) == 1 ) x += 8 ;
 </div></pre></font><br>
 
-		�@�ƌ����悤�ȋL�q�ɂȂ�̂ł��B�v���O�����ɂ͂��̂悤�ȋL�q���S�s����̂͏㉺���E���ׂĂ̕����L�[���`�F�b�N���邩��ł��B<BR><BR><BR>
+		　と言うような記述になるのです。プログラムにはこのような記述が４行あるのは上下左右すべての方向キーをチェックするからです。<BR><BR><BR>
 
 
-		�@�Ō�� <font color="#000066">if( ProcessMessage() == -1 ) break ;</font>�@��  <font color="#000066">if( CheckHitKey( KEY_INPUT_ESCAPE ) == 1 ) break ;</font> �ł��B<BR>
-		�@<font color="#000066">if( CheckHitKey( KEY_INPUT_ESCAPE ) == 1 ) break ;</font> �͌��Ă̒ʂ�G�X�P�[�v�L�[��������Ă����� <font color="#770000">break</font> ����<BR>
-		<font color="#770000">while</font> ���[�v�𔲂��鎖�������Ă��܂��B����͖��Ȃ��Ǝv���܂��B<BR>
-		�@����͂��Ă��� <font color="#000066">if( ProcessMessage() == -1 ) break ;</font> �� <a href="../dxfunc.html#R1N3">ProcessMessage</a> ���ĂȂɁI�H�Ǝv��ꂽ���Ǝv���܂��B<BR>
-		�@���̊֐��͂c�w���C�u������ <font color="#770000">Windows</font> �Ƃ���<font color="#770000">�}���`�^�X�N�n�r</font>��œ��삷�邽�߂ɕK�v�s���Ȋ֐��ł��B<BR>
-		�@�v�͖{�� <font color="#770000">Windows</font> �Ƃ���<font color="#770000">�n�r</font>�͑�R�̃\�t�g����x�ɓ��삵�A���ꂼ��̃\�t�g�͋������� <font color="#770000">Windows��</font> �ɑ��݂���<BR>
-		���߂� <font color="#770000">Windows</font> ��<font color="#770000">�V�X�e��</font>����F�X��<font color="#770000">�w�߂���</font>���e�\�t�g�ɑ����Ă��܂��B(�w�}�E�X���ړ������x�w�E�C���h�E��<BR>
-		���Ȃ����x�Ȃ�)��ʓI�� <font color="#770000">Windows �\�t�g</font>�͂���<font color="#770000">�w�߂���</font>�ɂ���ē����<font color="#770000">����E����</font>���A<font color="#770000">����</font>�����܂��B<BR>
-		�@�܂� <font color="#770000">Windows</font> �ł͊e�\�t�g��<font color="#770000">�V�X�e��</font>���瑗���Ă���<font color="#770000">�w�߂���</font>��<font color="#770000">��ɊĎ�</font>���A�����̏�񂪓͂����璼����<BR>
-		�����Ă���<font color="#770000">�w�߁E��������</font>���Ȃ��Ă͂Ȃ�Ȃ��̂ł��B<BR>
-		�@�ł����c�w���C�u�����ł͂���Ȗʓ|�������A�Q�[���ɂ͑S���֌W�Ȃ���Ƃ͂c�w���C�u�������łǂ��ɂ����Ă��܂����Ǝv���A<BR>
-		�����̏�������ɏ�������֐���p�ӂ��܂����B���ꂪ <font color="#770000">ProcessMessage</font> �Ƃ����֐��Ȃ̂ł��B <BR>
-		�@<font color="#770000">ProcessMessage</font> �֐��͂Ȃ�̈�������炸�A�����������s���邾���ł��A��͏���� <font color="#770000">Windows �V�X�e��</font>���瑗���<BR>
-		�Ă�������������Ă���܂��B�����ď������I��ƕԂ��Ă��܂��B<BR>
-		���ӂ��Ȃ��Ă͂Ȃ�Ȃ��̂́A<font color="#770000">ProcessMessage</font> �֐���<font color="#770000">�߂�l</font>�ł��B����ɏ�񏈗����I�������ꍇ�� <font color="#770000">�O</font> ���Ԃ���<BR>
-		���܂����A��񏈗��Ɉُ킪���������ꍇ�� <font color="#770000">�|�P</font> ���Ԃ��Ă��܂��B���̏ꍇ�͂Ȃ�ׂ������\�t�g���I�����Ȃ��Ă�<BR>
-		�Ȃ�܂���B<BR><BR>
+		　最後に <font color="#000066">if( ProcessMessage() == -1 ) break ;</font>　と  <font color="#000066">if( CheckHitKey( KEY_INPUT_ESCAPE ) == 1 ) break ;</font> です。<BR>
+		　<font color="#000066">if( CheckHitKey( KEY_INPUT_ESCAPE ) == 1 ) break ;</font> は見ての通りエスケープキーが押されていたら <font color="#770000">break</font> 文で<BR>
+		<font color="#770000">while</font> ループを抜ける事を示しています。これは問題ないと思います。<BR>
+		　それはさておき <font color="#000066">if( ProcessMessage() == -1 ) break ;</font> の <a href="../dxfunc.html#R1N3">ProcessMessage</a> ってなに！？と思われた事と思います。<BR>
+		　この関数はＤＸライブラリが <font color="#770000">Windows</font> という<font color="#770000">マルチタスクＯＳ</font>上で動作するために必要不可欠な関数です。<BR>
+		　要は本来 <font color="#770000">Windows</font> という<font color="#770000">ＯＳ</font>は沢山のソフトが一度に動作し、それぞれのソフトは協調して <font color="#770000">Windows上</font> に存在する<BR>
+		ために <font color="#770000">Windows</font> の<font color="#770000">システム</font>から色々な<font color="#770000">指令や情報</font>が各ソフトに送られてきます。(『マウスが移動した』『ウインドウを<BR>
+		閉じなさい』など)一般的な <font color="#770000">Windows ソフト</font>はその<font color="#770000">指令や情報</font>によって動作を<font color="#770000">分岐・決定</font>し、<font color="#770000">処理</font>をします。<BR>
+		　つまり <font color="#770000">Windows</font> では各ソフトは<font color="#770000">システム</font>から送られてくる<font color="#770000">指令や情報</font>を<font color="#770000">常に監視</font>し、それらの情報が届いたら直ちに<BR>
+		送られてきた<font color="#770000">指令・情報を処理</font>しなくてはならないのです。<BR>
+		　ですがＤＸライブラリではそんな面倒くさく、ゲームには全く関係ない作業はＤＸライブラリ内でどうにかしてしまおうと思い、<BR>
+		それらの情報を勝手に処理する関数を用意しました。それが <font color="#770000">ProcessMessage</font> という関数なのです。 <BR>
+		　<font color="#770000">ProcessMessage</font> 関数はなんの引数も取らず、ただただ実行するだけです、後は勝手に <font color="#770000">Windows システム</font>から送られ<BR>
+		てくる情報を処理してくれます。そして処理が終ると返ってきます。<BR>
+		注意しなくてはならないのは、<font color="#770000">ProcessMessage</font> 関数の<font color="#770000">戻り値</font>です。正常に情報処理が終了した場合は <font color="#770000">０</font> が返って<BR>
+		きますが、情報処理に異常が発生した場合は <font color="#770000">－１</font> が返ってきます。この場合はなるべく早くソフトを終了しなくては<BR>
+		なりません。<BR><BR>
 
-		�@���Ă��̃v���O�����ł͂ǂ����Ă��邩�ƌ����ƁB<BR>
+		　さてこのプログラムではどうしているかと言うと。<BR>
 <font color="#000066"><PRE><div class="NormalFont">if( ProcessMessage() == -1 ) break ;
 </div></pre></font><BR>
-		�@�܂� <font color="#770000">ProcessMessage</font> �֐��ňُ킪�N������ <font color="#770000">while</font> ��<font color="#770000">�������[�v</font>����E�o����悤�ɂ��Ă��܂��B<BR><BR>
+		　つまり <font color="#770000">ProcessMessage</font> 関数で異常が起きたら <font color="#770000">while</font> の<font color="#770000">無限ループ</font>から脱出するようにしています。<BR><BR>
 
-		�@�Ƃ���Ŗ{����ɊĎ����Ă����Ȃ���΂Ȃ�Ȃ� <font color="#770000">Windows �V�X�e������̎w�߁E���</font>�ł����A���ۂɂ͂���Ȃɂ�����<BR>
-		�Ď����Ă���K�v�͂���܂���B�ł����獡�܂ł� <font color="#770000">ProcessMessage</font> �֐��͎g��Ȃ������̂ł��B<BR>
-		�@�ł�������̂悤�ɁA��������Ȃ���Ήi���Ƀ��[�v��������悤�ȃv���O�����̏ꍇ�́A���[�v�̂ǂ����� <font color="#770000">ProcessMessage</font> �֐���<BR>
-		�����邭�炢�͂���K�v������܂��B����͏d�v�Ȏ��ł��̂Ŋo���Ă����Ă��������B<BR><BR>
+		　ところで本来常に監視しておかなければならない <font color="#770000">Windows システムからの指令・情報</font>ですが、実際にはそんなにずっと<BR>
+		監視している必要はありません。ですから今までは <font color="#770000">ProcessMessage</font> 関数は使わなかったのです。<BR>
+		　ですが今回のように、手を加えなければ永遠にループし続けるようなプログラムの場合は、ループのどこかに <font color="#770000">ProcessMessage</font> 関数を<BR>
+		一つ入れるくらいはする必要があります。これは重要な事ですので覚えておいてください。<BR><BR>
 
-		�@���X�Ə����Ă��܂��܂������A����͂��̕ӂŏI��ł��B<BR>
-		�@���͊G�̕\�����x�����I�ɑ���������@���Љ�����Ǝv���܂��B<BR><BR>
+		　長々と書いてしまいましたが、今回はこの辺で終りです。<BR>
+		　次は絵の表示速度を劇的に速くする方法を紹介したいと思います。<BR><BR>
 
-		�@�Ȃ��O��̍Ō�ɁA<font color="#770000">�w�W���C�p�b�h�ƃL�[�{�[�h�ő���o����悤�Ɂx</font>�ƌ����Ă��܂������A�W���C�p�b�h��<BR>
-		����ł���悤�ɂ���͕̂ʂ̋@��ɂ������Ǝv���܂��B<BR>
+		　なお前回の最後に、<font color="#770000">『ジョイパッドとキーボードで操作出来るように』</font>と言っていましたが、ジョイパッドで<BR>
+		操作できるようにするのは別の機会にしたいと思います。<BR>
 		<hr>
 
-		<A href="../dxlecture_main.html">�߂�</a>
+		<A href="../dxlecture_main.html">戻る</a>
 
 		</b></font>
 	</div>

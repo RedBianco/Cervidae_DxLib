@@ -12,13 +12,15 @@
 #include "DataType.h"
 #include "CharCode.h"
 #include "FileLib.h"
-#include "DXArchive.h"
 #include <malloc.h>
 #include <string.h>
 #include <stdarg.h>
 #include <math.h>
 #include <float.h>
 
+#if defined(WIN32) || defined(WIN64)
+#include <Windows.h>
+#endif
 
 // define ---------------------------------------
 
@@ -54,6 +56,60 @@
 #define PRINTF_TYPE_Z				(19)
 #define PRINTF_TYPE_NUM				(20)
 
+#define MIN_COMPRESS		(4)						// 最低圧縮バイト数
+#define MAX_SEARCHLISTNUM	(64)					// 最大一致長を探す為のリストを辿る最大数
+#define MAX_SUBLISTNUM		(65536)					// 圧縮時間短縮のためのサブリストの最大数
+#define MAX_COPYSIZE 		(0x1fff + MIN_COMPRESS)	// 参照アドレスからコピー出切る最大サイズ( 圧縮コードが表現できるコピーサイズの最大値 + 最低圧縮バイト数 )
+#define MAX_ADDRESSLISTNUM	(1024 * 1024 * 1)		// スライド辞書の最大サイズ
+#define MAX_POSITION		(1 << 24)				// 参照可能な最大相対アドレス( 16MB )
+
+// 初期化チェック
+#define CHARCODETABLE_INITCHECK( CharCodeFormat )		\
+	switch( (CharCodeFormat) )\
+	{\
+	case CHARCODEFORMAT_SHIFTJIS	:\
+		if( g_CharCodeSystem.InitializeCharCodeCP932InfoFlag == FALSE )\
+		{\
+			SetupCharCodeCP932TableInfo() ;\
+		}\
+		break ;\
+\
+	case CHARCODEFORMAT_GB2312 :\
+		if( g_CharCodeSystem.InitializeCharCodeCP936InfoFlag == FALSE )\
+		{\
+			SetupCharCodeCP936TableInfo() ;\
+		}\
+		break ;\
+\
+	case CHARCODEFORMAT_UHC :\
+		if( g_CharCodeSystem.InitializeCharCodeCP949InfoFlag == FALSE )\
+		{\
+			SetupCharCodeCP949TableInfo() ;\
+		}\
+		break ;\
+\
+	case CHARCODEFORMAT_BIG5 :\
+		if( g_CharCodeSystem.InitializeCharCodeCP950InfoFlag == FALSE )\
+		{\
+			SetupCharCodeCP950TableInfo() ;\
+		}\
+		break ;\
+\
+	case CHARCODEFORMAT_WINDOWS_1252 :\
+		if( g_CharCodeSystem.InitializeCharCodeCP1252InfoFlag == FALSE )\
+		{\
+			SetupCharCodeCP1252TableInfo() ;\
+		}\
+		break ;\
+\
+	case CHARCODEFORMAT_ISO_IEC_8859_15 :\
+		if( g_CharCodeSystem.InitializeCharCodeISO_IEC_8859_15InfoFlag == FALSE )\
+		{\
+			SetupCharCodeISO_IEC_8859_15TableInfo() ;\
+		}\
+		break ;\
+	}
+
 // data type ------------------------------------
 
 // UTF-16と各文字コードの対応表の情報
@@ -66,14 +122,25 @@ struct CHARCODETABLEINFO
 // 標準関数の互換関数で使用する情報
 struct CHARCODESYSTEM
 {
-	int					InitializeFlag ;					// 初期化処理を行ったかどうか( TRUE:行った  FALSE:行っていない )
+	int					InitializeFlag ;							// 初期化処理を行ったかどうか( TRUE:行った  FALSE:行っていない )
 
-	CHARCODETABLEINFO	CharCodeCP932Info ;					// Shift-JISの文字コード情報
-	CHARCODETABLEINFO	CharCodeCP936Info ;					// GB2312の文字コード情報
-	CHARCODETABLEINFO	CharCodeCP949Info ;					// UHCの文字コード情報
-	CHARCODETABLEINFO	CharCodeCP950Info ;					// BIG5の文字コード情報
-	CHARCODETABLEINFO	CharCodeCP1252Info ;				// WINDOWS_1252の文字コード情報
-	CHARCODETABLEINFO	CharCodeISO_IEC_8859_15Info ;		// ISO_IEC_8859_15の文字コード情報
+	int					InitializeCharCodeCP932InfoFlag ;			// Shift-JISの文字コード情報の初期化処理を行ったかどうか( TRUE:行った  FALSE:行っていない )
+	CHARCODETABLEINFO	CharCodeCP932Info ;							// Shift-JISの文字コード情報
+
+	int					InitializeCharCodeCP936InfoFlag ;			// GB2312の文字コード情報の初期化処理を行ったかどうか( TRUE:行った  FALSE:行っていない )
+	CHARCODETABLEINFO	CharCodeCP936Info ;							// GB2312の文字コード情報
+
+	int					InitializeCharCodeCP949InfoFlag ;			// UHCの文字コード情報の初期化処理を行ったかどうか( TRUE:行った  FALSE:行っていない )
+	CHARCODETABLEINFO	CharCodeCP949Info ;							// UHCの文字コード情報
+
+	int					InitializeCharCodeCP950InfoFlag ;			// BIG5の文字コード情報の初期化処理を行ったかどうか( TRUE:行った  FALSE:行っていない )
+	CHARCODETABLEINFO	CharCodeCP950Info ;							// BIG5の文字コード情報
+
+	int					InitializeCharCodeCP1252InfoFlag ;			// 欧文(ラテン文字の文字コード)の文字コード情報の初期化処理を行ったかどうか( TRUE:行った  FALSE:行っていない )
+	CHARCODETABLEINFO	CharCodeCP1252Info ;						// 欧文(ラテン文字の文字コード)の文字コード情報
+
+	int					InitializeCharCodeISO_IEC_8859_15InfoFlag ;	// 欧文(ラテン文字の文字コード)の文字コード情報の初期化処理を行ったかどうか( TRUE:行った  FALSE:行っていない )
+	CHARCODETABLEINFO	CharCodeISO_IEC_8859_15Info ;				// 欧文(ラテン文字の文字コード)の文字コード情報
 } ;
 
 // data -----------------------------------------
@@ -122,6 +189,8 @@ static u8 FloatErrorStr_IND[ 6 ][ 7 ] =
 	{ '1', '.', '#', 'I', 'N', 'D',   0 },
 } ;
 
+#if !( defined(WIN32) || defined(WIN64) )
+
 extern u8 CP932ToUTF16Table[] ;
 extern u8 CP936ToUTF16Table[] ;
 extern u8 CP949ToUTF16Table[] ;
@@ -129,14 +198,157 @@ extern u8 CP950ToUTF16Table[] ;
 extern u8 CP1252ToUTF16Table[] ;
 extern u8 ISO_IEC_8859_15ToUTF16Table[] ;
 
+#endif
+
 CHARCODESYSTEM g_CharCodeSystem ;
 
 // function proto type --------------------------
 
+#if !( defined(WIN32) || defined(WIN64) )
+
 // UTF-16と各文字コードの対応表のセットアップを行う
 static void SetupCharCodeTableInfo( CHARCODETABLEINFO *TableInfo, u8 *PressTable, int IsSingleCharType = FALSE ) ;
 
+#else
+
+static void SetupCharCodeCP932TableInfo( void ) ;				// UTF-16とShift-JISの対応表のセットアップを行う
+static void SetupCharCodeCP936TableInfo( void ) ;				// UTF-16とGB2312の対応表のセットアップを行う
+static void SetupCharCodeCP949TableInfo( void ) ;				// UTF-16とUHCの対応表のセットアップを行う
+static void SetupCharCodeCP950TableInfo( void ) ;				// UTF-16とBIG5の対応表のセットアップを行う
+static void SetupCharCodeCP1252TableInfo( void ) ;				// UTF-16と欧文(ラテン文字の文字コード)の対応表のセットアップを行う
+static void SetupCharCodeISO_IEC_8859_15TableInfo( void ) ;		// UTF-16と欧文(ラテン文字の文字コード)の対応表のセットアップを行う
+
+#endif
+
+// デコード( 戻り値:解凍後のサイズ  -1 はエラー  Dest に NULL を入れることも可能 )
+static int LzDecode( void *Src, void *Dest ) ;
+
 // function code --------------------------------
+
+// デコード( 戻り値:解凍後のサイズ  -1 はエラー  Dest に NULL を入れることも可能 )
+int LzDecode( void *Src, void *Dest )
+{
+	u32 srcsize, destsize, code, indexsize, keycode, conbo, index ;
+	u8 *srcp, *destp, *dp, *sp ;
+
+	destp = (u8 *)Dest ;
+	srcp  = (u8 *)Src ;
+	
+	// 解凍後のデータサイズを得る
+	destsize = *((u32 *)&srcp[0]) ;
+
+	// 圧縮データのサイズを得る
+	srcsize = *((u32 *)&srcp[4]) - 9 ;
+
+	// キーコード
+	keycode = srcp[8] ;
+	
+	// 出力先がない場合はサイズだけ返す
+	if( Dest == NULL )
+		return destsize ;
+	
+	// 展開開始
+	sp  = srcp + 9 ;
+	dp  = destp ;
+	while( srcsize )
+	{
+		// キーコードか同かで処理を分岐
+		if( sp[0] != keycode )
+		{
+			// 非圧縮コードの場合はそのまま出力
+			*dp = *sp ;
+			dp      ++ ;
+			sp      ++ ;
+			srcsize -- ;
+			continue ;
+		}
+	
+		// キーコードが連続していた場合はキーコード自体を出力
+		if( sp[1] == keycode )
+		{
+			*dp = (u8)keycode ;
+			dp      ++ ;
+			sp      += 2 ;
+			srcsize -= 2 ;
+			
+			continue ;
+		}
+
+		// 第一バイトを得る
+		code = sp[1] ;
+
+		// もしキーコードよりも大きな値だった場合はキーコード
+		// とのバッティング防止の為に＋１しているので－１する
+		if( code > keycode ) code -- ;
+
+		sp      += 2 ;
+		srcsize -= 2 ;
+
+		// 連続長を取得する
+		conbo = code >> 3 ;
+		if( code & ( 0x1 << 2 ) )
+		{
+			conbo |= *sp << 5 ;
+			sp      ++ ;
+			srcsize -- ;
+		}
+		conbo += MIN_COMPRESS ;	// 保存時に減算した最小圧縮バイト数を足す
+
+		// 参照相対アドレスを取得する
+		indexsize = code & 0x3 ;
+		switch( indexsize )
+		{
+		case 0 :
+			index = *sp ;
+			sp      ++ ;
+			srcsize -- ;
+			break ;
+			
+		case 1 :
+			index = *((u16 *)sp) ;
+			sp      += 2 ;
+			srcsize -= 2 ;
+			break ;
+			
+		case 2 :
+			index = *((u16 *)sp) | ( sp[2] << 16 ) ;
+			sp      += 3 ;
+			srcsize -= 3 ;
+			break ;
+		}
+		index ++ ;		// 保存時に－１しているので＋１する
+
+		// 展開
+		if( index < conbo )
+		{
+			u32 num ;
+
+			num  = index ;
+			while( conbo > num )
+			{
+				memcpy( dp, dp - num, num ) ;
+				dp    += num ;
+				conbo -= num ;
+				num   += num ;
+			}
+			if( conbo != 0 )
+			{
+				memcpy( dp, dp - num, conbo ) ;
+				dp += conbo ;
+			}
+		}
+		else
+		{
+			memcpy( dp, dp - index, conbo ) ;
+			dp += conbo ;
+		}
+	}
+
+	// 解凍後のサイズを返す
+	return (int)destsize ;
+}
+
+#if !( defined(WIN32) || defined(WIN64) )
 
 // UTF-16と各文字コードの対応表のセットアップを行う
 static void SetupCharCodeTableInfo( CHARCODETABLEINFO *TableInfo, u8 *PressTable, int IsSingleCharType )
@@ -144,7 +356,7 @@ static void SetupCharCodeTableInfo( CHARCODETABLEINFO *TableInfo, u8 *PressTable
 	u32 i ;
 
 	Char128ToBin( PressTable, PressTable ) ;
-	DXArchive::Decode( PressTable, TableInfo->MultiByteToUTF16 ) ;
+	LzDecode( PressTable, TableInfo->MultiByteToUTF16 ) ;
 
 	if( IsSingleCharType )
 	{
@@ -162,6 +374,283 @@ static void SetupCharCodeTableInfo( CHARCODETABLEINFO *TableInfo, u8 *PressTable
 	}
 }
 
+#else
+
+// UTF-16とShift-JISの対応表のセットアップを行う
+static void SetupCharCodeCP932TableInfo( void )
+{
+	wchar_t Dest[ 8 ] ;
+	char Src[ 8 ] ;
+	unsigned int i ;
+	unsigned int Code ;
+	CHARCODETABLEINFO *Info = &g_CharCodeSystem.CharCodeCP932Info ;
+
+	if( g_CharCodeSystem.InitializeCharCodeCP932InfoFlag )
+	{
+		return ;
+	}
+
+	for( i = 0 ; i < 0x10000 ; i ++ )
+	{
+		u32 result ;
+
+		Code = i ;
+		if( i < 0x100 )
+		{
+			Src[ 0 ] = ( char )i ;
+			Src[ 1 ] = 0 ;
+		}
+		else
+		{
+			Src[ 0 ] = ( char )( ( i & 0xff00 ) >> 8 ) ;
+			Src[ 1 ] = ( char )( i & 0xff ) ;
+			Src[ 2 ] = 0 ;
+			if( ( ( u8 )( ( ( ( u8 )Src[ 0 ] ) ^ 0x20) - ( u8 )0xa1 ) < 0x3c ) == false )
+			{
+				continue ;
+			}
+		}
+
+		result = MultiByteToWideChar( 932, MB_ERR_INVALID_CHARS, Src, -1, Dest, 8 ) ;
+		if( result != 0 )
+		{
+			Info->MultiByteToUTF16[ i ] = ( WORD )Dest[ 0 ] ;
+			Info->UTF16ToMultiByte[ Dest[ 0 ] ] = ( WORD )i ;
+		}
+	}
+
+	g_CharCodeSystem.InitializeCharCodeCP932InfoFlag = TRUE ;
+}
+
+// UTF-16とGB2312の対応表のセットアップを行う
+static void SetupCharCodeCP936TableInfo( void )
+{
+	wchar_t Dest[ 8 ] ;
+	char Src[ 8 ] ;
+	unsigned int i ;
+	unsigned int Code ;
+	CHARCODETABLEINFO *Info = &g_CharCodeSystem.CharCodeCP936Info ;
+
+	if( g_CharCodeSystem.InitializeCharCodeCP936InfoFlag )
+	{
+		return ;
+	}
+
+	for( i = 0 ; i < 0x10000 ; i ++ )
+	{
+		u32 result ;
+
+		Code = i ;
+		if( i < 0x100 )
+		{
+			Src[ 0 ] = ( char )i ;
+			Src[ 1 ] = 0 ;
+		}
+		else
+		{
+			Src[ 0 ] = ( char )( ( i & 0xff00 ) >> 8 ) ;
+			Src[ 1 ] = ( char )( i & 0xff ) ;
+			Src[ 2 ] = 0 ;
+			if( ( ( u8 )Src[ 0 ] & 80 ) == 0 )
+			{
+				continue ;
+			}
+		}
+
+		result = MultiByteToWideChar( 936, MB_ERR_INVALID_CHARS, Src, -1, Dest, 8 ) ;
+		if( result != 0 )
+		{
+			Info->MultiByteToUTF16[ i ] = ( WORD )Dest[ 0 ] ;
+			Info->UTF16ToMultiByte[ Dest[ 0 ] ] = ( WORD )i ;
+		}
+	}
+
+	g_CharCodeSystem.InitializeCharCodeCP936InfoFlag = TRUE ;
+}
+
+// UTF-16とUHCの対応表のセットアップを行う
+static void SetupCharCodeCP949TableInfo( void )
+{
+	wchar_t Dest[ 8 ] ;
+	char Src[ 8 ] ;
+	unsigned int i ;
+	unsigned int Code ;
+	CHARCODETABLEINFO *Info = &g_CharCodeSystem.CharCodeCP949Info ;
+
+	if( g_CharCodeSystem.InitializeCharCodeCP949InfoFlag )
+	{
+		return ;
+	}
+
+	for( i = 0 ; i < 0x10000 ; i ++ )
+	{
+		u32 result ;
+
+		Code = i ;
+		if( i < 0x100 )
+		{
+			Src[ 0 ] = ( char )i ;
+			Src[ 1 ] = 0 ;
+		}
+		else
+		{
+			Src[ 0 ] = ( char )( ( i & 0xff00 ) >> 8 ) ;
+			Src[ 1 ] = ( char )( i & 0xff ) ;
+			Src[ 2 ] = 0 ;
+			if( ( ( u8 )Src[ 0 ] & 80 ) == 0 )
+			{
+				continue ;
+			}
+		}
+
+		result = MultiByteToWideChar( 949, MB_ERR_INVALID_CHARS, Src, -1, Dest, 8 ) ;
+		if( result != 0 )
+		{
+			Info->MultiByteToUTF16[ i ] = ( WORD )Dest[ 0 ] ;
+			Info->UTF16ToMultiByte[ Dest[ 0 ] ] = ( WORD )i ;
+		}
+	}
+
+	g_CharCodeSystem.InitializeCharCodeCP949InfoFlag = TRUE ;
+}
+
+// UTF-16とBIG5の対応表のセットアップを行う
+static void SetupCharCodeCP950TableInfo( void )
+{
+	wchar_t Dest[ 8 ] ;
+	char Src[ 8 ] ;
+	unsigned int i ;
+	unsigned int Code ;
+	CHARCODETABLEINFO *Info = &g_CharCodeSystem.CharCodeCP950Info ;
+
+	if( g_CharCodeSystem.InitializeCharCodeCP950InfoFlag )
+	{
+		return ;
+	}
+
+	for( i = 0 ; i < 0x10000 ; i ++ )
+	{
+		u32 result ;
+
+		Code = i ;
+		if( i < 0x100 )
+		{
+			Src[ 0 ] = ( char )i ;
+			Src[ 1 ] = 0 ;
+		}
+		else
+		{
+			Src[ 0 ] = ( char )( ( i & 0xff00 ) >> 8 ) ;
+			Src[ 1 ] = ( char )( i & 0xff ) ;
+			Src[ 2 ] = 0 ;
+			if( ( ( u8 )Src[ 0 ] & 80 ) == 0 )
+			{
+				continue ;
+			}
+		}
+
+		result = MultiByteToWideChar( 950, MB_ERR_INVALID_CHARS, Src, -1, Dest, 8 ) ;
+		if( result != 0 )
+		{
+			Info->MultiByteToUTF16[ i ] = ( WORD )Dest[ 0 ] ;
+			Info->UTF16ToMultiByte[ Dest[ 0 ] ] = ( WORD )i ;
+		}
+	}
+
+	g_CharCodeSystem.InitializeCharCodeCP950InfoFlag = TRUE ;
+}
+
+// UTF-16と欧文(ラテン文字の文字コード)の対応表のセットアップを行う
+static void SetupCharCodeCP1252TableInfo( void )
+{
+	wchar_t Dest[ 8 ] ;
+	char Src[ 8 ] ;
+	unsigned int i ;
+	unsigned int Code ;
+	CHARCODETABLEINFO *Info = &g_CharCodeSystem.CharCodeCP1252Info ;
+
+	if( g_CharCodeSystem.InitializeCharCodeCP1252InfoFlag )
+	{
+		return ;
+	}
+
+	for( i = 0 ; i < 0x100 ; i ++ )
+	{
+		u32 result ;
+
+		Code = i ;
+		Src[ 0 ] = ( char )i ;
+		Src[ 1 ] = 0 ;
+
+		result = MultiByteToWideChar( 1252, MB_ERR_INVALID_CHARS, Src, -1, Dest, 8 ) ;
+		if( result != 0 )
+		{
+			Info->MultiByteToUTF16[ i ] = ( WORD )Dest[ 0 ] ;
+			Info->UTF16ToMultiByte[ Dest[ 0 ] ] = ( WORD )i ;
+		}
+	}
+
+	g_CharCodeSystem.InitializeCharCodeCP1252InfoFlag = TRUE ;
+}
+
+// UTF-16と欧文(ラテン文字の文字コード)の対応表のセットアップを行う
+static void SetupCharCodeISO_IEC_8859_15TableInfo( void )
+{
+	wchar_t Dest[ 8 ] ;
+	char Src[ 8 ] ;
+	unsigned int i ;
+	unsigned int Code ;
+	CHARCODETABLEINFO *Info = &g_CharCodeSystem.CharCodeISO_IEC_8859_15Info ;
+
+	if( g_CharCodeSystem.InitializeCharCodeISO_IEC_8859_15InfoFlag )
+	{
+		return ;
+	}
+
+	for( i = 0 ; i < 0x100 ; i ++ )
+	{
+		u32 result ;
+
+		Code = i ;
+		Src[ 0 ] = ( char )i ;
+		Src[ 1 ] = 0 ;
+
+		result = MultiByteToWideChar( 1252, MB_ERR_INVALID_CHARS, Src, -1, Dest, 8 ) ;
+		if( result != 0 )
+		{
+			Info->MultiByteToUTF16[ i ] = ( WORD )Dest[ 0 ] ;
+			Info->UTF16ToMultiByte[ Dest[ 0 ] ] = ( WORD )i ;
+		}
+	}
+	Info->MultiByteToUTF16[ 0xA4 ] = 0x20AC ;
+	Info->UTF16ToMultiByte[ 0x20AC ] = 0xA4 ;
+
+	Info->MultiByteToUTF16[ 0xA6 ] = 0x0160 ;
+	Info->UTF16ToMultiByte[ 0x0160 ] = 0xA6 ;
+
+	Info->MultiByteToUTF16[ 0xA8 ] = 0x0161 ;
+	Info->UTF16ToMultiByte[ 0x0161 ] = 0xA8 ;
+
+	Info->MultiByteToUTF16[ 0xB4 ] = 0x017D ;
+	Info->UTF16ToMultiByte[ 0x017D ] = 0xB4 ;
+
+	Info->MultiByteToUTF16[ 0xB8 ] = 0x017E ;
+	Info->UTF16ToMultiByte[ 0x017E ] = 0xB8 ;
+
+	Info->MultiByteToUTF16[ 0xBC ] = 0x0152 ;
+	Info->UTF16ToMultiByte[ 0x0152 ] = 0xBC ;
+
+	Info->MultiByteToUTF16[ 0xBD ] = 0x0153 ;
+	Info->UTF16ToMultiByte[ 0x0153 ] = 0xBD ;
+
+	Info->MultiByteToUTF16[ 0xBE ] = 0x0178 ;
+	Info->UTF16ToMultiByte[ 0x0178 ] = 0xBE ;
+
+	g_CharCodeSystem.InitializeCharCodeISO_IEC_8859_15InfoFlag = TRUE ;
+}
+
+#endif
+
 // 文字コードライブラリの初期化
 extern int InitCharCode( void )
 {
@@ -171,6 +660,8 @@ extern int InitCharCode( void )
 		return 0 ;
 	}
 
+#if !( defined(WIN32) || defined(WIN64) )
+
 	// キャラクタコード対応表セットアップ
 	SetupCharCodeTableInfo( &g_CharCodeSystem.CharCodeCP932Info,           CP932ToUTF16Table ) ;
 	SetupCharCodeTableInfo( &g_CharCodeSystem.CharCodeCP936Info,           CP936ToUTF16Table ) ;
@@ -178,6 +669,8 @@ extern int InitCharCode( void )
 	SetupCharCodeTableInfo( &g_CharCodeSystem.CharCodeCP950Info,           CP950ToUTF16Table ) ;
 	SetupCharCodeTableInfo( &g_CharCodeSystem.CharCodeCP1252Info,          CP1252ToUTF16Table, TRUE ) ;
 	SetupCharCodeTableInfo( &g_CharCodeSystem.CharCodeISO_IEC_8859_15Info, ISO_IEC_8859_15ToUTF16Table, TRUE ) ;
+
+#endif
 
 	// 初期化フラグを立てる
 	g_CharCodeSystem.InitializeFlag = TRUE ;
@@ -828,6 +1321,9 @@ __inline u32 ConvCharCode_inline( u32 SrcCharCode, int SrcCharCodeFormat, int De
 // 文字コードを指定のコードページの文字に変換する
 extern u32 ConvCharCode( u32 SrcCharCode, int SrcCharCodeFormat, int DestCharCodeFormat )
 {
+	CHARCODETABLE_INITCHECK( SrcCharCodeFormat )
+	CHARCODETABLE_INITCHECK( DestCharCodeFormat )
+
 	return ConvCharCode_inline( SrcCharCode, SrcCharCodeFormat, DestCharCodeFormat ) ;
 }
 
@@ -836,6 +1332,9 @@ extern int ConvCharCodeString( const u32 *Src, int SrcCharCodeFormat, u32 *Dest,
 {
 	int DestSize ;
 	u32 DestCode ;
+
+	CHARCODETABLE_INITCHECK( SrcCharCodeFormat )
+	CHARCODETABLE_INITCHECK( DestCharCodeFormat )
 
 	DestSize = 0 ;
 	for(;;)
@@ -1715,6 +2214,9 @@ extern int ConvString( const char *Src, int SrcCharCodeFormat, char *Dest, int D
 	{
 		InitCharCode() ;
 	}
+
+	CHARCODETABLE_INITCHECK( SrcCharCodeFormat )
+	CHARCODETABLE_INITCHECK( DestCharCodeFormat )
 
 	// 高速処理用の関数がある場合はそちらを使用する
 	switch( SrcCharCodeFormat )

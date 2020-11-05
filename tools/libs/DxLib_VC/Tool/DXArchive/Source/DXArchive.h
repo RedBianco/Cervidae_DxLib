@@ -9,8 +9,8 @@
 // -------------------------------------------------------------------------------
 
 // 多重インクルード防止用定義
-#ifndef __DXARCHIVE
-#define __DXARCHIVE
+#ifndef DX_ARCHIVE_H
+#define DX_ARCHIVE_H
 
 // include --------------------------------------
 #include <stdio.h>

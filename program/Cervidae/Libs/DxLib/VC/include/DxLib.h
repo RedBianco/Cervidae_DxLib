@@ -2,7 +2,7 @@
 // 
 // 		‚c‚wƒ‰ƒCƒuƒ‰ƒŠ		ƒwƒbƒ_ƒtƒ@ƒCƒ‹
 // 
-// 				Ver 3.21b
+// 				Ver 3.22a
 // 
 // -------------------------------------------------------------------------------
 
@@ -12,9 +12,9 @@
 #include "DxCompileConfig.h"
 
 // ‚c‚wƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“
-#define DXLIB_VERSION 0x321b
-#define DXLIB_VERSION_STR_T _T( "3.21b" )
-#define DXLIB_VERSION_STR_W    L"3.21b"
+#define DXLIB_VERSION 0x322a
+#define DXLIB_VERSION_STR_T _T( "3.22a" )
+#define DXLIB_VERSION_STR_W    L"3.22a"
 
 // Ý’è -----------------------------------------------------------------------
 
@@ -43,13 +43,10 @@
 
 #define DX_DEFINE_START
 
-#define MAX_IMAGE_NUM								(32768)				// “¯Žž‚ÉŽ‚Ä‚éƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚ÌÅ‘å”( ƒnƒ“ƒhƒ‹ƒGƒ‰[ƒ`ƒFƒbƒN‚Ìƒ}ƒXƒN‚ÉŽg—p‚µ‚Ä‚¢‚é‚Ì‚Å 65536 ˆÈ‰º‚Ì 2 ‚Ì‚×‚«æ‚É‚µ‚Ä‰º‚³‚¢ )
-#define MAX_2DSURFACE_NUM							(32768)				// ‚Q‚cƒT[ƒtƒFƒXƒf[ƒ^‚ÌÅ‘å”( ƒnƒ“ƒhƒ‹ƒGƒ‰[ƒ`ƒFƒbƒN‚Ìƒ}ƒXƒN‚ÉŽg—p‚µ‚Ä‚¢‚é‚Ì‚Å 65536 ˆÈ‰º‚Ì 2 ‚Ì‚×‚«æ‚É‚µ‚Ä‰º‚³‚¢ )
-#define MAX_3DSURFACE_NUM							(65536)				// ‚R‚cƒT[ƒtƒFƒXƒf[ƒ^‚ÌÅ‘å”( ƒnƒ“ƒhƒ‹ƒGƒ‰[ƒ`ƒFƒbƒN‚Ìƒ}ƒXƒN‚ÉŽg—p‚µ‚Ä‚¢‚é‚Ì‚Å 65536 ˆÈ‰º‚Ì 2 ‚Ì‚×‚«æ‚É‚µ‚Ä‰º‚³‚¢ )
+#define MAX_IMAGE_NUM								(0x40000)			// “¯Žž‚ÉŽ‚Ä‚éƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚ÌÅ‘å”( ƒnƒ“ƒhƒ‹ƒGƒ‰[ƒ`ƒFƒbƒN‚Ìƒ}ƒXƒN‚ÉŽg—p‚µ‚Ä‚¢‚é‚Ì‚Å 0x40000 ˆÈ‰º‚Ì 2 ‚Ì‚×‚«æ‚É‚µ‚Ä‰º‚³‚¢ )
 #define MAX_IMAGE_DIVNUM							(64)				// ‰æ‘œ•ªŠ„‚ÌÅ‘å”
-#define MAX_SURFACE_NUM								(65536)				// ƒT[ƒtƒFƒXƒf[ƒ^‚ÌÅ‘å”
 #define MAX_SHADOWMAP_NUM							(8192)				// ƒVƒƒƒhƒEƒ}ƒbƒvƒf[ƒ^‚ÌÅ‘å”
-#define MAX_SOFTIMAGE_NUM							(8192)				// “¯Žž‚ÉŽ‚Ä‚éƒ\ƒtƒgƒCƒ[ƒWƒnƒ“ƒhƒ‹‚ÌÅ‘å”( ƒnƒ“ƒhƒ‹ƒGƒ‰[ƒ`ƒFƒbƒN‚Ìƒ}ƒXƒN‚ÉŽg—p‚µ‚Ä‚¢‚é‚Ì‚Å 65536 ˆÈ‰º‚Ì 2 ‚Ì‚×‚«æ‚É‚µ‚Ä‰º‚³‚¢ )
+#define MAX_SOFTIMAGE_NUM							(8192)				// “¯Žž‚ÉŽ‚Ä‚éƒ\ƒtƒgƒCƒ[ƒWƒnƒ“ƒhƒ‹‚ÌÅ‘å”( ƒnƒ“ƒhƒ‹ƒGƒ‰[ƒ`ƒFƒbƒN‚Ìƒ}ƒXƒN‚ÉŽg—p‚µ‚Ä‚¢‚é‚Ì‚Å 0x40000 ˆÈ‰º‚Ì 2 ‚Ì‚×‚«æ‚É‚µ‚Ä‰º‚³‚¢ )
 
 #define MAX_SOUND_NUM								(32768)				// “¯Žž‚ÉŽ‚Ä‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÅ‘å”
 #define MAX_SOFTSOUND_NUM							(8192)				// “¯Žž‚ÉŽ‚Ä‚éƒ\ƒtƒgƒEƒGƒAƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÅ‘å”
@@ -61,7 +58,7 @@
 #define MAX_SOCKET_NUM								(8192)				// “¯Žž‚ÉŽ‚Ä‚é’ÊMƒnƒ“ƒhƒ‹‚ÌÅ‘å”
 #define MAX_LIGHT_NUM								(4096)				// “¯Žž‚ÉŽ‚Ä‚éƒ‰ƒCƒgƒnƒ“ƒhƒ‹‚ÌÅ‘å”
 #define MAX_SHADER_NUM								(4096)				// “¯Žž‚ÉŽ‚Ä‚éƒVƒF[ƒ_[ƒnƒ“ƒhƒ‹‚ÌÅ‘å”
-#define MAX_CONSTANT_BUFFER_NUM						(8192)				// “¯Žž‚ÉŽ‚Ä‚é’è”ƒoƒbƒtƒ@ƒnƒ“ƒhƒ‹‚ÌÅ‘å”
+#define MAX_CONSTANT_BUFFER_NUM						(32768)				// “¯Žž‚ÉŽ‚Ä‚é’è”ƒoƒbƒtƒ@ƒnƒ“ƒhƒ‹‚ÌÅ‘å”
 #define MAX_MODEL_BASE_NUM							(32768)				// “¯Žž‚ÉŽ‚Ä‚é‚R‚cƒ‚ƒfƒ‹Šî–{ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌÅ‘å”
 #define MAX_MODEL_NUM								(32768)				// “¯Žž‚ÉŽ‚Ä‚é‚R‚cƒ‚ƒfƒ‹ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌÅ‘å”
 #define MAX_VERTEX_BUFFER_NUM						(16384)				// “¯Žž‚ÉŽ‚Ä‚é’¸“_ƒoƒbƒtƒ@ƒnƒ“ƒhƒ‹‚ÌÅ‘å”
@@ -246,22 +243,24 @@
 #define DX_GRAPH_FILTER_LEVEL						(7)				// ƒŒƒxƒ‹•â³ƒtƒBƒ‹ƒ^
 #define DX_GRAPH_FILTER_TWO_COLOR					(8)				// ‚QŠK’²‰»ƒtƒBƒ‹ƒ^
 #define DX_GRAPH_FILTER_GRADIENT_MAP				(9)				// ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒ}ƒbƒvƒtƒBƒ‹ƒ^
-#define DX_GRAPH_FILTER_PREMUL_ALPHA				(10)			// ’Êí‚ÌƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹•t‚«‰æ‘œ‚ðæŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^
-#define DX_GRAPH_FILTER_INTERP_ALPHA				(11)			// æŽZÏ‚Ýƒ¿‰æ‘œ‚ð’Êí‚ÌƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹•t‚«‰æ‘œ‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^
-#define DX_GRAPH_FILTER_YUV_TO_RGB					(12)			// YUVƒJƒ‰[‚ðRGBƒJƒ‰[‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^
-#define DX_GRAPH_FILTER_Y2UV1_TO_RGB				(13)			// YUVƒJƒ‰[‚ðRGBƒJƒ‰[‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^( UV¬•ª‚ª Y¬•ª‚Ì”¼•ªE–”‚Í‚S•ª‚Ì‚P( ‰¡Ec•Ð•ûŽá‚µ‚­‚Í—¼•û )‚Ì‰ð‘œ“x‚µ‚©‚È‚¢ê‡—p )
-#define DX_GRAPH_FILTER_YUV_TO_RGB_RRA				(14)			// YUVƒJƒ‰[‚ðRGBƒJƒ‰[‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^( ŠŽ‚Â‰E‘¤”¼•ª‚ÌR‚Ì’l‚ðƒAƒ‹ƒtƒ@’l‚Æ‚µ‚Äˆµ‚¤ )
-#define DX_GRAPH_FILTER_Y2UV1_TO_RGB_RRA			(15)			// YUVƒJƒ‰[‚ðRGBƒJƒ‰[‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^( UV¬•ª‚ª Y¬•ª‚Ì”¼•ªE–”‚Í‚S•ª‚Ì‚P( ‰¡Ec•Ð•ûŽá‚µ‚­‚Í—¼•û )‚Ì‰ð‘œ“x‚µ‚©‚È‚¢ê‡—p )( ŠŽ‚Â‰E‘¤”¼•ª‚ÌR‚Ì’l‚ðƒAƒ‹ƒtƒ@’l‚Æ‚µ‚Äˆµ‚¤ )
-#define DX_GRAPH_FILTER_BICUBIC_SCALE				(16)			// ƒoƒCƒLƒ…[ƒrƒbƒN‚ðŽg—p‚µ‚½Šg‘åEk¬ƒtƒBƒ‹ƒ^
-#define DX_GRAPH_FILTER_LANCZOS3_SCALE				(17)			// Lanczos-3‚ðŽg—p‚µ‚½Šg‘åEk¬ƒtƒBƒ‹ƒ^
-#define DX_GRAPH_FILTER_PMA_BRIGHT_CLIP				(18)			// –¾‚é‚³ƒNƒŠƒbƒvƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
-#define DX_GRAPH_FILTER_PMA_BRIGHT_SCALE			(19)			// Žw’è‚Ì–¾‚é‚³—Ìˆæ‚ðŠg‘å‚·‚éƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
-#define DX_GRAPH_FILTER_PMA_HSB						(20)			// F‘ŠEÊ“xE–¾“xƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
-#define DX_GRAPH_FILTER_PMA_INVERT					(21)			// ŠK’²‚Ì”½“]ƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
-#define DX_GRAPH_FILTER_PMA_LEVEL					(22)			// ƒŒƒxƒ‹•â³ƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
-#define DX_GRAPH_FILTER_PMA_TWO_COLOR				(23)			// ‚QŠK’²‰»ƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
-#define DX_GRAPH_FILTER_PMA_GRADIENT_MAP			(24)			// ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒ}ƒbƒvƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
-#define DX_GRAPH_FILTER_NUM							(25)
+#define DX_GRAPH_FILTER_REPLACEMENT					(10)			// F‚Ì’uŠ·
+#define DX_GRAPH_FILTER_PREMUL_ALPHA				(11)			// ’Êí‚ÌƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹•t‚«‰æ‘œ‚ðæŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^
+#define DX_GRAPH_FILTER_INTERP_ALPHA				(12)			// æŽZÏ‚Ýƒ¿‰æ‘œ‚ð’Êí‚ÌƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹•t‚«‰æ‘œ‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^
+#define DX_GRAPH_FILTER_YUV_TO_RGB					(13)			// YUVƒJƒ‰[‚ðRGBƒJƒ‰[‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^
+#define DX_GRAPH_FILTER_Y2UV1_TO_RGB				(14)			// YUVƒJƒ‰[‚ðRGBƒJƒ‰[‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^( UV¬•ª‚ª Y¬•ª‚Ì”¼•ªE–”‚Í‚S•ª‚Ì‚P( ‰¡Ec•Ð•ûŽá‚µ‚­‚Í—¼•û )‚Ì‰ð‘œ“x‚µ‚©‚È‚¢ê‡—p )
+#define DX_GRAPH_FILTER_YUV_TO_RGB_RRA				(15)			// YUVƒJƒ‰[‚ðRGBƒJƒ‰[‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^( ŠŽ‚Â‰E‘¤”¼•ª‚ÌR‚Ì’l‚ðƒAƒ‹ƒtƒ@’l‚Æ‚µ‚Äˆµ‚¤ )
+#define DX_GRAPH_FILTER_Y2UV1_TO_RGB_RRA			(16)			// YUVƒJƒ‰[‚ðRGBƒJƒ‰[‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^( UV¬•ª‚ª Y¬•ª‚Ì”¼•ªE–”‚Í‚S•ª‚Ì‚P( ‰¡Ec•Ð•ûŽá‚µ‚­‚Í—¼•û )‚Ì‰ð‘œ“x‚µ‚©‚È‚¢ê‡—p )( ŠŽ‚Â‰E‘¤”¼•ª‚ÌR‚Ì’l‚ðƒAƒ‹ƒtƒ@’l‚Æ‚µ‚Äˆµ‚¤ )
+#define DX_GRAPH_FILTER_BICUBIC_SCALE				(17)			// ƒoƒCƒLƒ…[ƒrƒbƒN‚ðŽg—p‚µ‚½Šg‘åEk¬ƒtƒBƒ‹ƒ^
+#define DX_GRAPH_FILTER_LANCZOS3_SCALE				(18)			// Lanczos-3‚ðŽg—p‚µ‚½Šg‘åEk¬ƒtƒBƒ‹ƒ^
+#define DX_GRAPH_FILTER_PMA_BRIGHT_CLIP				(19)			// –¾‚é‚³ƒNƒŠƒbƒvƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
+#define DX_GRAPH_FILTER_PMA_BRIGHT_SCALE			(20)			// Žw’è‚Ì–¾‚é‚³—Ìˆæ‚ðŠg‘å‚·‚éƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
+#define DX_GRAPH_FILTER_PMA_HSB						(21)			// F‘ŠEÊ“xE–¾“xƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
+#define DX_GRAPH_FILTER_PMA_INVERT					(22)			// ŠK’²‚Ì”½“]ƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
+#define DX_GRAPH_FILTER_PMA_LEVEL					(23)			// ƒŒƒxƒ‹•â³ƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
+#define DX_GRAPH_FILTER_PMA_TWO_COLOR				(24)			// ‚QŠK’²‰»ƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
+#define DX_GRAPH_FILTER_PMA_GRADIENT_MAP			(25)			// ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒ}ƒbƒvƒtƒBƒ‹ƒ^(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
+#define DX_GRAPH_FILTER_PMA_REPLACEMENT				(26)			// F‚Ì’uŠ·(æŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ—p)
+#define DX_GRAPH_FILTER_NUM							(27)
 
 // ƒOƒ‰ƒtƒBƒbƒNƒuƒŒƒ“ƒhƒ^ƒCƒv
 #define DX_GRAPH_BLEND_NORMAL						(0)				// ’Êí
@@ -309,6 +308,14 @@
 #define DX_RGBA_SELECT_BLEND_G						(5)				// ƒuƒŒƒ“ƒh‰æ‘œ‚Ì—Î¬•ª
 #define DX_RGBA_SELECT_BLEND_B						(6)				// ƒuƒŒƒ“ƒh‰æ‘œ‚ÌÂ¬•ª
 #define DX_RGBA_SELECT_BLEND_A						(7)				// ƒuƒŒƒ“ƒh‰æ‘œ‚Ìƒ¿¬•ª
+#define DX_RGBA_SELECT_SRC_INV_R					(8)				// Œ³‰æ‘œ‚ÌÔ¬•ª‚ð”½“]‚µ‚½‚à‚Ì
+#define DX_RGBA_SELECT_SRC_INV_G					(9)				// Œ³‰æ‘œ‚Ì—Î¬•ª‚ð”½“]‚µ‚½‚à‚Ì
+#define DX_RGBA_SELECT_SRC_INV_B					(10)			// Œ³‰æ‘œ‚ÌÂ¬•ª‚ð”½“]‚µ‚½‚à‚Ì
+#define DX_RGBA_SELECT_SRC_INV_A					(11)			// Œ³‰æ‘œ‚Ìƒ¿¬•ª‚ð”½“]‚µ‚½‚à‚Ì
+#define DX_RGBA_SELECT_BLEND_INV_R					(12)			// ƒuƒŒƒ“ƒh‰æ‘œ‚ÌÔ¬•ª‚ð”½“]‚µ‚½‚à‚Ì
+#define DX_RGBA_SELECT_BLEND_INV_G					(13)			// ƒuƒŒƒ“ƒh‰æ‘œ‚Ì—Î¬•ª‚ð”½“]‚µ‚½‚à‚Ì
+#define DX_RGBA_SELECT_BLEND_INV_B					(14)			// ƒuƒŒƒ“ƒh‰æ‘œ‚ÌÂ¬•ª‚ð”½“]‚µ‚½‚à‚Ì
+#define DX_RGBA_SELECT_BLEND_INV_A					(15)			// ƒuƒŒƒ“ƒh‰æ‘œ‚Ìƒ¿¬•ª‚ð”½“]‚µ‚½‚à‚Ì
 
 // ƒtƒBƒ‹ƒ‚[ƒh
 #define DX_FILL_WIREFRAME							(2)				// ƒƒCƒ„[ƒtƒŒ[ƒ€
@@ -427,6 +434,10 @@
 #define DX_SOUNDDATATYPE_MEMNOPRESS_PLUS			(1)				// ˆ³k‚³‚ê‚½‘Sƒf[ƒ^‚ÍƒVƒXƒeƒ€ƒƒ‚ƒŠ‚ÉŠi”[‚³‚êAÄ¶‚µ‚È‚ª‚ç’€ŽŸ‰ð“€‚³‚êAÅI“I‚É‚·‚×‚ÄƒTƒEƒ“ƒhƒƒ‚ƒŠ‚ÉŠi”[‚³‚ê‚é(‚»‚ÌŒãƒVƒXƒeƒ€ƒƒ‚ƒŠ‚É‘¶Ý‚·‚éˆ³kƒf[ƒ^‚Í”jŠü‚³‚ê‚é)
 #define DX_SOUNDDATATYPE_MEMPRESS					(2)				// ˆ³k‚³‚ê‚½‘Sƒf[ƒ^‚ÍƒVƒXƒeƒ€ƒƒ‚ƒŠ‚ÉŠi”[‚³‚êAÄ¶‚·‚é•”•ª‚¾‚¯’€ŽŸ‰ð“€‚µ‚È‚ª‚çƒTƒEƒ“ƒhƒƒ‚ƒŠ‚ÉŠi”[‚·‚é(–Â‚ç‚µI‚í‚é‚Æ‰ð“€‚µ‚½ƒf[ƒ^‚Í”jŠü‚³‚ê‚é‚Ì‚Å‰½“x‚à‰ð“€ˆ—‚ªs‚í‚ê‚é)
 #define DX_SOUNDDATATYPE_FILE						(3)				// ˆ³k‚³‚ê‚½ƒf[ƒ^‚ÌÄ¶‚·‚é•”•ª‚¾‚¯ƒtƒ@ƒCƒ‹‚©‚ç’€ŽŸ“Ç‚Ýž‚Ý‰ð“€‚³‚êAƒTƒEƒ“ƒhƒƒ‚ƒŠ‚ÉŠi”[‚³‚ê‚é(–Â‚ç‚µI‚í‚é‚Æ‰ð“€‚µ‚½ƒf[ƒ^‚Í”jŠü‚³‚ê‚é‚Ì‚Å‰½“x‚à‰ð“€ˆ—‚ªs‚í‚ê‚é)
+
+// ƒTƒEƒ“ƒh‚ÌŽæ“¾‚·‚éÄ¶ŽžŠÔƒ^ƒCƒv
+#define DX_SOUNDCURRENTTIME_TYPE_LOW_LEVEL			(0)				// ’áƒŒƒxƒ‹API‚ðŽg—p‚µ‚Ä‚æ‚è³Šm‚ÈÄ¶ŽžŠÔ‚ðŽæ“¾‚·‚é
+#define DX_SOUNDCURRENTTIME_TYPE_SOFT				(1)				// API‚ÍŽg—p‚¹‚¸Aƒ\ƒtƒgƒEƒFƒAˆ—ƒŒƒxƒ‹‚Å‚ÌÄ¶ŽžŠÔ‚ðŽæ“¾‚·‚é
 
 // “Ç‚Ýž‚Ýˆ—‚Ìƒ^ƒCƒv
 #define DX_READSOUNDFUNCTION_PCM					(1 << 0)		// PCM ‚Ì“Ç‚Ýž‚Ýˆ—
@@ -605,49 +616,51 @@
 #define DX_GRAPHICSIMAGE_FORMAT_3D_ALPHA_RGB32				(9)		// ƒ¿ƒ`ƒƒƒ“ƒlƒ‹•t‚«‚R‚QƒrƒbƒgƒJƒ‰[
 #define DX_GRAPHICSIMAGE_FORMAT_3D_ALPHATEST_RGB16			(10)	// ƒ¿ƒeƒXƒg•t‚«‚P‚UƒrƒbƒgƒJƒ‰[
 #define DX_GRAPHICSIMAGE_FORMAT_3D_ALPHATEST_RGB32			(11)	// ƒ¿ƒeƒXƒg•t‚«‚R‚QƒrƒbƒgƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DXT1						(12)	// ‚c‚w‚s‚P
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DXT2						(13)	// ‚c‚w‚s‚Q
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DXT3						(14)	// ‚c‚w‚s‚R
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DXT4						(15)	// ‚c‚w‚s‚S
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DXT5 					(16)	// ‚c‚w‚s‚T
-#define DX_GRAPHICSIMAGE_FORMAT_3D_PLATFORM0				(17)	// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚O
-#define DX_GRAPHICSIMAGE_FORMAT_3D_PLATFORM1				(18)	// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚P
-#define DX_GRAPHICSIMAGE_FORMAT_3D_PLATFORM2				(19)	// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚Q
-#define DX_GRAPHICSIMAGE_FORMAT_3D_PLATFORM3				(20)	// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚R
-#define DX_GRAPHICSIMAGE_FORMAT_3D_YUV	 					(21)	// ‚x‚t‚uƒtƒH[ƒ}ƒbƒg
-#define DX_GRAPHICSIMAGE_FORMAT_3D_ABGR_I16					(22)	// ARGB®”16ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_ABGR_F16					(23)	// ARGB•‚“®¬”“_16ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_ABGR_F32					(24)	// ARGB•‚“®¬”“_32ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_ONE_I8					(25)	// ‚Pƒ`ƒƒƒ“ƒlƒ‹®”8ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_ONE_I16					(26)	// ‚Pƒ`ƒƒƒ“ƒlƒ‹®”16ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_ONE_F16					(27)	// ‚Pƒ`ƒƒƒ“ƒlƒ‹•‚“®­”16ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_ONE_F32					(28)	// ‚Pƒ`ƒƒƒ“ƒlƒ‹•‚“®­”32ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_TWO_I8					(29)	// ‚Qƒ`ƒƒƒ“ƒlƒ‹®”8ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_TWO_I16					(30)	// ‚Qƒ`ƒƒƒ“ƒlƒ‹®”16ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_TWO_F16					(31)	// ‚Qƒ`ƒƒƒ“ƒlƒ‹•‚“®­”16ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_TWO_F32					(32)	// ‚Qƒ`ƒƒƒ“ƒlƒ‹•‚“®­”32ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_RGB16			(33)	// •`‰æ‰Â”\‚P‚UƒrƒbƒgƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_RGB32			(34)	// •`‰æ‰Â”\‚R‚QƒrƒbƒgƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ALPHA_RGB32	(35)	// •`‰æ‰Â”\ƒ¿•t‚«‚R‚QƒrƒbƒgƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ABGR_I16		(36)	// •`‰æ‰Â”\ARGB®”16ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ABGR_F16		(37)	// •`‰æ‰Â”\ARGB•‚“®¬”“_16ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ABGR_F32		(38)	// •`‰æ‰Â”\ARGB•‚“®¬”“_32ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ONE_I8			(39)	// •`‰æ‰Â”\‚Pƒ`ƒƒƒ“ƒlƒ‹®”8ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ONE_I16		(40)	// •`‰æ‰Â”\‚Pƒ`ƒƒƒ“ƒlƒ‹®”16ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ONE_F16		(41)	// •`‰æ‰Â”\‚Pƒ`ƒƒƒ“ƒlƒ‹•‚“®­”16ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ONE_F32		(42)	// •`‰æ‰Â”\‚Pƒ`ƒƒƒ“ƒlƒ‹•‚“®­”32ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_TWO_I8			(43)	// •`‰æ‰Â”\‚Qƒ`ƒƒƒ“ƒlƒ‹®”8ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_TWO_I16		(44)	// •`‰æ‰Â”\‚Qƒ`ƒƒƒ“ƒlƒ‹®”16ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_TWO_F16		(45)	// •`‰æ‰Â”\‚Qƒ`ƒƒƒ“ƒlƒ‹•‚“®­”16ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_TWO_F32		(46)	// •`‰æ‰Â”\‚Qƒ`ƒƒƒ“ƒlƒ‹•‚“®­”32ƒrƒbƒgŒ^ƒJƒ‰[
-#define DX_GRAPHICSIMAGE_FORMAT_3D_NUM						(47)
-#define DX_GRAPHICSIMAGE_FORMAT_2D							(48)	// •W€( DirectDrawSurface ‚Ìê‡‚Í‚±‚ê‚Ì‚Ý )
-#define DX_GRAPHICSIMAGE_FORMAT_R5G6B5						(49)	// R5G6B5( MEMIMG —p )
-#define DX_GRAPHICSIMAGE_FORMAT_X8A8R5G6B5					(50)	// X8A8R5G6B5( MEMIMG —p )
-#define DX_GRAPHICSIMAGE_FORMAT_X8R8G8B8					(51)	// X8R8G8B8( MEMIMG —p )
-#define DX_GRAPHICSIMAGE_FORMAT_A8R8G8B8					(52)	// A8R8G8B8( MEMIMG —p )
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DXT1						(12)	// DXT1
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DXT2						(13)	// DXT2
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DXT3						(14)	// DXT3
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DXT4						(15)	// DXT4
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DXT5 					(16)	// DXT5
+#define DX_GRAPHICSIMAGE_FORMAT_3D_BC7_UNORM 				(17)	// BC7 UNORM
+#define DX_GRAPHICSIMAGE_FORMAT_3D_BC7_UNORM_SRGB			(18)	// BC7 UNORM SRGB
+#define DX_GRAPHICSIMAGE_FORMAT_3D_PLATFORM0				(19)	// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚O
+#define DX_GRAPHICSIMAGE_FORMAT_3D_PLATFORM1				(20)	// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚P
+#define DX_GRAPHICSIMAGE_FORMAT_3D_PLATFORM2				(21)	// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚Q
+#define DX_GRAPHICSIMAGE_FORMAT_3D_PLATFORM3				(22)	// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚R
+#define DX_GRAPHICSIMAGE_FORMAT_3D_YUV	 					(23)	// ‚x‚t‚uƒtƒH[ƒ}ƒbƒg
+#define DX_GRAPHICSIMAGE_FORMAT_3D_ABGR_I16					(24)	// ARGB®”16ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_ABGR_F16					(25)	// ARGB•‚“®¬”“_16ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_ABGR_F32					(26)	// ARGB•‚“®¬”“_32ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_ONE_I8					(27)	// ‚Pƒ`ƒƒƒ“ƒlƒ‹®”8ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_ONE_I16					(28)	// ‚Pƒ`ƒƒƒ“ƒlƒ‹®”16ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_ONE_F16					(29)	// ‚Pƒ`ƒƒƒ“ƒlƒ‹•‚“®­”16ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_ONE_F32					(30)	// ‚Pƒ`ƒƒƒ“ƒlƒ‹•‚“®­”32ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_TWO_I8					(31)	// ‚Qƒ`ƒƒƒ“ƒlƒ‹®”8ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_TWO_I16					(32)	// ‚Qƒ`ƒƒƒ“ƒlƒ‹®”16ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_TWO_F16					(33)	// ‚Qƒ`ƒƒƒ“ƒlƒ‹•‚“®­”16ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_TWO_F32					(34)	// ‚Qƒ`ƒƒƒ“ƒlƒ‹•‚“®­”32ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_RGB16			(35)	// •`‰æ‰Â”\‚P‚UƒrƒbƒgƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_RGB32			(36)	// •`‰æ‰Â”\‚R‚QƒrƒbƒgƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ALPHA_RGB32	(37)	// •`‰æ‰Â”\ƒ¿•t‚«‚R‚QƒrƒbƒgƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ABGR_I16		(38)	// •`‰æ‰Â”\ARGB®”16ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ABGR_F16		(39)	// •`‰æ‰Â”\ARGB•‚“®¬”“_16ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ABGR_F32		(40)	// •`‰æ‰Â”\ARGB•‚“®¬”“_32ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ONE_I8			(41)	// •`‰æ‰Â”\‚Pƒ`ƒƒƒ“ƒlƒ‹®”8ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ONE_I16		(42)	// •`‰æ‰Â”\‚Pƒ`ƒƒƒ“ƒlƒ‹®”16ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ONE_F16		(43)	// •`‰æ‰Â”\‚Pƒ`ƒƒƒ“ƒlƒ‹•‚“®­”16ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_ONE_F32		(44)	// •`‰æ‰Â”\‚Pƒ`ƒƒƒ“ƒlƒ‹•‚“®­”32ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_TWO_I8			(45)	// •`‰æ‰Â”\‚Qƒ`ƒƒƒ“ƒlƒ‹®”8ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_TWO_I16		(46)	// •`‰æ‰Â”\‚Qƒ`ƒƒƒ“ƒlƒ‹®”16ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_TWO_F16		(47)	// •`‰æ‰Â”\‚Qƒ`ƒƒƒ“ƒlƒ‹•‚“®­”16ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_DRAWVALID_TWO_F32		(48)	// •`‰æ‰Â”\‚Qƒ`ƒƒƒ“ƒlƒ‹•‚“®­”32ƒrƒbƒgŒ^ƒJƒ‰[
+#define DX_GRAPHICSIMAGE_FORMAT_3D_NUM						(49)
+#define DX_GRAPHICSIMAGE_FORMAT_2D							(50)	// •W€( DirectDrawSurface ‚Ìê‡‚Í‚±‚ê‚Ì‚Ý )
+#define DX_GRAPHICSIMAGE_FORMAT_R5G6B5						(51)	// R5G6B5( MEMIMG —p )
+#define DX_GRAPHICSIMAGE_FORMAT_X8A8R5G6B5					(52)	// X8A8R5G6B5( MEMIMG —p )
+#define DX_GRAPHICSIMAGE_FORMAT_X8R8G8B8					(53)	// X8R8G8B8( MEMIMG —p )
+#define DX_GRAPHICSIMAGE_FORMAT_A8R8G8B8					(54)	// A8R8G8B8( MEMIMG —p )
 
-#define DX_GRAPHICSIMAGE_FORMAT_NUM							(53)	// ƒOƒ‰ƒtƒBƒbƒNƒtƒH[ƒ}ƒbƒg‚ÌŽí—Þ‚Ì”
+#define DX_GRAPHICSIMAGE_FORMAT_NUM							(55)	// ƒOƒ‰ƒtƒBƒbƒNƒtƒH[ƒ}ƒbƒg‚ÌŽí—Þ‚Ì”
 
 // Šî–{ƒCƒ[ƒW‚ÌƒsƒNƒZƒ‹ƒtƒH[ƒ}ƒbƒg
 #define DX_BASEIMAGE_FORMAT_NORMAL					(0)				// •’Ê‚Ì‰æ‘œ
@@ -656,11 +669,13 @@
 #define DX_BASEIMAGE_FORMAT_DXT3					(3)				// ‚c‚w‚s‚R
 #define DX_BASEIMAGE_FORMAT_DXT4					(4)				// ‚c‚w‚s‚S
 #define DX_BASEIMAGE_FORMAT_DXT5					(5)				// ‚c‚w‚s‚T
-#define DX_BASEIMAGE_FORMAT_PLATFORM0				(6)				// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚O
-#define DX_BASEIMAGE_FORMAT_PLATFORM1				(7)				// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚P
-#define DX_BASEIMAGE_FORMAT_PLATFORM2				(8)				// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚Q
-#define DX_BASEIMAGE_FORMAT_PLATFORM3				(9)				// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚R
-#define DX_BASEIMAGE_FORMAT_YUV						(10)			// ‚x‚t‚u
+#define DX_BASEIMAGE_FORMAT_BC7_UNORM				(6)				// ‚a‚b‚V UNORM
+#define DX_BASEIMAGE_FORMAT_BC7_UNORM_SRGB			(7)				// ‚a‚b‚V UNORM SRGB
+#define DX_BASEIMAGE_FORMAT_PLATFORM0				(8)				// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚O
+#define DX_BASEIMAGE_FORMAT_PLATFORM1				(9)				// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚P
+#define DX_BASEIMAGE_FORMAT_PLATFORM2				(10)			// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚Q
+#define DX_BASEIMAGE_FORMAT_PLATFORM3				(11)			// ƒvƒ‰ƒbƒgƒtƒH[ƒ€ˆË‘¶ƒtƒH[ƒ}ƒbƒg‚R
+#define DX_BASEIMAGE_FORMAT_YUV						(12)			// ‚x‚t‚u
 
 // ƒ€[ƒr[‚ÌƒT[ƒtƒFƒXƒ‚[ƒh
 #define DX_MOVIESURFACE_NORMAL						(0)
@@ -1139,8 +1154,8 @@ typedef struct tagIMEINPUTDATA
 // •`‰æ•¶Žš—ñˆê•¶Žš‚Ìî•ñ
 typedef struct tagDRAWCHARINFO
 {
-	TCHAR					Char[ 13 ] ;					// •¶Žš
-	BYTE					Bytes ;							// •¶Žš‚ÌƒoƒCƒg”
+	TCHAR					Char[ 14 ] ;					// •¶Žš
+	WORD					Bytes ;							// •¶Žš‚ÌƒoƒCƒg”
 	float					DrawX, DrawY ;					// •`‰æˆÊ’u
 	float					SizeX, SizeY ;					// •`‰æƒTƒCƒY
 } DRAWCHARINFO, *LPDRAWCHARINFO ;
@@ -1466,6 +1481,7 @@ typedef struct tagMV1_COLL_RESULT_POLY
 	VECTOR					HitPosition ;					// ( MV1CollCheck_Line ‚Å‚Ì‚Ý—LŒø )ƒqƒbƒgÀ•W
 
 	int						FrameIndex ;					// “–‚½‚Á‚½ƒ|ƒŠƒSƒ“‚ªŠÜ‚Ü‚ê‚éƒtƒŒ[ƒ€‚Ì”Ô†
+	int						MeshIndex ;						// “–‚½‚Á‚½ƒ|ƒŠƒSƒ“‚ªŠÜ‚Ü‚ê‚éƒƒbƒVƒ…‚Ì”Ô†( ƒƒbƒVƒ…’PˆÊ‚Å”»’è‚µ‚½ê‡‚Ì‚Ý—LŒø )
 	int						PolygonIndex ;					// “–‚½‚Á‚½ƒ|ƒŠƒSƒ“‚Ì”Ô†
 	int						MaterialIndex ;					// “–‚½‚Á‚½ƒ|ƒŠƒSƒ“‚ªŽg—p‚µ‚Ä‚¢‚éƒ}ƒeƒŠƒAƒ‹‚Ì”Ô†
 	VECTOR					Position[ 3 ] ;					// “–‚½‚Á‚½ƒ|ƒŠƒSƒ“‚ðŒ`¬‚·‚éŽO“_‚ÌÀ•W
@@ -1496,8 +1512,9 @@ typedef struct tagMV1_REF_VERTEX
 typedef struct tagMV1_REF_POLYGON
 {
 	unsigned short			FrameIndex ;					// ‚±‚Ìƒ|ƒŠƒSƒ“‚ª‘®‚µ‚Ä‚¢‚éƒtƒŒ[ƒ€
+	unsigned short			MeshIndex ;						// ‚±‚Ìƒ|ƒŠƒSƒ“‚ª‘®‚µ‚Ä‚¢‚éƒƒbƒVƒ…
 	unsigned short			MaterialIndex ;					// Žg—p‚µ‚Ä‚¢‚éƒ}ƒeƒŠƒAƒ‹
-	int						VIndexTarget ;					// VIndex ‚ªŽw‚·ƒCƒ“ƒfƒbƒNƒX‚ÌŽQÆæ( 1:ƒtƒŒ[ƒ€  0:ƒ‚ƒfƒ‹‘S‘Ì )
+	unsigned short			VIndexTarget ;					// VIndex ‚ªŽw‚·ƒCƒ“ƒfƒbƒNƒX‚ÌŽQÆæ( 1:ƒtƒŒ[ƒ€  0:ƒ‚ƒfƒ‹‘S‘Ì )
 	int						VIndex[ 3 ] ;					// ‚RŠpŒ`ƒ|ƒŠƒSƒ“‚ð¬‚·ŽQÆ’¸“_‚ÌƒCƒ“ƒfƒbƒNƒX
 	VECTOR					MinPosition ;					// ƒ|ƒŠƒSƒ“‚ð¬‚·’¸“_À•W‚ÌÅ¬’l
 	VECTOR					MaxPosition ;					// ƒ|ƒŠƒSƒ“‚ð¬‚·’¸“_À•W‚ÌÅ‘å’l
@@ -1693,6 +1710,15 @@ typedef struct tagPOINTDATA
 	int						pal ;							// ƒpƒ‰ƒ[ƒ^
 } POINTDATA, *LPPOINTDATA ;
 
+// —§•û‘Ìƒf[ƒ^Œ^
+typedef struct tagCUBEDATA
+{
+	VECTOR					Pos1 ;							// À•W1
+	VECTOR					Pos2 ;							// À•W2
+	COLOR_U8				DifColor ;						// ƒfƒBƒtƒ…[ƒYƒJƒ‰[
+	COLOR_U8				SpcColor ;						// ƒXƒyƒLƒ…ƒ‰ƒJƒ‰[
+} CUBEDATA, *LPCUBEDATA ;
+
 #ifndef DX_NOTUSE_DRAWFUNCTION
 
 // ƒCƒ[ƒWƒtƒH[ƒ}ƒbƒgƒf[ƒ^
@@ -1853,9 +1879,19 @@ extern	int			WaitKey( void ) ;														// ƒL[‚Ì“ü—Í‘Ò‚¿‚ðs‚¤
 #endif // DX_NON_INPUT
 
 // ƒJƒEƒ“ƒ^‹y‚ÑŽžŽæ“¾ŒnŠÖ”
-extern	int			GetNowCount(				int UseRDTSCFlag = FALSE ) ;				// ƒ~ƒŠ•b’PˆÊ‚Ì¸“x‚ðŽ‚ÂƒJƒEƒ“ƒ^‚ÌŒ»Ý’l‚ð“¾‚é
-extern	LONGLONG	GetNowHiPerformanceCount(	int UseRDTSCFlag = FALSE ) ;				// GetNowCount‚Ì‚¸“xƒo[ƒWƒ‡ƒ“
-extern	int			GetDateTime(				DATEDATA *DateBuf ) ;						// Œ»ÝŽž‚ðŽæ“¾‚·‚é 
+extern	int			GetNowCount(							int UseRDTSCFlag = FALSE ) ;	// ƒ~ƒŠ•b’PˆÊ‚Ì¸“x‚ðŽ‚ÂƒJƒEƒ“ƒ^‚ÌŒ»Ý‚Ì’l‚ð“¾‚é
+extern	LONGLONG	GetNowHiPerformanceCount(				int UseRDTSCFlag = FALSE ) ;	// GetNowCount‚Ì‚¸“xƒo[ƒWƒ‡ƒ“( ƒÊ•b’PˆÊ‚Ì¸“x‚ðŽ‚ÂƒJƒEƒ“ƒ^‚ÌŒ»Ý‚Ì’l‚ð“¾‚é )
+extern	ULONGLONG	GetNowSysPerformanceCount(				void ) ;						// OS‚ª’ñ‹Ÿ‚·‚é‚¸“xƒJƒEƒ“ƒ^‚ÌŒ»Ý‚Ì’l‚ð“¾‚é
+extern	ULONGLONG	GetSysPerformanceFrequency(				void ) ;						// OS‚ª’ñ‹Ÿ‚·‚é‚¸“xƒJƒEƒ“ƒ^‚ÌŽü”g”( 1•b•Ó‚è‚ÌƒJƒEƒ“ƒg” )‚ð“¾‚é
+extern	ULONGLONG	ConvSysPerformanceCountToSeconds(		ULONGLONG Count ) ;				// OS‚ª’ñ‹Ÿ‚·‚é‚¸“xƒJƒEƒ“ƒ^‚Ì’l‚ð•b‚Ì’l‚É•ÏŠ·‚·‚é
+extern	ULONGLONG	ConvSysPerformanceCountToMilliSeconds(	ULONGLONG Count ) ;				// OS‚ª’ñ‹Ÿ‚·‚é‚¸“xƒJƒEƒ“ƒ^‚Ì’l‚ðƒ~ƒŠ•b‚Ì’l‚É•ÏŠ·‚·‚é
+extern	ULONGLONG	ConvSysPerformanceCountToMicroSeconds(	ULONGLONG Count ) ;				// OS‚ª’ñ‹Ÿ‚·‚é‚¸“xƒJƒEƒ“ƒ^‚Ì’l‚ðƒ}ƒCƒNƒ•b‚Ì’l‚É•ÏŠ·‚·‚é
+extern	ULONGLONG	ConvSysPerformanceCountToNanoSeconds(	ULONGLONG Count ) ;				// OS‚ª’ñ‹Ÿ‚·‚é‚¸“xƒJƒEƒ“ƒ^‚Ì’l‚ðƒiƒm•b‚Ì’l‚É•ÏŠ·‚·‚é
+extern	ULONGLONG	ConvSecondsToSysPerformanceCount(		ULONGLONG Seconds ) ;			// •b‚Ì’l‚ðOS‚ª’ñ‹Ÿ‚·‚é‚¸“xƒJƒEƒ“ƒ^‚Ì’l‚É•ÏŠ·‚·‚é
+extern	ULONGLONG	ConvMilliSecondsToSysPerformanceCount(	ULONGLONG MilliSeconds ) ;		// ƒ~ƒŠ•b‚Ì’l‚ðOS‚ª’ñ‹Ÿ‚·‚é‚¸“xƒJƒEƒ“ƒ^‚Ì’l‚É•ÏŠ·‚·‚é
+extern	ULONGLONG	ConvMicroSecondsToSysPerformanceCount(	ULONGLONG MicroSeconds ) ;		// ƒ}ƒCƒNƒ•b‚Ì’l‚ðOS‚ª’ñ‹Ÿ‚·‚é‚¸“xƒJƒEƒ“ƒ^‚Ì’l‚É•ÏŠ·‚·‚é
+extern	ULONGLONG	ConvNanoSecondsToSysPerformanceCount(	ULONGLONG NanoSeconds ) ;		// ƒiƒm•b‚Ì’l‚ðOS‚ª’ñ‹Ÿ‚·‚é‚¸“xƒJƒEƒ“ƒ^‚Ì’l‚É•ÏŠ·‚·‚é
+extern	int			GetDateTime(							DATEDATA *DateBuf ) ;			// Œ»ÝŽž‚ðŽæ“¾‚·‚é 
 
 // —”Žæ“¾
 extern	int			GetRand( int RandMax ) ;												// —”‚ðŽæ“¾‚·‚é( RandMax : •Ô‚Á‚Ä—ˆ‚é’l‚ÌÅ‘å’l )
@@ -1869,6 +1905,28 @@ extern	int			GetClipboardText(			TCHAR *DestBuffer ) ;						// ƒNƒŠƒbƒvƒ{[ƒh‚ÉŠ
 extern	int			SetClipboardText(			const TCHAR *Text                    ) ;	// ƒNƒŠƒbƒvƒ{[ƒh‚ÉƒeƒLƒXƒgƒf[ƒ^‚ðŠi”[‚·‚é
 extern	int			SetClipboardTextWithStrLen(	const TCHAR *Text, size_t TextLength ) ;	// ƒNƒŠƒbƒvƒ{[ƒh‚ÉƒeƒLƒXƒgƒf[ƒ^‚ðŠi”[‚·‚é
 
+// iniƒtƒ@ƒCƒ‹ŠÖŒW
+extern	int			GetPrivateProfileStringDx(                 const TCHAR *AppName,                       const TCHAR *KeyName,                       const TCHAR *Default,                       TCHAR *ReturnedStringBuffer, size_t ReturnedStringBufferBytes, const TCHAR *IniFilePath,                           int IniFileCharCodeFormat = -1 /* DX_CHARCODEFORMAT_SHIFTJIS “™A-1 ‚ÅƒfƒtƒHƒ‹ƒg */ ) ;		// GetPrivateProfileString ‚Ì‚c‚wƒ‰ƒCƒuƒ‰ƒŠ”Å
+extern	int			GetPrivateProfileStringDxWithStrLen(       const TCHAR *AppName, size_t AppNameLength, const TCHAR *KeyName, size_t KeyNameLength, const TCHAR *Default, size_t DefaultLength, TCHAR *ReturnedStringBuffer, size_t ReturnedStringBufferBytes, const TCHAR *IniFilePath, size_t IniFilePathLength, int IniFileCharCodeFormat = -1 /* DX_CHARCODEFORMAT_SHIFTJIS “™A-1 ‚ÅƒfƒtƒHƒ‹ƒg */ ) ;		// GetPrivateProfileString ‚Ì‚c‚wƒ‰ƒCƒuƒ‰ƒŠ”Å
+extern	int			GetPrivateProfileIntDx(                    const TCHAR *AppName,                       const TCHAR *KeyName,                       int          Default,                                                                                      const TCHAR *IniFilePath,                           int IniFileCharCodeFormat = -1 /* DX_CHARCODEFORMAT_SHIFTJIS “™A-1 ‚ÅƒfƒtƒHƒ‹ƒg */ ) ;		// GetPrivateProfileInt ‚Ì‚c‚wƒ‰ƒCƒuƒ‰ƒŠ”Å
+extern	int			GetPrivateProfileIntDxWithStrLen(          const TCHAR *AppName, size_t AppNameLength, const TCHAR *KeyName, size_t KeyNameLength, int          Default,                                                                                      const TCHAR *IniFilePath, size_t IniFilePathLength, int IniFileCharCodeFormat = -1 /* DX_CHARCODEFORMAT_SHIFTJIS “™A-1 ‚ÅƒfƒtƒHƒ‹ƒg */ ) ;		// GetPrivateProfileInt ‚Ì‚c‚wƒ‰ƒCƒuƒ‰ƒŠ”Å
+extern	int			GetPrivateProfileStringDxForMem(           const TCHAR *AppName,                       const TCHAR *KeyName,                       const TCHAR *Default,                       TCHAR *ReturnedStringBuffer, size_t ReturnedStringBufferBytes, const void *IniFileImage, size_t IniFileImageBytes, int IniFileCharCodeFormat = -1 /* DX_CHARCODEFORMAT_SHIFTJIS “™A-1 ‚ÅƒfƒtƒHƒ‹ƒg */ ) ;		// GetPrivateProfileStringDx ‚Ìƒƒ‚ƒŠ‚©‚ç“Ç‚Ýž‚Þ”Å
+extern	int			GetPrivateProfileStringDxForMemWithStrLen( const TCHAR *AppName, size_t AppNameLength, const TCHAR *KeyName, size_t KeyNameLength, const TCHAR *Default, size_t DefaultLength, TCHAR *ReturnedStringBuffer, size_t ReturnedStringBufferBytes, const void *IniFileImage, size_t IniFileImageBytes, int IniFileCharCodeFormat = -1 /* DX_CHARCODEFORMAT_SHIFTJIS “™A-1 ‚ÅƒfƒtƒHƒ‹ƒg */ ) ;		// GetPrivateProfileStringDx ‚Ìƒƒ‚ƒŠ‚©‚ç“Ç‚Ýž‚Þ”Å
+extern	int			GetPrivateProfileIntDxForMem(              const TCHAR *AppName,                       const TCHAR *KeyName,                       int          Default,                                                                                      const void *IniFileImage, size_t IniFileImageBytes, int IniFileCharCodeFormat = -1 /* DX_CHARCODEFORMAT_SHIFTJIS “™A-1 ‚ÅƒfƒtƒHƒ‹ƒg */ ) ;		// GetPrivateProfileIntDx ‚Ìƒƒ‚ƒŠ‚©‚ç“Ç‚Ýž‚Þ”Å
+extern	int			GetPrivateProfileIntDxForMemWithStrLen(    const TCHAR *AppName, size_t AppNameLength, const TCHAR *KeyName, size_t KeyNameLength, int          Default,                                                                                      const void *IniFileImage, size_t IniFileImageBytes, int IniFileCharCodeFormat = -1 /* DX_CHARCODEFORMAT_SHIFTJIS “™A-1 ‚ÅƒfƒtƒHƒ‹ƒg */ ) ;		// GetPrivateProfileIntDx ‚Ìƒƒ‚ƒŠ‚©‚ç“Ç‚Ýž‚Þ”Å
+
+#if defined( __APPLE__ ) || defined( __ANDROID__ )
+
+// ƒ[ƒ‹ƒAƒvƒŠ‚ð‘—Mƒ[ƒ‹•ÒWó‘Ô‚Å‹N“®‚·‚é
+// MailAddr    : ˆ¶æ( NULL ‚Å–³Œø )Aƒ[ƒ‹ƒAƒhƒŒƒX‚ª•¡”‚ ‚éê‡‚ÍƒJƒ“ƒ}w,x‚Å‹æØ‚Á‚Ä‚­‚¾‚³‚¢
+// MailCCAddr  : CC ‚Ìˆ¶æ( NULL ‚Å–³Œø )Aƒ[ƒ‹ƒAƒhƒŒƒX‚ª•¡”‚ ‚éê‡‚ÍƒJƒ“ƒ}w,x‚Å‹æØ‚Á‚Ä‚­‚¾‚³‚¢
+// MailBCCAddr : BCC ‚Ìˆ¶æ( NULL ‚Å–³Œø )Aƒ[ƒ‹ƒAƒhƒŒƒX‚ª•¡”‚ ‚éê‡‚ÍƒJƒ“ƒ}w,x‚Å‹æØ‚Á‚Ä‚­‚¾‚³‚¢
+// Subject     : ƒ^ƒCƒgƒ‹( NULL ‚Å–³Œø )Aƒ[ƒ‹ƒAƒhƒŒƒX‚ª•¡”‚ ‚éê‡‚ÍƒJƒ“ƒ}w,x‚Å‹æØ‚Á‚Ä‚­‚¾‚³‚¢
+// Text        : –{•¶( NULL ‚Å–³Œø )Aƒ[ƒ‹ƒAƒhƒŒƒX‚ª•¡”‚ ‚éê‡‚ÍƒJƒ“ƒ}w,x‚Å‹æØ‚Á‚Ä‚­‚¾‚³‚¢
+extern	int			MailApp_Send(           const TCHAR *MailAddr = NULL ,                             const TCHAR *MailCCAddr = NULL ,                               const TCHAR *MailBCCAddr = NULL ,                                const TCHAR *Subject = NULL ,                            const TCHAR *Text = NULL                         ) ;
+extern	int			MailApp_SendWithStrLen( const TCHAR *MailAddr = NULL , size_t MailAddrLength = 0 , const TCHAR *MailCCAddr = NULL , size_t MailCCAddrLength = 0 , const TCHAR *MailBCCAddr = NULL , size_t MailBCCAddrLength = 0 , const TCHAR *Subject = NULL , size_t SubjectLength = 0 , const TCHAR *Text = NULL , size_t TextLength = 0 ) ;
+
+#endif // defined( __APPLE__ ) || defined( __ANDROID__ )
 
 
 
@@ -1987,7 +2045,7 @@ extern	int			GetMouseHWheelRotVol(	int CounterReset = TRUE ) ;										// …•½ƒ
 extern	float		GetMouseWheelRotVolF(	int CounterReset = TRUE ) ;										// ‚’¼ƒ}ƒEƒXƒzƒC[ƒ‹‚Ì‰ñ“]—Ê‚ðŽæ“¾‚·‚é( –ß‚è’l‚ª float Œ^ )
 extern	float		GetMouseHWheelRotVolF(	int CounterReset = TRUE ) ;										// …•½ƒ}ƒEƒXƒzƒC[ƒ‹‚Ì‰ñ“]—Ê‚ðŽæ“¾‚·‚é( –ß‚è’l‚ª float Œ^ )
 extern	int			GetMouseInputLog(		int *Button, int *ClickX, int *ClickY, int LogDelete = TRUE ) ;					// ƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚½î•ñ‚ðˆê‚ÂŽæ“¾‚·‚é( Button:‰Ÿ‚³‚ê‚½ƒ{ƒ^ƒ“( MOUSE_INPUT_LEFT “™ )‚ðŠi”[‚·‚é•Ï”‚ÌƒAƒhƒŒƒX  ClickX:‰Ÿ‚³‚ê‚½Žž‚Ì‚wÀ•W‚ðŠi”[‚·‚é•Ï”‚ÌƒAƒhƒŒƒX  ClickY:‰Ÿ‚³‚ê‚½Žž‚Ì‚xÀ•W‚ðŠi”[‚·‚é•Ï”‚ÌƒAƒhƒŒƒX   LogDelete:Žæ“¾‚µ‚½‰Ÿ‰ºî•ñˆê‚Â•ª‚ðƒƒO‚©‚çíœ‚·‚é‚©‚Ç‚¤‚©( TRUE:íœ‚·‚é  FALSE:íœ‚µ‚È‚¢A‚Â‚Ü‚èŽŸ‚É‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚É“¯‚¶’l‚ðŽæ“¾‚·‚é‚±‚Æ‚É‚È‚é )@@–ß‚è’l  0:‰Ÿ‚³‚ê‚½î•ñŽæ“¾‚Å‚«‚½@-1:‰Ÿ‚³‚ê‚½î•ñ‚ª–³‚©‚Á‚½A‚Â‚Ü‚è‘O‰ñ‚ÌŒÄ‚Ño‚µ( ‚Ü‚½‚Í‹N“®Žž‚©‚çÅ‰‚ÌŒÄ‚Ño‚µ )‚ÌŠÔ‚Éˆê“x‚àƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚È‚©‚Á‚½ )
-extern	int			GetMouseInputLog2(		int *Button, int *ClickX, int *ClickY, int *LogType, int LogDelete = TRUE ) ;	// ƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚½‚è—£‚µ‚½‚è‚µ‚½î•ñ‚ðˆê‚ÂŽæ“¾‚·‚é( Button:‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚½ƒ{ƒ^ƒ“( MOUSE_INPUT_LEFT “™ )‚ðŠi”[‚·‚é•Ï”‚ÌƒAƒhƒŒƒX  ClickX:‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚½Žž‚Ì‚wÀ•W‚ðŠi”[‚·‚é•Ï”‚ÌƒAƒhƒŒƒX  ClickY:‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚½Žž‚Ì‚xÀ•W‚ðŠi”[‚·‚é•Ï”‚ÌƒAƒhƒŒƒX   LogDelete:Žæ“¾‚µ‚½‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚½î•ñˆê‚Â•ª‚ðƒƒO‚©‚çíœ‚·‚é‚©‚Ç‚¤‚©( TRUE:íœ‚·‚é  FALSE:íœ‚µ‚È‚¢A‚Â‚Ü‚èŽŸ‚É‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚É“¯‚¶’l‚ðŽæ“¾‚·‚é‚±‚Æ‚É‚È‚é )@@–ß‚è’l  0:‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚½î•ñŽæ“¾‚Å‚«‚½@-1:‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚½î•ñ‚ª–³‚©‚Á‚½A‚Â‚Ü‚è‘O‰ñ‚ÌŒÄ‚Ño‚µ( ‚Ü‚½‚Í‹N“®Žž‚©‚çÅ‰‚ÌŒÄ‚Ño‚µ )‚ÌŠÔ‚Éˆê“x‚àƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚È‚©‚Á‚½ )
+extern	int			GetMouseInputLog2(		int *Button, int *ClickX, int *ClickY, int *LogType, int LogDelete = TRUE ) ;	// ƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚½‚è—£‚µ‚½‚è‚µ‚½î•ñ‚ðˆê‚ÂŽæ“¾‚·‚é( Button:‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚½ƒ{ƒ^ƒ“( MOUSE_INPUT_LEFT “™ )‚ðŠi”[‚·‚é•Ï”‚ÌƒAƒhƒŒƒX  ClickX:‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚½Žž‚Ì‚wÀ•W‚ðŠi”[‚·‚é•Ï”‚ÌƒAƒhƒŒƒX  ClickY:‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚½Žž‚Ì‚xÀ•W‚ðŠi”[‚·‚é•Ï”‚ÌƒAƒhƒŒƒX  LogTypeF‰Ÿ‚³‚ê‚½‚Ì‚©( MOUSE_INPUT_LOG_DOWN )—£‚³‚ê‚½‚Ì‚©( MOUSE_INPUT_LOG_UP )A“™‚Ìî•ñ‚ðŠi”[‚·‚é•Ï”‚ÌƒAƒhƒŒƒX  LogDelete:Žæ“¾‚µ‚½‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚½î•ñˆê‚Â•ª‚ðƒƒO‚©‚çíœ‚·‚é‚©‚Ç‚¤‚©( TRUE:íœ‚·‚é  FALSE:íœ‚µ‚È‚¢A‚Â‚Ü‚èŽŸ‚É‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚É“¯‚¶’l‚ðŽæ“¾‚·‚é‚±‚Æ‚É‚È‚é )@@–ß‚è’l  0:‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚½î•ñŽæ“¾‚Å‚«‚½@-1:‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚½î•ñ‚ª–³‚©‚Á‚½A‚Â‚Ü‚è‘O‰ñ‚ÌŒÄ‚Ño‚µ( ‚Ü‚½‚Í‹N“®Žž‚©‚çÅ‰‚ÌŒÄ‚Ño‚µ )‚ÌŠÔ‚Éˆê“x‚àƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚è—£‚³‚ê‚½‚è‚µ‚È‚©‚Á‚½ )
 #endif // DX_NON_INPUT
 
 
@@ -2405,6 +2463,7 @@ extern	int			CheckHitKey(							int KeyCode ) ;															// ƒL[ƒ{[ƒh‚Ì‰Ÿ‰
 extern	int			CheckHitKeyAll(							int CheckType = DX_CHECKINPUT_ALL ) ;									// ‚Ç‚ê‚©ˆê‚Â‚Å‚àƒL[‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ðŽæ“¾( ‰Ÿ‚³‚ê‚Ä‚¢‚½‚ç–ß‚è’l‚ª 0 ˆÈŠO‚É‚È‚é )
 extern	int			GetHitKeyStateAll(						DX_CHAR *KeyStateArray ) ;												// ‚·‚×‚Ä‚ÌƒL[‚Ì‰Ÿ‰ºó‘Ô‚ðŽæ“¾‚·‚é( KeyStateBuf:charŒ^256ŒÂ•ª‚Ì”z—ñ‚Ìæ“ªƒAƒhƒŒƒX )
 extern	int			GetJoypadNum(							void ) ;																// ƒWƒ‡ƒCƒpƒbƒh‚ªÚ‘±‚³‚ê‚Ä‚¢‚é”‚ðŽæ“¾‚·‚é
+extern	int			GetJoypadButtonNum(						int InputType ) ;														// ƒWƒ‡ƒCƒpƒbƒh‚Ìƒ{ƒ^ƒ“‚Ì”‚ðŽæ“¾‚·‚é
 extern	int			GetJoypadInputState(					int InputType ) ;														// ƒWƒ‡ƒCƒpƒbƒh‚Ì“ü—Íó‘Ô‚ðŽæ“¾‚·‚é
 extern	int			GetJoypadAnalogInput(					int *XBuf, int *YBuf, int InputType ) ;									// ƒWƒ‡ƒCƒpƒbƒh‚ÌƒAƒiƒƒO“I‚ÈƒXƒeƒBƒbƒN“ü—Íî•ñ‚ð“¾‚é
 extern	int			GetJoypadAnalogInputRight(				int *XBuf, int *YBuf, int InputType ) ;									// ( Žg—p”ñ„§ )ƒWƒ‡ƒCƒpƒbƒh‚ÌƒAƒiƒƒO“I‚ÈƒXƒeƒBƒbƒN“ü—Íî•ñ‚ð“¾‚é(‰EƒXƒeƒBƒbƒN—p)
@@ -2674,6 +2733,7 @@ extern	int			DrawTriangle3D(  VECTOR   Pos1,   VECTOR   Pos2, VECTOR   Pos3,    
 extern	int			DrawTriangle3DD( VECTOR_D Pos1,   VECTOR_D Pos2, VECTOR_D Pos3,                                unsigned int Color, int FillFlag ) ;				// ‚R‚c‚ÌŽOŠpŒ`‚ð•`‰æ‚·‚é
 extern	int			DrawCube3D(      VECTOR   Pos1,   VECTOR   Pos2,                            unsigned int DifColor, unsigned int SpcColor, int FillFlag ) ;		// ‚R‚c‚Ì—§•û‘Ì‚ð•`‰æ‚·‚é
 extern	int			DrawCube3DD(     VECTOR_D Pos1,   VECTOR_D Pos2,                            unsigned int DifColor, unsigned int SpcColor, int FillFlag ) ;		// ‚R‚c‚Ì—§•û‘Ì‚ð•`‰æ‚·‚é
+extern	int			DrawCubeSet3D(   CUBEDATA *CubeDataArray, int Num, int FillFlag ) ;																				// ‚R‚c‚Ì—§•û‘Ì‚ÌW‡‚ð•`‰æ‚·‚é
 extern	int			DrawSphere3D(    VECTOR   CenterPos,                  float  r, int DivNum, unsigned int DifColor, unsigned int SpcColor, int FillFlag ) ;		// ‚R‚c‚Ì‹…‘Ì‚ð•`‰æ‚·‚é
 extern	int			DrawSphere3DD(   VECTOR_D CenterPos,                  double r, int DivNum, unsigned int DifColor, unsigned int SpcColor, int FillFlag ) ;		// ‚R‚c‚Ì‹…‘Ì‚ð•`‰æ‚·‚é
 extern	int			DrawCapsule3D(   VECTOR   Pos1,   VECTOR   Pos2,      float  r, int DivNum, unsigned int DifColor, unsigned int SpcColor, int FillFlag ) ;		// ‚R‚c‚ÌƒJƒvƒZƒ‹‚ð•`‰æ‚·‚é
@@ -2736,7 +2796,8 @@ extern	int			DrawRectModiGraphF(       float x1, float y1, float x2, float y2, f
 extern	int			DrawBlendGraph(           int x, int y, int GrHandle, int TransFlag,                 int BlendGraph, int BorderParam, int BorderRange ) ;									// ƒuƒŒƒ“ƒh‰æ‘œ‚Æ‡¬‚µ‚Ä‰æ‘œ‚ð“™”{•`‰æ‚·‚é
 extern	int			DrawBlendGraphPos(        int x, int y, int GrHandle, int TransFlag, int bx, int by, int BlendGraph, int BorderParam, int BorderRange ) ;									// ƒuƒŒƒ“ƒh‰æ‘œ‚Æ‡¬‚µ‚Ä‰æ‘œ‚ð“™”{•`‰æ‚·‚é( ƒuƒŒƒ“ƒh‰æ‘œ‚Ì‹N“_À•W‚ðŽw’è‚·‚éˆø”•t‚« )
 
-extern	int			DrawCircleGauge(          int CenterX, int CenterY, double Percent, int GrHandle, double StartPercent = 0.0 , double Scale = 1.0 , int ReverseX = FALSE , int ReverseY = FALSE ) ;										// ‰~ƒOƒ‰ƒt“I‚È•`‰æ‚ðs‚¤( GrHandle ‚Ì‰æ‘œ‚Ìã‰º¶‰E‚Ì’[‚Í“§‰ßF‚É‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚è‚Ü‚· )
+extern	int			DrawCircleGauge(          int   CenterX, int   CenterY, double Percent, int GrHandle, double StartPercent = 0.0 , double Scale = 1.0 , int ReverseX = FALSE , int ReverseY = FALSE ) ;										// ‰~ƒOƒ‰ƒt“I‚È•`‰æ‚ðs‚¤( GrHandle ‚Ì‰æ‘œ‚Ìã‰º¶‰E‚Ì’[‚Í“§‰ßF‚É‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚è‚Ü‚· )
+extern	int			DrawCircleGaugeF(         float CenterX, float CenterY, double Percent, int GrHandle, double StartPercent = 0.0 , double Scale = 1.0 , int ReverseX = FALSE , int ReverseY = FALSE ) ;										// ‰~ƒOƒ‰ƒt“I‚È•`‰æ‚ðs‚¤( GrHandle ‚Ì‰æ‘œ‚Ìã‰º¶‰E‚Ì’[‚Í“§‰ßF‚É‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚è‚Ü‚· )( À•WŽw’è‚ª float ”Å )
 
 extern	int			DrawGraphToZBuffer(       int X, int Y,                                                                 int GrHandle, int WriteZMode /* DX_ZWRITE_MASK “™ */ ) ;														// ‚yƒoƒbƒtƒ@‚É‘Î‚µ‚Ä‰æ‘œ‚Ì“™”{•`‰æ
 extern	int			DrawTurnGraphToZBuffer(   int x, int y,                                                                 int GrHandle, int WriteZMode /* DX_ZWRITE_MASK “™ */ ) ;														// ‚yƒoƒbƒtƒ@‚É‘Î‚µ‚Ä‰æ‘œ‚Ì¶‰E”½“]•`‰æ
@@ -2806,6 +2867,7 @@ extern	int			GetWriteAlphaChannelFlag(			void ) ;														// •`‰ææ‚ÌƒAƒ‹ƒt
 extern	int			CheckSeparateAlphaBlendEnable(		void ) ;														// •`‰ææ‚ÌƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹‚Ì“à—e‚ð‘‚«Š·‚¦‚È‚¢‚±‚Æ‚ª‚Å‚«‚é‚©‚Ç‚¤‚©‚ðŽæ“¾‚·‚é( TRUE:‘‚«Š·‚¦‚È‚¢‚±‚Æ‚ª‚Å‚«‚é  FALSE:‘‚«Š·‚¦‚È‚¢‚±‚Æ‚ª‚Å‚«‚È‚¢ )
 extern	int			SetIgnoreDrawGraphColor(			int EnableFlag ) ;												// •`‰æ‚·‚é‰æ‘œ‚Ì‚q‚f‚a¬•ª‚ð–³Ž‹‚·‚é‚©‚Ç‚¤‚©‚ðŽw’è‚·‚é( EnableFlag:‚±‚Ì‹@”\‚ðŽg‚¤‚©‚Ç‚¤‚©( TRUE:Žg‚¤  FALSE:Žg‚í‚È‚¢( ƒfƒtƒHƒ‹ƒg ) ) )
 extern	int			SetMaxAnisotropy(					int MaxAnisotropy ) ;											// Å‘åˆÙ•û«’l‚ðÝ’è‚·‚é
+extern	int			GetMaxAnisotropy(					void ) ;														// Å‘åˆÙ•û«’l‚ðŽæ“¾‚·‚é
 extern	int			SetUseLarge3DPositionSupport(		int UseFlag ) ;													// ‚R‚cˆ—‚ÅŽg—p‚·‚éÀ•W’l‚ª 10000000.0f ‚È‚Ç‚Ì‘å‚«‚È’l‚É‚È‚Á‚Ä‚à•`‰æ‚Ì•ö‚ê‚ð¬‚³‚­—}‚¦‚éˆ—‚ðŽg—p‚·‚é‚©‚Ç‚¤‚©‚ðÝ’è‚·‚éADxLib_Init ‚ÌŒÄ‚Ño‚µ‘O‚Å‚Ì‚ÝŽg—p‰Â”\( TRUE:•`‰æ‚Ì•ö‚ê‚ð—}‚¦‚éˆ—‚ðŽg—p‚·‚é( CPU•‰‰×‚ªã‚ª‚è‚Ü‚· )@@FALSE:•`‰æ‚Ì•ö‚ê‚ð—}‚¦‚éˆ—‚ÍŽg—p‚µ‚È‚¢( ƒfƒtƒHƒ‹ƒg ) )
 
 extern	int			SetUseZBufferFlag(					int Flag ) ;													// ‚yƒoƒbƒtƒ@‚ðŽg—p‚·‚é‚©‚Ç‚¤‚©‚ðÝ’è‚·‚é( ‚Q‚c‚Æ‚R‚c•`‰æ‚É‰e‹¿ )( TRUE:‚yƒoƒbƒtƒ@‚ðŽg—p‚·‚é  FALSE:‚yƒoƒbƒtƒ@‚ðŽg—p‚µ‚È‚¢( ƒfƒtƒHƒ‹ƒg ) )
@@ -3101,6 +3163,8 @@ extern	int			SetShaderConstantBuffer(		int SConstBufHandle, int TargetShader /* 
 
 // ƒtƒBƒ‹ƒ^[ŠÖŒWŠÖ”
 #ifndef DX_NON_FILTER
+extern	int			SetGraphFilterBltBlendMode( int BlendMode /* DX_BLENDMODE_ALPHA ‚È‚Ç */ ) ;												// GraphFilterBlt ‚â GraphBlendBlt ‚ÌŒ‹‰Ê‚ð“]‘—æ‚É“]‘—‚·‚éÛ‚ÌƒuƒŒƒ“ƒhƒ‚[ƒh‚ðÝ’è‚·‚é( Œ»ó‚Å‘Î‰ž‚µ‚Ä‚¢‚é‚Ì‚Í DX_BLENDMODE_NOBLEND ‚Æ DX_BLENDMODE_ALPHA ‚Ì‚Ý )
+
 extern	int			GraphFilter(         int    GrHandle,                                                                                                               int FilterType /* DX_GRAPH_FILTER_GAUSS “™ */ , ... ) ;		// ‰æ‘œ‚ÉƒtƒBƒ‹ƒ^[ˆ—‚ðs‚¤
 extern	int			GraphFilterBlt(      int SrcGrHandle, int DestGrHandle,                                                                                             int FilterType /* DX_GRAPH_FILTER_GAUSS “™ */ , ... ) ;		// ‰æ‘œ‚ÌƒtƒBƒ‹ƒ^[•t‚«“]‘—‚ðs‚¤
 extern	int			GraphFilterRectBlt(  int SrcGrHandle, int DestGrHandle, int SrcX1, int SrcY1, int SrcX2, int SrcY2, int DestX,  int DestY,                          int FilterType /* DX_GRAPH_FILTER_GAUSS “™ */ , ... ) ;		// ‰æ‘œ‚ÌƒtƒBƒ‹ƒ^[•t‚«“]‘—‚ðs‚¤( ‹éŒ`Žw’è )
@@ -3114,6 +3178,7 @@ extern	int			GraphFilterRectBlt(  int SrcGrHandle, int DestGrHandle, int SrcX1, 
 //		int			GraphFilter( int GrHandle, int FilterType = DX_GRAPH_FILTER_LEVEL, int Min = •ÏŠ·Œ³‚Ì‰ºŒÀ’l( 0 ` 255 ), int Max = •ÏŠ·Œ³‚ÌãŒÀ’l( 0 ` 255 ), int Gamma = ƒKƒ“ƒ}’l( 100 ‚ÅƒKƒ“ƒ}•â³–³‚µA0 ‚Æ‚»‚êˆÈ‰º‚Ì’l‚Í•s‰Â ), int AfterMin = •ÏŠ·Œã‚ÌÅ’á’l( 0 ` 255 ), int AfterMax = •ÏŠ·Œã‚ÌÅ‘å’l( 0 ` 255 ) ) ;
 //		int			GraphFilter( int GrHandle, int FilterType = DX_GRAPH_FILTER_TWO_COLOR, int Threshold = è‡’l( 0 ` 255 ), unsigned int LowColor = è‡’l‚æ‚è’l‚ª’á‚©‚Á‚½ƒsƒNƒZƒ‹‚Ì•ÏŠ·Œã‚ÌF’l( GetColor ‚ÅŽæ“¾‚·‚é ), int LowAlpha = è‡’l‚æ‚è’l‚ª’á‚©‚Á‚½ƒsƒNƒZƒ‹‚Ì•ÏŠ·Œã‚Ìƒ¿’l( 0 ` 255 ), unsigned int HighColor = è‡’l‚æ‚è’l‚ª‚‚©‚Á‚½ƒsƒNƒZƒ‹‚Ì•ÏŠ·Œã‚ÌF’l( GetColor ‚ÅŽæ“¾‚·‚é ), int HighAlpha = è‡’l‚æ‚è’l‚ª‚‚©‚Á‚½ƒsƒNƒZƒ‹‚Ì•ÏŠ·Œã‚Ìƒ¿’l( 0 ` 255 ) ) ;
 //		int			GraphFilter( int GrHandle, int FilterType = DX_GRAPH_FILTER_GRADIENT_MAP, int MapGrHandle = ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒ}ƒbƒv‚ÌƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹( Œ³‰æ‘œ‚Ì‹P“x‚©‚çƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒ}ƒbƒv‰æ‘œ‚Ì x À•W‚ðŽZo‚µ‚Ü‚·‚Ì‚Åc•‚Í1dot‚Å‚à‚n‚j ), int Reverse = ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒ}ƒbƒv¶‰E”½“]ƒtƒ‰ƒO( TRUE : ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒ}ƒbƒv‚ð¶‰E”½“]‚µ‚ÄŽg‚¤  FALSE : ¶‰E”½“]‚µ‚È‚¢ ) ) ;
+//		int			GraphFilter( int GrHandle, int FilterType = DX_GRAPH_FILTER_REPLACEMENT, int TargetR, int TargetG, int TargetB, int TargetA = ’uŠ·‘ÎÛ‚ÌF( 0`255 ), int R, int G, int B, int A = ’uŠ·Œã‚ÌF( 0`255 ) ) ;
 //		int			GraphFilter( int GrHandle, int FilterType = DX_GRAPH_FILTER_PREMUL_ALPHA ) ;			// ’Êí‚ÌƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹•t‚«‰æ‘œ‚ðæŽZÏ‚ÝƒAƒ‹ƒtƒ@‰æ‘œ‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^
 //		int			GraphFilter( int GrHandle, int FilterType = DX_GRAPH_FILTER_INTERP_ALPHA ) ;			// æŽZÏ‚Ýƒ¿‰æ‘œ‚ð’Êí‚ÌƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹•t‚«‰æ‘œ‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^
 //		int			GraphFilter( int GrHandle, int FilterType = DX_GRAPH_FILTER_YUV_TO_RGB ) ;				// YUVƒJƒ‰[‚ðRGBƒJƒ‰[‚É•ÏŠ·‚·‚éƒtƒBƒ‹ƒ^
@@ -3429,6 +3494,7 @@ extern	int			SetFontCharCodeFormat(					int CharCodeFormat /* DX_CHARCODEFORMAT_
 extern	int			SetDefaultFontState(                    const TCHAR *FontName,                        int Size, int Thick, int FontType = -1 , int CharSet = -1 , int EdgeSize = -1 , int Italic = FALSE ) ;	// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌÝ’è‚ð•ÏX‚·‚é
 extern	int			SetDefaultFontStateWithStrLen(          const TCHAR *FontName, size_t FontNameLength, int Size, int Thick, int FontType = -1 , int CharSet = -1 , int EdgeSize = -1 , int Italic = FALSE ) ;	// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌÝ’è‚ð•ÏX‚·‚é
 extern	int			GetDefaultFontHandle(                   void ) ;																								// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ðŽæ“¾‚·‚é
+extern	int			GetFontMaxCacheCharNum(					void ) ;																								// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌƒLƒƒƒbƒVƒ…‚Å‚«‚é•¶Žš‚Ì”‚ðŽæ“¾‚·‚é
 extern	int			GetFontMaxWidth(                        void ) ;																								// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ì•¶Žš‚ÌÅ‘å•‚ðŽæ“¾‚·‚é
 extern	int			GetFontAscent(                          void ) ;																								// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ì•`‰æˆÊ’u‚©‚çƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‚‚³‚ðŽæ“¾‚·‚é
 extern	int			GetDrawStringWidth(                     const TCHAR *String, int StrLen,          int VerticalFlag = FALSE ) ;									// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ðŽg—p‚µ‚½•¶Žš—ñ‚Ì•`‰æ•‚ðŽæ“¾‚·‚é
@@ -3453,6 +3519,7 @@ extern	int			GetDrawStringKerningPairInfo(			const TCHAR *PairChar,             
 extern	int			GetDrawStringKerningPairInfoWithStrLen(	const TCHAR *PairChar, size_t PairCharLength, int *KernAmount ) ;								// ƒfƒtƒHƒ‹ƒgƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ðŽg—p‚µ‚½“ñ‚Â‚Ì•¶Žš‚ÌƒyƒA‚ÌƒJ[ƒjƒ“ƒOî•ñ‚ðŽæ“¾‚·‚é( PairChar:ƒJ[ƒjƒ“ƒOî•ñ‚ð’²‚×‚éƒyƒA‚Æ‚È‚é2•¶Žš‚Ì•¶Žš—ñ( 2•¶ŽšˆÈã‚ ‚Á‚Ä‚àæ“ª‚Ì2•¶Žš‚¾‚¯Žg—p‚³‚ê‚Ü‚· )  KernAmount:2•¶Žš–Ú‚Ì•¶Žš‚ðŠî–{‚ÌˆÊ’u‚©‚ç‚¸‚ç‚·ƒhƒbƒg”‚ð‘ã“ü‚·‚éintŒ^•Ï”‚ÌƒAƒhƒŒƒX )
 
 extern	const TCHAR *GetFontNameToHandle(					int FontHandle ) ;																				// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌƒtƒHƒ“ƒg–¼‚ðŽæ“¾‚·‚é
+extern	int			GetFontMaxCacheCharNumToHandle(			int FontHandle ) ;																				// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌƒLƒƒƒbƒVƒ…‚Å‚«‚é•¶Žš‚Ì”‚ðŽæ“¾‚·‚é
 extern	int			GetFontMaxWidthToHandle(                int FontHandle ) ;																				// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ì•¶Žš‚ÌÅ‘å•‚ðŽæ“¾‚·‚é
 extern	int			GetFontAscentToHandle(                  int FontHandle ) ;																				// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ì•`‰æˆÊ’u‚©‚çƒx[ƒXƒ‰ƒCƒ“‚Ü‚Å‚Ì‚‚³‚ðŽæ“¾‚·‚é
 extern	int			GetFontSizeToHandle(                    int FontHandle ) ;																				// ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ÌƒTƒCƒY‚ðŽæ“¾‚·‚é
@@ -4506,17 +4573,17 @@ extern	int			InitSoundMem(                        int LogOutFlag = FALSE ) ;				
 
 extern	int			AddSoundData(                        int Handle = -1 ) ;																											// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
 extern	int			AddStreamSoundMem(                   STREAMDATA *Stream, int LoopNum,  int SoundHandle, int StreamDataType, int *CanStreamCloseFlag, int UnionHandle = -1 ) ;		// ƒXƒgƒŠ[ƒ€Ä¶ƒ^ƒCƒv‚ÌƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÉƒXƒgƒŠ[ƒ€ƒf[ƒ^‚ðÄ¶‘ÎÛ‚É’Ç‰Á‚·‚é
-extern	int			AddStreamSoundMemToMem(              const void *FileImage, int FileImageSize, int LoopNum,  int SoundHandle, int StreamDataType, int UnionHandle = -1 ) ;			// ƒXƒgƒŠ[ƒ€Ä¶ƒ^ƒCƒv‚ÌƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒƒ‚ƒŠã‚É“WŠJ‚µ‚½ƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚ðÄ¶‘ÎÛ‚É’Ç‰Á‚·‚é
+extern	int			AddStreamSoundMemToMem(              const void *FileImage, size_t FileImageSize, int LoopNum,  int SoundHandle, int StreamDataType, int UnionHandle = -1 ) ;		// ƒXƒgƒŠ[ƒ€Ä¶ƒ^ƒCƒv‚ÌƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒƒ‚ƒŠã‚É“WŠJ‚µ‚½ƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚ðÄ¶‘ÎÛ‚É’Ç‰Á‚·‚é
 extern	int			AddStreamSoundMemToFile(             const TCHAR *WaveFile,                            int LoopNum,  int SoundHandle, int StreamDataType, int UnionHandle = -1 ) ;	// ƒXƒgƒŠ[ƒ€Ä¶ƒ^ƒCƒv‚ÌƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÉƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹‚ðÄ¶‘ÎÛ‚É’Ç‰Á‚·‚é
 extern	int			AddStreamSoundMemToFileWithStrLen(   const TCHAR *WaveFile, size_t WaveFilePathLength, int LoopNum,  int SoundHandle, int StreamDataType, int UnionHandle = -1 ) ;	// ƒXƒgƒŠ[ƒ€Ä¶ƒ^ƒCƒv‚ÌƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÉƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹‚ðÄ¶‘ÎÛ‚É’Ç‰Á‚·‚é
 extern	int			SetupStreamSoundMem(                 int SoundHandle ) ;																		// ƒXƒgƒŠ[ƒ€Ä¶ƒ^ƒCƒv‚ÌƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶€”õ‚ð‚·‚é
 extern	int			PlayStreamSoundMem(                  int SoundHandle, int PlayType = DX_PLAYTYPE_LOOP , int TopPositionFlag = TRUE ) ;			// ƒXƒgƒŠ[ƒ€Ä¶ƒ^ƒCƒv‚ÌƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶‚ðŠJŽn‚·‚é
 extern	int			CheckStreamSoundMem(                 int SoundHandle ) ;																		// ƒXƒgƒŠ[ƒ€Ä¶ƒ^ƒCƒv‚ÌƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ó‘Ô‚ðŽæ“¾‚·‚é
 extern	int			StopStreamSoundMem(                  int SoundHandle ) ;																		// ƒXƒgƒŠ[ƒ€Ä¶ƒ^ƒCƒv‚ÌƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶‚ð’âŽ~‚·‚é
-extern	int			SetStreamSoundCurrentPosition(       int Byte, int SoundHandle ) ;																// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒoƒCƒg’PˆÊ‚Å•ÏX‚·‚é(Ä¶‚ªŽ~‚Ü‚Á‚Ä‚¢‚éŽž‚Ì‚Ý—LŒø)
-extern	int			GetStreamSoundCurrentPosition(       int SoundHandle ) ;																		// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒoƒCƒg’PˆÊ‚ÅŽæ“¾‚·‚é
-extern	int			SetStreamSoundCurrentTime(           int Time, int SoundHandle ) ;																// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒ~ƒŠ•b’PˆÊ‚ÅÝ’è‚·‚é(ˆ³kŒ`Ž®‚Ìê‡‚Í³‚µ‚­Ý’è‚³‚ê‚È‚¢ê‡‚ª‚ ‚é)
-extern	int			GetStreamSoundCurrentTime(           int SoundHandle ) ;																		// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒ~ƒŠ•b’PˆÊ‚ÅŽæ“¾‚·‚é(ˆ³kŒ`Ž®‚Ìê‡‚Í³‚µ‚¢’l‚ª•Ô‚Á‚Ä‚±‚È‚¢ê‡‚ª‚ ‚é)
+extern	int			SetStreamSoundCurrentPosition(       LONGLONG Byte, int SoundHandle ) ;															// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒoƒCƒg’PˆÊ‚Å•ÏX‚·‚é(Ä¶‚ªŽ~‚Ü‚Á‚Ä‚¢‚éŽž‚Ì‚Ý—LŒø)
+extern	LONGLONG	GetStreamSoundCurrentPosition(       int SoundHandle ) ;																		// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒoƒCƒg’PˆÊ‚ÅŽæ“¾‚·‚é
+extern	int			SetStreamSoundCurrentTime(           LONGLONG Time, int SoundHandle ) ;															// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒ~ƒŠ•b’PˆÊ‚ÅÝ’è‚·‚é(ˆ³kŒ`Ž®‚Ìê‡‚Í³‚µ‚­Ý’è‚³‚ê‚È‚¢ê‡‚ª‚ ‚é)
+extern	LONGLONG	GetStreamSoundCurrentTime(           int SoundHandle ) ;																		// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒ~ƒŠ•b’PˆÊ‚ÅŽæ“¾‚·‚é(ˆ³kŒ`Ž®‚Ìê‡‚Í³‚µ‚¢’l‚ª•Ô‚Á‚Ä‚±‚È‚¢ê‡‚ª‚ ‚é)
 extern	int			ProcessStreamSoundMem(               int SoundHandle ) ;																		// ƒXƒgƒŠ[ƒ€Ä¶ƒ^ƒCƒv‚ÌƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌŽüŠú“I‚Èˆ—‚ðs‚¤ŠÖ”( “à•”‚ÅŽ©“®“I‚ÉŒÄ‚Î‚ê‚Ü‚· )
 extern	int			ProcessStreamSoundMemAll(            void ) ;																					// —LŒø‚ÈƒXƒgƒŠ[ƒ€Ä¶ƒ^ƒCƒv‚ÌƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚É‘Î‚µ‚Ä ProcessStreamSoundMem ‚ðŽÀs‚·‚é( “à•”‚ÅŽ©“®“I‚ÉŒÄ‚Î‚ê‚Ü‚· )
 
@@ -4534,11 +4601,11 @@ extern	int			LoadSoundMemToBufNumSitei(           const TCHAR *FileName,        
 extern	int			LoadSoundMemToBufNumSiteiWithStrLen( const TCHAR *FileName, size_t FileNameLength, int BufferNum ) ;									// LoadSoundMem ‚ðŽg—p‚µ‚Ä‰º‚³‚¢
 extern	int			DuplicateSoundMem(                   int SrcSoundHandle, int BufferNum = 3 ) ;															// “¯‚¶ƒTƒEƒ“ƒhƒf[ƒ^‚ðŽg—p‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( DX_SOUNDDATATYPE_MEMNOPRESS ƒ^ƒCƒv‚ÌƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ì‚Ý‰Â”\ )
 
-extern	int			LoadSoundMemByMemImageBase(          const void *FileImage, int FileImageSize, int BufferNum,      int UnionHandle = -1 ) ;				// ƒƒ‚ƒŠã‚É“WŠJ‚³‚ê‚½ƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚©‚çƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
-extern	int			LoadSoundMemByMemImage(              const void *FileImage, int FileImageSize, int BufferNum = 3 , int UnionHandle = -1 ) ;				// LoadSoundMemByMemImageBase ‚Ì•Ê–¼ŠÖ”
-extern	int			LoadSoundMemByMemImage2(             const void *WaveImage, int WaveImageSize, const WAVEFORMATEX *WaveFormat, int WaveHeaderSize ) ;	// ƒƒ‚ƒŠã‚É“WŠJ‚³‚ê‚½‚o‚b‚lƒf[ƒ^‚©‚çƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
-extern	int			LoadSoundMemByMemImageToBufNumSitei( const void *FileImage, int FileImageSize, int BufferNum ) ;										// LoadSoundMemByMemImageBase ‚ðŽg—p‚µ‚Ä‰º‚³‚¢
-extern	int			LoadSoundMem2ByMemImage(             const void *FileImage1, int FileImageSize1, const void *FileImage2, int FileImageSize2 ) ;			// ‘O‘t•”‚Æƒ‹[ƒv•”‚É•ª‚©‚ê‚½“ñ‚Â‚Ìƒƒ‚ƒŠã‚É“WŠJ‚³‚ê‚½ƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚©‚çƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
+extern	int			LoadSoundMemByMemImageBase(          const void *FileImage, size_t FileImageSize, int BufferNum,      int UnionHandle = -1 ) ;				// ƒƒ‚ƒŠã‚É“WŠJ‚³‚ê‚½ƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚©‚çƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
+extern	int			LoadSoundMemByMemImage(              const void *FileImage, size_t FileImageSize, int BufferNum = 3 , int UnionHandle = -1 ) ;				// LoadSoundMemByMemImageBase ‚Ì•Ê–¼ŠÖ”
+extern	int			LoadSoundMemByMemImage2(             const void *WaveImage, size_t WaveImageSize, const WAVEFORMATEX *WaveFormat, size_t WaveHeaderSize ) ;	// ƒƒ‚ƒŠã‚É“WŠJ‚³‚ê‚½‚o‚b‚lƒf[ƒ^‚©‚çƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
+extern	int			LoadSoundMemByMemImageToBufNumSitei( const void *FileImage, size_t FileImageSize, int BufferNum ) ;										// LoadSoundMemByMemImageBase ‚ðŽg—p‚µ‚Ä‰º‚³‚¢
+extern	int			LoadSoundMem2ByMemImage(             const void *FileImage1, size_t FileImageSize1, const void *FileImage2, size_t FileImageSize2 ) ;	// ‘O‘t•”‚Æƒ‹[ƒv•”‚É•ª‚©‚ê‚½“ñ‚Â‚Ìƒƒ‚ƒŠã‚É“WŠJ‚³‚ê‚½ƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚©‚çƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
 extern	int			LoadSoundMemFromSoftSound(           int SoftSoundHandle, int BufferNum = 3 ) ;															// ƒ\ƒtƒgƒEƒGƒAƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ªŽ‚ÂƒTƒEƒ“ƒhƒf[ƒ^‚©‚çƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
 
 extern	int			DeleteSoundMem(                      int SoundHandle, int LogOutFlag = FALSE ) ;												// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ðíœ‚·‚é
@@ -4569,26 +4636,26 @@ extern	int			SetNextPlayChannelVolumeSoundMem(    int Channel, int VolumePal,   
 extern	int			ChangeNextPlayChannelVolumeSoundMem( int Channel, int VolumePal,                     int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌŽŸ‚ÌÄ¶‚É‚Ì‚ÝŽg—p‚·‚éƒ`ƒƒƒ“ƒlƒ‹‚Ìƒ{ƒŠƒ…[ƒ€‚ðÝ’è‚·‚é( 0 ` 255 )
 extern	int			SetNextPlayFrequencySoundMem(        int FrequencyPal,                               int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌŽŸ‚ÌÄ¶‚É‚Ì‚ÝŽg—p‚·‚éÄ¶Žü”g”‚ðÝ’è‚·‚é
 
-extern	int			SetCurrentPositionSoundMem(          int SamplePosition,                             int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒTƒ“ƒvƒ‹’PˆÊ‚ÅÝ’è‚·‚é(Ä¶‚ªŽ~‚Ü‚Á‚Ä‚¢‚éŽž‚Ì‚Ý—LŒø)
-extern	int			GetCurrentPositionSoundMem(                                                          int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒTƒ“ƒvƒ‹’PˆÊ‚ÅŽæ“¾‚·‚é
-extern	int			SetSoundCurrentPosition(             int Byte,                                       int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒoƒCƒg’PˆÊ‚ÅÝ’è‚·‚é(Ä¶‚ªŽ~‚Ü‚Á‚Ä‚¢‚éŽž‚Ì‚Ý—LŒø)
-extern	int			GetSoundCurrentPosition(                                                             int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒoƒCƒg’PˆÊ‚ÅŽæ“¾‚·‚é
-extern	int			SetSoundCurrentTime(                 int Time,                                       int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒ~ƒŠ•b’PˆÊ‚ÅÝ’è‚·‚é(ˆ³kŒ`Ž®‚Ìê‡‚Í³‚µ‚­Ý’è‚³‚ê‚È‚¢ê‡‚ª‚ ‚é)
-extern	int			GetSoundCurrentTime(                                                                 int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒ~ƒŠ•b’PˆÊ‚ÅŽæ“¾‚·‚é(ˆ³kŒ`Ž®‚Ìê‡‚Í³‚µ‚¢’l‚ª•Ô‚Á‚Ä‚±‚È‚¢ê‡‚ª‚ ‚é)
-extern	int			GetSoundTotalSample(                                                                 int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ì‰¹‚Ì‘ŽžŠÔ‚ðƒTƒ“ƒvƒ‹’PˆÊ‚ÅŽæ“¾‚·‚é
-extern	int			GetSoundTotalTime(                                                                   int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ì‰¹‚Ì‘ŽžŠÔ‚ðƒ~ƒŠ•b’PˆÊ‚ÅŽæ“¾‚·‚é
+extern	int			SetCurrentPositionSoundMem(          LONGLONG SamplePosition,                        int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒTƒ“ƒvƒ‹’PˆÊ‚ÅÝ’è‚·‚é(Ä¶‚ªŽ~‚Ü‚Á‚Ä‚¢‚éŽž‚Ì‚Ý—LŒø)
+extern	LONGLONG	GetCurrentPositionSoundMem(                                                          int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒTƒ“ƒvƒ‹’PˆÊ‚ÅŽæ“¾‚·‚é
+extern	int			SetSoundCurrentPosition(             LONGLONG Byte,                                  int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒoƒCƒg’PˆÊ‚ÅÝ’è‚·‚é(Ä¶‚ªŽ~‚Ü‚Á‚Ä‚¢‚éŽž‚Ì‚Ý—LŒø)
+extern	LONGLONG	GetSoundCurrentPosition(                                                             int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒoƒCƒg’PˆÊ‚ÅŽæ“¾‚·‚é
+extern	int			SetSoundCurrentTime(                 LONGLONG Time,                                  int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒ~ƒŠ•b’PˆÊ‚ÅÝ’è‚·‚é(ˆ³kŒ`Ž®‚Ìê‡‚Í³‚µ‚­Ý’è‚³‚ê‚È‚¢ê‡‚ª‚ ‚é)
+extern	LONGLONG	GetSoundCurrentTime(                                                                 int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶ˆÊ’u‚ðƒ~ƒŠ•b’PˆÊ‚ÅŽæ“¾‚·‚é(ˆ³kŒ`Ž®‚Ìê‡‚Í³‚µ‚¢’l‚ª•Ô‚Á‚Ä‚±‚È‚¢ê‡‚ª‚ ‚é)
+extern	LONGLONG	GetSoundTotalSample(                                                                 int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ì‰¹‚Ì‘ŽžŠÔ‚ðƒTƒ“ƒvƒ‹’PˆÊ‚ÅŽæ“¾‚·‚é
+extern	LONGLONG	GetSoundTotalTime(                                                                   int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ì‰¹‚Ì‘ŽžŠÔ‚ðƒ~ƒŠ•b’PˆÊ‚ÅŽæ“¾‚·‚é
 
-extern	int			SetLoopPosSoundMem(                  int LoopTime,                                   int SoundHandle ) ;						// SetLoopTimePosSoundMem ‚Ì•Ê–¼ŠÖ”
-extern	int			SetLoopTimePosSoundMem(              int LoopTime,                                   int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒvˆÊ’u‚ðÝ’è‚·‚é(ƒ~ƒŠ•b’PˆÊ)
-extern	int			SetLoopSamplePosSoundMem(            int LoopSamplePosition,                         int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒvˆÊ’u‚ðÝ’è‚·‚é(ƒTƒ“ƒvƒ‹’PˆÊ)
+extern	int			SetLoopPosSoundMem(                  LONGLONG LoopTime,                              int SoundHandle ) ;						// SetLoopTimePosSoundMem ‚Ì•Ê–¼ŠÖ”
+extern	int			SetLoopTimePosSoundMem(              LONGLONG LoopTime,                              int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒvˆÊ’u‚ðÝ’è‚·‚é(ƒ~ƒŠ•b’PˆÊ)
+extern	int			SetLoopSamplePosSoundMem(            LONGLONG LoopSamplePosition,                    int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒvˆÊ’u‚ðÝ’è‚·‚é(ƒTƒ“ƒvƒ‹’PˆÊ)
 
-extern	int			SetLoopStartTimePosSoundMem(         int LoopStartTime,                              int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒvŠJŽnˆÊ’u‚ðÝ’è‚·‚é(ƒ~ƒŠ•b’PˆÊ)
-extern	int			SetLoopStartSamplePosSoundMem(       int LoopStartSamplePosition,                    int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒvŠJŽnˆÊ’u‚ðÝ’è‚·‚é(ƒTƒ“ƒvƒ‹’PˆÊ)
+extern	int			SetLoopStartTimePosSoundMem(         LONGLONG LoopStartTime,                         int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒvŠJŽnˆÊ’u‚ðÝ’è‚·‚é(ƒ~ƒŠ•b’PˆÊ)
+extern	int			SetLoopStartSamplePosSoundMem(       LONGLONG LoopStartSamplePosition,               int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒvŠJŽnˆÊ’u‚ðÝ’è‚·‚é(ƒTƒ“ƒvƒ‹’PˆÊ)
 
-extern	int			SetLoopAreaTimePosSoundMem(          int  LoopStartTime, int  LoopEndTime,                     int SoundHandle ) ;				// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒv”ÍˆÍ‚ðÝ’è‚·‚é(ƒ~ƒŠ•b’PˆÊ)
-extern	int			GetLoopAreaTimePosSoundMem(          int *LoopStartTime, int *LoopEndTime,                     int SoundHandle ) ;				// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒv”ÍˆÍ‚ðŽæ“¾‚·‚é(ƒ~ƒŠ•b’PˆÊ)
-extern	int			SetLoopAreaSamplePosSoundMem(        int  LoopStartSamplePosition, int  LoopEndSamplePosition, int SoundHandle ) ;				// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒv”ÍˆÍ‚ðÝ’è‚·‚é(ƒTƒ“ƒvƒ‹’PˆÊ)
-extern	int			GetLoopAreaSamplePosSoundMem(        int *LoopStartSamplePosition, int *LoopEndSamplePosition, int SoundHandle ) ;				// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒv”ÍˆÍ‚ðŽæ“¾‚·‚é(ƒTƒ“ƒvƒ‹’PˆÊ)
+extern	int			SetLoopAreaTimePosSoundMem(          LONGLONG  LoopStartTime, LONGLONG  LoopEndTime,                     int SoundHandle ) ;	// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒv”ÍˆÍ‚ðÝ’è‚·‚é(ƒ~ƒŠ•b’PˆÊ)
+extern	int			GetLoopAreaTimePosSoundMem(          LONGLONG *LoopStartTime, LONGLONG *LoopEndTime,                     int SoundHandle ) ;	// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒv”ÍˆÍ‚ðŽæ“¾‚·‚é(ƒ~ƒŠ•b’PˆÊ)
+extern	int			SetLoopAreaSamplePosSoundMem(        LONGLONG  LoopStartSamplePosition, LONGLONG  LoopEndSamplePosition, int SoundHandle ) ;	// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒv”ÍˆÍ‚ðÝ’è‚·‚é(ƒTƒ“ƒvƒ‹’PˆÊ)
+extern	int			GetLoopAreaSamplePosSoundMem(        LONGLONG *LoopStartSamplePosition, LONGLONG *LoopEndSamplePosition, int SoundHandle ) ;	// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Éƒ‹[ƒv”ÍˆÍ‚ðŽæ“¾‚·‚é(ƒTƒ“ƒvƒ‹’PˆÊ)
 
 extern	int			SetPlayFinishDeleteSoundMem(         int DeleteFlag,                                 int SoundHandle ) ;						// ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ÌÄ¶‚ªI—¹‚µ‚½‚çŽ©“®“I‚Éƒnƒ“ƒhƒ‹‚ðíœ‚·‚é‚©‚Ç‚¤‚©‚ðÝ’è‚·‚é
 
@@ -4611,6 +4678,12 @@ extern	int			SetNextPlay3DVelocitySoundMem(       VECTOR Velocity,              
 // “ÁŽêŠÖ”
 extern	int			GetMP3TagInfo(           const TCHAR *FileName,                        TCHAR *TitleBuffer, size_t TitleBufferBytes, TCHAR *ArtistBuffer, size_t ArtistBufferBytes, TCHAR *AlbumBuffer, size_t AlbumBufferBytes, TCHAR *YearBuffer, size_t YearBufferBytes, TCHAR *CommentBuffer, size_t CommentBufferBytes, TCHAR *TrackBuffer, size_t TrackBufferBytes, TCHAR *GenreBuffer, size_t GenreBufferBytes, int *PictureGrHandle ) ;		// MP3ƒtƒ@ƒCƒ‹‚Ìƒ^ƒOî•ñ‚ðŽæ“¾‚·‚é
 extern	int			GetMP3TagInfoWithStrLen( const TCHAR *FileName, size_t FileNameLength, TCHAR *TitleBuffer, size_t TitleBufferBytes, TCHAR *ArtistBuffer, size_t ArtistBufferBytes, TCHAR *AlbumBuffer, size_t AlbumBufferBytes, TCHAR *YearBuffer, size_t YearBufferBytes, TCHAR *CommentBuffer, size_t CommentBufferBytes, TCHAR *TrackBuffer, size_t TrackBufferBytes, TCHAR *GenreBuffer, size_t GenreBufferBytes, int *PictureGrHandle ) ;		// MP3ƒtƒ@ƒCƒ‹‚Ìƒ^ƒOî•ñ‚ðŽæ“¾‚·‚é
+#ifndef DX_NON_OGGVORBIS
+extern	int			GetOggCommentNum(           const TCHAR *FileName                        ) ;																																	// Oggƒtƒ@ƒCƒ‹‚ÌƒRƒƒ“ƒgî•ñ‚Ì”‚ðŽæ“¾‚·‚é
+extern	int			GetOggCommentNumWithStrLen( const TCHAR *FileName, size_t FileNameLength ) ;																																	// Oggƒtƒ@ƒCƒ‹‚ÌƒRƒƒ“ƒgî•ñ‚Ì”‚ðŽæ“¾‚·‚é
+extern	int			GetOggComment(              const TCHAR *FileName,                        int CommentIndex, TCHAR *CommentNameBuffer, size_t CommentNameBufferBytes, TCHAR *CommentBuffer, size_t CommentBufferBytes ) ;		// Oggƒtƒ@ƒCƒ‹‚ÌƒRƒƒ“ƒgî•ñ‚ðŽæ“¾‚·‚é
+extern	int			GetOggCommentWithStrLen(    const TCHAR *FileName, size_t FileNameLength, int CommentIndex, TCHAR *CommentNameBuffer, size_t CommentNameBufferBytes, TCHAR *CommentBuffer, size_t CommentBufferBytes ) ;		// Oggƒtƒ@ƒCƒ‹‚ÌƒRƒƒ“ƒgî•ñ‚ðŽæ“¾‚·‚é
+#endif // DX_NON_OGGVORBIS
 						
 
 // Ý’èŠÖŒWŠÖ”
@@ -4620,16 +4693,18 @@ extern	int			SetCreateSoundPitchRate(             float Cents ) ;															
 extern	float		GetCreateSoundPitchRate(             void ) ;																					// ì¬‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ìƒsƒbƒ`( ‰¹‚Ì’·‚³‚ð•Ï‚¦‚¸‚É‰¹’ö‚ð•ÏX‚·‚é )ƒŒ[ƒg‚ðŽæ“¾‚·‚é( ’PˆÊ‚ÍƒZƒ“ƒg( 100.0f‚Å”¼‰¹A1200.0f‚Å‚PƒIƒNƒ^[ƒ” )Aƒvƒ‰ƒX‚Ì’l‚Å‰¹’ö‚ª‚‚­Aƒ}ƒCƒiƒX‚Ì’l‚Å‰¹’ö‚ª’á‚­‚È‚è‚Ü‚· )
 extern	int			SetCreateSoundTimeStretchRate(       float Rate ) ;																				// ì¬‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ìƒ^ƒCƒ€ƒXƒgƒŒƒbƒ`( ‰¹’ö‚ð•Ï‚¦‚¸‚É‰¹‚Ì’·‚³‚ð•ÏX‚·‚é )ƒŒ[ƒg‚ðÝ’è‚·‚é( ’PˆÊ‚Í”{—¦A2.0f ‚Å‰¹‚Ì’·‚³‚ª‚Q”{‚ÉA0.5f ‚Å‰¹‚Ì’·‚³‚ª”¼•ª‚É‚È‚è‚Ü‚· )
 extern	float		GetCreateSoundTimeStretchRate(       void ) ;																					// ì¬‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ìƒ^ƒCƒ€ƒXƒgƒŒƒbƒ`( ‰¹’ö‚ð•Ï‚¦‚¸‚É‰¹‚Ì’·‚³‚ð•ÏX‚·‚é )ƒŒ[ƒg‚ðŽæ“¾‚·‚é( ’PˆÊ‚Í”{—¦A2.0f ‚Å‰¹‚Ì’·‚³‚ª‚Q”{‚ÉA0.5f ‚Å‰¹‚Ì’·‚³‚ª”¼•ª‚É‚È‚è‚Ü‚· )
-extern	int			SetCreateSoundLoopAreaTimePos(       int  LoopStartTime,           int  LoopEndTime ) ;											// ì¬‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ìƒ‹[ƒv”ÍˆÍ‚ðÝ’è‚·‚é( ƒ~ƒŠ•b’PˆÊ )
-extern	int			GetCreateSoundLoopAreaTimePos(       int *LoopStartTime,           int *LoopEndTime ) ;											// ì¬‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ìƒ‹[ƒv”ÍˆÍ‚ðŽæ“¾‚·‚é( ƒ~ƒŠ•b’PˆÊ )
-extern	int			SetCreateSoundLoopAreaSamplePos(     int  LoopStartSamplePosition, int  LoopEndSamplePosition ) ;								// ì¬‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ìƒ‹[ƒv”ÍˆÍ‚ðÝ’è‚·‚é( ƒTƒ“ƒvƒ‹’PˆÊ )
-extern	int			GetCreateSoundLoopAreaSamplePos(     int *LoopStartSamplePosition, int *LoopEndSamplePosition ) ;								// ì¬‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ìƒ‹[ƒv”ÍˆÍ‚ðŽæ“¾‚·‚é( ƒTƒ“ƒvƒ‹’PˆÊ )
+extern	int			SetCreateSoundLoopAreaTimePos(       LONGLONG  LoopStartTime,           LONGLONG  LoopEndTime ) ;								// ì¬‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ìƒ‹[ƒv”ÍˆÍ‚ðÝ’è‚·‚é( ƒ~ƒŠ•b’PˆÊ )
+extern	int			GetCreateSoundLoopAreaTimePos(       LONGLONG *LoopStartTime,           LONGLONG *LoopEndTime ) ;								// ì¬‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ìƒ‹[ƒv”ÍˆÍ‚ðŽæ“¾‚·‚é( ƒ~ƒŠ•b’PˆÊ )
+extern	int			SetCreateSoundLoopAreaSamplePos(     LONGLONG  LoopStartSamplePosition, LONGLONG  LoopEndSamplePosition ) ;						// ì¬‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ìƒ‹[ƒv”ÍˆÍ‚ðÝ’è‚·‚é( ƒTƒ“ƒvƒ‹’PˆÊ )
+extern	int			GetCreateSoundLoopAreaSamplePos(     LONGLONG *LoopStartSamplePosition, LONGLONG *LoopEndSamplePosition ) ;						// ì¬‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ìƒ‹[ƒv”ÍˆÍ‚ðŽæ“¾‚·‚é( ƒTƒ“ƒvƒ‹’PˆÊ )
 extern	int			SetCreateSoundIgnoreLoopAreaInfo(    int IgnoreFlag ) ;																			// LoadSoundMem ‚È‚Ç‚Å“Ç‚Ýž‚ÞƒTƒEƒ“ƒhƒf[ƒ^‚Éƒ‹[ƒv”ÍˆÍî•ñ‚ª‚ ‚Á‚Ä‚à–³Ž‹‚·‚é‚©‚Ç‚¤‚©‚ðÝ’è‚·‚é( TRUE:–³Ž‹‚·‚é  FALSE:–³Ž‹‚µ‚È‚¢( ƒfƒtƒHƒ‹ƒg ) )
 extern	int			GetCreateSoundIgnoreLoopAreaInfo(    void ) ;																					// LoadSoundMem ‚È‚Ç‚Å“Ç‚Ýž‚ÞƒTƒEƒ“ƒhƒf[ƒ^‚Éƒ‹[ƒv”ÍˆÍî•ñ‚ª‚ ‚Á‚Ä‚à–³Ž‹‚·‚é‚©‚Ç‚¤‚©‚ðŽæ“¾‚·‚é( TRUE:–³Ž‹‚·‚é  FALSE:–³Ž‹‚µ‚È‚¢( ƒfƒtƒHƒ‹ƒg ) )
 extern	int			SetDisableReadSoundFunctionMask(     int Mask ) ;																				// Žg—p‚µ‚È‚¢ƒTƒEƒ“ƒhƒf[ƒ^“Ç‚Ýž‚Ýˆ—‚Ìƒ}ƒXƒN‚ðÝ’è‚·‚é( DX_READSOUNDFUNCTION_PCM “™ )
 extern	int			GetDisableReadSoundFunctionMask(     void ) ;																					// Žg—p‚µ‚È‚¢ƒTƒEƒ“ƒhƒf[ƒ^“Ç‚Ýž‚Ýˆ—‚Ìƒ}ƒXƒN‚ðŽæ“¾‚·‚é( DX_READSOUNDFUNCTION_PCM “™ )
 extern	int			SetEnableSoundCaptureFlag(           int Flag ) ;																				// ƒTƒEƒ“ƒhƒLƒƒƒvƒ`ƒƒ‚ð‘O’ñ‚Æ‚µ‚½“®ì‚ð‚·‚é‚©‚Ç‚¤‚©‚ðÝ’è‚·‚é
 extern	int			SetUseOldVolumeCalcFlag(             int Flag ) ;																				// ChangeVolumeSoundMem, ChangeNextPlayVolumeSoundMem, ChangeMovieVolumeToGraph ‚Ì‰¹—ÊŒvŽZŽ®‚ð Ver3.10cˆÈ‘O‚Ì‚à‚Ì‚ðŽg—p‚·‚é‚©‚Ç‚¤‚©‚ðÝ’è‚·‚é( TRUE:Ver3.10cˆÈ‘O‚ÌŒvŽZŽ®‚ðŽg—p  FALSE:3.10dˆÈ~‚ÌŒvŽZŽ®‚ðŽg—p( ƒfƒtƒHƒ‹ƒg ) )
+extern	int			SetSoundCurrentTimeType(             int Type /* DX_SOUNDCURRENTTIME_TYPE_LOW_LEVEL ‚È‚Ç */ ) ;									// GetSoundCurrentTime ‚È‚Ç‚ðŽg—p‚µ‚½ê‡‚ÉŽæ“¾‚Å‚«‚éÄ¶ŽžŠÔ‚Ìƒ^ƒCƒv‚ðÝ’è‚·‚é
+extern	int			GetSoundCurrentTimeType(             void ) ;																					// GetSoundCurrentTime ‚È‚Ç‚ðŽg—p‚µ‚½ê‡‚ÉŽæ“¾‚Å‚«‚éÄ¶ŽžŠÔ‚Ìƒ^ƒCƒv‚ðŽæ“¾‚·‚é
 
 extern	int			SetCreate3DSoundFlag(                     int Flag ) ;																			// ŽŸ‚Éì¬‚·‚éƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ð‚R‚cƒTƒEƒ“ƒh—p‚É‚·‚é‚©‚Ç‚¤‚©‚ðÝ’è‚·‚é( TRUE:‚R‚cƒTƒEƒ“ƒh—p‚É‚·‚é  FALSE:‚R‚cƒTƒEƒ“ƒh—p‚É‚µ‚È‚¢( ƒfƒtƒHƒ‹ƒg ) )
 extern	int			Set3DSoundOneMetre(                       float Distance ) ;																	// ‚R‚c‹óŠÔ‚Ì‚Pƒ[ƒgƒ‹‚É‘Š“–‚·‚é‹——£‚ðÝ’è‚·‚éADxLib_Init ‚ðŒÄ‚Ño‚·‘O‚Å‚Ì‚ÝŒÄ‚Ño‚µ‰Â”\( ƒfƒtƒHƒ‹ƒg:1.0f )
@@ -4662,33 +4737,33 @@ extern	int			SetVolumeSound(						int VolumePal ) ;																			// SetVolu
 extern	int			InitSoftSound(						void ) ;																					// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ð‚·‚×‚Äíœ‚·‚é
 extern	int			LoadSoftSound(						const TCHAR *FileName                        ) ;											// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹‚©‚çì¬‚·‚é
 extern	int			LoadSoftSoundWithStrLen(			const TCHAR *FileName, size_t FileNameLength ) ;											// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹‚©‚çì¬‚·‚é
-extern	int			LoadSoftSoundFromMemImage(			const void *FileImage, int FileImageSize ) ;												// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðƒƒ‚ƒŠã‚É“WŠJ‚³‚ê‚½ƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚©‚çì¬‚·‚é
-extern	int			MakeSoftSound(						int UseFormat_SoftSoundHandle, int SampleNum ) ;											// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒtƒH[ƒ}ƒbƒg‚Íˆø”‚Ìƒ\ƒtƒgƒEƒGƒAƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Æ“¯‚¶‚à‚Ì‚É‚·‚é )
-extern	int			MakeSoftSound2Ch16Bit44KHz(			int SampleNum ) ;																			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:2 —ÊŽq‰»ƒrƒbƒg”:16bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:44.1KHz )
-extern	int			MakeSoftSound2Ch16Bit22KHz(			int SampleNum ) ;																			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:2 —ÊŽq‰»ƒrƒbƒg”:16bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:22KHz )
-extern	int			MakeSoftSound2Ch8Bit44KHz(			int SampleNum ) ;																			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:2 —ÊŽq‰»ƒrƒbƒg”: 8bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:44.1KHz )
-extern	int			MakeSoftSound2Ch8Bit22KHz(			int SampleNum ) ;																			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:2 —ÊŽq‰»ƒrƒbƒg”: 8bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:22KHz )
-extern	int			MakeSoftSound1Ch16Bit44KHz(			int SampleNum ) ;																			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:1 —ÊŽq‰»ƒrƒbƒg”:16bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:44.1KHz )
-extern	int			MakeSoftSound1Ch16Bit22KHz(			int SampleNum ) ;																			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:1 —ÊŽq‰»ƒrƒbƒg”:16bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:22KHz )
-extern	int			MakeSoftSound1Ch8Bit44KHz(			int SampleNum ) ;																			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:1 —ÊŽq‰»ƒrƒbƒg”: 8bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:44.1KHz )
-extern	int			MakeSoftSound1Ch8Bit22KHz(			int SampleNum ) ;																			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:1 —ÊŽq‰»ƒrƒbƒg”: 8bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:22KHz )
-extern	int			MakeSoftSoundCustom(				int ChannelNum, int BitsPerSample, int SamplesPerSec, int SampleNum, int IsFloatType = 0 ) ;	// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
+extern	int			LoadSoftSoundFromMemImage(			const void *FileImage, size_t FileImageSize ) ;												// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðƒƒ‚ƒŠã‚É“WŠJ‚³‚ê‚½ƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚©‚çì¬‚·‚é
+extern	int			MakeSoftSound(						int UseFormat_SoftSoundHandle, LONGLONG SampleNum ) ;										// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒtƒH[ƒ}ƒbƒg‚Íˆø”‚Ìƒ\ƒtƒgƒEƒGƒAƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Æ“¯‚¶‚à‚Ì‚É‚·‚é )
+extern	int			MakeSoftSound2Ch16Bit44KHz(			LONGLONG SampleNum ) ;																		// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:2 —ÊŽq‰»ƒrƒbƒg”:16bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:44.1KHz )
+extern	int			MakeSoftSound2Ch16Bit22KHz(			LONGLONG SampleNum ) ;																		// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:2 —ÊŽq‰»ƒrƒbƒg”:16bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:22KHz )
+extern	int			MakeSoftSound2Ch8Bit44KHz(			LONGLONG SampleNum ) ;																		// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:2 —ÊŽq‰»ƒrƒbƒg”: 8bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:44.1KHz )
+extern	int			MakeSoftSound2Ch8Bit22KHz(			LONGLONG SampleNum ) ;																		// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:2 —ÊŽq‰»ƒrƒbƒg”: 8bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:22KHz )
+extern	int			MakeSoftSound1Ch16Bit44KHz(			LONGLONG SampleNum ) ;																		// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:1 —ÊŽq‰»ƒrƒbƒg”:16bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:44.1KHz )
+extern	int			MakeSoftSound1Ch16Bit22KHz(			LONGLONG SampleNum ) ;																		// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:1 —ÊŽq‰»ƒrƒbƒg”:16bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:22KHz )
+extern	int			MakeSoftSound1Ch8Bit44KHz(			LONGLONG SampleNum ) ;																		// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:1 —ÊŽq‰»ƒrƒbƒg”: 8bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:44.1KHz )
+extern	int			MakeSoftSound1Ch8Bit22KHz(			LONGLONG SampleNum ) ;																		// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:1 —ÊŽq‰»ƒrƒbƒg”: 8bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:22KHz )
+extern	int			MakeSoftSoundCustom(				int ChannelNum, int BitsPerSample, int SamplesPerSec, LONGLONG SampleNum, int IsFloatType = 0 ) ;	// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤‹ó‚Ì”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
 extern	int			DeleteSoftSound(					int SoftSoundHandle ) ;																		// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðíœ‚·‚é
 #ifndef DX_NON_SAVEFUNCTION
 extern	int			SaveSoftSound(						int SoftSoundHandle, const TCHAR *FileName                        ) ;						// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðWAVEƒtƒ@ƒCƒ‹(PCM)Œ`Ž®‚Å•Û‘¶‚·‚é
 extern	int			SaveSoftSoundWithStrLen(			int SoftSoundHandle, const TCHAR *FileName, size_t FileNameLength ) ;						// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ðWAVEƒtƒ@ƒCƒ‹(PCM)Œ`Ž®‚Å•Û‘¶‚·‚é
 #endif // DX_NON_SAVEFUNCTION
-extern	int			GetSoftSoundSampleNum(				int SoftSoundHandle ) ;																		// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌƒTƒ“ƒvƒ‹”‚ðŽæ“¾‚·‚é
+extern	LONGLONG	GetSoftSoundSampleNum(				int SoftSoundHandle ) ;																		// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌƒTƒ“ƒvƒ‹”‚ðŽæ“¾‚·‚é
 extern	int			GetSoftSoundFormat(					int SoftSoundHandle, int *Channels, int *BitsPerSample, int *SamplesPerSec, int *IsFloatType = NULL ) ;				// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌƒtƒH[ƒ}ƒbƒg‚ðŽæ“¾‚·‚é
-extern	int			ReadSoftSoundData(					int SoftSoundHandle, int SamplePosition, int *Channel1, int *Channel2 ) ;					// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌƒTƒ“ƒvƒ‹‚ð“Ç‚ÝŽæ‚é
-extern	int			ReadSoftSoundDataF(					int SoftSoundHandle, int SamplePosition, float *Channel1, float *Channel2 ) ;				// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌƒTƒ“ƒvƒ‹‚ð“Ç‚ÝŽæ‚é( floatŒ^”Å )
-extern	int			WriteSoftSoundData(					int SoftSoundHandle, int SamplePosition, int Channel1, int Channel2 ) ;						// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌƒTƒ“ƒvƒ‹‚ð‘‚«ž‚Þ
-extern	int			WriteSoftSoundDataF(				int SoftSoundHandle, int SamplePosition, float Channel1, float Channel2 ) ;					// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌƒTƒ“ƒvƒ‹‚ð‘‚«ž‚Þ( floatŒ^”Å )
+extern	int			ReadSoftSoundData(					int SoftSoundHandle, LONGLONG SamplePosition, int   *Channel1, int   *Channel2 ) ;			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌƒTƒ“ƒvƒ‹‚ð“Ç‚ÝŽæ‚é
+extern	int			ReadSoftSoundDataF(					int SoftSoundHandle, LONGLONG SamplePosition, float *Channel1, float *Channel2 ) ;			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌƒTƒ“ƒvƒ‹‚ð“Ç‚ÝŽæ‚é( floatŒ^”Å )
+extern	int			WriteSoftSoundData(					int SoftSoundHandle, LONGLONG SamplePosition, int    Channel1, int    Channel2 ) ;			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌƒTƒ“ƒvƒ‹‚ð‘‚«ž‚Þ
+extern	int			WriteSoftSoundDataF(				int SoftSoundHandle, LONGLONG SamplePosition, float  Channel1, float  Channel2 ) ;			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌƒTƒ“ƒvƒ‹‚ð‘‚«ž‚Þ( floatŒ^”Å )
 extern	int			WriteTimeStretchSoftSoundData(		int SrcSoftSoundHandle, int DestSoftSoundHandle ) ;											// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚Ì”gŒ`ƒf[ƒ^‚ð‰¹’ö‚ð•Ï‚¦‚¸‚Éƒf[ƒ^‚Ì’·‚³‚ð•ÏX‚·‚é
 extern	int			WritePitchShiftSoftSoundData(		int SrcSoftSoundHandle, int DestSoftSoundHandle ) ;											// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚Ì”gŒ`ƒf[ƒ^‚Ì’·‚³‚ð•ÏX‚·‚é
 extern	void*		GetSoftSoundDataImage(				int SoftSoundHandle ) ;																		// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚Ì”gŒ`ƒCƒ[ƒW‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒƒ‚ƒŠƒAƒhƒŒƒX‚ðŽæ“¾‚·‚é
-extern	int			GetFFTVibrationSoftSound(			int SoftSoundHandle, int Channel, int SamplePosition, int SampleNum, float *Buffer_Array, int BufferLength ) ;								// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌŽw’è‚Ì”ÍˆÍ‚ð‚‘¬ƒt[ƒŠƒG•ÏŠ·‚ðs‚¢AŠeŽü”g”ˆæ‚ÌU•‚ðŽæ“¾‚·‚é( SampleNum ‚Í 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536 ‚Ì‰½‚ê‚©‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·AChannel ‚ð -1 ‚É‚·‚é‚Æ“ñ‚Â‚Ìƒ`ƒƒƒ“ƒlƒ‹‚ð‡¬‚µ‚½Œ‹‰Ê‚É‚È‚è‚Ü‚· )
-extern	int			GetFFTVibrationSoftSoundBase(		int SoftSoundHandle, int Channel, int SamplePosition, int SampleNum, float *RealBuffer_Array, float *ImagBuffer_Array, int BufferLength ) ;	// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌŽw’è‚Ì”ÍˆÍ‚ð‚‘¬ƒt[ƒŠƒG•ÏŠ·‚ðs‚¢AŠeŽü”g”ˆæ‚ÌU•‚ðŽæ“¾‚·‚éAŒ‹‰Ê‚ÌŽÀ”‚Æ‹•”‚ð•ÊX‚ÉŽæ“¾‚·‚é‚±‚Æ‚ª‚Å‚«‚éƒo[ƒWƒ‡ƒ“( SampleNum ‚Í 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536 ‚Ì‰½‚ê‚©‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·AChannel ‚ð -1 ‚É‚·‚é‚Æ“ñ‚Â‚Ìƒ`ƒƒƒ“ƒlƒ‹‚ð‡¬‚µ‚½Œ‹‰Ê‚É‚È‚è‚Ü‚· )
+extern	int			GetFFTVibrationSoftSound(			int SoftSoundHandle, int Channel, LONGLONG SamplePosition, int SampleNum, float *Buffer_Array, int BufferLength ) ;									// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌŽw’è‚Ì”ÍˆÍ‚ð‚‘¬ƒt[ƒŠƒG•ÏŠ·‚ðs‚¢AŠeŽü”g”ˆæ‚ÌU•‚ðŽæ“¾‚·‚é( SampleNum ‚Í 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536 ‚Ì‰½‚ê‚©‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·AChannel ‚ð -1 ‚É‚·‚é‚Æ“ñ‚Â‚Ìƒ`ƒƒƒ“ƒlƒ‹‚ð‡¬‚µ‚½Œ‹‰Ê‚É‚È‚è‚Ü‚· )
+extern	int			GetFFTVibrationSoftSoundBase(		int SoftSoundHandle, int Channel, LONGLONG SamplePosition, int SampleNum, float *RealBuffer_Array, float *ImagBuffer_Array, int BufferLength ) ;	// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^ƒnƒ“ƒhƒ‹‚ÌŽw’è‚Ì”ÍˆÍ‚ð‚‘¬ƒt[ƒŠƒG•ÏŠ·‚ðs‚¢AŠeŽü”g”ˆæ‚ÌU•‚ðŽæ“¾‚·‚éAŒ‹‰Ê‚ÌŽÀ”‚Æ‹•”‚ð•ÊX‚ÉŽæ“¾‚·‚é‚±‚Æ‚ª‚Å‚«‚éƒo[ƒWƒ‡ƒ“( SampleNum ‚Í 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536 ‚Ì‰½‚ê‚©‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·AChannel ‚ð -1 ‚É‚·‚é‚Æ“ñ‚Â‚Ìƒ`ƒƒƒ“ƒlƒ‹‚ð‡¬‚µ‚½Œ‹‰Ê‚É‚È‚è‚Ü‚· )
 
 extern	int			InitSoftSoundPlayer(				void ) ;																					// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^‚ÌƒvƒŒƒCƒ„[ƒnƒ“ƒhƒ‹‚ð‚·‚×‚Ä‰ð•ú‚·‚é
 extern	int			MakeSoftSoundPlayer(				int UseFormat_SoftSoundHandle ) ;															// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^‚ÌƒvƒŒƒCƒ„[ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒtƒH[ƒ}ƒbƒg‚Íˆø”‚Ìƒ\ƒtƒgƒEƒGƒAƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Æ“¯‚¶‚à‚Ì‚É‚·‚é )
@@ -4702,7 +4777,7 @@ extern	int			MakeSoftSoundPlayer1Ch8Bit44KHz(	void ) ;																					// ƒ\
 extern	int			MakeSoftSoundPlayer1Ch8Bit22KHz(	void ) ;																					// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^‚ÌƒvƒŒƒCƒ„[ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é( ƒ`ƒƒƒ“ƒlƒ‹”:1 —ÊŽq‰»ƒrƒbƒg”: 8bit ƒTƒ“ƒvƒŠƒ“ƒOŽü”g”:22KHz )
 extern	int			MakeSoftSoundPlayerCustom(			int ChannelNum, int BitsPerSample, int SamplesPerSec ) ;									// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^‚ÌƒvƒŒƒCƒ„[ƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
 extern	int			DeleteSoftSoundPlayer(				int SSoundPlayerHandle ) ;																	// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^‚ÌƒvƒŒƒCƒ„[ƒnƒ“ƒhƒ‹‚ðíœ‚·‚é
-extern	int			AddDataSoftSoundPlayer(				int SSoundPlayerHandle, int SoftSoundHandle, int AddSamplePosition, int AddSampleNum ) ;	// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^‚ÌƒvƒŒƒCƒ„[ƒnƒ“ƒhƒ‹‚É”gŒ`ƒf[ƒ^‚ð’Ç‰Á‚·‚é( ƒtƒH[ƒ}ƒbƒg‚ª“¯‚¶‚Å‚Í‚È‚¢ê‡‚ÍƒGƒ‰[ )
+extern	int			AddDataSoftSoundPlayer(				int SSoundPlayerHandle, int SoftSoundHandle, LONGLONG AddSamplePosition, int AddSampleNum ) ;	// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^‚ÌƒvƒŒƒCƒ„[ƒnƒ“ƒhƒ‹‚É”gŒ`ƒf[ƒ^‚ð’Ç‰Á‚·‚é( ƒtƒH[ƒ}ƒbƒg‚ª“¯‚¶‚Å‚Í‚È‚¢ê‡‚ÍƒGƒ‰[ )
 extern	int			AddDirectDataSoftSoundPlayer(		int SSoundPlayerHandle, const void *SoundData, int AddSampleNum ) ;							// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^‚ÌƒvƒŒƒCƒ„[ƒnƒ“ƒhƒ‹‚ÉƒvƒŒƒCƒ„[‚ª‘Î‰ž‚µ‚½ƒtƒH[ƒ}ƒbƒg‚Ì¶”gŒ`ƒf[ƒ^‚ð’Ç‰Á‚·‚é
 extern	int			AddOneDataSoftSoundPlayer(			int SSoundPlayerHandle, int Channel1, int Channel2 ) ;										// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^‚ÌƒvƒŒƒCƒ„[ƒnƒ“ƒhƒ‹‚É”gŒ`ƒf[ƒ^‚ðˆê‚Â’Ç‰Á‚·‚é
 extern	int			GetSoftSoundPlayerFormat(			int SSoundPlayerHandle, int *Channels, int *BitsPerSample, int *SamplesPerSec ) ;			// ƒ\ƒtƒgƒEƒGƒA‚Åˆµ‚¤”gŒ`ƒf[ƒ^‚ÌƒvƒŒƒCƒ„[ƒnƒ“ƒhƒ‹‚ªˆµ‚¤ƒf[ƒ^ƒtƒH[ƒ}ƒbƒg‚ðŽæ“¾‚·‚é
@@ -4720,7 +4795,7 @@ extern	int			CheckSoftSoundPlayerNoneData(		int SSoundPlayerHandle ) ;										
 extern	int			DeleteMusicMem(						int MusicHandle ) ;																			// ‚l‚h‚c‚hƒnƒ“ƒhƒ‹‚ðíœ‚·‚é
 extern	int			LoadMusicMem(						const TCHAR *FileName                        ) ;											// ‚l‚h‚c‚hƒtƒ@ƒCƒ‹‚ð“Ç‚Ýž‚Ý‚l‚h‚c‚hƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
 extern	int			LoadMusicMemWithStrLen(				const TCHAR *FileName, size_t FileNameLength ) ;											// ‚l‚h‚c‚hƒtƒ@ƒCƒ‹‚ð“Ç‚Ýž‚Ý‚l‚h‚c‚hƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
-extern	int			LoadMusicMemByMemImage(				const void *FileImage, int FileImageSize ) ;												// ƒƒ‚ƒŠã‚É“WŠJ‚³‚ê‚½‚l‚h‚c‚hƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚©‚ç‚l‚h‚c‚hƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
+extern	int			LoadMusicMemByMemImage(				const void *FileImage, size_t FileImageSize ) ;												// ƒƒ‚ƒŠã‚É“WŠJ‚³‚ê‚½‚l‚h‚c‚hƒtƒ@ƒCƒ‹ƒCƒ[ƒW‚©‚ç‚l‚h‚c‚hƒnƒ“ƒhƒ‹‚ðì¬‚·‚é
 extern	int			PlayMusicMem(						int MusicHandle, int PlayType ) ;															// ‚l‚h‚c‚hƒnƒ“ƒhƒ‹‚Ì‰‰‘t‚ðŠJŽn‚·‚é
 extern	int			StopMusicMem(						int MusicHandle ) ;																			// ‚l‚h‚c‚hƒnƒ“ƒhƒ‹‚Ì‰‰‘t‚ð’âŽ~‚·‚é
 extern	int			CheckMusicMem(						int MusicHandle ) ;																			// ‚l‚h‚c‚hƒnƒ“ƒhƒ‹‚ª‰‰‘t’†‚©‚Ç‚¤‚©‚ðŽæ“¾‚·‚é( TRUE:‰‰‘t’†  FALSE:’âŽ~’† )
@@ -4731,7 +4806,7 @@ extern	int			ProcessMusicMem(					void ) ;																					// ‚l‚h‚c‚hƒnƒ“ƒh
 
 extern	int			PlayMusic(							const TCHAR *FileName,                        int PlayType ) ;								// ‚l‚h‚c‚hƒtƒ@ƒCƒ‹‚ð‰‰‘t‚·‚é
 extern	int			PlayMusicWithStrLen(				const TCHAR *FileName, size_t FileNameLength, int PlayType ) ;								// ‚l‚h‚c‚hƒtƒ@ƒCƒ‹‚ð‰‰‘t‚·‚é
-extern	int			PlayMusicByMemImage(				const void *FileImage, int FileImageSize, int PlayType ) ;									// ƒƒ‚ƒŠã‚É“WŠJ‚³‚ê‚Ä‚¢‚é‚l‚h‚c‚hƒtƒ@ƒCƒ‹‚ð‰‰‘t‚·‚é
+extern	int			PlayMusicByMemImage(				const void *FileImage, size_t FileImageSize,  int PlayType ) ;								// ƒƒ‚ƒŠã‚É“WŠJ‚³‚ê‚Ä‚¢‚é‚l‚h‚c‚hƒtƒ@ƒCƒ‹‚ð‰‰‘t‚·‚é
 extern	int			SetVolumeMusic(						int Volume ) ;																				// ‚l‚h‚c‚h‚ÌÄ¶‰¹—Ê‚ðƒZƒbƒg‚·‚é
 extern	int			StopMusic(							void ) ;																					// ‚l‚h‚c‚hƒtƒ@ƒCƒ‹‚Ì‰‰‘t’âŽ~
 extern	int			CheckMusic(							void ) ;																					// ‚l‚h‚c‚hƒtƒ@ƒCƒ‹‚ª‰‰‘t’†‚©”Û‚©î•ñ‚ðŽæ“¾‚·‚é
@@ -4971,6 +5046,8 @@ extern	int			MV1SetMaterialSpcPower( 			int MHandle, int MaterialIndex, float Po
 extern	float		MV1GetMaterialSpcPower( 			int MHandle, int MaterialIndex ) ;										// Žw’è‚Ìƒ}ƒeƒŠƒAƒ‹‚ÌƒXƒyƒLƒ…ƒ‰‚Ì‹­‚³‚ðŽæ“¾‚·‚é
 extern	int			MV1SetMaterialDifMapTexture(		int MHandle, int MaterialIndex, int TexIndex ) ;						// Žw’è‚Ìƒ}ƒeƒŠƒAƒ‹‚ÅƒfƒBƒtƒ…[ƒYƒ}ƒbƒv‚Æ‚µ‚ÄŽg—p‚·‚éƒeƒNƒXƒ`ƒƒ‚ðŽw’è‚·‚é
 extern	int			MV1GetMaterialDifMapTexture(		int MHandle, int MaterialIndex ) ;										// Žw’è‚Ìƒ}ƒeƒŠƒAƒ‹‚ÅƒfƒBƒtƒ…[ƒYƒ}ƒbƒv‚Æ‚µ‚ÄŽg—p‚³‚ê‚Ä‚¢‚éƒeƒNƒXƒ`ƒƒ‚ÌƒCƒ“ƒfƒbƒNƒX‚ðŽæ“¾‚·‚é
+extern	int			MV1SetMaterialSubDifMapTexture(		int MHandle, int MaterialIndex, int TexIndex ) ;						// Žw’è‚Ìƒ}ƒeƒŠƒAƒ‹‚ÅƒTƒuƒfƒBƒtƒ…[ƒYƒ}ƒbƒv‚Æ‚µ‚ÄŽg—p‚·‚éƒeƒNƒXƒ`ƒƒ‚ðŽw’è‚·‚é
+extern	int			MV1GetMaterialSubDifMapTexture(		int MHandle, int MaterialIndex ) ;										// Žw’è‚Ìƒ}ƒeƒŠƒAƒ‹‚ÅƒTƒuƒfƒBƒtƒ…[ƒYƒ}ƒbƒv‚Æ‚µ‚ÄŽg—p‚³‚ê‚Ä‚¢‚éƒeƒNƒXƒ`ƒƒ‚ÌƒCƒ“ƒfƒbƒNƒX‚ðŽæ“¾‚·‚é
 extern	int			MV1SetMaterialSpcMapTexture(		int MHandle, int MaterialIndex, int TexIndex ) ;						// Žw’è‚Ìƒ}ƒeƒŠƒAƒ‹‚ÅƒXƒyƒLƒ…ƒ‰ƒ}ƒbƒv‚Æ‚µ‚ÄŽg—p‚·‚éƒeƒNƒXƒ`ƒƒ‚ðŽw’è‚·‚é
 extern	int			MV1GetMaterialSpcMapTexture(		int MHandle, int MaterialIndex ) ;										// Žw’è‚Ìƒ}ƒeƒŠƒAƒ‹‚ÅƒXƒyƒLƒ…ƒ‰ƒ}ƒbƒv‚Æ‚µ‚ÄŽg—p‚³‚ê‚Ä‚¢‚éƒeƒNƒXƒ`ƒƒ‚ÌƒCƒ“ƒfƒbƒNƒX‚ðŽæ“¾‚·‚é
 extern	int			MV1GetMaterialNormalMapTexture(		int MHandle, int MaterialIndex ) ;										// Žw’è‚Ìƒ}ƒeƒŠƒAƒ‹‚Å–@üƒ}ƒbƒv‚Æ‚µ‚ÄŽg—p‚³‚ê‚Ä‚¢‚éƒeƒNƒXƒ`ƒƒ‚ÌƒCƒ“ƒfƒbƒNƒX‚ðŽæ“¾‚·‚é
@@ -5067,6 +5144,7 @@ extern	VECTOR		MV1GetFrameMinVertexLocalPosition(	int MHandle, int FrameIndex ) 
 extern	VECTOR_D	MV1GetFrameMinVertexLocalPositionD(	int MHandle, int FrameIndex ) ;											// Žw’è‚ÌƒtƒŒ[ƒ€‚ªŽ‚ÂƒƒbƒVƒ…’¸“_‚Ìƒ[ƒJƒ‹À•W‚Å‚ÌÅ¬’l‚ð“¾‚é
 extern	VECTOR		MV1GetFrameAvgVertexLocalPosition(	int MHandle, int FrameIndex ) ;											// Žw’è‚ÌƒtƒŒ[ƒ€‚ªŽ‚ÂƒƒbƒVƒ…’¸“_‚Ìƒ[ƒJƒ‹À•W‚Å‚Ì•½‹Ï’l‚ð“¾‚é
 extern	VECTOR_D	MV1GetFrameAvgVertexLocalPositionD(	int MHandle, int FrameIndex ) ;											// Žw’è‚ÌƒtƒŒ[ƒ€‚ªŽ‚ÂƒƒbƒVƒ…’¸“_‚Ìƒ[ƒJƒ‹À•W‚Å‚Ì•½‹Ï’l‚ð“¾‚é
+extern	int			MV1GetFrameVertexNum(				int MHandle, int FrameIndex ) ;											// Žw’è‚ÌƒtƒŒ[ƒ€‚ÉŠÜ‚Ü‚ê‚é’¸“_‚Ì”‚ðŽæ“¾‚·‚é
 extern	int			MV1GetFrameTriangleNum(				int MHandle, int FrameIndex ) ;											// Žw’è‚ÌƒtƒŒ[ƒ€‚ÉŠÜ‚Ü‚ê‚éƒ|ƒŠƒSƒ“‚Ì”‚ðŽæ“¾‚·‚é
 extern	int			MV1GetFrameMeshNum(					int MHandle, int FrameIndex ) ;											// Žw’è‚ÌƒtƒŒ[ƒ€‚ªŽ‚ÂƒƒbƒVƒ…‚Ì”‚ðŽæ“¾‚·‚é
 extern	int			MV1GetFrameMesh(					int MHandle, int FrameIndex, int Index ) ;								// Žw’è‚ÌƒtƒŒ[ƒ€‚ªŽ‚ÂƒƒbƒVƒ…‚ÌƒƒbƒVƒ…ƒCƒ“ƒfƒbƒNƒX‚ðŽæ“¾‚·‚é
@@ -5092,6 +5170,7 @@ extern	int			MV1ResetFrameTextureAddressTransform( int MHandle, int FrameIndex )
 // ƒƒbƒVƒ…ŠÖŒW
 extern	int			MV1GetMeshNum(						int MHandle ) ;															// ƒ‚ƒfƒ‹‚ÉŠÜ‚Ü‚ê‚éƒƒbƒVƒ…‚Ì”‚ðŽæ“¾‚·‚é
 extern	int			MV1GetMeshMaterial(					int MHandle, int MeshIndex ) ;											// Žw’èƒƒbƒVƒ…‚ªŽg—p‚µ‚Ä‚¢‚éƒ}ƒeƒŠƒAƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX‚ðŽæ“¾‚·‚é
+extern	int			MV1GetMeshVertexNum(				int MHandle, int MeshIndex ) ;											// Žw’èƒƒbƒVƒ…‚ÉŠÜ‚Ü‚ê‚é’¸“_‚Ì”‚ðŽæ“¾‚·‚é
 extern	int			MV1GetMeshTriangleNum(				int MHandle, int MeshIndex ) ;											// Žw’èƒƒbƒVƒ…‚ÉŠÜ‚Ü‚ê‚éŽOŠpŒ`ƒ|ƒŠƒSƒ“‚Ì”‚ðŽæ“¾‚·‚é
 extern	int			MV1SetMeshVisible(					int MHandle, int MeshIndex, int VisibleFlag ) ;							// Žw’èƒƒbƒVƒ…‚Ì•\Ž¦A”ñ•\Ž¦ó‘Ô‚ð•ÏX‚·‚é( TRUE:•\Ž¦  FALSE:”ñ•\Ž¦ )
 extern	int			MV1GetMeshVisible(					int MHandle, int MeshIndex ) ;											// Žw’èƒƒbƒVƒ…‚Ì•\Ž¦A”ñ•\Ž¦ó‘Ô‚ðŽæ“¾‚·‚é( TRUE:•\Ž¦  FALSE:”ñ•\Ž¦ )
@@ -5146,22 +5225,22 @@ extern	int			MV1GetTriangleListPolygonVertexPosition(	int MHandle, int TListInde
 extern	int			MV1GetTriangleListUseMaterial(				int MHandle, int TListIndex ) ;														// Žw’è‚Ìƒgƒ‰ƒCƒAƒ“ƒOƒ‹ƒŠƒXƒg‚ªŽg—p‚µ‚Ä‚¢‚éƒ}ƒeƒŠƒAƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX‚ðŽæ“¾‚·‚é
 
 // ƒRƒŠƒWƒ‡ƒ“ŠÖŒW
-extern	int							MV1SetupCollInfo(				int MHandle, int FrameIndex = -1 , int XDivNum = 32 , int YDivNum = 8 , int ZDivNum = 32 ) ;	// ƒRƒŠƒWƒ‡ƒ“î•ñ‚ð\’z‚·‚é
-extern	int							MV1TerminateCollInfo(			int MHandle, int FrameIndex = -1 ) ;															// ƒRƒŠƒWƒ‡ƒ“î•ñ‚ÌŒãŽn––
-extern	int							MV1RefreshCollInfo(				int MHandle, int FrameIndex = -1 ) ;															// ƒRƒŠƒWƒ‡ƒ“î•ñ‚ðXV‚·‚é
-extern	MV1_COLL_RESULT_POLY		MV1CollCheck_Line(				int MHandle, int FrameIndex, VECTOR PosStart, VECTOR PosEnd ) ;									// ü‚Æƒ‚ƒfƒ‹‚Ì“–‚½‚è”»’è
-extern	MV1_COLL_RESULT_POLY_DIM	MV1CollCheck_LineDim(			int MHandle, int FrameIndex, VECTOR PosStart, VECTOR PosEnd ) ;									// ü‚Æƒ‚ƒfƒ‹‚Ì“–‚½‚è”»’è( –ß‚è’l‚ª MV1_COLL_RESULT_POLY_DIM )
-extern	MV1_COLL_RESULT_POLY_DIM	MV1CollCheck_Sphere(			int MHandle, int FrameIndex, VECTOR CenterPos, float r ) ;										// ‹…‚Æƒ‚ƒfƒ‹‚Ì“–‚½‚è”»’è
-extern	MV1_COLL_RESULT_POLY_DIM	MV1CollCheck_Capsule(			int MHandle, int FrameIndex, VECTOR Pos1, VECTOR Pos2, float r ) ;								// ƒJƒvƒZƒ‹‚Æƒ‚ƒfƒ‹‚Ì“–‚½‚è”»’è
-extern	MV1_COLL_RESULT_POLY_DIM	MV1CollCheck_Triangle(			int MHandle, int FrameIndex, VECTOR Pos1, VECTOR Pos2, VECTOR Pos3 ) ;							// ŽOŠpŒ`‚Æƒ‚ƒfƒ‹‚Ì“–‚½‚è”»’è
-extern	MV1_COLL_RESULT_POLY		MV1CollCheck_GetResultPoly(		MV1_COLL_RESULT_POLY_DIM ResultPolyDim, int PolyNo ) ;											// ƒRƒŠƒWƒ‡ƒ“Œ‹‰Êƒ|ƒŠƒSƒ“”z—ñ‚©‚çŽw’è”Ô†‚Ìƒ|ƒŠƒSƒ“î•ñ‚ðŽæ“¾‚·‚é
-extern	int							MV1CollResultPolyDimTerminate(	MV1_COLL_RESULT_POLY_DIM ResultPolyDim ) ;														// ƒRƒŠƒWƒ‡ƒ“Œ‹‰Êƒ|ƒŠƒSƒ“”z—ñ‚ÌŒãŽn––‚ð‚·‚é
+extern	int							MV1SetupCollInfo(				int MHandle, int FrameIndex = -1 , int XDivNum = 32 , int YDivNum = 8 , int ZDivNum = 32 , int MeshIndex = -1 ) ;		// ƒRƒŠƒWƒ‡ƒ“î•ñ‚ð\’z‚·‚é
+extern	int							MV1TerminateCollInfo(			int MHandle, int FrameIndex = -1 , int MeshIndex = -1 ) ;																// ƒRƒŠƒWƒ‡ƒ“î•ñ‚ÌŒãŽn––
+extern	int							MV1RefreshCollInfo(				int MHandle, int FrameIndex = -1 , int MeshIndex = -1 ) ;																// ƒRƒŠƒWƒ‡ƒ“î•ñ‚ðXV‚·‚é
+extern	MV1_COLL_RESULT_POLY		MV1CollCheck_Line(				int MHandle, int FrameIndex, VECTOR PosStart, VECTOR PosEnd , int MeshIndex = -1 ) ;									// ü‚Æƒ‚ƒfƒ‹‚Ì“–‚½‚è”»’è
+extern	MV1_COLL_RESULT_POLY_DIM	MV1CollCheck_LineDim(			int MHandle, int FrameIndex, VECTOR PosStart, VECTOR PosEnd , int MeshIndex = -1 ) ;									// ü‚Æƒ‚ƒfƒ‹‚Ì“–‚½‚è”»’è( –ß‚è’l‚ª MV1_COLL_RESULT_POLY_DIM )
+extern	MV1_COLL_RESULT_POLY_DIM	MV1CollCheck_Sphere(			int MHandle, int FrameIndex, VECTOR CenterPos, float r , int MeshIndex = -1 ) ;											// ‹…‚Æƒ‚ƒfƒ‹‚Ì“–‚½‚è”»’è
+extern	MV1_COLL_RESULT_POLY_DIM	MV1CollCheck_Capsule(			int MHandle, int FrameIndex, VECTOR Pos1, VECTOR Pos2, float r , int MeshIndex = -1 ) ;									// ƒJƒvƒZƒ‹‚Æƒ‚ƒfƒ‹‚Ì“–‚½‚è”»’è
+extern	MV1_COLL_RESULT_POLY_DIM	MV1CollCheck_Triangle(			int MHandle, int FrameIndex, VECTOR Pos1, VECTOR Pos2, VECTOR Pos3 , int MeshIndex = -1 ) ;								// ŽOŠpŒ`‚Æƒ‚ƒfƒ‹‚Ì“–‚½‚è”»’è
+extern	MV1_COLL_RESULT_POLY		MV1CollCheck_GetResultPoly(		MV1_COLL_RESULT_POLY_DIM ResultPolyDim, int PolyNo ) ;																	// ƒRƒŠƒWƒ‡ƒ“Œ‹‰Êƒ|ƒŠƒSƒ“”z—ñ‚©‚çŽw’è”Ô†‚Ìƒ|ƒŠƒSƒ“î•ñ‚ðŽæ“¾‚·‚é
+extern	int							MV1CollResultPolyDimTerminate(	MV1_COLL_RESULT_POLY_DIM ResultPolyDim ) ;																				// ƒRƒŠƒWƒ‡ƒ“Œ‹‰Êƒ|ƒŠƒSƒ“”z—ñ‚ÌŒãŽn––‚ð‚·‚é
 
 // ŽQÆ—pƒƒbƒVƒ…ŠÖŒW
-extern	int					MV1SetupReferenceMesh(		int MHandle, int FrameIndex, int IsTransform, int IsPositionOnly = FALSE ) ;						// ŽQÆ—pƒƒbƒVƒ…‚ÌƒZƒbƒgƒAƒbƒv
-extern	int					MV1TerminateReferenceMesh(	int MHandle, int FrameIndex, int IsTransform, int IsPositionOnly = FALSE ) ;						// ŽQÆ—pƒƒbƒVƒ…‚ÌŒãŽn––
-extern	int					MV1RefreshReferenceMesh(	int MHandle, int FrameIndex, int IsTransform, int IsPositionOnly = FALSE ) ;						// ŽQÆ—pƒƒbƒVƒ…‚ÌXV
-extern	MV1_REF_POLYGONLIST	MV1GetReferenceMesh(		int MHandle, int FrameIndex, int IsTransform, int IsPositionOnly = FALSE ) ;						// ŽQÆ—pƒƒbƒVƒ…‚ðŽæ“¾‚·‚é
+extern	int					MV1SetupReferenceMesh(		int MHandle, int FrameIndex, int IsTransform, int IsPositionOnly = FALSE , int MeshIndex = -1 ) ;						// ŽQÆ—pƒƒbƒVƒ…‚ÌƒZƒbƒgƒAƒbƒv
+extern	int					MV1TerminateReferenceMesh(	int MHandle, int FrameIndex, int IsTransform, int IsPositionOnly = FALSE , int MeshIndex = -1 ) ;						// ŽQÆ—pƒƒbƒVƒ…‚ÌŒãŽn––
+extern	int					MV1RefreshReferenceMesh(	int MHandle, int FrameIndex, int IsTransform, int IsPositionOnly = FALSE , int MeshIndex = -1 ) ;						// ŽQÆ—pƒƒbƒVƒ…‚ÌXV
+extern	MV1_REF_POLYGONLIST	MV1GetReferenceMesh(		int MHandle, int FrameIndex, int IsTransform, int IsPositionOnly = FALSE , int MeshIndex = -1 ) ;						// ŽQÆ—pƒƒbƒVƒ…‚ðŽæ“¾‚·‚é
 
 #endif // DX_NON_MODEL
 
@@ -5231,7 +5310,7 @@ extern	const TCHAR *Live2D_Model_GetHitAreaName(						int Live2DModelHandle, int
 extern	const TCHAR *Live2D_Model_GetPhysicsFileName(					int Live2DModelHandle ) ;																// Live2D ‚Ìƒ‚ƒfƒ‹‚Ì•¨—‰‰ŽZÝ’èƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ðŽæ“¾‚·‚é
 extern	const TCHAR *Live2D_Model_GetPoseFileName(						int Live2DModelHandle ) ;																// Live2D ‚Ìƒ‚ƒfƒ‹‚Ìƒp[ƒcØ‚è‘Ö‚¦Ý’èƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ðŽæ“¾‚·‚é
 extern	int			Live2D_Model_GetExpressionCount(					int Live2DModelHandle ) ;																// Live2D ‚Ìƒ‚ƒfƒ‹‚Ì•\îÝ’èƒtƒ@ƒCƒ‹‚Ì”‚ðŽæ“¾‚·‚é
-extern	const TCHAR *Live2D_Model_GetExpressionName(					int Live2DModelHandle, int index ) ;													// Live2D ‚Ìƒ‚ƒfƒ‹‚Ì•\îÝ’èƒtƒ@ƒCƒ‹‚ðŽ¯•Ê‚·‚é–¼‘Oi•Ê–¼j‚ðŽæ“¾‚·‚é
+extern	const TCHAR *Live2D_Model_GetExpressionName(					int Live2DModelHandle, int index ) ;													// Live2D ‚Ìƒ‚ƒfƒ‹‚Ì•\îÝ’èƒtƒ@ƒCƒ‹‚ðŽ¯•Ê‚·‚éID‚ðŽæ“¾‚·‚é
 extern	const TCHAR *Live2D_Model_GetExpressionFileName(				int Live2DModelHandle, int index ) ;													// Live2D ‚Ìƒ‚ƒfƒ‹‚Ì•\îÝ’èƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ðŽæ“¾‚·‚é
 extern	int			Live2D_Model_GetMotionGroupCount(					int Live2DModelHandle ) ;																// Live2D ‚Ìƒ‚ƒfƒ‹‚Ìƒ‚[ƒVƒ‡ƒ“ƒOƒ‹[ƒv‚Ì”‚ðŽæ“¾‚·‚é
 extern	const TCHAR *Live2D_Model_GetMotionGroupName(					int Live2DModelHandle, int index ) ;													// Live2D ‚Ìƒ‚ƒfƒ‹‚Ìƒ‚[ƒVƒ‡ƒ“ƒOƒ‹[ƒv‚Ì–¼‘O‚ðŽæ“¾‚·‚é

@@ -1,49 +1,49 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ja-JP">
 	<head>
-	<meta http-equiv="Content-type" content="text/html; charset=Shift_JIS">
-		<title>�V���[�e�B���O�Q�[���v���O����</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>シューティングゲームプログラム</title>
 		<link rel="shortcut icon" href="../DxLib.ico">
 		<link rel="stylesheet" href="../style.css" type="text/css">
 	</head>
 	<body bgcolor="#ffffff" text="#000000" link="#0033cc" vlink="#800040">
 	<div class="NormalFont">
 
-		<font size="2">�Q�[������u���P�|�V<br><br></font>
-		<font size="6"><b>�V�D�G�̃_���[�W���Ƀ��A�N�V���������悤</b></font>
+		<font size="2">ゲーム制作講座１－７<br><br></font>
+		<font size="6"><b>７．敵のダメージ時にリアクションをつけよう</b></font>
 		<hr><br><br>
 
 		<font size="3"><B>
 
-		�@�O��͓G�ɒe��������悤�ɂ��܂����B�ł������̏�Ԃł͓G�ɒe�������邾���œG��<BR>
-		���̔����������Ă���܂���B�ł��̂ō���͓G�Ƀ��A�N�V���������悤�Ǝv���܂��B<BR>
-		�@���A�N�V�����Ƃ����Ă���R����܂��B��������A�Ԃ��e�������Ă���A�ʂ̃L�����N�^�[<BR>
-		�ɕϐg����c�ȂǂȂǁB<BR><BR>
+		　前回は敵に弾が当たるようにしました。ですが今の状態では敵に弾が当たるだけで敵は<BR>
+		何の反応も見せてくれません。ですので今回は敵にリアクションをつけようと思います。<BR>
+		　リアクションといっても沢山あります。爆発する、返し弾を撃ってくる、別のキャラクター<BR>
+		に変身する…などなど。<BR><BR>
 		
-		�@�ł�������͍ŏ��Ȃ̂ł��܂�Â������A�N�V�����ɂ͎���o�����ɊȒP�ȂƂ��납��<BR>
-		���������Ǝv���܂��A�Ƃ肠�����e�����������炢�������Ȋ�����Ă��炢�܂��傤�B<BR><BR>
+		　ですが今回は最初なのであまり凝ったリアクションには手を出さずに簡単なところから<BR>
+		いきたいと思います、とりあえず弾が当たったらいたそうな顔をしてもらいましょう。<BR><BR>
 
 		<IMG SRC="Data/SikakuDam.png" WIDTH="64" HEIGHT="64" HSPACE="20" VSPACE="20"><BR>
 
-		�@�e�����Ă�ꂽ��R�O�t���[�����炢�~�܂����܂܂���Ȋ�����Ă��炢�܂��傤�B<BR><BR>
+		　弾が当てられたら３０フレームくらい止まったままこんな顔をしてもらいましょう。<BR><BR>
 		
-		�@���āA��L�̏�������̓I�ɂ͂ǂ�����Ď������邩���ꂩ��L�ڂ������Ǝv���܂��B<BR>
-		�@�܂��R�O�t���[���̊Ԋ��c�߂Ă��炤�̂ł�����A<FONT COLOR="#770000">���c�ߎn�߂Ă��牽�t���[��<BR>
-		�o�߂��������J�E���g���邽�߂̕ϐ�</font>���K�v�ƂȂ�܂��B<BR>
-		�@�����<FONT COLOR="#770000">�����c�߂Ă���̂��ǂ����̏�Ԃ�ێ�����t���O�ϐ�</font>���K�v�ł��B���c�߂�<BR>
-		���鎞�� <FONT COLOR="#770000">�P</font> ���������Ă��āA�c�߂Ă��Ȃ��Ƃ��� <FONT COLOR="#770000">�O</font> ���������Ă���A�Ƃł�����<BR>
-		���傤�B<BR>
-		�@�f�[�^���������Ƃ���Ŏ��͏����ł��B<BR>
-		�@�܂��G(�l�p�N)��<FONT COLOR="#770000">�e������������</font>���c�߂Ă��邩��ێ�����ϐ��Ɂw<FONT COLOR="#770000">�c�߂Ă���</font>�x��<BR>
-		�\�� <FONT COLOR="#770000">�P</font> �������A�����<FONT COLOR="#770000">�R�O�t���[�����J�E���g���邽�߂̕ϐ��� �O ����</font>�����������܂��B<BR>
-		�@����<FONT COLOR="#770000">�l�p�N�𓮂�������</font>�Ŋ��c�߂Ă��邩�ǂ����� <FONT COLOR="#770000">�P</font> �� <FONT COLOR="#770000">�O</font> ���Ŕ��f���A<BR>
-		������<FONT COLOR="#770000">����</font>�����܂��B<BR>
-		�@�炪�c��ł����ꍇ�͉�ʂɂ͘c�񂾊�̎l�p�N��`�悵�A�R�O�t���[���J�E���g����<BR>
-		���߂̕ϐ��ɂP�𑫂��܂��B���������ƁA�����J�E���^�ϐ��̒l���R�O�ɂȂ��Ă�����<BR>
-		���c�߂���Ԃ��猳�ɖ߂��Ă����܂��B��̓I�ɂ�<FONT COLOR="#770000">��c�߃t���O�ϐ��� �O ����</font>���܂��B<BR>
-		�@�炪�c��ł��Ȃ��ꍇ�͍��܂Œʂ�̏������s���܂��B<BR><BR>
+		　さて、上記の処理を具体的にはどうやって実現するかこれから記載したいと思います。<BR>
+		　まず３０フレームの間顔を歪めてもらうのですから、<FONT COLOR="#770000">顔を歪め始めてから何フレーム<BR>
+		経過したかをカウントするための変数</font>が必要となります。<BR>
+		　さらに<FONT COLOR="#770000">今顔を歪めているのかどうかの状態を保持するフラグ変数</font>が必要です。顔を歪めて<BR>
+		入る時は <FONT COLOR="#770000">１</font> が代入されていて、歪めていないときは <FONT COLOR="#770000">０</font> が代入されている、とでもしま<BR>
+		しょう。<BR>
+		　データが揃ったところで次は処理です。<BR>
+		　まず敵(四角君)に<FONT COLOR="#770000">弾が当たったら</font>顔を歪めているかを保持する変数に『<FONT COLOR="#770000">歪めている</font>』を<BR>
+		表す <FONT COLOR="#770000">１</font> を代入し、さらに<FONT COLOR="#770000">３０フレームをカウントするための変数に ０ を代入</font>し初期化します。<BR>
+		　次に<FONT COLOR="#770000">四角君を動かす処理</font>で顔を歪めているかどうかを <FONT COLOR="#770000">１</font> か <FONT COLOR="#770000">０</font> かで判断し、<BR>
+		処理を<FONT COLOR="#770000">分岐</font>させます。<BR>
+		　顔が歪んでいた場合は画面には歪んだ顔の四角君を描画し、３０フレームカウントする<BR>
+		ための変数に１を足します。足したあと、もしカウンタ変数の値が３０になっていたら<BR>
+		顔を歪めた状態から元に戻してあげます。具体的には<FONT COLOR="#770000">顔歪めフラグ変数に ０ を代入</font>します。<BR>
+		　顔が歪んでいない場合は今まで通りの処理を行います。<BR><BR>
 
-		�@�Ƃ肠��������Ȃ���Ȃŏo�����v���O�������ȉ��̂��̂ɂȂ�܂��B<BR>
+		　とりあえずそんなこんなで出来たプログラムが以下のものになります。<BR>
 
 
 <font color="#000066">
@@ -51,7 +51,7 @@
 
 #define SHOT 20
 
-// WinMain�֐�
+// WinMain関数
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 					 LPSTR lpCmdLine, int nCmdShow )
 {
@@ -63,245 +63,245 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	int ShotBFlag ;
 	int i ;
 
-	// ��ʃ��[�h�̐ݒ�
+	// 画面モードの設定
 	SetGraphMode( 640 , 480 , 16 ) ;
 
-	// �c�w���C�u��������������
+	// ＤＸライブラリ初期化処理
 	if( DxLib_Init() == -1 ) return -1;
 
-	// �O���t�B�b�N�̕`���𗠉�ʂɃZ�b�g
+	// グラフィックの描画先を裏画面にセット
 	SetDrawScreen( DX_SCREEN_BACK ) ;
 
-	// �{�[���N�̃O���t�B�b�N���������Ƀ��[�h���\�����W���Z�b�g
+	// ボール君のグラフィックをメモリにロード＆表示座標をセット
 	BallGraph = LoadGraph( "Ball.png" ) ;
 	BallX = 288 ; BallY = 400 ;
 
-	// �l�p�N�̃O���t�B�b�N���������Ƀ��[�h���\�����W���Z�b�g
+	// 四角君のグラフィックをメモリにロード＆表示座標をセット
 	SikakuGraph = LoadGraph( "Sikaku.png" ) ;
 	SikakuX = 0 ; SikakuY = 50 ;
 
-<font color="#880000">	// �l�p�N�̃_���[�W���̃O���t�B�b�N���������Ƀ��[�h
+<font color="#880000">	// 四角君のダメージ時のグラフィックをメモリにロード
 	SikakuDamageGraph = LoadGraph( "SikakuDam.png" ) ;
 
-	// �l�p�N�����c�߂Ă��邩�ǂ����̕ϐ��Ɂw�c�߂Ă��Ȃ��x��\���O����
+	// 四角君が顔を歪めているかどうかの変数に『歪めていない』を表す０を代入
 	SikakuDamageFlag = 0 ;
 </font>
-	// �e�̃O���t�B�b�N���������Ƀ��[�h
+	// 弾のグラフィックをメモリにロード
 	ShotGraph = LoadGraph( "Shot.png" ) ;
 
-	// �e����ʏ�ɑ��݂��Ă��邩�ێ�����ϐ��Ɂw���݂��Ă��Ȃ��x���Ӗ�����O�������Ă���
+	// 弾が画面上に存在しているか保持する変数に『存在していない』を意味する０を代入しておく
 	for( i = 0 ; i < SHOT ; i ++ )
 	{
 		ShotFlag[i] = 0 ;
 	}
 
-	// �V���b�g�{�^�����O�̃t���[���ŉ����ꂽ���ǂ�����ۑ�����ϐ��ɂO(�����ꂢ�Ȃ�)����
+	// ショットボタンが前のフレームで押されたかどうかを保存する変数に０(押されいない)を代入
 	ShotBFlag = 0 ;
 
-	// �l�p�N�̈ړ��������Z�b�g
+	// 四角君の移動方向をセット
 	SikakuMuki = 1 ;
 
-	// �e�̃O���t�B�b�N�̃T�C�Y������
+	// 弾のグラフィックのサイズをえる
 	GetGraphSize( ShotGraph , &ShotW , &ShotH ) ;
 
-	// �l�p�N�̃O���t�B�b�N�̃T�C�Y�𓾂�
+	// 四角君のグラフィックのサイズを得る
 	GetGraphSize( SikakuGraph , &SikakuW , &SikakuH ) ;
 
-	// �ړ����[�`��
+	// 移動ルーチン
 	while( 1 )
 	{
-		// ��ʂ�������(�^�����ɂ���)
+		// 画面を初期化(真っ黒にする)
 		ClearDrawScreen() ;
 
-		// �{�[���N�̑��샋�[�`��
+		// ボール君の操作ルーチン
 		{
-			// ���L�[�������Ă�����{�[���N����Ɉړ�������
+			// ↑キーを押していたらボール君を上に移動させる
 			if( CheckHitKey( KEY_INPUT_UP ) == 1 ) BallY -= 3 ;
 
-			// ���L�[�������Ă�����{�[���N�����Ɉړ�������
+			// ↓キーを押していたらボール君を下に移動させる
 			if( CheckHitKey( KEY_INPUT_DOWN ) == 1 ) BallY += 3 ;
 
-			// ���L�[�������Ă�����{�[���N�����Ɉړ�������
+			// ←キーを押していたらボール君を左に移動させる
 			if( CheckHitKey( KEY_INPUT_LEFT ) == 1 ) BallX -= 3 ;
 
-			// ���L�[�������Ă�����{�[���N���E�Ɉړ�������
+			// →キーを押していたらボール君を右に移動させる
 			if( CheckHitKey( KEY_INPUT_RIGHT ) == 1 ) BallX += 3 ;
 
-			// �X�y�[�X�L�[���������ꍇ�͏����𕪊�
+			// スペースキーを押した場合は処理を分岐
 			if( CheckHitKey( KEY_INPUT_SPACE ) )
 			{
-				// �O�t���[���ŃV���b�g�{�^���������������ۑ�����Ă���ϐ����O��������e�𔭎�
+				// 前フレームでショットボタンを押したかが保存されている変数が０だったら弾を発射
 				if( ShotBFlag == 0 )
 				{
-					// ��ʏ�ɂłĂ��Ȃ��e�����邩�A�e�̐������J��Ԃ��Ē��ׂ�
+					// 画面上にでていない弾があるか、弾の数だけ繰り返して調べる
 					for( i = 0 ; i < SHOT ; i ++ )
 					{
-						// �ei����ʏ�ɂłĂ��Ȃ��ꍇ�͂��̒e����ʂɏo��
+						// 弾iが画面上にでていない場合はその弾を画面に出す
 						if( ShotFlag[i] == 0 )
 						{
 							int Bw, Bh, Sw, Sh ;
 
-							// �{�[���N�ƒe�̉摜�̃T�C�Y�𓾂�
+							// ボール君と弾の画像のサイズを得る
 							GetGraphSize( BallGraph , &Bw , &Bh ) ;
 							GetGraphSize( ShotGraph , &Sw , &Sh ) ;
 
-							// �ei�̈ʒu���Z�b�g�A�ʒu�̓{�[���N�̒��S�ɂ���
+							// 弾iの位置をセット、位置はボール君の中心にする
 							ShotX[i] = ( Bw - Sw ) / 2 + BallX ;
 							ShotY[i] = ( Bh - Sh ) / 2 + BallY ;
 
-							// �ei�͌����_�������đ��݂���̂ŁA���ݏ�Ԃ�ێ�����ϐ��ɂP��������
+							// 弾iは現時点を持って存在するので、存在状態を保持する変数に１を代入する
 							ShotFlag[i] = 1 ;
 
-							// ��e���o�����̂Œe���o�����[�v���甲���܂�
+							// 一つ弾を出したので弾を出すループから抜けます
 							break ;
 						}
 					}
 				}
 
-				// �O�t���[���ŃV���b�g�{�^����������Ă�������ۑ�����ϐ��ɂP(������Ă���)����
+				// 前フレームでショットボタンを押されていたかを保存する変数に１(おされていた)を代入
 				ShotBFlag = 1 ;
 			}
 			else
 			{
-				// �V���b�g�{�^����������Ă��Ȃ������ꍇ��
-				// �O�t���[���ŃV���b�g�{�^����������Ă�������ۑ�����ϐ��ɂO(������Ă��Ȃ�)����
+				// ショットボタンが押されていなかった場合は
+				// 前フレームでショットボタンが押されていたかを保存する変数に０(おされていない)を代入
 				ShotBFlag = 0 ;
 			}
 
-			// �{�[���N����ʍ��[����͂ݏo�����ɂȂ��Ă������ʓ��̍��W�ɖ߂��Ă�����
+			// ボール君が画面左端からはみ出そうになっていたら画面内の座標に戻してあげる
 			if( BallX < 0 ) BallX = 0 ;
 
-			// �{�[���N����ʉE�[����͂ݏo�����ɂȂ��Ă������ʓ��̍��W�ɖ߂��Ă�����
+			// ボール君が画面右端からはみ出そうになっていたら画面内の座標に戻してあげる
 			if( BallX > 640 - 64 ) BallX = 640 - 64  ;
 
-			// �{�[���N����ʏ�[����͂ݏo�����ɂȂ��Ă������ʓ��̍��W�ɖ߂��Ă�����
+			// ボール君が画面上端からはみ出そうになっていたら画面内の座標に戻してあげる
 			if( BallY < 0 ) BallY = 0 ;
 
-			// �{�[���N����ʉ��[����͂ݏo�����ɂȂ��Ă������ʓ��̍��W�ɖ߂��Ă�����
+			// ボール君が画面下端からはみ出そうになっていたら画面内の座標に戻してあげる
 			if( BallY > 480 - 64 ) BallY = 480 - 64 ;
 
-			// �{�[���N��`��
+			// ボール君を描画
 			DrawGraph( BallX , BallY , BallGraph , FALSE ) ;
 		}
 
-		// �e�̐������e�𓮂����������J��Ԃ�
+		// 弾の数だけ弾を動かす処理を繰り返す
 		for( i = 0 ; i < SHOT ; i ++ )
 		{
-			// ���@�̒ei�̈ړ����[�`��( ���ݏ�Ԃ�ێ����Ă���ϐ��̓��e���P(���݂���)�̏ꍇ�̂ݍs�� )
+			// 自機の弾iの移動ルーチン( 存在状態を保持している変数の内容が１(存在する)の場合のみ行う )
 			if( ShotFlag[ i ] == 1 )
 			{
-				// �ei���P�U�h�b�g��Ɉړ�������
+				// 弾iを１６ドット上に移動させる
 				ShotY[ i ] -= 16 ;
 
-				// ��ʊO�ɏo�Ă��܂����ꍇ�͑��ݏ�Ԃ�ێ����Ă���ϐ��ɂO(���݂��Ȃ�)��������
+				// 画面外に出てしまった場合は存在状態を保持している変数に０(存在しない)を代入する
 				if( ShotY[ i ] < -80 )
 				{
 					ShotFlag[ i ] = 0 ;
 				}
 
-				// ��ʂɒei��`�悷��
+				// 画面に弾iを描画する
 				DrawGraph( ShotX[ i ] , ShotY[ i ] , ShotGraph , FALSE ) ;
 			}
 		}
 
-		// �l�p�N�̈ړ����[�`��
+		// 四角君の移動ルーチン
 		{
-<font color="#880000">			// ���c�߂Ă��邩�ǂ����ŏ����𕪊�
+<font color="#880000">			// 顔を歪めているかどうかで処理を分岐
 			if( SikakuDamageFlag == 1 )
 			{
-				// ���c�߂Ă���ꍇ�̓_���[�W���̃O���t�B�b�N��`�悷��
+				// 顔を歪めている場合はダメージ時のグラフィックを描画する
 				DrawGraph( SikakuX , SikakuY , SikakuDamageGraph , FALSE ) ;
 
-				// ���c�߂Ă��鎞�Ԃ𑪂�J�E���^�[�ɂP�����Z����
+				// 顔を歪めている時間を測るカウンターに１を加算する
 				SikakuDamageCounter ++ ;
 
-				// �������c�ߏ��߂� �R�O �t���[���o�߂��Ă������̘c�񂾏�Ԃ���
-				// ���ɖ߂��Ă�����
+				// もし顔を歪め初めて ３０ フレーム経過していたら顔の歪んだ状態から
+				// 元に戻してあげる
 				if( SikakuDamageCounter == 30 )
 				{
-					// �w�c��ł��Ȃ��x��\���O����
+					// 『歪んでいない』を表す０を代入
 					SikakuDamageFlag = 0 ;
 				}
 			}
 			else
 			{
-</font>				// �c��ł��Ȃ��ꍇ�͍��܂Œʂ�̏���
+</font>				// 歪んでいない場合は今まで通りの処理
 
-				// �l�p�N�̍��W���ړ����Ă�������Ɉړ�����
+				// 四角君の座標を移動している方向に移動する
 				if( SikakuMuki == 1 ) SikakuX += 3 ;
 				if( SikakuMuki == 0 ) SikakuX -= 3 ;
 
-				// �l�p�N����ʉE�[����ł����ɂȂ��Ă������ʓ��̍��W�ɖ߂��Ă����A�ړ�������������]����
+				// 四角君が画面右端からでそうになっていたら画面内の座標に戻してあげ、移動する方向も反転する
 				if( SikakuX > 576 )
 				{
 					SikakuX = 576 ;
 					SikakuMuki = 0 ;
 				}
 
-				// �l�p�N����ʍ��[����ł����ɂȂ��Ă������ʓ��̍��W�ɖ߂��Ă����A�ړ�������������]����
+				// 四角君が画面左端からでそうになっていたら画面内の座標に戻してあげ、移動する方向も反転する
 				if( SikakuX < 0 )
 				{
 					SikakuX = 0 ;
 					SikakuMuki = 1 ;
 				}
 
-				// �l�p�N��`��
+				// 四角君を描画
 				DrawGraph( SikakuX , SikakuY , SikakuGraph , FALSE ) ;
 <font color="#880000">			}</font>
 		}
 
-		// �e�ƓG�̓����蔻��A�e�̐������J��Ԃ�
+		// 弾と敵の当たり判定、弾の数だけ繰り返す
 		for( i = 0 ; i < SHOT ; i ++ )
 		{
-			// �ei�����݂��Ă���ꍇ�̂ݎ��̏����ɉf��
+			// 弾iが存在している場合のみ次の処理に映る
 			if( ShotFlag[ i ] == 1 )
 			{
-				// �l�p�N�Ƃ̓����蔻��
+				// 四角君との当たり判定
 				if( ( ( ShotX[i] > SikakuX && ShotX[i] < SikakuX + SikakuW ) ||
 					( SikakuX > ShotX[i] && SikakuX < ShotX[i] + ShotW ) ) &&
 					( ( ShotY[i] > SikakuY && ShotY[i] < SikakuY + SikakuH ) ||
 					( SikakuY > ShotY[i] && SikakuY < ShotY[i] + ShotH ) ) )
 				{
-					// �ڐG���Ă���ꍇ�͓��������e�̑��݂�����
+					// 接触している場合は当たった弾の存在を消す
 					ShotFlag[ i ] = 0 ;
 
-<font color="#880000">					// �l�p�N�̊��c�߂Ă��邩�ǂ�����ێ�����ϐ��Ɂw�c�߂Ă���x��\���P����
+<font color="#880000">					// 四角君の顔を歪めているかどうかを保持する変数に『歪めている』を表す１を代入
 					SikakuDamageFlag = 1 ;
 
-					// �l�p�N�̊��c�߂Ă��鎞�Ԃ𑪂�J�E���^�ϐ��ɂO����
+					// 四角君の顔を歪めている時間を測るカウンタ変数に０を代入
 					SikakuDamageCounter = 0 ;
 </font>				}
 			}
 		}
 
-		// ����ʂ̓��e��\��ʂɃR�s�[����
+		// 裏画面の内容を表画面にコピーする
 		ScreenFlip() ;
 
-		// Windows ���L�̖ʓ|�ȏ������c�w���C�u�����ɂ�点��
-		// -1 ���Ԃ��Ă����烋�[�v�𔲂���
+		// Windows 特有の面倒な処理をＤＸライブラリにやらせる
+		// -1 が返ってきたらループを抜ける
 		if( ProcessMessage() < 0 ) break ;
 
-		// �����d�r�b�L�[��������Ă����烋�[�v���甲����
+		// もしＥＳＣキーが押されていたらループから抜ける
 		if( CheckHitKey( KEY_INPUT_ESCAPE ) ) break ;
 	}
 
-	DxLib_End() ;				// �c�w���C�u�����g�p�̏I������
+	DxLib_End() ;				// ＤＸライブラリ使用の終了処理
 
-	return 0 ;					// �\�t�g�̏I��
+	return 0 ;					// ソフトの終了
 }
 </div></pre>
 </font>
 <BR>
-		<font color="#008800"><���s�}></font><BR>
+		<font color="#008800"><実行図></font><BR>
 		<IMG SRC="image/i1_7.gif" WIDTH="256" HEIGHT="192" HSPACE="20" VSPACE="20"><BR>
 
-		�@���s���Ēe�𓖂ĂĂ݂�Ǝl�p�N�����c�߂�Ǝv���܂��B<BR><BR>
+		　実行して弾を当ててみると四角君が顔を歪めると思います。<BR><BR>
 
-		�@�Z���ł�������͂���ŏI��ł��B<BR>
-		�@���͎l�p�N���e�����悤�ɂ������Ǝv���܂��B<BR>
+		　短いですが今回はこれで終りです。<BR>
+		　次は四角君が弾を撃つようにしたいと思います。<BR>
 		<hr>
 
-		<A href="../dxlecture_main.html">�߂�</a>
+		<A href="../dxlecture_main.html">戻る</a>
 
 		</b></font>
 	</div>

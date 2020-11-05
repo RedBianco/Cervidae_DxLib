@@ -1,33 +1,33 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ja-JP">
 	<head>
-	<meta http-equiv="Content-type" content="text/html; charset=Shift_JIS">
-		<title>�Q�[���v���O�����̊�b�m��</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>ゲームプログラムの基礎知識</title>
 		<link rel="shortcut icon" href="../DxLib.ico">
 		<link rel="stylesheet" href="../style.css" type="text/css">
 	</head>
 	<body bgcolor="#ffffff" text="#000000" link="#0033cc" vlink="#800040">
 	<div class="NormalFont">
 
-		<font size="2">�Q�[������u���P<br><br></font>
-		<font size="6"><b>�P�D�G����ʂɕ\�����悤</b></font>
+		<font size="2">ゲーム制作講座１<br><br></font>
+		<font size="6"><b>１．絵を画面に表示しよう</b></font>
 		<hr><br><br>
 
 		<font size="3"><B>
-		�@�Q�[���ł͂܂�<font color="#770000">�G����ʂɕ\��</font>�ł��Ȃ���Θb�ɂȂ�܂���B<BR>
-		�@����Ȃ킯�ł܂��͓K���ȊG����ʂɕ\���ł���悤�ɂȂ�܂��傤�B<BR><BR>
+		　ゲームではまず<font color="#770000">絵を画面に表示</font>できなければ話になりません。<BR>
+		　そんなわけでまずは適当な絵を画面に表示できるようになりましょう。<BR><BR>
 
-		�@�܂�<font color="#770000">�K���ȃO���t�B�b�N�t�@�C��</FONT>���ȉ��̃t�H���_�ɃR�s�[���œ���Ă��������B<BR><BR>
+		　まず<font color="#770000">適当なグラフィックファイル</FONT>を以下のフォルダにコピー等で入れてください。<BR><BR>
 
-		�@�@�@�@<font color="#007700">VisualC++6.0 ���� VisualC++.net �̏ꍇ</FONT><BR>
-		�@�@�@�@�@�@�@�T���v���v���O�����p�t�H���_( <font color="#770000">DxSample</FONT> ) �̒��́w<font color="#770000">VC</FONT>�x�Ƃ����t�H���_�B<BR><BR>
+		　　　　<font color="#007700">VisualC++6.0 又は VisualC++.net の場合</FONT><BR>
+		　　　　　　　サンプルプログラム用フォルダ( <font color="#770000">DxSample</FONT> ) の中の『<font color="#770000">VC</FONT>』というフォルダ。<BR><BR>
 
-		�@�@�@�@<font color="#007700">BorlandC++ Compiler 5.5 �̏ꍇ</FONT><BR>
-		�@�@�@�@�@�@�@�T���v���v���O�����p�t�H���_( <font color="#770000">DxSample</FONT> ) �̒��́w<font color="#770000">BCC</FONT>�x�Ƃ����t�H���_�̒��́w<font color="#770000">Debug</FONT>�x�Ƃ����t�H���_�B<BR><BR>
+		　　　　<font color="#007700">BorlandC++ Compiler 5.5 の場合</FONT><BR>
+		　　　　　　　サンプルプログラム用フォルダ( <font color="#770000">DxSample</FONT> ) の中の『<font color="#770000">BCC</FONT>』というフォルダの中の『<font color="#770000">Debug</FONT>』というフォルダ。<BR><BR>
 
 		<font color="#550000">
-		�@�� �c �@�c�w���C�u�������Ή����Ă���摜�t�@�C���`���� BMP, JPG, PNG, ARGB, TGA, DDS ��<br>
-		�@�@�@�@�U�`���݂̂ł��B GIF�t�@�C���₻�̑��̃O���t�B�b�N�t�@�C���͕\���ł��܂���̂ŋC��t���Ă��������B<br><br>
+		　注 … 　ＤＸライブラリが対応している画像ファイル形式は BMP, JPG, PNG, ARGB, TGA, DDS の<br>
+		　　　　６形式のみです。 GIFファイルやその他のグラフィックファイルは表示できませんので気を付けてください。<br><br>
 		</font>
 
 <font color="#000066">
@@ -36,164 +36,164 @@
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 			 LPSTR lpCmdLine, int nCmdShow )
 {
-	// �c�w���C�u����������
+	// ＤＸライブラリ初期化
 	if( DxLib_Init() == -1 ) return -1 ;
 
 
-	// ��ʂɊG��\��
+	// 画面に絵を表示
 	LoadGraphScreen( 0 , 0 , "test1.bmp" , FALSE ) ;
 
-	// �L�[�̓��͑҂�
+	// キーの入力待ち
 	WaitKey() ;
 
 
-	// �c�w���C�u�����g�p�̏I��
+	// ＤＸライブラリ使用の終了
 	DxLib_End() ;
 
-	// �\�t�g�̏I��
+	// ソフトの終了
 	return 0 ;
 }
 </div></pre>
 </font>
 <BR>
 
-		�@�R�s�[�����������玟��<font color="#770000">��̃v���O������ Sample.cpp �Ɋۂ��ƃR�s�[</font>���܂��B<br>
-		(���� Sample.cpp �ɂȂɂ�������Ă����炷�ׂď����Ă��������B)<br><br>
+		　コピーが完了したら次に<font color="#770000">上のプログラムを Sample.cpp に丸ごとコピー</font>します。<br>
+		(もし Sample.cpp になにか書かれていたらすべて消してください。)<br><br>
 
-		�@���� LoadGraphScreen �Ə�����Ă���s�� <font color="#770000">test1.bmp</font> �Ə�����Ă��镔����<br>
-		�������K��̃t�H���_�ɃR�s�[�����O���t�B�b�N�̃t�@�C���l�[���ɏ��������܂�<br><br>
+		　次に LoadGraphScreen と書かれている行の <font color="#770000">test1.bmp</font> と書かれている部分を<br>
+		自分が規定のフォルダにコピーしたグラフィックのファイルネームに書き換えます<br><br>
 		
 		<font color="#550000">
-		�� �c �@�g���q���t���Ă��������B�g���q�Ƃ̓t�@�C�����̌�ɂ��w.�x�ƂR����<br>
-		�@�@�@�@���x�̕�����̂��Ƃł��B<br>
-		�@�@�@�@�@�@(��: �r�b�g�}�b�v�t�@�C�� = BMP , �i�o�d�f�t�@�C�� = JPG )<br><br>
+		注 … 　拡張子も付けてください。拡張子とはファイル名の後につく『.』と３文字<br>
+		　　　　程度の文字列のことです。<br>
+		　　　　　　(例: ビットマップファイル = BMP , ＪＰＥＧファイル = JPG )<br><br>
 		</font>
 
-		�@�R�s�[�����O���t�B�b�N�̃t�@�C���l�[���ɏ����������炨���ނ�� <font color="#770000">�e�V</font> �L�[��<br>
-		�����܂��傤�B�F�X���ɕ\�������Ǝv���܂��A�����Ă��ꂪ�~�܂����獡�x�� <font color="#770000">�e�T</font><br>
-		�L�[�������܂��傤�A��ʂ��^���ÂɂȂ��āA��ʂ̍���ɃR�s�[�����O���t�B�b�N��<br>
-		�\��������<font color="#770000">����</font>�ł��B�Ȃɂ��L�[�������Ă��Ƃ̉�ʂɖ߂��܂��傤�B<br><br>
+		　コピーしたグラフィックのファイルネームに書き換えたらおもむろに <font color="#770000">Ｆ７</font> キーを<br>
+		押しましょう。色々下に表示されると思います、そしてそれが止まったら今度は <font color="#770000">Ｆ５</font><br>
+		キーを押しましょう、画面が真っ暗になって、画面の左上にコピーしたグラフィックが<br>
+		表示されれば<font color="#770000">成功</font>です。なにかキーを押してもとの画面に戻しましょう。<br><br>
 		
-		(�\������Ȃ�������<font color="#770000">���s</font>�ł��A����������Ƃ��낪�����Ă��邩�A�t�@�C������<br>
-		�����Ă��邩�A�g���q�͂����Ƃ��Ă��邩���ׂĂ��������B����ł��ʖڂȂ�<br>
-		����񉺂����B(^^;)<br><br><br>
+		(表示されなかったら<font color="#770000">失敗</font>です、書きかえるところが合っているか、ファイル名が<br>
+		合っているか、拡張子はちゃんとついているか調べてください。それでも駄目なら<br>
+		ご一報下さい。(^^;)<br><br><br>
 
-		<font color="#008800">�����s�၄</font><BR>
+		<font color="#008800">＜実行例＞</font><BR>
 		<IMG SRC="image/i1.jpg" WIDTH="256" HEIGHT="192" HSPACE="20" VSPACE="20">
 
 		<BR><BR>
 
-		�@���s���ς񂾂Ƃ���Ńv���O��������ԏォ�����������Ǝv���܂��B<BR>
-		�@�܂�
+		　実行が済んだところでプログラムを一番上から解説したいと思います。<BR>
+		　まず
 <font color="#000066"><pre><div class="NormalFont">#include "DxLib.h"
 </div></pre></font>
-		�@�ł����A�b����������������ɂ͉��ƂȂ�������Ǝv���܂����A�ȒP�Ɍ�����<font color="#770000">�c�w���C�u������<BR>
-		�֐��B���g����悤�ɂ��邽�߂̋L�q</font>�ł��B<font color="#770000">���ꂪ�Ȃ��Ƃc�w���C�u�������g���܂���</font>�B<BR>
-		�܂�<font color="#770000">�c�w���C�u�������g���v���O�����ł͕K�����̋L�q���K�v</font>�ɂȂ�܂��̂Ŋo���Ă����Ă��������B<BR><BR>
+		　ですが、Ｃ言語をかじった方には何となく分かると思いますが、簡単に言うと<font color="#770000">ＤＸライブラリの<BR>
+		関数達を使えるようにするための記述</font>です。<font color="#770000">これがないとＤＸライブラリが使えません</font>。<BR>
+		つまり<font color="#770000">ＤＸライブラリを使うプログラムでは必ずこの記述が必要</font>になりますので覚えておいてください。<BR><BR>
 
-		�@����<BR>
+		　次に<BR>
 <font color="#000066"><pre><div class="NormalFont">int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 			 LPSTR lpCmdLine, int nCmdShow )
 {
 </div></pre></font>
-		�@�ł��B<BR>
-		�@�w<font color="#770000">WinMain</font>�x�Ƃ����L�q�����Ă҂�Ɨ�����������Ǝv���܂����A����͕��ʂ̂b����v���O������<BR>
-		�����Ƃ���� <font color="#770000">main</font> �֐��ł��B<font color="#770000">Windows</font> �œ��삷��\�t�g�ł� <font color="#770000">main �֐��̑���� WinMain �֐���<BR>
-		�g���܂�</font>�B����Ă��ꂪ�Ȃ��ƃv���O�����������܂���B<BR><BR>
+		　です。<BR>
+		　『<font color="#770000">WinMain</font>』という記述を見てぴんと来た方もいると思いますが、これは普通のＣ言語プログラムで<BR>
+		言うところの <font color="#770000">main</font> 関数です。<font color="#770000">Windows</font> で動作するソフトでは <font color="#770000">main 関数の代わりに WinMain 関数を<BR>
+		使います</font>。よってこれがないとプログラムが動きません。<BR><BR>
 
-		�@<font color="#770000">WINAPI</font> ���� <font color="#770000">HINSTANCE</font> ���̂Ƃ��Ă��ĕt���Ă��܂����A�c�w���C�u�������g���ȏケ���̈Ӗ���<BR>
-		�m��K�v�͂���܂��񂵁A<font color="#770000">WinMain</font> �Ɉ����t���Ă��邱���̈������g�����Ƃ�����܂���B<BR>
-		���� WinMain �̒�`�͂���ɌŒ�Ȃ̂ŋL�q���Ȃ���΂Ȃ�Ȃ��̂ł��B<BR>
-		(�V���Ƀ\�t�g�����ۂ͏�L�̋L�q���R�s�[���y�[�X�g����΂n�j�ł�)<BR>
-		�@�Ƃɂ��� <font color="#770000">Windows</font> �̃\�t�g��<font color="#770000">���̊֐����炷�ׂĂ��n�܂�</font>�ƌ������Ƃ������o���Ă����Ă��������B<BR><BR>
+		　<font color="#770000">WINAPI</font> だの <font color="#770000">HINSTANCE</font> だのとごてごて付いていますが、ＤＸライブラリを使う以上これらの意味を<BR>
+		知る必要はありませんし、<font color="#770000">WinMain</font> に引っ付いてくるこれらの引数を使うこともありません。<BR>
+		ただ WinMain の定義はこれに固定なので記述しなければならないのです。<BR>
+		(新たにソフトを作る際は上記の記述をコピー＆ペーストすればＯＫです)<BR>
+		　とにかく <font color="#770000">Windows</font> のソフトは<font color="#770000">この関数からすべてが始まる</font>と言うことだけを覚えておいてください。<BR><BR>
 
-		�@�ł� <font color="#770000">WinMain</font> �֐��̒��ɓ���܂��B<BR>
-		�@���ɓo�ꂷ��̂�<BR>
+		　では <font color="#770000">WinMain</font> 関数の中に入ります。<BR>
+		　次に登場するのが<BR>
 
-<font color="#000066"><pre><div class="NormalFont">	// �c�w���C�u����������
+<font color="#000066"><pre><div class="NormalFont">	// ＤＸライブラリ初期化
 	if( DxLib_Init() == -1 ) return -1 ;
 </div></pre></font>
 
-		�@�ł��B<BR>
-		�@�w<font color="#770000">�c�w���C�u����������</font>�x�Ƃ����L�q�̒ʂ肱���<font color="#770000">�c�w���C�u������������</font>���Ă��܂��B�܂�g��<BR>
-		���߂̏���������̂ł��B<BR>
+		　です。<BR>
+		　『<font color="#770000">ＤＸライブラリ初期化</font>』という記述の通りこれは<font color="#770000">ＤＸライブラリを初期化</font>しています。つまり使う<BR>
+		ための準備をするのです。<BR>
 
-		�@����������֐��� <A href="../dxfunc.html#R1N1">DxLib_Init</A> �ŁA�����͂���܂���B������ǂ�ł���������Ε�����Ǝv���܂���<BR>
-		���̊֐��͏����Ɏ��s����� <font color="#770000">-1</font> ��߂�l�Ƃ��ĕԂ��Ă��܂��B<BR>
-		�@������ <font color="#770000">DxLib_Init</font> �֐��̖߂�l�� -1 �̏ꍇ <font color="#770000">return -1</font> ; �Ŋ֐� <font color="#770000">WinMain</font> ����o��L�q�����Ă��܂��A<BR>
-		<font color="#770000">WinMain �֐�����o��Ƃ������Ƃ͂��Ȃ킿�\�t�g�̏I�����Ӗ����܂�</font>�B�Ȃ��߂�l�� -1 �������ꍇ<BR>
-		�\�t�g���I������̂��A���킸�����Ȃł����c�w���C�u�������g�����\�t�g�łc�w���C�u�����̏���<BR>
-		�����s�����̂ł���������I�����邵���Ȃ��킯�ł��B<BR>
-		�@������ <font color="#770000">return -1 ;</font> �Ƃ��� -1 ��Ԃ��Ă��܂����A����ɂ͕ʂɈӖ��͂���܂���B�O�ł��X�X�ł��n�j<BR>
-		�ł��B�����Ă��̊֐��� -1 �ȊO�̒l���Ԃ��Ă����琰��Ăc�w���C�u�������g����킯�ł��B<BR>
+		　準備をする関数は <A href="../dxfunc.html#R1N1">DxLib_Init</A> で、引数はありません。説明を読んでいただければ分かると思いますが<BR>
+		この関数は準備に失敗すると <font color="#770000">-1</font> を戻り値として返してきます。<BR>
+		　ここで <font color="#770000">DxLib_Init</font> 関数の戻り値が -1 の場合 <font color="#770000">return -1</font> ; で関数 <font color="#770000">WinMain</font> から出る記述をしています、<BR>
+		<font color="#770000">WinMain 関数から出るということはすなわちソフトの終了を意味します</font>。なぜ戻り値が -1 だった場合<BR>
+		ソフトを終了するのか、いわずもがなですがＤＸライブラリを使ったソフトでＤＸライブラリの準備<BR>
+		が失敗したのですからもう終了するしかないわけです。<BR>
+		　ここで <font color="#770000">return -1 ;</font> として -1 を返していますが、これには別に意味はありません。０でも９９でもＯＫ<BR>
+		です。そしてこの関数で -1 以外の値が返ってきたら晴れてＤＸライブラリを使えるわけです。<BR>
 
-		�@���ɍ���̖{��<BR>
-<font color="#000066"><pre><div class="NormalFont">	// ��ʂɊG��\��
+		　次に今回の本命<BR>
+<font color="#000066"><pre><div class="NormalFont">	// 画面に絵を表示
 	LoadGraphScreen( 0 , 0 , "test1.bmp" , FALSE ) ;
 </div></pre></font>
-		�@�̓o��ł��B<BR><BR>
+		　の登場です。<BR><BR>
 
-		�@���� <A href="../dxfunc.html#R3N1">LoadGraphScreen</A> �Ƃ����֐��̓��t�@�����X�����Ă���������Ε�����Ǝv���܂����A�P�Ԗڂ�<BR>
-		�\������摜�̍���̒��_�ɑΉ������ʏ�̂w���W�̒l���A�Q�Ԗڂɕ\������摜�̍���̒��_�ɑΉ�<BR>
-		�����ʏ�̂x���W�̒l�������Ƃ��ĂƂ�܂��B<BR>
-		�@��₱�����̂ŁA���̂P�Ԗڂ� 0 �l���Ƃ肠���� �R�O�O �ɂ��Ă݂܂��A����ƁB<BR>
+		　この <A href="../dxfunc.html#R3N1">LoadGraphScreen</A> という関数はリファレンスを見ていただければ分かると思いますが、１番目に<BR>
+		表示する画像の左上の頂点に対応する画面上のＸ座標の値を、２番目に表示する画像の左上の頂点に対応<BR>
+		する画面上のＹ座標の値を引数としてとります。<BR>
+		　ややこしいので、この１番目の 0 値をとりあえず ３００ にしてみます、すると。<BR>
 
 		<IMG SRC="image/i2.jpg" WIDTH="256" HEIGHT="192" HSPACE="20" VSPACE="20"><BR>
 
-		�@���ɂQ�Ԗڂ� 0 ���� �P�O�O �ɂ��Ă݂܂��A����ƁB<BR>
+		　次に２番目の 0 だけ １００ にしてみます、すると。<BR>
 
 		<IMG SRC="image/i3.jpg" WIDTH="256" HEIGHT="192" HSPACE="20" VSPACE="20"><BR>
 
-		�@�������肢���������ł��傤���H<BR>
-		�@�v�񂷂��<font color="#770000">�P�Ԗڂ� �O �̒l�𑝂₹�Α��₷�قǉ摜�͉E�ɂ���Ă䂫�A�Q�Ԗڂ� �O �̒l���𑝂₹��<BR>
-		���₷�قǉ摜�͉��ɂ���Ă䂫�܂�</font>�B���ꂾ��������Ώ\�����Ǝv���܂��B�[�������Ȃ����͋C���ς�<BR>
-		�܂Œl���������Ă݂Ă��������B(^^<BR><BR>
+		　お分かりいただけたでしょうか？<BR>
+		　要約すると<font color="#770000">１番目の ０ の値を増やせば増やすほど画像は右にずれてゆき、２番目の ０ の値をを増やせば<BR>
+		増やすほど画像は下にずれてゆきます</font>。これだけ分かれば十分だと思います。納得いかない方は気が済む<BR>
+		まで値をいじってみてください。(^^<BR><BR>
 
-		�@�Ȃ��A<font color="#770000">�P�Ԗڂ� �O �� �U�S�O �ȏ�ɂ��邩�A�Q�Ԗڂ� �O �� �S�W�O �ȏ�ɂ���Ɖ摜�͌����Ȃ��Ȃ�܂�</font>�B<BR><BR>
+		　なお、<font color="#770000">１番目の ０ を ６４０ 以上にするか、２番目の ０ を ４８０ 以上にすると画像は見えなくなります</font>。<BR><BR>
 
-		�@���ɂR�Ԗڂ̈����͕\������摜�t�@�C���̃t�@�C���������܂��B�b����̋K���ʂ蕶�����<font color="#770000">�_�u��<BR>
-		�R�[�e�[�V����(�w"�x)</font>�ł�����K�v������̂ł����Ӊ������B<BR><BR>
+		　次に３番目の引数は表示する画像ファイルのファイル名を入れます。Ｃ言語の規則通り文字列は<font color="#770000">ダブル<BR>
+		コーテーション(『"』)</font>でくくる必要があるのでご注意下さい。<BR><BR>
 
-		�@�S�Ԗڂ̈����͓��ߐF�̗L�������߂�t���O�c�܂�܂��C�ɂ��Ȃ��ėǂ��ł��B�ǂ����Ă��m�肽��<BR>
-		���̓��t�@�����X���݂Ă��������B�����͍ڂ��Ă��܂��B<BR><BR>
+		　４番目の引数は透過色の有無を決めるフラグ…つまりまだ気にしなくて良いです。どうしても知りたい<BR>
+		方はリファレンスをみてください。答えは載っています。<BR><BR>
 
-		���Ė{���̌�ł��B<BR>
+		さて本命の後です。<BR>
 
-<font color="#000066"><pre><div class="NormalFont">	// �L�[�̓��͑҂�
+<font color="#000066"><pre><div class="NormalFont">	// キーの入力待ち
 	WaitKey() ;
 </div></pre></font>
 		
-		�@���̊֐� <A href="../dxfunc.html#R6N3">WaitKey</A> �͊֐����̒ʂ�<font color="#770000">�L�[���������܂ő҂��܂�</font>�A�Ƃɂ����҂��܂��A�������܂Ŕ��i�v�I��<BR>
-		�҂��܂��B�������ꂾ���̊֐��ł��B�����̃L�[���������Ί֐�����Ԃ��Ă��܂��B<BR><BR>
+		　この関数 <A href="../dxfunc.html#R6N3">WaitKey</A> は関数名の通り<font color="#770000">キーが押されるまで待ちます</font>、とにかく待ちます、押されるまで半永久的に<BR>
+		待ちます。ただそれだけの関数です。何かのキーが押されれば関数から返ってきます。<BR><BR>
 
-		������<BR>
-<font color="#000066"><pre><div class="NormalFont">	// �c�w���C�u�����g�p�̏I��
+		お次は<BR>
+<font color="#000066"><pre><div class="NormalFont">	// ＤＸライブラリ使用の終了
 	DxLib_End() ;
 </div></pre></font>
-		�@�ł��B<BR>
-		�@���̊֐�<A href="../dxfunc.html#R1N1">DxLib_End</A> �͒��߂̒ʂ�<font color="#770000">�c�w���C�u�����̎g�p���I������Ƃ��Ɏg���܂�</font>�B���̊֐����Ă�<BR>
-		�Ȃ��Ń\�t�g���I��������Əꍇ�ɂ���Ă�<font color="#770000">�n���O�A�b�v</font>���܂��B����قǏd�v�Ȋ֐��ł��̂ŁA�\�t�g<BR>
-		���I��������ۂ͕K�����̑O�� <font color="#770000">DxLib_End</font> �֐����g���Ă��������B���ŉ����s���Ă��邩�͓��ɋC�ɂ���<BR>
-		�K�v�͂���܂���A�������ƌ�n�������Ă���̂ł��B<BR><BR>
+		　です。<BR>
+		　この関数<A href="../dxfunc.html#R1N1">DxLib_End</A> は注釈の通り<font color="#770000">ＤＸライブラリの使用を終了するときに使います</font>。この関数を呼ば<BR>
+		ないでソフトを終了させると場合によっては<font color="#770000">ハングアップ</font>します。それほど重要な関数ですので、ソフト<BR>
+		を終了させる際は必ずその前に <font color="#770000">DxLib_End</font> 関数を使ってください。中で何が行われているかは特に気にする<BR>
+		必要はありません、せっせと後始末をしているのです。<BR><BR>
 
-		�@�����čŌ��
-<font color="#000066"><pre><div class="NormalFont">	// �\�t�g�̏I��
+		　そして最後に
+<font color="#000066"><pre><div class="NormalFont">	// ソフトの終了
 	return 0 ;
 }
 </div></pre></font>
-		�@�Ƃ��ă\�t�g���I�����Ă��܂��B���ł�<font color="#770000">�w}�x</font>���t���� <font color="#770000">WinMain</font> �֐��������ŕ��Ă��܂��B<BR>
-		�@��قǂ��q�ׂ��悤�� <font color="#770000">WinMain</font> �֐��� <font color="#770000">return</font> �ŉ��̒l��Ԃ��Ă����ɖ��͂���܂���B<BR>
-		������`�� <font color="#770000">int</font> �^�̐��l��Ԃ��֐��ƂȂ��Ă���̂Ŏd���Ȃ� <font color="#770000">return</font> �����Ă���̂ł��B<BR><BR>
+		　としてソフトを終了しています。ついでに<font color="#770000">『}』</font>も付けて <font color="#770000">WinMain</font> 関数をここで閉じています。<BR>
+		　先ほども述べたように <font color="#770000">WinMain</font> 関数が <font color="#770000">return</font> で何の値を返しても特に問題はありません。<BR>
+		ただ定義が <font color="#770000">int</font> 型の数値を返す関数となっているので仕方なく <font color="#770000">return</font> をしているのです。<BR><BR>
 
-		�@���āA����ŉ�ʂɊG��\�������邱�Ƃ��ł���悤�ɂȂ�܂����A���̓v���O�����o�����Ă̍���<BR>
-		<font color="#770000">�w�G��\��������@���킩��΂������̂��񂾁I�x</font>�Ǝv�������̂ł����A�F����͂ǂ��ł��傤���H<BR><BR>
+		　さて、これで画面に絵を表示させることができるようになりました、私はプログラム覚えたての頃は<BR>
+		<font color="#770000">『絵を表示する方法がわかればこっちのもんだ！』</font>と思ったものですが、皆さんはどうでしょうか？<BR><BR>
 
-		�@���Ď��͂��̊G�𓮂����Ă݂����Ǝv���܂��B<BR>
+		　さて次はこの絵を動かしてみたいと思います。<BR>
 		<br><br>
 
 		<hr>
 
-		<A href="../dxlecture_main.html">�߂�</a>
+		<A href="../dxlecture_main.html">戻る</a>
 
 		</b></font>
 	</div>
