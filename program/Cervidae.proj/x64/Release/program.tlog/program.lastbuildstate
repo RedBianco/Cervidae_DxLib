@@ -1,2 +1,2 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v142:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=10.0
-Release|x64|C:\ProgramBox\Project\CervidaeDxLib\Cervidae_DxLib\program\Cervidae.proj\|
+PlatformToolSet=v142:VCToolArchitecture=Native32Bit:VCToolsVersion=14.27.29110:TargetPlatformVersion=10.0.18362.0:
+Release|x64|D:\Project\Repository\Application\Cervidae_DxLib\program\Cervidae.proj\|

@@ -729,10 +729,10 @@ int		DxLib::SoundPlayManager::dxLib_GetSoundSampleFrequency( const int  nSoundHa
 //==========================================================================//
 int		DxLib::SoundPlayManager::dxLib_GetSoundPlayingMiriTime( const int  nSoundHandle )
 {
-	int  nPlayingTime = 0;
+	LONGLONG  nPlayingTime = 0;
 	nPlayingTime = DxLib::GetSoundTotalTime( nSoundHandle );
 
-	return ( nPlayingTime );
+	return static_cast<int>( nPlayingTime );
 }
 
 //==========================================================================//
