@@ -3,6 +3,29 @@
 
 #include <windows.h>
 
+/* バージョン情報
+
+0      初期バージョン
+1      カーニング情報追加
+
+*/
+
+/* データマップ
+
+FONTDATAFILEHEADER
+
+圧縮されて格納
+	FONTDATAFILEPRESSHEADER
+	FONTDATAFILECHARADATA × 文字の数
+	FONTDATAFILEKERNINGPAIRDATA × カーニングペアの数	
+
+フォントイメージデータ
+
+*/
+
+// バージョン
+#define DX_FONTDATAFILE_VERSION						(1)
+
 // 文字セット
 #define DX_CHARSET_DEFAULT							(0)					// デフォルト文字セット
 #define DX_CHARSET_SHFTJIS							(1)					// 日本語文字セット
@@ -55,6 +78,8 @@ struct FONTBASEINFO
 	WORD					CharCodeFormat ;					// コードページ
 	WORD					Ascent ;							// 文字のベースラインから一番上までの高さ
 	WORD					Padding2 ;
+	DWORD					KerningPairNum ;					// カーニングペアの数
+	DWORD					Padding3[ 10 ] ;
 } ;
 
 // フォントファイルのヘッダ情報の圧縮する部分
@@ -78,6 +103,15 @@ struct FONTDATAFILEHEADER
 	DWORD					CharaNum ;			// 文字情報の数
 	DWORD					CharaExNum ;		// 文字情報の内、文字コードが 0x10000 以上の文字の数
 	FONTDATAFILEPRESSHEADER	Press ;				// ヘッダファイル内の圧縮対象の部分
+} ;
+
+// カーニングペア情報
+struct FONTDATAFILEKERNINGPAIRDATA
+{
+	DWORD					First ;				// ペアの１文字目
+	DWORD					Second ;			// ペアの２文字目
+	int						KernAmount ;		// ずらすドット数
+	DWORD					Padding ;
 } ;
 
 // ファイル保存用のフォント１文字の情報
@@ -110,6 +144,8 @@ struct FONTMANAGE
 	int						CacheBitmapMemPitch ;				// テキストキャッシュ用ビットマップのピッチ
 
 	FONTDATAFILECHARADATA	CharaData ;							// １文字分のデータ
+
+	FONTDATAFILEKERNINGPAIRDATA * KerningPairData ;				// カーニングペア情報
 
 	void *					GetGlyphOutlineBuffer ;				// GetGlyphOutline のデータ取得用に使用するバッファ
 	DWORD					GetGlyphOutlineBufferSize ;			// GetGlyphOutline のデータ取得用に使用するバッファのサイズ

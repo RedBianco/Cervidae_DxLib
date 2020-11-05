@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ja-JP">
 	<HEAD>
-	<meta http-equiv="Content-type" content="text/html; charset=Shift_JIS">
-    <TITLE>Windows�A�v����Android�A�v���ł͎g�p���镶���R�[�h���قȂ邱�Ƃɂ���</TITLE>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <TITLE>WindowsアプリとAndroidアプリでは使用する文字コードが異なることについて</TITLE>
 	<link rel="shortcut icon" href="../../DxLib.ico">
 	<link rel="stylesheet" href="../../style.css" type="text/css">
 	</HEAD>
@@ -12,8 +12,8 @@
 		<TR>
 		<TD ALIGN="CENTER">
 		<FONT SIZE="6" COLOR="#000000"><B>
-			Windows�A�v����Android�A�v���ł͎g�p���镶���R�[�h���قȂ邱�Ƃɂ���<BR>
-			( Windows�A�v���ł͎�Ɂw�V�t�gJIS�x�AAndroid�A�v���ł́wUTF-8�x )
+			WindowsアプリとAndroidアプリでは使用する文字コードが異なることについて<BR>
+			( Windowsアプリでは主に『シフトJIS』、Androidアプリでは『UTF-8』 )
 		</B></FONT>
 		</TD></TR>
 		<TR><TD>
@@ -21,208 +21,208 @@
 		<FONT SIZE="3" COLOR="#000000"><B>
 		<BR>
 
-		�@�����ł͎�� Windows�A�v���̊J���o��������������ɁA�����R�[�h�ɂ��Ẳ���� Windows�A�v����<BR>
-		Android�A�v���ɈڐA����ۂ̒��ӓ_�Ȃǂ����������܂��B<BR><BR>
+		　ここでは主に Windowsアプリの開発経験がある方向けに、文字コードについての解説や Windowsアプリを<BR>
+		Androidアプリに移植する際の注意点などをご説明します。<BR><BR>
 
-		<A HREF="#R1">1.�����𐔒l�ŕ\������ۂ̃t�H�[�}�b�g( �����R�[�h )�ɂ���<BR><BR></A>
+		<A HREF="#R1">1.文字を数値で表現する際のフォーマット( 文字コード )について<BR><BR></A>
 
-		<A HREF="#R2">2.���{�� Windows�A�v���͓��ɋC�ɂ��Ȃ��ƕ����R�[�h�w�V�t�gJIS�x���g�p����A�v���ɂȂ�܂�<BR><BR></A>
+		<A HREF="#R2">2.日本の Windowsアプリは特に気にしないと文字コード『シフトJIS』を使用するアプリになります<BR><BR></A>
 
-		<A HREF="#R3">3.Android�A�v���ł͕����R�[�h�w�V�t�gJIS�x�̑���ɁA�����R�[�h�wUTF-8�x�ɂȂ�܂�<BR><BR></A>
+		<A HREF="#R3">3.Androidアプリでは文字コード『シフトJIS』の代わりに、文字コード『UTF-8』になります<BR><BR></A>
 
-		<A HREF="#R4">4.�����R�[�h�w�V�t�gJIS�x���當���R�[�h�wUTF-8�x�ֈڍs����ۂɕK�v�ȍ��<BR><BR></A>
+		<A HREF="#R4">4.文字コード『シフトJIS』から文字コード『UTF-8』へ移行する際に必要な作業<BR><BR></A>
 
-		<A HREF="#R5">5.Windows�A�v���Ŏg�p���镶���R�[�h���wUTF-8�x�ɂ�����@<BR><BR><BR><BR></A>
+		<A HREF="#R5">5.Windowsアプリで使用する文字コードを『UTF-8』にする方法<BR><BR><BR><BR></A>
 
 
 		<A NAME="R1">
 		<FONT COLOR="#008800">
-		1.�����𐔒l�ŕ\������ۂ̃t�H�[�}�b�g( �����R�[�h )�ɂ���<BR><BR>
+		1.文字を数値で表現する際のフォーマット( 文字コード )について<BR><BR>
 		</FONT>
 		</A>
 
-		�@�@�@�R���s���[�^��ł�<FONT COLOR="#770000">�摜���������͂��S�Đ��l</FONT>�ň����܂����A�Ⴆ�΃R���s���[�^��̉摜�f�[�^��<BR>
-		�@�@<FONT COLOR="#770000">BMP</FONT> �������� <FONT COLOR="#770000">JPEG</FONT> �������� <FONT COLOR="#770000">PNG</FONT> ��������ƁA������摜��\�����邽�߂�<FONT COLOR="#770000">�f�[�^�t�H�[�}�b�g</FONT>�ŁA<BR>
-		�@�@�t�@�C���̒��g�͐��l�̏W���Ȃ̂ł����A<FONT COLOR="#770000">�f�[�^�t�H�[�}�b�g�ɂ���Ă��̕\���̌`</FONT>���قȂ�܂��B<BR><BR>
+		　　　コンピュータ上では<FONT COLOR="#770000">画像も音も文章も全て数値</FONT>で扱いますが、例えばコンピュータ上の画像データは<BR>
+		　　<FONT COLOR="#770000">BMP</FONT> だったり <FONT COLOR="#770000">JPEG</FONT> だったり <FONT COLOR="#770000">PNG</FONT> だったりと、何れも画像を表現するための<FONT COLOR="#770000">データフォーマット</FONT>で、<BR>
+		　　ファイルの中身は数値の集合なのですが、<FONT COLOR="#770000">データフォーマットによってその表現の形</FONT>が異なります。<BR><BR>
 
-		�@�@�@<FONT COLOR="#770000">�e�L�X�g�f�[�^</FONT>��<FONT COLOR="#770000">�摜�f�[�^</FONT>��<FONT COLOR="#770000">�T�E���h�f�[�^</FONT>�قǃf�[�^�t�H�[�}�b�g�ɂ��ċC�ɂ��邱�ƂȂ�<BR>
-		�@�@�������Ƃ��ł���̂Œm��Ȃ�����������������܂��񂪁A�����ɂ��f�[�^�t�H�[�}�b�g�̂悤�Ȃ��̂ł���<BR>
-		�@�@<FONT COLOR="#770000">�w�����R�[�h�x</FONT>������܂��B<BR><BR>
+		　　　<FONT COLOR="#770000">テキストデータ</FONT>は<FONT COLOR="#770000">画像データ</FONT>や<FONT COLOR="#770000">サウンドデータ</FONT>ほどデータフォーマットについて気にすることなく<BR>
+		　　扱うことができるので知らない方も多いかもしれませんが、文字にもデータフォーマットのようなものである<BR>
+		　　<FONT COLOR="#770000">『文字コード』</FONT>があります。<BR><BR>
 
-		�@�@�@�Ⴆ�΁w<FONT COLOR="#770000">��</FONT>�x�Ƃ���������<FONT COLOR="#770000">�w�V�t�gJIS�x</FONT>�Ƃ���<FONT COLOR="#770000">�����R�[�h</FONT>�ł�<FONT COLOR="#770000">16�i���\��</FONT>�Łw<FONT COLOR="#770000">82 A0</FONT>�x�� <FONT COLOR="#770000">2�o�C�g</FONT>��<BR>
-		�@�@�\������܂����A<FONT COLOR="#770000">�wUTF-16LE�x</FONT>�Ƃ���<FONT COLOR="#770000">�����R�[�h</FONT>�ł͓��� <FONT COLOR="#770000">2�o�C�g</FONT>�ł��w<FONT COLOR="#770000">42 30</FONT>�x�ƕ\������A<BR>
-		�@�@<FONT COLOR="#770000">�wUTF-8�x</FONT>�Ƃ���<FONT COLOR="#770000">�����R�[�h</FONT>�ł́w<FONT COLOR="#770000">E3 81 82</FONT>�x�� <FONT COLOR="#770000">3�o�C�g</FONT>�ŕ\������A���l�ǂ��납 1������\������<BR>
-		�@�@�o�C�g���܂ňقȂ��Ă��܂����肵�܂��B<BR><BR>
+		　　　例えば『<FONT COLOR="#770000">あ</FONT>』という文字は<FONT COLOR="#770000">『シフトJIS』</FONT>という<FONT COLOR="#770000">文字コード</FONT>では<FONT COLOR="#770000">16進数表現</FONT>で『<FONT COLOR="#770000">82 A0</FONT>』と <FONT COLOR="#770000">2バイト</FONT>で<BR>
+		　　表現されますが、<FONT COLOR="#770000">『UTF-16LE』</FONT>という<FONT COLOR="#770000">文字コード</FONT>では同じ <FONT COLOR="#770000">2バイト</FONT>でも『<FONT COLOR="#770000">42 30</FONT>』と表現され、<BR>
+		　　<FONT COLOR="#770000">『UTF-8』</FONT>という<FONT COLOR="#770000">文字コード</FONT>では『<FONT COLOR="#770000">E3 81 82</FONT>』と <FONT COLOR="#770000">3バイト</FONT>で表現され、数値どころか 1文字を表現する<BR>
+		　　バイト数まで異なってしまったりします。<BR><BR>
 
-		�@�@�@�ł����A����������w<FONT COLOR="#770000">��</FONT>�x��\�����Ă��邱�Ƃɂ͑���͂���܂���B<FONT COLOR="#770000">BMP�t�@�C��</FONT>�ł�<BR>
-		�@�@<FONT COLOR="#770000">PNG�t�@�C��</FONT>�ł��A�S�������摜�ł���΁A�t�@�C���T�C�Y�ƒ��g�̐��l�̏W�����قȂ��Ă���ʂ�<BR>
-		�@�@�\�������摜�������ł���̂Ɠ��l�ł��B<BR><BR>
+		　　　ですが、何れも文字『<FONT COLOR="#770000">あ</FONT>』を表現していることには代わりはありません。<FONT COLOR="#770000">BMPファイル</FONT>でも<BR>
+		　　<FONT COLOR="#770000">PNGファイル</FONT>でも、全く同じ画像であれば、ファイルサイズと中身の数値の集合が異なっても画面に<BR>
+		　　表示される画像が同じであるのと同様です。<BR><BR>
 
-		�@�@�@�����A<FONT COLOR="#770000">�摜�̃f�[�^�t�H�[�}�b�g���قȂ�΁A����������v���O�������f�[�^�t�H�[�}�b�g�ɓK������<BR>
-		�@�@���̂ɕύX���Ȃ���΂Ȃ�Ȃ�</FONT>�̂Ɠ����悤�ɁA<FONT COLOR="#770000">������f�[�^���e�����R�[�h( �����f�[�^�t�H�[�}�b�g��<BR>
-		�@�@�l����ƕ�����₷���ł� )�ɓK�������v���O������g�ޕK�v</FONT>������܂��B<BR><BR><BR><BR>
+		　　　ただ、<FONT COLOR="#770000">画像のデータフォーマットが異なれば、それを扱うプログラムもデータフォーマットに適合した<BR>
+		　　ものに変更しなければならない</FONT>のと同じように、<FONT COLOR="#770000">文字列データも各文字コード( 文字データフォーマットと<BR>
+		　　考えると分かりやすいです )に適合したプログラムを組む必要</FONT>があります。<BR><BR><BR><BR>
 
 		<A NAME="R2">
 		<FONT COLOR="#008800">
-		2.���{�� Windows�A�v���͓��ɋC�ɂ��Ȃ��ƕ����R�[�h�w�V�t�gJIS�x���g�p����A�v���ɂȂ�܂�<BR><BR>
+		2.日本の Windowsアプリは特に気にしないと文字コード『シフトJIS』を使用するアプリになります<BR><BR>
 		</FONT>
 		</A>
 
-		�@�@�@�ł͕��i <FONT COLOR="#770000">Windows�A�v��</FONT>�𐻍삳��Ă������<FONT COLOR="#770000">���̕����R�[�h���g�p���Ă��邩</FONT>�ƌ����܂��ƁA<BR>
-		�@�@���ɕ����R�[�h���C�ɂ����J������Ă�����͍��m����<FONT COLOR="#770000">�w�V�t�gJIS�x</FONT>�Ƃ����̂�����{�Ŏg�p����Ă���<BR>
-		�@�@�����R�[�h���g�p���ăv���O�����̃\�[�X�R�[�h��Q�[����ʂɕ\�����镶�͂������Ă���Ǝv���܂��B<BR>
-		�@�@( ���̂��Ƃ����� <FONT COLOR="#770000">VisualStudio</FONT> �ŐV�K�쐬���� cpp�t�@�C����A<FONT COLOR="#770000">������</FONT>�Ȃǂ̃e�L�X�g�G�f�B�^��<BR>
-		�@�@�V�K�쐬���� txt�t�@�C���́A<FONT COLOR="#770000">���Ɏw�肪�Ȃ����蕶���R�[�h�w�V�t�gJIS�x�`���̃t�@�C���ƂȂ�</FONT>�ׂł�<BR>
-		�@�@( �����A<FONT COLOR="#770000">�w�V�t�gJIS�x</FONT>�͎��<FONT COLOR="#770000">���{�ł̂ݎg�p����Ă��镶���R�[�h</FONT>�Ȃ̂ŁA�p��� Windows �̃�������A<BR>
-		�@�@�C�O���̃e�L�X�g�G�f�B�^�ł͈Ⴂ�܂� ) )<BR><BR>
+		　　　では普段 <FONT COLOR="#770000">Windowsアプリ</FONT>を製作されている方は<FONT COLOR="#770000">何の文字コードを使用しているか</FONT>と言いますと、<BR>
+		　　特に文字コードを気にせず開発されている方は高確率で<FONT COLOR="#770000">『シフトJIS』</FONT>という昔から日本で使用されている<BR>
+		　　文字コードを使用してプログラムのソースコードやゲーム画面に表示する文章を扱っていると思います。<BR>
+		　　( 何故かというと <FONT COLOR="#770000">VisualStudio</FONT> で新規作成する cppファイルや、<FONT COLOR="#770000">メモ帳</FONT>などのテキストエディタで<BR>
+		　　新規作成した txtファイルは、<FONT COLOR="#770000">特に指定がない限り文字コード『シフトJIS』形式のファイルとなる</FONT>為です<BR>
+		　　( ただ、<FONT COLOR="#770000">『シフトJIS』</FONT>は主に<FONT COLOR="#770000">日本でのみ使用されている文字コード</FONT>なので、英語版 Windows のメモ帳や、<BR>
+		　　海外製のテキストエディタでは違います ) )<BR><BR>
 
-		�@�@�@<FONT COLOR="#770000">�w�V�t�gJIS�x</FONT>��<FONT COLOR="#770000">�w���p������1�o�C�g�A�S�p������2�o�C�g�x</FONT>�ŁA<FONT COLOR="#770000">1�o�C�g�ڂ̐��l</FONT>����<BR>
-		�@�@<FONT COLOR="#770000">�S�p����( 2�o�C�g���� )</FONT>�Ȃ̂�<FONT COLOR="#770000">���p����( 1�o�C�g���� )</FONT>�Ȃ̂��𔻒f�ł���Ȃǂ̓���������̂ŁA<BR>
-		�@�@�Q�[���ŕ��͂� 1�����P�ʂň��������Ƃ�������ɂ͓���݂̂��镶���R�[�h�ł͂Ȃ����Ǝv���܂��B<BR><BR>
+		　　　<FONT COLOR="#770000">『シフトJIS』</FONT>は<FONT COLOR="#770000">『半角文字は1バイト、全角文字は2バイト』</FONT>で、<FONT COLOR="#770000">1バイト目の数値</FONT>から<BR>
+		　　<FONT COLOR="#770000">全角文字( 2バイト文字 )</FONT>なのか<FONT COLOR="#770000">半角文字( 1バイト文字 )</FONT>なのかを判断できるなどの特徴があるので、<BR>
+		　　ゲームで文章を 1文字単位で扱ったことがある方には馴染みのある文字コードではないかと思います。<BR><BR>
 
-		�@�@�@���݂� <FONT COLOR="#770000">VisualStudio�V���[�Y</FONT>���A<FONT COLOR="#770000">���{���</FONT>�ł͌Â�����v���O�������Ɂw<FONT COLOR="#770000">"����������"</FONT>�x�Ƃ����悤��<BR>
-		�@�@�w<FONT COLOR="#770000">""</FONT>�x�Ŋ���ꂽ�������<FONT COLOR="#770000">�w�V�t�gJIS�x�`���̕�����</FONT>�Ƃ��Ĉ����A�Ȃ�Ƃ����J�Ƀv���O������<BR>
-		�@�@�����ꂽ cpp�t�@�C����<FONT COLOR="#770000">�wUTF-8�x</FONT>�Ȃǂ�<FONT COLOR="#770000">�w�V�t�gJIS�x�ȊO�̌`��</FONT>�ŕۑ�����Ă��Ă��w<FONT COLOR="#770000">""</FONT>�x�Ŋ���ꂽ<BR>
-		�@�@������f�[�^��<FONT COLOR="#770000">�R���p�C���̍ۂɁw�V�t�gJIS�x�`���̕�����ɕϊ�</FONT>���Ă���܂��B<BR><BR>
+		　　　因みに <FONT COLOR="#770000">VisualStudioシリーズ</FONT>も、<FONT COLOR="#770000">日本語版</FONT>では古くからプログラム中に『<FONT COLOR="#770000">"あいうえお"</FONT>』というように<BR>
+		　　『<FONT COLOR="#770000">""</FONT>』で括られた文字列は<FONT COLOR="#770000">『シフトJIS』形式の文字列</FONT>として扱われ、なんとご丁寧にプログラムが<BR>
+		　　書かれた cppファイルが<FONT COLOR="#770000">『UTF-8』</FONT>などの<FONT COLOR="#770000">『シフトJIS』以外の形式</FONT>で保存されていても『<FONT COLOR="#770000">""</FONT>』で括られた<BR>
+		　　文字列データは<FONT COLOR="#770000">コンパイルの際に『シフトJIS』形式の文字列に変換</FONT>してくれます。<BR><BR>
 
-		�@�@�@�c�w���C�u���������Ɏw�肪������� <FONT COLOR="#770000">LoadGraph</FONT> �� <FONT COLOR="#770000">DrawString</FONT> �Ȃǂɓn�����<FONT COLOR="#770000">������f�[�^</FONT>��<BR>
-		�@�@<FONT COLOR="#770000">�w�V�t�gJIS�x�`��</FONT>�Ƃ��Ĉ����̂ŁA<FONT COLOR="#770000">VisualStudio�A�e�L�X�g�G�f�B�^�A�c�w���C�u�����S�Ă�<BR>
-		�@�@�w������f�[�^�́u�V�t�gJIS�v�x�Ƃ��Ĉ���</FONT>���ƂɂȂ�A�J���҂�<FONT COLOR="#770000">�w�����f�[�^�͔��p������ 1�o�C�g�A<BR>
-		�@�@�S�p������ 2�o�C�g�x</FONT>�Ƃ����������Ă����΁A<FONT COLOR="#770000">�����Ă��镶����f�[�^�����̕����R�[�h�Ȃ̂�����<BR>
-		�@�@�C�ɂ��邱�ƂȂ���Ƃ����邱�Ƃ��ł���</FONT>�A�Ƃ����킯�ł��B<BR><BR><BR><BR>
+		　　　ＤＸライブラリも特に指定が無ければ <FONT COLOR="#770000">LoadGraph</FONT> や <FONT COLOR="#770000">DrawString</FONT> などに渡される<FONT COLOR="#770000">文字列データ</FONT>は<BR>
+		　　<FONT COLOR="#770000">『シフトJIS』形式</FONT>として扱うので、<FONT COLOR="#770000">VisualStudio、テキストエディタ、ＤＸライブラリ全てが<BR>
+		　　『文字列データは「シフトJIS」』として扱う</FONT>ことになり、開発者は<FONT COLOR="#770000">『文字データは半角文字は 1バイト、<BR>
+		　　全角文字は 2バイト』</FONT>とだけ理解しておけば、<FONT COLOR="#770000">扱っている文字列データが何の文字コードなのか特に<BR>
+		　　気にすることなく作業をすることができる</FONT>、というわけです。<BR><BR><BR><BR>
 
 		<A NAME="R3">
 		<FONT COLOR="#008800">
-		3.Android�A�v���ł͕����R�[�h�w�V�t�gJIS�x�̑���ɁA�����R�[�h�wUTF-8�x�ɂȂ�܂�<BR><BR>
+		3.Androidアプリでは文字コード『シフトJIS』の代わりに、文字コード『UTF-8』になります<BR><BR>
 		</FONT>
 		</A>
 
-		�@�@�@�����A����� <FONT COLOR="#770000">Windows�A�v��</FONT>�ł̂��ƂŁA<FONT COLOR="#770000">Android�A�v��</FONT>�ł�<FONT COLOR="#770000">�w�V�t�gJIS�x�͉e���`������܂���</FONT>�B<BR><BR>
+		　　　ただ、それは <FONT COLOR="#770000">Windowsアプリ</FONT>でのことで、<FONT COLOR="#770000">Androidアプリ</FONT>では<FONT COLOR="#770000">『シフトJIS』は影も形もありません</FONT>。<BR><BR>
 
-		�@�@�@<FONT COLOR="#770000">�c�w���C�u���� Android��</FONT>���g�p���� <FONT COLOR="#770000">Android�A�v��</FONT>�̃v���O������g�ލۂ� <FONT COLOR="#770000">Windows�A�v��</FONT>��<BR>
-		�@�@�J������Ƃ��Ɠ��� <FONT COLOR="#770000">VisualStudio Community 2015</FONT> ���g�p���邱�Ƃ��ł���̂ł����A<FONT COLOR="#770000">Windows�A�v����<BR>
-		�@�@�قȂ蕶����f�[�^�́w�V�t�gJIS�x�`���ł͂Ȃ��wUTF-8�x�`���Ƃ��Ĉ����܂�</FONT>�B<BR><BR>
+		　　　<FONT COLOR="#770000">ＤＸライブラリ Android版</FONT>を使用して <FONT COLOR="#770000">Androidアプリ</FONT>のプログラムを組む際も <FONT COLOR="#770000">Windowsアプリ</FONT>を<BR>
+		　　開発するときと同じ <FONT COLOR="#770000">VisualStudio Community 2015</FONT> を使用することができるのですが、<FONT COLOR="#770000">Windowsアプリと<BR>
+		　　異なり文字列データは『シフトJIS』形式ではなく『UTF-8』形式として扱われます</FONT>。<BR><BR>
 
-		�@�@�@<FONT COLOR="#770000">�w�V�t�gJIS�x�`���ŕۑ����ꂽ cpp�t�@�C�����wUTF-8�x�`���� cpp�t�@�C���Ƃ��Ĉ����Ă��܂�</FONT>�̂ŁA<BR>
-		�@�@<FONT COLOR="#770000">�w�V�t�gJIS�x�`��</FONT>�� cpp �t�@�C���Ɂw<FONT COLOR="#770000">"����������"</FONT>�x�Ȃǂ�<FONT COLOR="#770000">�S�p����</FONT>���܂܂�镶����f�[�^��<BR>
-		�@�@�L�q����Ă���ƁA�R���p�C���̍ۂɁw<FONT COLOR="#770000">�F���ł��Ȃ������ł�</FONT>�x�Ƃ��ăG���[���������ăR���p�C����<BR>
-		�@�@���s���Ă��܂��܂��B( ���݂�<FONT COLOR="#770000">���p�����������ƃG���[���������܂���</FONT>�A���̂Ȃ�<FONT COLOR="#770000">�w�V�t�gJIS�x�`����<BR>
-		�@�@1�o�C�g�����́wUTF-8�x�`���� 1�o�C�g�����Ɠ���̕�������������</FONT>�ł� ( �Ⴆ��<FONT COLOR="#770000">�w�V�t�gJIS�x</FONT>�ł�<BR>
-		�@�@�w<FONT COLOR="#770000">A</FONT>�x�� 16�i���Łw<FONT COLOR="#770000">41</FONT>�x�� <FONT COLOR="#770000">1�o�C�g</FONT>�ŕ\������܂����A<FONT COLOR="#770000">�wUTF-8�x</FONT>�ł��w<FONT COLOR="#770000">A</FONT>�x�� 16�i���́w<FONT COLOR="#770000">41</FONT>�x��<BR>
-		�@�@<FONT COLOR="#770000">1�o�C�g</FONT>�ŕ\������܂� ) )<BR><BR>
+		　　　<FONT COLOR="#770000">『シフトJIS』形式で保存された cppファイルも『UTF-8』形式の cppファイルとして扱われてしまう</FONT>ので、<BR>
+		　　<FONT COLOR="#770000">『シフトJIS』形式</FONT>の cpp ファイルに『<FONT COLOR="#770000">"あいうえお"</FONT>』などの<FONT COLOR="#770000">全角文字</FONT>が含まれる文字列データが<BR>
+		　　記述されていると、コンパイルの際に『<FONT COLOR="#770000">認識できない文字です</FONT>』としてエラーが発生してコンパイルが<BR>
+		　　失敗してしまいます。( 因みに<FONT COLOR="#770000">半角文字だけだとエラーが発生しません</FONT>、何故なら<FONT COLOR="#770000">『シフトJIS』形式の<BR>
+		　　1バイト文字は『UTF-8』形式の 1バイト文字と同一の部分が多いから</FONT>です ( 例えば<FONT COLOR="#770000">『シフトJIS』</FONT>での<BR>
+		　　『<FONT COLOR="#770000">A</FONT>』は 16進数で『<FONT COLOR="#770000">41</FONT>』の <FONT COLOR="#770000">1バイト</FONT>で表現されますが、<FONT COLOR="#770000">『UTF-8』</FONT>でも『<FONT COLOR="#770000">A</FONT>』は 16進数の『<FONT COLOR="#770000">41</FONT>』の<BR>
+		　　<FONT COLOR="#770000">1バイト</FONT>で表現されます ) )<BR><BR>
 
-		�@�@�@�Ȃ̂ŁA�v���O��������<FONT COLOR="#770000">�S�p�������܂ޕ�����f�[�^</FONT>���L�q�������ꍇ�́A<FONT COLOR="#770000">VisualStudio Community 2015 ��<BR>
-		�@�@cpp�t�@�C�����J�������</FONT>�ŁA���j���[����<FONT COLOR="#550088">�w�t�@�C��(F)�x���w�ۑ��I�v�V�����̏ڍאݒ�(V)...�x</FONT>��I������<BR>
-		�@�@<FONT COLOR="#550088">�w�ۑ��I�v�V�����̏ڍאݒ�x�_�C�A���O</FONT>��\�����āA<FONT COLOR="#550088">�w�G���R�[�h(E):�x</FONT>�̍��ڂ�<BR>
-		�@�@<FONT COLOR="#550088">�w���{��(�V�t�gJIS) - �R�[�h�y�[�W 932�x</FONT>����<FONT COLOR="#550088">�wUnicode(UTF-8 �V�O�l�`���t��) - �R�[�h�y�[�W 65001�x</FONT><BR>
-		�@�@�ɕύX����<FONT COLOR="#550088">�wOK�x</FONT>�{�^���������āA<FONT COLOR="#770000">cpp�t�@�C�����wUTF-8�x�`���ŕۑ�����</FONT>�K�v������܂��B<BR><BR>
+		　　　なので、プログラム中に<FONT COLOR="#770000">全角文字を含む文字列データ</FONT>を記述したい場合は、<FONT COLOR="#770000">VisualStudio Community 2015 で<BR>
+		　　cppファイルを開いた状態</FONT>で、メニューから<FONT COLOR="#550088">『ファイル(F)』→『保存オプションの詳細設定(V)...』</FONT>を選択して<BR>
+		　　<FONT COLOR="#550088">『保存オプションの詳細設定』ダイアログ</FONT>を表示して、<FONT COLOR="#550088">『エンコード(E):』</FONT>の項目を<BR>
+		　　<FONT COLOR="#550088">『日本語(シフトJIS) - コードページ 932』</FONT>から<FONT COLOR="#550088">『Unicode(UTF-8 シグネチャ付き) - コードページ 65001』</FONT><BR>
+		　　に変更して<FONT COLOR="#550088">『OK』</FONT>ボタンを押して、<FONT COLOR="#770000">cppファイルを『UTF-8』形式で保存する</FONT>必要があります。<BR><BR>
 
-		�@�@�@�����Acpp�t�@�C����<FONT COLOR="#770000">�wUTF-8�x�`��</FONT>�ɂ����ꍇ�A�v���O�������ɏ������w<FONT COLOR="#770000">"����������"</FONT>�x�͍ő�<BR>
-		�@�@<FONT COLOR="#770000">�w�V�t�gJIS�x�`���ł͂Ȃ��wUTF-8�x�`���ɂȂ��Ă���</FONT>�̂ŁA<FONT COLOR="#770000">�w�V�t�gJIS�x�`���̕�����</FONT>����������<BR>
-		�@�@<FONT COLOR="#770000">�w���p������1�o�C�g�A�S�p������2�o�C�g�x</FONT>��O��Ƃ����v���O������g�ޑ����<FONT COLOR="#770000">�wUTF-8�x�`����<BR>
-		�@�@������</FONT>����������<FONT COLOR="#770000">�w���p������1�o�C�g�A�S�p������3�o�C�g�x</FONT>��O��Ƃ����v���O������g�ޕK�v������܂��B<BR>
-		�@�@( ���{�Ŏg�p����Ă���<FONT COLOR="#770000">�S�p����</FONT>��<FONT COLOR="#770000">�wUTF-8�x</FONT>�ł͊T�� <FONT COLOR="#770000">1���� 3�o�C�g</FONT>�ƂȂ��Ă��܂� )<BR><BR>
+		　　　ただ、cppファイルを<FONT COLOR="#770000">『UTF-8』形式</FONT>にした場合、プログラム中に書いた『<FONT COLOR="#770000">"あいうえお"</FONT>』は最早<BR>
+		　　<FONT COLOR="#770000">『シフトJIS』形式ではなく『UTF-8』形式になっている</FONT>ので、<FONT COLOR="#770000">『シフトJIS』形式の文字列</FONT>を処理する<BR>
+		　　<FONT COLOR="#770000">『半角文字は1バイト、全角文字は2バイト』</FONT>を前提としたプログラムを組む代わりに<FONT COLOR="#770000">『UTF-8』形式の<BR>
+		　　文字列</FONT>を処理する<FONT COLOR="#770000">『半角文字は1バイト、全角文字は3バイト』</FONT>を前提としたプログラムを組む必要があります。<BR>
+		　　( 日本で使用されている<FONT COLOR="#770000">全角文字</FONT>は<FONT COLOR="#770000">『UTF-8』</FONT>では概ね <FONT COLOR="#770000">1文字 3バイト</FONT>となっています )<BR><BR>
 
-		�@�@�@<FONT COLOR="#770000">�w�V�t�gJIS�x</FONT>�̏ꍇ�� <FONT COLOR="#770000">1���������o�C�g���� 1�o�C�g�ڂ̐��l�𒲂ׂ邱�ƂŔ��f���邱�Ƃ�<BR>
-		�@�@�ł��܂�</FONT>���A<FONT COLOR="#770000">�wUTF-8�x</FONT>�ł� <FONT COLOR="#770000">1���������o�C�g���̔���̎d�����w�V�t�gJIS�x���኱���G</FONT>�Ȃ̂ŁA<BR>
-		�@�@<FONT COLOR="#770000">�wUTF-8�x�`��</FONT>�� <FONT COLOR="#770000">1�����̃o�C�g��</FONT>�𒲂ׂ�ۂ͂c�w���C�u�����̊֐��w<A HREF="../../function/dxfunc_other.html#R22N2">GetCharBytes</A>�x���g�p�����<BR>
-		�@�@�֗��ł��B( 1�����̃o�C�g�����擾���邽�߂̊֐��ł� )<BR><BR><BR><BR>
+		　　　<FONT COLOR="#770000">『シフトJIS』</FONT>の場合は <FONT COLOR="#770000">1文字が何バイトかは 1バイト目の数値を調べることで判断することが<BR>
+		　　できます</FONT>が、<FONT COLOR="#770000">『UTF-8』</FONT>では <FONT COLOR="#770000">1文字が何バイトかの判定の仕方が『シフトJIS』より若干複雑</FONT>なので、<BR>
+		　　<FONT COLOR="#770000">『UTF-8』形式</FONT>の <FONT COLOR="#770000">1文字のバイト数</FONT>を調べる際はＤＸライブラリの関数『<A HREF="../../function/dxfunc_other.html#R22N2">GetCharBytes</A>』を使用すると<BR>
+		　　便利です。( 1文字のバイト数を取得するための関数です )<BR><BR><BR><BR>
 
 		<A NAME="R4">
 		<FONT COLOR="#008800">
-		4.�����R�[�h�w�V�t�gJIS�x���當���R�[�h�wUTF-8�x�ֈڍs����ۂɕK�v�ȍ��<BR><BR>
+		4.文字コード『シフトJIS』から文字コード『UTF-8』へ移行する際に必要な作業<BR><BR>
 		</FONT>
 		</A>
 
-		�@�@�@����͎��<FONT COLOR="#770000">�����R�[�h�w�V�t�gJIS�x���g�p���Ă��� Windows�A�v���� Android�A�v���ɈڐA����ꍇ��<BR>
-		�@�@�K�v�ȍ��</FONT>�ɂ��Ă̂��b�ł��B<BR>
-		�@�@�@<FONT COLOR="#770000">�w�V�t�gJIS�x</FONT>���g�p���Ă��� <FONT COLOR="#770000">Windows�A�v��</FONT>�� <FONT COLOR="#770000">Android�A�v��</FONT>�ɈڐA����ꍇ�́A�ȉ��̍�Ƃ��s��<BR>
-		�@�@�K�v������܂��B<BR><BR>
+		　　　これは主に<FONT COLOR="#770000">文字コード『シフトJIS』を使用している Windowsアプリを Androidアプリに移植する場合に<BR>
+		　　必要な作業</FONT>についてのお話です。<BR>
+		　　　<FONT COLOR="#770000">『シフトJIS』</FONT>を使用している <FONT COLOR="#770000">Windowsアプリ</FONT>を <FONT COLOR="#770000">Androidアプリ</FONT>に移植する場合は、以下の作業を行う<BR>
+		　　必要があります。<BR><BR>
 
-		�@�@<FONT COLOR="#550088">�@�@�S�Ă� cpp�t�@�C���� h�t�@�C�����w�V�t�gJIS�x�`������wUTF-8�x�`���ɕϊ�����</FONT><BR><BR>
+		　　<FONT COLOR="#550088">①　全ての cppファイルや hファイルを『シフトJIS』形式から『UTF-8』形式に変換する</FONT><BR><BR>
 
-		�@�@�@�@�@�O�q�̒ʂ�A<FONT COLOR="#770000">Android�A�v���p�� C++ �R���p�C���́w�V�t�gJIS�x�`���̃v���O�����t�@�C���𐳏��<BR>
-		�@�@�@�@�R���p�C�����邱�Ƃ��ł��Ȃ�</FONT>�̂ŁA�S�Ă� cpp�t�@�C���� h�t�@�C����<FONT COLOR="#770000">�w�V�t�gJIS�x�`��</FONT>����<BR>
-		�@�@�@�@<FONT COLOR="#550088">�w�t�@�C��(F)�x���w�ۑ��I�v�V�����̏ڍאݒ�(V)...�x</FONT>���g�p���đS��<FONT COLOR="#770000">�wUTF-8�x�`��</FONT>�ɕϊ�����K�v������܂��B<BR><BR>
+		　　　　　前述の通り、<FONT COLOR="#770000">Androidアプリ用の C++ コンパイラは『シフトJIS』形式のプログラムファイルを正常に<BR>
+		　　　　コンパイルすることができない</FONT>ので、全ての cppファイルや hファイルを<FONT COLOR="#770000">『シフトJIS』形式</FONT>から<BR>
+		　　　　<FONT COLOR="#550088">『ファイル(F)』→『保存オプションの詳細設定(V)...』</FONT>を使用して全て<FONT COLOR="#770000">『UTF-8』形式</FONT>に変換する必要があります。<BR><BR>
 
-		�@�@<FONT COLOR="#550088">�A�@�A�v�����ň����e�L�X�g�t�@�C�����S�āwUTF-8�x�`���ɕϊ�����</FONT><BR><BR>
+		　　<FONT COLOR="#550088">②　アプリ内で扱うテキストファイルも全て『UTF-8』形式に変換する</FONT><BR><BR>
 
-		�@�@�@�@�@<FONT COLOR="#770000">txt�t�@�C��</FONT>�ȂǊO���̃t�@�C������Q�[�����ɕ\�����镶�̓f�[�^��ǂݍ���ł����ꍇ�́A������<BR>
-		�@�@�@�@<FONT COLOR="#770000">txt�t�@�C��</FONT>�̕����R�[�h��<FONT COLOR="#770000">�wUTF-8�x�`��</FONT>�ɕϊ�����K�v������܂��B<BR>
-		�@�@�@�@�@�Ⴆ�΁AWindows�W���̃e�L�X�g�G�f�B�^�ł���<FONT COLOR="#770000">�w�������x</FONT>�̏ꍇ�́A���j���[��<FONT COLOR="#550088">�w�t�@�C��(F)�x��<BR>
-		�@�@�@�@�w���O��t���ĕۑ�(A)...�x</FONT>��I������ƕ\�������<FONT COLOR="#550088">�w���O��t���ĕۑ��x�_�C�A���O</FONT>�̉����ɂ���<BR>
-		�@�@�@�@<FONT COLOR="#550088">�w�����R�[�h(E):�x</FONT>�̍��ڂ�<FONT COLOR="#550088">�wANSI�x</FONT>����<FONT COLOR="#550088">�wUTF-8�x</FONT>�ɕύX���Ă���ۑ����邱�ƂŁAtxt�t�@�C����<BR>
-		�@�@�@�@�����R�[�h��<FONT COLOR="#770000">�w�V�t�gJIS�x</FONT>����<FONT COLOR="#770000">�wUTF-8�x</FONT>�ɕϊ����邱�Ƃ��ł��܂��B<BR><BR>
+		　　　　　<FONT COLOR="#770000">txtファイル</FONT>など外部のファイルからゲーム中に表示する文章データを読み込んでいた場合は、それらの<BR>
+		　　　　<FONT COLOR="#770000">txtファイル</FONT>の文字コードも<FONT COLOR="#770000">『UTF-8』形式</FONT>に変換する必要があります。<BR>
+		　　　　　例えば、Windows標準のテキストエディタである<FONT COLOR="#770000">『メモ帳』</FONT>の場合は、メニューの<FONT COLOR="#550088">『ファイル(F)』→<BR>
+		　　　　『名前を付けて保存(A)...』</FONT>を選択すると表示される<FONT COLOR="#550088">『名前を付けて保存』ダイアログ</FONT>の下部にある<BR>
+		　　　　<FONT COLOR="#550088">『文字コード(E):』</FONT>の項目を<FONT COLOR="#550088">『ANSI』</FONT>から<FONT COLOR="#550088">『UTF-8』</FONT>に変更してから保存することで、txtファイルの<BR>
+		　　　　文字コードを<FONT COLOR="#770000">『シフトJIS』</FONT>から<FONT COLOR="#770000">『UTF-8』</FONT>に変換することができます。<BR><BR>
 
-		�@�@<FONT COLOR="#550088">�B�@������f�[�^���w�V�t�gJIS�x�`���Ƃ��Ĉ����Ă���v���O������S�āwUTF-8�x�`���Ƃ��Ĉ����v���O�����ɏ���������</FONT><BR><BR>
+		　　<FONT COLOR="#550088">③　文字列データを『シフトJIS』形式として扱っているプログラムを全て『UTF-8』形式として扱うプログラムに書き換える</FONT><BR><BR>
 
-		�@�@�@�@�@��L��̍�Ƃ����邱�ƂŃv���O�������Ɂw<FONT COLOR="#770000">""</FONT>�x�Ŋ����ċL�q���ꂽ������f�[�^���t�@�C������<BR>
-		�@�@�@�@�ǂݍ��ޕ�����f�[�^��<FONT COLOR="#770000">�wUTF-8�x�`��</FONT>�ƂȂ�܂��̂ŁA����<FONT COLOR="#770000">������f�[�^�������v���O������<BR>
-		�@�@�@�@�wUTF-8�x�`�����������̂ɕύX����K�v</FONT>������܂��B<BR>
-		�@�@�@�@�@��ɕύX���邱�ƂɂȂ�͕̂����񒆂̕����� 1�����P�ʂň����������s���Ă���v���O�������Ǝv���܂��B<BR>
-		�@�@�@�@<FONT COLOR="#770000">�w�V�t�gJIS�x�`���ł� 1���������p�����̏ꍇ�� 1�o�C�g�A�S�p�����̏ꍇ�� 2�o�C�g</FONT>�ł����A<BR>
-		�@�@�@�@<FONT COLOR="#770000">�wUTF-8�x�`���ł�( ��ɓ��{��Ŏg�p����镶���ł� )���p�����̏ꍇ�� 1�o�C�g�A�S�p������<BR>
-		�@�@�@�@�ꍇ�� 3�o�C�g</FONT>�ƂȂ�܂��B<BR>
-		�@�@�@�@�@�����A<FONT COLOR="#770000">�wUTF-8�x�̎d�l��� 1�����̃o�C�g���� 1�`6�o�C�g</FONT>�Ȃ̂ŁA�w�V�t�gJIS�x����<BR>
-		�@�@�@�@1�����̃o�C�g���𔻒肷�鏈�������G�ɂȂ�܂��B�Ȃ̂ŁA<FONT COLOR="#770000">�w1���������o�C�g�Ȃ̂��x�𒲂ׂ�ۂ�<BR>
-		�@�@�@�@�c�w���C�u�����̊֐��w<A HREF="../../function/dxfunc_other.html#R22N2">GetCharBytes</A>�x���g�p����</FONT>�悤�ɂ��Ă��������B<BR>
-		�@�@�@�@( �����œn����������̍ŏ��̕����̃o�C�g����Ԃ��֐��ł� )<BR><BR><BR><BR>
+		　　　　　上記二つの作業をすることでプログラム中に『<FONT COLOR="#770000">""</FONT>』で括って記述された文字列データもファイルから<BR>
+		　　　　読み込む文字列データも<FONT COLOR="#770000">『UTF-8』形式</FONT>となりますので、その<FONT COLOR="#770000">文字列データを扱うプログラムも<BR>
+		　　　　『UTF-8』形式を扱うものに変更する必要</FONT>があります。<BR>
+		　　　　　主に変更することになるのは文字列中の文字を 1文字単位で扱う処理を行っているプログラムだと思います。<BR>
+		　　　　<FONT COLOR="#770000">『シフトJIS』形式では 1文字が半角文字の場合は 1バイト、全角文字の場合は 2バイト</FONT>ですが、<BR>
+		　　　　<FONT COLOR="#770000">『UTF-8』形式では( 主に日本語で使用される文字では )半角文字の場合は 1バイト、全角文字の<BR>
+		　　　　場合は 3バイト</FONT>となります。<BR>
+		　　　　　ただ、<FONT COLOR="#770000">『UTF-8』の仕様上は 1文字のバイト数は 1～6バイト</FONT>なので、『シフトJIS』よりも<BR>
+		　　　　1文字のバイト数を判定する処理も複雑になります。なので、<FONT COLOR="#770000">『1文字が何バイトなのか』を調べる際は<BR>
+		　　　　ＤＸライブラリの関数『<A HREF="../../function/dxfunc_other.html#R22N2">GetCharBytes</A>』を使用する</FONT>ようにしてください。<BR>
+		　　　　( 引数で渡した文字列の最初の文字のバイト数を返す関数です )<BR><BR><BR><BR>
 
 		<A NAME="R5">
 		<FONT COLOR="#008800">
-		5.Windows�A�v���Ŏg�p���镶���R�[�h���wUTF-8�x�ɂ�����@<BR><BR>
+		5.Windowsアプリで使用する文字コードを『UTF-8』にする方法<BR><BR>
 		</FONT>
 		</A>
 
-		�@�@�@�O�q�̒ʂ�<FONT COLOR="#770000">�����R�[�h�w�V�t�gJIS�x���g�p���� Windows�A�v��</FONT>��<FONT COLOR="#770000">�����R�[�h�wUTF-8�x���g�p����<BR>
-		�@�@Android�A�v��</FONT>�ɈڐA����ۂ�<FONT COLOR="#770000">�w�V�t�gJIS�x</FONT>���g�p���Ă���<FONT COLOR="#770000">������f�[�^��v���O����</FONT>�����ׂ�<BR>
-		�@�@<FONT COLOR="#770000">�wUTF-8�x</FONT>���g�p����悤�ɕύX�����Ƃ���������̂ő�ςł��B( Android�A�v���Ŗ����<BR>
-		�@�@<FONT COLOR="#770000">�w�V�t�gJIS�x</FONT>���g�p������@������܂����A����͂����Ƒ�ςł� )<BR><BR>
+		　　　前述の通り<FONT COLOR="#770000">文字コード『シフトJIS』を使用する Windowsアプリ</FONT>を<FONT COLOR="#770000">文字コード『UTF-8』を使用する<BR>
+		　　Androidアプリ</FONT>に移植する際は<FONT COLOR="#770000">『シフトJIS』</FONT>を使用している<FONT COLOR="#770000">文字列データやプログラム</FONT>をすべて<BR>
+		　　<FONT COLOR="#770000">『UTF-8』</FONT>を使用するように変更する作業が発生するので大変です。( Androidアプリで無理矢理<BR>
+		　　<FONT COLOR="#770000">『シフトJIS』</FONT>を使用する方法もありますが、それはもっと大変です )<BR><BR>
 
-		�@�@�@����Ȃ�΁A<FONT COLOR="#770000">Android�A�v���Ƃ��Ă������[�X����\��� Windows�A�v��</FONT>�ł́A<FONT COLOR="#770000">Windows�A�v���ł�<BR>
-		�@�@�wUTF-8�x���g�p����</FONT>�悤�ɂ��āA<FONT COLOR="#770000">Android�A�v���ւ̈ڐA�̍ۂɁw�V�t�gJIS�x�̃f�[�^��v���O������<BR>
-		�@�@�wUTF-8�x�p�ɕύX�����Ƃ𖳂�������������</FONT>�ł��B<BR><BR>
+		　　　それならば、<FONT COLOR="#770000">Androidアプリとしてもリリースする予定の Windowsアプリ</FONT>では、<FONT COLOR="#770000">Windowsアプリでも<BR>
+		　　『UTF-8』を使用する</FONT>ようにして、<FONT COLOR="#770000">Androidアプリへの移植の際に『シフトJIS』のデータやプログラムを<BR>
+		　　『UTF-8』用に変更する作業を無くした方が得策</FONT>です。<BR><BR>
 
-		�@�@�@�����A<FONT COLOR="#770000">VisualStudio Community 2015</FONT> �� Windows�A�v�����쐬����ꍇ�A<FONT COLOR="#770000">�w�V�t�gJIS�x</FONT>�̑����<BR>
-		�@�@<FONT COLOR="#770000">�wUTF-8�x</FONT>���g�p����ɂ͏��������菇���K�v�Ȃ̂ŁA���̕��@���ȉ��ɋL�ڂ��܂��B<BR><BR>
+		　　　ただ、<FONT COLOR="#770000">VisualStudio Community 2015</FONT> で Windowsアプリを作成する場合、<FONT COLOR="#770000">『シフトJIS』</FONT>の代わりに<BR>
+		　　<FONT COLOR="#770000">『UTF-8』</FONT>を使用するには少しだけ手順が必要なので、その方法を以下に記載します。<BR><BR>
 
-		�@�@<FONT COLOR="#550088">�@�@DxLib_Init ���ĂԑO�� <A HREF="../../function/dxfunc_other.html#R22N1">SetUseCharCodeFormat</A>( DX_CHARCODEFORMAT_UTF8 ); ���Ă�</FONT><BR><BR>
+		　　<FONT COLOR="#550088">①　DxLib_Init を呼ぶ前に <A HREF="../../function/dxfunc_other.html#R22N1">SetUseCharCodeFormat</A>( DX_CHARCODEFORMAT_UTF8 ); を呼ぶ</FONT><BR><BR>
 
-		�@�@�@�@�@�c�w���C�u������ <FONT COLOR="#770000">Windows�A�v���ł̓f�t�H���g�Łw�V�t�gJIS�x���g�p����</FONT>�悤�ɂȂ���<BR>
-		�@�@�@�@���܂��̂ŁA<FONT COLOR="#770000">DxLib_Init ���ĂԑO�̌��� <A HREF="../../function/dxfunc_other.html#R22N1">SetUseCharCodeFormat</A>( DX_CHARCODEFORMAT_UTF8 ); ��<BR>
-		�@�@�@�@�L�q</FONT>����<FONT COLOR="#770000">�g�p���镶���R�[�h���wUTF-8�x�ɕύX</FONT>���܂��B<BR>
-		�@�@�@�@�@���̋L�q�𑝂₵����ԂŃv���O���������s����� <FONT COLOR="#770000">DrawString �ɓn����������ALoadGraph ��<BR>
-		�@�@�@�@LoadSoundMem �ɓn���t�@�C���p�X�̕�������wUTF-8�x�`���Ƃ��ď��������</FONT>�悤�ɂȂ�܂��B<BR><BR>
+		　　　　　ＤＸライブラリは <FONT COLOR="#770000">Windowsアプリではデフォルトで『シフトJIS』を使用する</FONT>ようになって<BR>
+		　　　　いますので、<FONT COLOR="#770000">DxLib_Init を呼ぶ前の個所に <A HREF="../../function/dxfunc_other.html#R22N1">SetUseCharCodeFormat</A>( DX_CHARCODEFORMAT_UTF8 ); を<BR>
+		　　　　記述</FONT>して<FONT COLOR="#770000">使用する文字コードを『UTF-8』に変更</FONT>します。<BR>
+		　　　　　この記述を増やした状態でプログラムを実行すると <FONT COLOR="#770000">DrawString に渡す文字列も、LoadGraph や<BR>
+		　　　　LoadSoundMem に渡すファイルパスの文字列も『UTF-8』形式として処理される</FONT>ようになります。<BR><BR>
 
-		�@�@<FONT COLOR="#550088">�A�@�v���O�������̕�����̐擪�Ɂwu8�x���L�q����</FONT><BR><BR>
+		　　<FONT COLOR="#550088">②　プログラム中の文字列の先頭に『u8』を記述する</FONT><BR><BR>
 
-		�@�@�@�@�@�Ⴆ�΃v���O�������ɕ�������w<FONT COLOR="#770000">"����������"</FONT>�x�ƋL�q���Ă����ꍇ�́A�����̐擪�Ɂw<FONT COLOR="#770000">u8</FONT>�x��<BR>
-		�@�@�@�@�t�������āA�w<FONT COLOR="#770000">u8"����������"</FONT>�x�Ƃ��܂��B<BR>
-		�@�@�@�@�@���́w<FONT COLOR="#770000">u8</FONT>�x�́w<FONT COLOR="#770000">UTF-8</FONT>�x���Ӗ����Ă��āA����𕶎���̐擪�ɕt���邱�Ƃł��̕������<BR>
-		�@�@�@�@�w<FONT COLOR="#770000">UTF-8</FONT>�x�`���ɂ��邱�Ƃ��ł��܂��B<BR>
-		�@�@�@�@<FONT COLOR="#008800">�u�ԁX�w<FONT COLOR="#770000">u8</FONT>�x��t���Ȃ��Ă�<FONT COLOR="#770000">�v���O�����t�@�C�����wUTF-8�x�`���ŕۑ�</FONT>���Ă���΁A<BR>
-		�@�@�@�@�@���̃v���O�������ɏ����ꂽ�w<FONT COLOR="#770000">""</FONT>�x�Ŋ���ꂽ�������<FONT COLOR="#770000">�wUTF-8�x�`��</FONT>�ɂȂ�̂ł́H�v</FONT><BR>
-		�@�@�@�@�Ƃ����^�₪������������܂��񂪁AAndroid�A�v���p�̃R���p�C���ƈقȂ�AWindows�A�v���p��<BR>
-		�@�@�@�@�R���p�C���́A<FONT COLOR="#770000">�v���O�����t�@�C�������̕����R�[�h�ŕۑ�����Ă��Ă��A�v���O�������Ɂw""�x��<BR>
-		�@�@�@�@�����ď����ꂽ������f�[�^�͓��Ɏw�肪������ΑS�āw�V�t�gJIS�x�`���ɕϊ�����Ă��܂�</FONT>�̂ŁA<BR>
-		�@�@�@�@<FONT COLOR="#770000">�wu8�x���L�q</FONT>���āA�����I�Ɂu<FONT COLOR="#770000">���̕�����́wUTF-8�x�`���ł�</FONT>�v�ƃR���p�C���ɒm�点��<BR>
-		�@�@�@�@�K�v������킯�ł��B<BR><BR>
+		　　　　　例えばプログラム中に文字列を『<FONT COLOR="#770000">"あいうえお"</FONT>』と記述していた場合は、ここの先頭に『<FONT COLOR="#770000">u8</FONT>』を<BR>
+		　　　　付け足して、『<FONT COLOR="#770000">u8"あいうえお"</FONT>』とします。<BR>
+		　　　　　この『<FONT COLOR="#770000">u8</FONT>』は『<FONT COLOR="#770000">UTF-8</FONT>』を意味していて、これを文字列の先頭に付けることでその文字列を<BR>
+		　　　　『<FONT COLOR="#770000">UTF-8</FONT>』形式にすることができます。<BR>
+		　　　　<FONT COLOR="#008800">「態々『<FONT COLOR="#770000">u8</FONT>』を付けなくても<FONT COLOR="#770000">プログラムファイルを『UTF-8』形式で保存</FONT>していれば、<BR>
+		　　　　　そのプログラム中に書かれた『<FONT COLOR="#770000">""</FONT>』で括られた文字列も<FONT COLOR="#770000">『UTF-8』形式</FONT>になるのでは？」</FONT><BR>
+		　　　　という疑問が沸くかもしれませんが、Androidアプリ用のコンパイラと異なり、Windowsアプリ用の<BR>
+		　　　　コンパイラは、<FONT COLOR="#770000">プログラムファイルが何の文字コードで保存されていても、プログラム中に『""』で<BR>
+		　　　　括られて書かれた文字列データは特に指定が無ければ全て『シフトJIS』形式に変換されてしまう</FONT>ので、<BR>
+		　　　　<FONT COLOR="#770000">『u8』を記述</FONT>して、明示的に「<FONT COLOR="#770000">この文字列は『UTF-8』形式です</FONT>」とコンパイラに知らせる<BR>
+		　　　　必要があるわけです。<BR><BR>
 
-		�@�@<FONT COLOR="#550088">�B�@�A�v�����ň����e�L�X�g�t�@�C����S�āwUTF-8�x�`���ŕۑ�����</FONT><BR><BR>
+		　　<FONT COLOR="#550088">③　アプリ内で扱うテキストファイルを全て『UTF-8』形式で保存する</FONT><BR><BR>
 
-		�@�@�@�@�@<FONT COLOR="#770000">txt�t�@�C���ȂǊO���̃t�@�C��</FONT>����Q�[�����ɕ\�����镶�̓f�[�^��ǂݍ��ޏꍇ�́A������<BR>
-		�@�@�@�@txt�t�@�C�����쐬�����ۂɕ����R�[�h��<FONT COLOR="#770000">�wUTF-8�x</FONT>�ɕύX����K�v������܂��B<BR>
-		�@�@�@�@�@�Ⴆ�΁AWindows�W���̃e�L�X�g�G�f�B�^�ł���<FONT COLOR="#770000">�w�������x</FONT>�̏ꍇ�́A���j���[��<FONT COLOR="#550088">�w�t�@�C��(F)�x��<BR>
-		�@�@�@�@�w���O��t���ĕۑ�(A)...�x</FONT>��I������ƕ\�������<FONT COLOR="#550088">�w���O��t���ĕۑ��x�_�C�A���O</FONT>�̉����ɂ���<BR>
-		�@�@�@�@<FONT COLOR="#550088">�w�����R�[�h(E):�x</FONT>�̍��ڂ�<FONT COLOR="#550088">�wANSI�x</FONT>����<FONT COLOR="#550088">�wUTF-8�x</FONT>�ɕύX���Ă���ۑ����邱�ƂŁAtxt�t�@�C����<BR>
-		�@�@�@�@<FONT COLOR="#770000">�����R�[�h�wUTF-8�x�`��</FONT>�ŕۑ����邱�Ƃ��ł��܂��B<BR><BR>
+		　　　　　<FONT COLOR="#770000">txtファイルなど外部のファイル</FONT>からゲーム中に表示する文章データを読み込む場合は、それらの<BR>
+		　　　　txtファイルを作成した際に文字コードを<FONT COLOR="#770000">『UTF-8』</FONT>に変更する必要があります。<BR>
+		　　　　　例えば、Windows標準のテキストエディタである<FONT COLOR="#770000">『メモ帳』</FONT>の場合は、メニューの<FONT COLOR="#550088">『ファイル(F)』→<BR>
+		　　　　『名前を付けて保存(A)...』</FONT>を選択すると表示される<FONT COLOR="#550088">『名前を付けて保存』ダイアログ</FONT>の下部にある<BR>
+		　　　　<FONT COLOR="#550088">『文字コード(E):』</FONT>の項目を<FONT COLOR="#550088">『ANSI』</FONT>から<FONT COLOR="#550088">『UTF-8』</FONT>に変更してから保存することで、txtファイルを<BR>
+		　　　　<FONT COLOR="#770000">文字コード『UTF-8』形式</FONT>で保存することができます。<BR><BR>
 
-		�@�@��L�̂R���s���΁AWindows�A�v���ł�<FONT COLOR="#770000">�����R�[�h�wUTF-8�x</FONT>�̎g�p�œ��ꂷ�邱�Ƃ��ł��܂��B<BR><BR><BR><BR>
+		　　上記の３つを行えば、Windowsアプリでも<FONT COLOR="#770000">文字コード『UTF-8』</FONT>の使用で統一することができます。<BR><BR><BR><BR>
 
 
 
 		<HR>
-		<A HREF="../../dxtec.html">�߂�</A>
+		<A HREF="../../dxtec.html">戻る</A>
 
 		</B></FONT>
 		</TD></TR>

@@ -9,8 +9,8 @@
 //
 // ============================================================================
 
-#ifndef __HUFFMAN_H__
-#define __HUFFMAN_H__
+#ifndef HUFFMAN_H
+#define HUFFMAN_H
 
 // define ---------------------------------------
 
@@ -52,4 +52,4 @@ extern u64 Huffman_Encode( void *Src, u64 SrcSize, void *Dest ) ;
 // 戻り値:解凍後のサイズ  0 はエラー  Dest に NULL を入れると解凍データ格納に必要なサイズが返る
 extern u64 Huffman_Decode( void *Press, void *Dest ) ;
 
-#endif // __HUFFMAN_H__
+#endif // HUFFMAN_H

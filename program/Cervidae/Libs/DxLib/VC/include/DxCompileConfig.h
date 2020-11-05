@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.21b
+//				Ver 3.22a
 //
 // ----------------------------------------------------------------------------
 
@@ -107,6 +107,9 @@
 // Opus データを使用しない方は次のコメントをはずしてください
 // ※DxUseCLib.lib も再コンパイルする必要があります
 //#define DX_NON_OPUS
+
+// ASIO を使用しない方は次のコメントをはずしてください
+//#define DX_NON_ASIO
 
 // 乱数発生器に Mersenne Twister を使用しない場合は以下のコメントを外して下さい
 // ※DxUseCLib.lib も再コンパイルする必要があります
@@ -277,6 +280,9 @@
 	#endif
 	#ifndef DX_NOTUSE_DRAWFUNCTION
 		#define DX_NOTUSE_DRAWFUNCTION
+	#endif
+	#ifndef DX_NON_LIVE2D_CUBISM4
+		#define DX_NON_LIVE2D_CUBISM4
 	#endif
 #endif // DX_NON_GRAPHICS
 

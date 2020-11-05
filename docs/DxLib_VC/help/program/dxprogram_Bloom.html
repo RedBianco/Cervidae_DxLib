@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ja-JP">
 	<HEAD>
-	<meta http-equiv="Content-type" content="text/html; charset=Shift_JIS">
-	<TITLE>�c�w���C�u�����u����@�u���[�����ʊ�{</TITLE>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<TITLE>ＤＸライブラリ置き場　ブルーム効果基本</TITLE>
 	<link rel="shortcut icon" href="../DxLib.ico">
 	<link rel="stylesheet" href="../style.css" type="text/css">
 	</HEAD>
@@ -10,89 +10,89 @@
 	<div class="NormalFont">
 		<FONT SIZE="6" COLOR="#000000"><B>
 		<CENTER>
-			�T���v���v���O�����@�u���[�����ʊ�{
+			サンプルプログラム　ブルーム効果基本
 		</CENTER>
 		</B></FONT>
 		<HR>
-		<IMG SRC="../Image/Bloom.jpg" HSPACE="0" VSPACE="0" ALT="�u���[�����ʊ�{">
+		<IMG SRC="../Image/Bloom.jpg" HSPACE="0" VSPACE="0" ALT="ブルーム効果基本">
 		<FONT SIZE="3" COLOR="#000000"><B>
 			<BR>
-			�@���邢������������R��o���悤�Ȍ��ʂ̏����I�ȃv���O�����ł��B<BR>
-			�@���̃T���v���v���O�����ł�<BR><BR><BR>
+			　明るい部分から光が漏れ出すような効果の初歩的なプログラムです。<BR>
+			　このサンプルプログラムでは<BR><BR><BR>
 
 
-			�P�D�`�挋�ʂ��獂�P�x�����𔲂��o��<BR><BR>
+			１．描画結果から高輝度部分を抜き出す<BR><BR>
 
-			�Q�D���P�x�������W���̂P�T�C�Y�ɏk��<BR><BR>
+			２．高輝度部分を８分の１サイズに縮小<BR><BR>
 
-			�R�D�k���������P�x�������K�E�X�t�B���^�łڂ���<BR><BR>
+			３．縮小した高輝度部分をガウスフィルタでぼかす<BR><BR>
 
-			�S�D�ڂ��������ʂ����Z�u�����h�ŕ`�挋�ʂɏd�˂�<BR><BR><BR>
+			４．ぼかした結果を加算ブレンドで描画結果に重ねる<BR><BR><BR>
 
 
-			�@�Ƃ����H���Ńu���[�����ʂ��������Ă��܂��B<BR>
-			�@���̏������s���ɂ������ăs�N�Z���V�F�[�_�[�Q�D�O�ɑΉ������O���t�B�b�N�X�f�o�C�X���������ł�<BR>
-			���ɒᑬ�ɓ��삷��֐� GraphFilter ��������g�p���Ă��܂��̂ŁA���̃T���v���v���O�����͊�{�I��<BR>
-			�s�N�Z���V�F�[�_�[�Q�D�O�ɑΉ����Ă��Ȃ����ł͎��p�I�Ȍ��ʂ𓾂��܂���̂ł����ӂ��������B<BR><BR>
+			　という工程でブルーム効果を実現しています。<BR>
+			　この処理を行うにあたってピクセルシェーダー２．０に対応したグラフィックスデバイスが無い環境では<BR>
+			非常に低速に動作する関数 GraphFilter を何回も使用していますので、このサンプルプログラムは基本的に<BR>
+			ピクセルシェーダー２．０に対応していない環境では実用的な結果を得られませんのでご注意ください。<BR><BR>
 
-			�@���A�v���O�����Ŏg�p���Ă��郂�f���t�@�C�� BloomTestStage.mqo �� Ver3.06b �ȍ~��<BR>
-			�c�w���C�u�����p�b�P�[�W�̒��ɂ���w�T���v���v���O�������s�p�t�H���_�x�ɓ����Ă��܂��B<BR><BR>
+			　尚、プログラムで使用しているモデルファイル BloomTestStage.mqo は Ver3.06b 以降の<BR>
+			ＤＸライブラリパッケージの中にある『サンプルプログラム実行用フォルダ』に入っています。<BR><BR>
 
-			�@���ƁAVer3.06 �Ƀo�O���������֌W�� Ver3.06c �ȍ~����Ȃ��Ƃ��̃T���v���v���O�����͐���ɓ��삵�܂���Bm(_ _;m<BR><BR><BR>
+			　あと、Ver3.06 にバグがあった関係で Ver3.06c 以降じゃないとこのサンプルプログラムは正常に動作しません。m(_ _;m<BR><BR><BR>
 
 </B>
 <PRE>
-// �u���[�����ʊ�{
+// ブルーム効果基本
 #include "DxLib.h"
 
-#define SCREEN_W		640				// ��ʂ̉���
-#define SCREEN_H		480				// ��ʂ̏c��
-#define DOWN_SCALE		8				// �K�E�X�t�B���^���|����摜����ʂ̃T�C�Y�̉����̂P��
-#define DOWN_SCALE_SCREEN_W	( SCREEN_W / DOWN_SCALE )	// �K�E�X�t�B���^���|����摜�̉���
-#define DOWN_SCALE_SCREEN_H	( SCREEN_H / DOWN_SCALE )	// �K�E�X�t�B���^���|����摜�̏c��
+#define SCREEN_W		640				// 画面の横幅
+#define SCREEN_H		480				// 画面の縦幅
+#define DOWN_SCALE		8				// ガウスフィルタを掛ける画像が画面のサイズの何分の１か
+#define DOWN_SCALE_SCREEN_W	( SCREEN_W / DOWN_SCALE )	// ガウスフィルタを掛ける画像の横幅
+#define DOWN_SCALE_SCREEN_H	( SCREEN_H / DOWN_SCALE )	// ガウスフィルタを掛ける画像の縦幅
 
-int ColorScreen ;	// ���ʂ̕`�挋�ʂ��������ރX�N���[��
-int HighBrightScreen ;	// ���ʂ̕`�挋�ʂ��獂�P�x�����𔲂��o�������ʂ��������ރX�N���[��
-int DownScaleScreen ;	// ���P�x�������k���������ʂ��������ރX�N���[��
-int GaussScreen ;	// �k���摜���K�E�X�t�B���^�łڂ��������ʂ��������ރX�N���[��
+int ColorScreen ;	// 普通の描画結果を書き込むスクリーン
+int HighBrightScreen ;	// 普通の描画結果から高輝度部分を抜き出した結果を書き込むスクリーン
+int DownScaleScreen ;	// 高輝度部分を縮小した結果を書き込むスクリーン
+int GaussScreen ;	// 縮小画像をガウスフィルタでぼかした結果を書き込むスクリーン
 
-// WinMain�֐�
+// WinMain関数
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
-	int Angle ;		// �J�����̐����p�x
-	int StageModel ;	// �X�e�[�W���f��
-	int GaussRatio ;	// �K�E�X�t�B���^�̂ڂ����x����
+	int Angle ;		// カメラの水平角度
+	int StageModel ;	// ステージモデル
+	int GaussRatio ;	// ガウスフィルタのぼかし度合い
 
-	// �E�C���h�E���[�h�ŋN��
+	// ウインドウモードで起動
 	ChangeWindowMode( TRUE );
 
-	// ��ʂ̉𑜓x�ƐF�r�b�g�[�x��ݒ�
+	// 画面の解像度と色ビット深度を設定
 	SetGraphMode( SCREEN_W, SCREEN_H, 32 ) ;
 
-	// �c�w���C�u�����̏�����
+	// ＤＸライブラリの初期化
 	if( DxLib_Init() < 0 )
 		return -1 ;
 
-	// �X�e�[�W���f���̓ǂݍ���
+	// ステージモデルの読み込み
 	StageModel = MV1LoadModel( "BloomTestStage.mqo" ) ;
 
-	// �ʏ�̕`�挋�ʂ��������ރX�N���[���ƁA�t�B���^�[�̏������ʂ��������ރX�N���[���̍쐬
+	// 通常の描画結果を書き込むスクリーンと、フィルターの処理結果を書き込むスクリーンの作成
 	ColorScreen      = MakeScreen( SCREEN_W, SCREEN_H, FALSE ) ;
 	HighBrightScreen = MakeScreen( SCREEN_W, SCREEN_H, FALSE ) ;
 	DownScaleScreen  = MakeScreen( DOWN_SCALE_SCREEN_W, DOWN_SCALE_SCREEN_H, FALSE ) ;
 	GaussScreen      = MakeScreen( DOWN_SCALE_SCREEN_W, DOWN_SCALE_SCREEN_H, FALSE ) ;
 
-	// ClearDrawScreen ���ɉ�ʂɓh��Ԃ��F���Z�b�g( �^���� )
+	// ClearDrawScreen 時に画面に塗りつぶす色をセット( 真っ白 )
 	SetBackgroundColor( 255, 255, 255 ) ; 
 
-	// �J�����̊p�x�ƃK�E�X�t�B���^�̂ڂ����x������������
+	// カメラの角度とガウスフィルタのぼかし度合いを初期化
 	Angle = 0 ;
 	GaussRatio = 900 ;
 
-	// ���C�����[�v(�����L�[�������ꂽ�烋�[�v�𔲂���)
+	// メインループ(何かキーが押されたらループを抜ける)
 	while( ProcessMessage() == 0 )
 	{
-		// ���E�L�[�������ꂽ��J��������]����
+		// 左右キーが押されたらカメラを回転する
 		if( CheckHitKey( KEY_INPUT_LEFT  ) )
 		{
 			Angle -= 3 ;
@@ -110,7 +110,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			}
 		}
 
-		// �㉺�L�[�������ꂽ��K�E�X�t�B���^�̂ڂ����x������ύX����
+		// 上下キーが押されたらガウスフィルタのぼかし度合いを変更する
 		if( CheckHitKey( KEY_INPUT_UP ) )
 		{
 			GaussRatio ++ ;
@@ -122,73 +122,73 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 		}
 
 
-		// �ʏ�̕`�挋�ʂ��������ރX�N���[����`��Ώۂɂ���
+		// 通常の描画結果を書き込むスクリーンを描画対象にする
 		SetDrawScreen( ColorScreen ) ;
 
-		// ��ʂ��N���A
+		// 画面をクリア
 		ClearDrawScreen() ;
 
 
-		// �J�����̈ʒu�ƌ�����ݒ�
+		// カメラの位置と向きを設定
 		SetCameraPositionAndAngle( VGet( 0.0f, 120.0f, 0.0f ), 0.0f, Angle / 180.0f * 3.14159f, 0.0f ) ;
 
-		// �X�e�[�W���f���̕`��
+		// ステージモデルの描画
 		MV1DrawModel( StageModel ) ;
 
 
-		// �`�挋�ʂ��獂�P�x�����݂̂𔲂��o�����摜�𓾂�
+		// 描画結果から高輝度部分のみを抜き出した画像を得る
 		GraphFilterBlt( ColorScreen,      HighBrightScreen, DX_GRAPH_FILTER_BRIGHT_CLIP, DX_CMP_LESS, 230, TRUE, GetColor( 0, 0, 0 ), 255 ) ;
 
-		// ���P�x�������W���̂P�ɏk�������摜�𓾂�
+		// 高輝度部分を８分の１に縮小した画像を得る
 		GraphFilterBlt( HighBrightScreen, DownScaleScreen,  DX_GRAPH_FILTER_DOWN_SCALE, DOWN_SCALE ) ;
 
-		// �W���̂P�ɏk�������摜���K�E�X�t�B���^�łڂ���
+		// ８分の１に縮小した画像をガウスフィルタでぼかす
 		GraphFilterBlt( DownScaleScreen,  GaussScreen,      DX_GRAPH_FILTER_GAUSS, 16, GaussRatio ) ;
 
 
-		// �`��Ώۂ𗠉�ʂɂ���
+		// 描画対象を裏画面にする
 		SetDrawScreen( DX_SCREEN_BACK ) ;
 
 
-		// �ʏ�̕`�挋�ʂ�`�悷��
+		// 通常の描画結果を描画する
 		DrawGraph( 0, 0, ColorScreen, FALSE ) ;
 
 
-		// �`�惂�[�h���o�C���j�A�t�B���^�����O�ɂ���( �g�債���Ƃ��Ƀh�b�g���ڂ₯��悤�ɂ��� )
+		// 描画モードをバイリニアフィルタリングにする( 拡大したときにドットがぼやけるようにする )
 		SetDrawMode( DX_DRAWMODE_BILINEAR ) ;
 
-		// �`��u�����h���[�h�����Z�ɂ���
+		// 描画ブレンドモードを加算にする
 		SetDrawBlendMode( DX_BLENDMODE_ADD, 255 ) ;
 
-		// ���P�x�������k�����Ăڂ������摜����ʂ����ς��ɂQ��`�悷��( �Q��`�悷��̂͂�薾�邭�݂���悤�ɂ��邽�� )
+		// 高輝度部分を縮小してぼかした画像を画面いっぱいに２回描画する( ２回描画するのはより明るくみえるようにするため )
 		DrawExtendGraph( 0, 0, SCREEN_W, SCREEN_H, GaussScreen, FALSE ) ;
 		DrawExtendGraph( 0, 0, SCREEN_W, SCREEN_H, GaussScreen, FALSE ) ;
 
-		// �`��u�����h���[�h���u�����h�����ɖ߂�
+		// 描画ブレンドモードをブレンド無しに戻す
 		SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 255 ) ;
 
-		// �`�惂�[�h���A���X�g�ɖ߂�
+		// 描画モードを二アレストに戻す
 		SetDrawMode( DX_DRAWMODE_NEAREST ) ;
 
 
-		// �t�B���^�[�����̓r���o�߂�������悤�ɉ�ʉ����ɏk�����ĕ`�悷��
+		// フィルター処理の途中経過が分かるように画面下部に縮小して描画する
 		DrawExtendGraph( 180 * 0 + 24, 320, 180 * 0 + 24 + 160, 120 + 320, HighBrightScreen, FALSE ) ;
 		DrawExtendGraph( 180 * 1 + 24, 320, 180 * 1 + 24 + 160, 120 + 320, DownScaleScreen, FALSE ) ;
 		DrawExtendGraph( 180 * 2 + 24, 320, 180 * 2 + 24 + 160, 120 + 320, GaussScreen, FALSE ) ;
 
 
-		// ���݂̃K�E�X�t�B���^�̂ڂ����x������`�悷��
+		// 現在のガウスフィルタのぼかし度合いを描画する
 		DrawFormatString( 0, 0, GetColor( 255,255,255 ), "Gauss:%d", GaussRatio ) ;
 
 
-		// ����ʂ̓��e��\��ʂɔ��f
+		// 裏画面の内容を表画面に反映
 		ScreenFlip();
 	}
 
-	// �c�w���C�u�����̌�n��
+	// ＤＸライブラリの後始末
 	DxLib_End();
 
-	// �\�t�g�̏I��
+	// ソフトの終了
 	return 0;
 }
 
@@ -196,7 +196,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 </PRE>
 <B>
 			<HR>
-			<A HREF="dxprogram_3D.html">�߂�</A><BR><BR>
+			<A HREF="dxprogram_3D.html">戻る</A><BR><BR>
 		</B></FONT>
 	</div>
 	</BODY>

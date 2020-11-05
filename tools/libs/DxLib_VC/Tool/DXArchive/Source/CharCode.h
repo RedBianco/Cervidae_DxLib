@@ -7,8 +7,8 @@
 //
 // ============================================================================
 
-#ifndef __CHARCODE__
-#define __CHARCODE__
+#ifndef CHARCODE_H
+#define CHARCODE_H
 
 // include --------------------------------------
 
@@ -98,5 +98,5 @@ extern	double			CL_atof(              int CharCodeFormat, const char *Str ) ;
 extern	int				CL_vsscanf(           int CharCodeFormat, const char *String, const char *FormatString, va_list Arg ) ;
 extern	int				CL_sscanf(            int CharCodeFormat, const char *String, const char *FormatString, ... ) ;
 
-#endif // __CHARCODE__
+#endif // CHARCODE_H
 

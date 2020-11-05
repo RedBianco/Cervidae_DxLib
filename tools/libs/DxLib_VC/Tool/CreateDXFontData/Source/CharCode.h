@@ -75,9 +75,12 @@ extern	int				GetStringCharNum(		const char *String, int CharCodeFormat ) ;					
 extern	const char *	GetStringCharAddress(	const char *String, int CharCodeFormat, int Index ) ;							// 指定番号の文字のアドレスを取得する
 extern	u32				GetStringCharCode(		const char *String, int CharCodeFormat, int Index ) ;							// 指定番号の文字のコードを取得する
 
-extern	void			CL_strcpy(            int CharCodeFormat, char *Dest, const char *Src ) ;
-extern	void			CL_strncpy(           int CharCodeFormat, char *Dest, const char *Src, int Num ) ;
-extern	void			CL_strcat(            int CharCodeFormat, char *Dest, const char *Src ) ;
+extern	void			CL_strcpy(            int CharCodeFormat, char *Dest,                     const char *Src ) ;
+extern	void			CL_strcpy_s(          int CharCodeFormat, char *Dest, size_t BufferBytes, const char *Src ) ;
+extern	void			CL_strncpy(           int CharCodeFormat, char *Dest,                     const char *Src, int Num ) ;
+extern	void			CL_strncpy_s(         int CharCodeFormat, char *Dest, size_t BufferBytes, const char *Src, int Num ) ;
+extern	void			CL_strcat(            int CharCodeFormat, char *Dest,                     const char *Src ) ;
+extern	void			CL_strcat_s(          int CharCodeFormat, char *Dest, size_t BufferBytes, const char *Src ) ;
 extern	const char *	CL_strstr(            int CharCodeFormat, const char *Str1, const char *Str2 ) ;
 extern	int				CL_strlen(            int CharCodeFormat, const char *Str ) ;
 extern	int				CL_strcmp(            int CharCodeFormat, const char *Str1, const char *Str2 ) ;

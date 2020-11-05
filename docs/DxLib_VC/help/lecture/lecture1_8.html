@@ -1,52 +1,52 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ja-JP">
 	<head>
-	<meta http-equiv="Content-type" content="text/html; charset=Shift_JIS">
-		<title>�V���[�e�B���O�Q�[���v���O����</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>シューティングゲームプログラム</title>
 		<link rel="shortcut icon" href="../DxLib.ico">
 		<link rel="stylesheet" href="../style.css" type="text/css">
 	</head>
 	<body bgcolor="#ffffff" text="#000000" link="#0033cc" vlink="#800040">
 	<div class="NormalFont">
 
-		<font size="2">�Q�[������u���P�|�W<br><br></font>
-		<font size="6"><b>�W�D�G���e�����悤�ɂ��悤</b></font>
+		<font size="2">ゲーム制作講座１－８<br><br></font>
+		<font size="6"><b>８．敵が弾を撃つようにしよう</b></font>
 		<hr><br><br>
 
 		<font size="3"><B>
 
-		�@�O��͓G���e�ɂ����������Ƀ��A�N�V����������悤�ɂ��܂����B<BR>
-		�@����͓G(�l�p�N)���{�[���N�ɍU�����Ă���悤�ɂ������Ǝv���܂��B<BR><BR>
+		　前回は敵が弾にあたった時にリアクションをするようにしました。<BR>
+		　今回は敵(四角君)もボール君に攻撃してくるようにしたいと思います。<BR><BR>
 
-		�@�G���e�����ƌ������Ƃ́A�G�̒e�̃f�[�^���V���ɕK�v�ɂȂ�܂��B<BR>
-		�K�v�ȃf�[�^��<FONT COLOR="#770000">�e�̈ʒu</font>�A������<FONT COLOR="#770000">�e�����ݔ��ł��邩�ǂ�����ێ�����<BR>
-		�t���O�ϐ�</font>�ł��B���͂���́A�{�[���N�������o���e�ɕK�v�ȃf�[�^�Ɠ����ł��B<BR>
-		�@�����{�[���N�ƈႤ�̂́A�e�������o�����^�C�~���O�ł��B<BR>
-		�@�{�[���N���e�������o�����̓v���[���[���V���b�g�{�^���ł���X�y�[�X<BR>
-		�L�[�����������ł����B�ł����l�p�N�̓v���O�������������Ă���̂�<BR>
-		�X�y�[�X�L�[�������ꂽ���A�Ȃǂ̃g���K�[������܂���B�e�������o��<BR>
-		�^�C�~���O���v���O�����ŏ������Ă����Ȃ���΂Ȃ�Ȃ��̂ł��B<BR><BR>
+		　敵が弾を撃つと言うことは、敵の弾のデータが新たに必要になります。<BR>
+		必要なデータは<FONT COLOR="#770000">弾の位置</font>、そして<FONT COLOR="#770000">弾が現在飛んでいるかどうかを保持する<BR>
+		フラグ変数</font>です。実はこれは、ボール君が撃ち出す弾に必要なデータと同じです。<BR>
+		　ただボール君と違うのは、弾が撃ち出されるタイミングです。<BR>
+		　ボール君が弾を撃ち出す時はプレーヤーがショットボタンであるスペース<BR>
+		キーを押した時でした。ですが四角君はプログラムが動かしているので<BR>
+		スペースキーが押された時、などのトリガーがありません。弾を撃ち出す<BR>
+		タイミングもプログラムで処理してあげなければならないのです。<BR><BR>
 		
-		�@�����łǂ�ȓ���������邩���߂Ă݂܂��B<BR>
-		�@�Ƃ肠��������͊ȒP�ȂƂ����<FONT COLOR="#770000">�U�O�t���[���ɂP��e�������o��</font>���Ƃ�<BR>
-		���܂��傤�B<BR>
-		�@�U�O�t���[���Ɉ��e�������o���Ƃ������Ƃ́A�t��������<FONT COLOR="#770000">�U�O�t���[����<BR>
-		���ȊO�͒e�������o���Ă͂����Ȃ�</font>�Ƃ������Ƃł��B�܂�A���炩��<BR>
-		���@�łU�O�Ɉ��̂��߂̃J�E���g�����Ȃ��Ă͂Ȃ�܂���B����ɂ̓J�E���g����<BR>
-		���߂ɐV���ɕϐ���݂��Ă�邱�Ƃŉ����ł��܂��B<BR>
-		�@�V���ɒǉ����邱�̃J�E���g�p�̕ϐ��ɂ܂�<FONT COLOR="#770000">�O</font>�������A���t���[��<FONT COLOR="#770000">�P</font>�Â�<BR>
-		�����܂��B�����Ē��x<FONT COLOR="#770000">�U�O</font>�ɂȂ����Ƃ��ɒe���ꔭ�����o���܂��B�ł��o������<BR>
-		���I�������Ƃ́A<FONT COLOR="#770000">�O</font>�������A�Ăі��t���[��<FONT COLOR="#770000">�P</font>�Â�����<FONT COLOR="#770000">�U�O</font>�ɂȂ�܂�<BR>
-		�҂��܂��A������J��Ԃ����Ƃ�<FONT COLOR="#770000">�U�O</font>�t���[����<FONT COLOR="#770000">�P</font>��e�������o���Ƃ���������<BR>
-		�����ł���̂ł��B<BR><BR>
+		　そこでどんな動作をさせるか決めてみます。<BR>
+		　とりあえず今回は簡単なところで<FONT COLOR="#770000">６０フレームに１回弾を撃ち出す</font>ことに<BR>
+		しましょう。<BR>
+		　６０フレームに一回弾を撃ち出すということは、逆を言えば<FONT COLOR="#770000">６０フレームに<BR>
+		一回以外は弾を撃ち出してはいけない</font>ということです。つまり、何らかの<BR>
+		方法で６０に一回のためのカウントをしなくてはなりません。これにはカウントする<BR>
+		ために新たに変数を設けてやることで解決できます。<BR>
+		　新たに追加するこのカウント用の変数にまず<FONT COLOR="#770000">０</font>を代入し、毎フレーム<FONT COLOR="#770000">１</font>づつ<BR>
+		足します。そして丁度<FONT COLOR="#770000">６０</font>になったときに弾を一発撃ち出します。打ち出す処理<BR>
+		を終えたあとは、<FONT COLOR="#770000">０</font>を代入し、再び毎フレーム<FONT COLOR="#770000">１</font>づつ足して<FONT COLOR="#770000">６０</font>になるまで<BR>
+		待ちます、これを繰り返すことで<FONT COLOR="#770000">６０</font>フレームに<FONT COLOR="#770000">１</font>回弾を撃ち出すという処理を<BR>
+		実現できるのです。<BR><BR>
 
-		�@<FONT COLOR="#770000">int ETamaCounter</font> �Ƃ����ϐ����b��̃J�E���g�p�ϐ��Ƃ��āA�ȉ��ɗ�������܂��B<BR><BR>
+		　<FONT COLOR="#770000">int ETamaCounter</font> という変数が話題のカウント用変数として、以下に例を示します。<BR><BR>
 
 <FONT COLOR="#000066">
-<PRE><div class="NormalFont">// �ŏ��ɂO����
+<PRE><div class="NormalFont">// 最初に０を代入
 ETamaCounter = 0 ;
 
-// �Q�[�����[�v
+// ゲームループ
 while(1)
 {
 	...
@@ -55,7 +55,7 @@ while(1)
 	.......
 	.....
 
-	// �l�p�N�̏���
+	// 四角君の処理
 	{
 		....
 		.....
@@ -64,20 +64,20 @@ while(1)
 		......
 		...
 
-		// �U�O�t���[�����v������J�E���^�[�ɂP�𑫂�
+		// ６０フレームを計測するカウンターに１を足す
 		ETamaCounter ++ ;
 
-		// �J�E���^�[���U�O�ɂȂ��Ă�����e�����������s��
+		// カウンターが６０になっていたら弾を撃つ処理を行う
 		if( ETamaCounter == 60 )
 		{
-			// �e��ł��o������
+			// 弾を打ち出す処理
 			.....
 			...
 			.....
 
 			....
 
-			// �J�E���^�[�ɂO�������āA�ŏ�����J�E���g���Ȃ���
+			// カウンターに０を代入して、最初からカウントしなおす
 			ETamaCounter = 0 ;
 		}
 	}
@@ -91,73 +91,73 @@ while(1)
 </div></pre>
 <BR>
 </font>
-		�@���ɒe��ł��o�������ł��B
-		�@�e��ł��o�������Ƃ����̂́A��̓I�ɂ́w<FONT COLOR="#770000">���e�����ł��邩</font>�x�Ƃ���<BR>
-		����ێ�����ϐ��Ɂw<FONT COLOR="#770000">���ł���</font>�x��\���l�������A��юn�߂�<BR>
-		���W��ݒ肵�Ă�邱�ƂŊ������܂��B<BR>
-		�@�������A���˂̏������s���O�Ɋ��ɏ�Ԃ��w<FONT COLOR="#770000">���ł���</font>�x�ɂȂ��Ă���ꍇ��<BR>
-		�������܂���B(�w<FONT COLOR="#770000">���ł���</font>�x��Ԃł����ˏ������s���Ƃ��̎���ʏ�ɔ��ł���<BR>
-		�e���˔@���������邱�ƂɂȂ��Ă��܂��܂��B)<BR><BR>
+		　次に弾を打ち出す処理です。
+		　弾を打ち出す処理というのは、具体的には『<FONT COLOR="#770000">今弾が飛んでいるか</font>』という<BR>
+		情報を保持する変数に『<FONT COLOR="#770000">飛んでいる</font>』を表す値を代入し、飛び始めの<BR>
+		座標を設定してやることで完了します。<BR>
+		　ただし、発射の処理を行う前に既に状態が『<FONT COLOR="#770000">飛んでいる</font>』になっている場合は<BR>
+		何もしません。(『<FONT COLOR="#770000">飛んでいる</font>』状態でも発射処理を行うとその時画面上に飛んでいる<BR>
+		弾が突如消えうせることになってしまいます。)<BR><BR>
 
-		�@<FONT COLOR="#770000">int ETamaX , ETamaY</font> ��e�̍��W�A<FONT COLOR="#770000">int ETamaFlag</font> ����ł��邩�ǂ�����<BR>
-		�ێ�����ϐ�(�������Ă���l��<FONT COLOR="#770000">�O</font>�̏ꍇ�́w<FONT COLOR="#770000">���ł��Ȃ�</font>�x<FONT COLOR="#770000">�P</font>�̏ꍇ��<BR>
-		�w<FONT COLOR="#770000">���ł���</font>�x�Ƃ��܂�)���Ƃ��Ĉȉ��ɗ�������܂��B<BR><BR>
+		　<FONT COLOR="#770000">int ETamaX , ETamaY</font> を弾の座標、<FONT COLOR="#770000">int ETamaFlag</font> を飛んでいるかどうかを<BR>
+		保持する変数(代入されている値が<FONT COLOR="#770000">０</font>の場合は『<FONT COLOR="#770000">飛んでいない</font>』<FONT COLOR="#770000">１</font>の場合は<BR>
+		『<FONT COLOR="#770000">飛んでいる</font>』とします)だとして以下に例を示します。<BR><BR>
 
 <FONT COLOR="#000066">
-<PRE><div class="NormalFont">		// �e�����ɔ��ł��邩�ǂ����𒲂ׁA���ł��Ȃ��ꍇ�̂ݔ��˂̏������s��
+<PRE><div class="NormalFont">		// 弾が既に飛んでいるかどうかを調べ、飛んでいない場合のみ発射の処理を行う
 		if( ETamaFlag == 0 )
 		{
-			// �e�̔��ˈʒu��ݒ肷��
+			// 弾の発射位置を設定する
 			ETamaX = SikakuX + SikakuW / 2 - ETamaW / 2 ;
 			ETamaY = SikakuY + SikakuH / 2 - ETamaH / 2 ;
 
-			// �e�̏�Ԃ�ێ�����ϐ��Ɂw���ł���x�������P��������
+			// 弾の状態を保持する変数に『飛んでいる』を示す１を代入する
 			ETamaFlag = 1 ;
 		}
 
 
-		(int ETamaW:�G�̒e�̉���  int ETamaH:�G�̒e�̏c��)
+		(int ETamaW:敵の弾の横幅  int ETamaH:敵の弾の縦幅)
 </div></pre></font>
 <BR>
-		�@�����āA�e���΂������ł́A�܂��e�̏�Ԃ��w<FONT COLOR="#770000">���ł���</font>�x������<FONT COLOR="#770000">�P</font>��<BR>
-		�������Ă��邩�𒲂ׁA�w<FONT COLOR="#770000">���ł���</font>�x��Ԃ̎��̂݁A�e��<FONT COLOR="#770000">�x</font>���W������<BR>
-		���Ɉړ������A��ʂɕ`�悵�܂��B�����āA������ʉ��[����͂ݏo�ĉ��<BR>
-		�ォ��e���Ȃ��Ȃ��Ă��܂����ꍇ�͒e���w<FONT COLOR="#770000">���ł��Ȃ�</font>�x��Ԃɂ��܂��B<BR><BR>
+		　そして、弾を飛ばす処理では、まず弾の状態が『<FONT COLOR="#770000">飛んでいる</font>』を示す<FONT COLOR="#770000">１</font>が<BR>
+		代入されているかを調べ、『<FONT COLOR="#770000">飛んでいる</font>』状態の時のみ、弾の<FONT COLOR="#770000">Ｙ</font>座標を少し<BR>
+		下に移動させ、画面に描画します。そして、もし画面下端からはみ出て画面<BR>
+		上から弾がなくなってしまった場合は弾を『<FONT COLOR="#770000">飛んでいない</font>』状態にします。<BR><BR>
 
 <FONT COLOR="#000066">
-<PRE><div class="NormalFont">		// �w���ł���x��ԂłȂ��ꍇ�͒e�̈ړ������͍s��Ȃ�
+<PRE><div class="NormalFont">		// 『飛んでいる』状態でない場合は弾の移動処理は行わない
 		if( ETamaFlag == 1 )
 		{
-			// �������ɂ��炷
+			// 少し下にずらす
 			ETamaY += 8 ;
 
-			// �����e����ʉ��[����͂ݏo�Ă��܂����ꍇ�͒e�̏�Ԃ��w���ł��Ȃ��x
-			// ��\���O�ɂ���
+			// もし弾が画面下端からはみ出てしまった場合は弾の状態を『飛んでいない』
+			// を表す０にする
 			if( ETamaY > 480 ) ETamaFlag = 0 ;
 
-			// ��ʂɕ`�悷��( ETamaGraph : �G�̒e�̃O���t�B�b�N�̃n���h�� )
+			// 画面に描画する( ETamaGraph : 敵の弾のグラフィックのハンドル )
 			DrawGraph( ETamaX , ETamaY , ETamaGraph , FALSE ) ;
 		}
 </div></pre>
 </font>
-		�@�������Č��Ă����ƁA�ǉ�����f�[�^�͈ȉ��̂��̂ɂȂ�܂��B<BR><BR>
+		　こうして見ていくと、追加するデータは以下のものになります。<BR><BR>
 
-		<FONT COLOR="#770000">int ETamaX , ETamaY</font> : �G�̒e�̈ʒu<BR>
-		<FONT COLOR="#770000">int ETamaFlag</font> : �G�̒e�����ł��邩��ێ�����ϐ�(0:���ł��Ȃ� 1:���ł���)<BR>
-		<FONT COLOR="#770000">int ETamaGraph</font> : �G�̒e�̃O���t�B�b�N<BR>
-		<FONT COLOR="#770000">int ETamaW , ETamaH</font> : �G�̒e�̕��ƍ���<BR>
-		<FONT COLOR="#770000">int ETamaCounter</font> : �G���e�����^�C�~���O���v�����邽�߂̃J�E���^�[<BR><BR><BR>
+		<FONT COLOR="#770000">int ETamaX , ETamaY</font> : 敵の弾の位置<BR>
+		<FONT COLOR="#770000">int ETamaFlag</font> : 敵の弾が飛んでいるかを保持する変数(0:飛んでいない 1:飛んでいる)<BR>
+		<FONT COLOR="#770000">int ETamaGraph</font> : 敵の弾のグラフィック<BR>
+		<FONT COLOR="#770000">int ETamaW , ETamaH</font> : 敵の弾の幅と高さ<BR>
+		<FONT COLOR="#770000">int ETamaCounter</font> : 敵が弾を撃つタイミングを計測するためのカウンター<BR><BR><BR>
 
 
-		�@������Q�l�ɁA�G���e���΂��悤�ɏC�������v���O�������ȉ��̂��̂�<BR>
-		�Ȃ�܂��B<BR>
+		　これを参考に、敵が弾を飛ばすように修正したプログラムが以下のものに<BR>
+		なります。<BR>
 
 <font color="#000066">
 <PRE><div class="NormalFont">#include "DxLib.h"
 
 #define SHOT 20
 
-// WinMain�֐�
+// WinMain関数
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 					 LPSTR lpCmdLine, int nCmdShow )
 {
@@ -172,297 +172,297 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	int ETamaW , ETamaH , ETamaGraph ;
 	int ETamaCounter ;
 </font>
-	// ��ʃ��[�h�̐ݒ�
+	// 画面モードの設定
 	SetGraphMode( 640 , 480 , 16 ) ;
 
-	// �c�w���C�u��������������
+	// ＤＸライブラリ初期化処理
 	if( DxLib_Init() == -1 ) return -1;
 
-	// �O���t�B�b�N�̕`���𗠉�ʂɃZ�b�g
+	// グラフィックの描画先を裏画面にセット
 	SetDrawScreen( DX_SCREEN_BACK ) ;
 
-	// �{�[���N�̃O���t�B�b�N���������Ƀ��[�h���\�����W���Z�b�g
+	// ボール君のグラフィックをメモリにロード＆表示座標をセット
 	BallGraph = LoadGraph( "Ball.png" ) ;
 	BallX = 288 ; BallY = 400 ;
 
-	// �l�p�N�̃O���t�B�b�N���������Ƀ��[�h���\�����W���Z�b�g
+	// 四角君のグラフィックをメモリにロード＆表示座標をセット
 	SikakuGraph = LoadGraph( "Sikaku.png" ) ;
 	SikakuX = 0 ; SikakuY = 50 ;
 
-	// �l�p�N�̃_���[�W���̃O���t�B�b�N���������Ƀ��[�h
+	// 四角君のダメージ時のグラフィックをメモリにロード
 	SikakuDamageGraph = LoadGraph( "SikakuDam.png" ) ;
 
-	// �l�p�N�����c�߂Ă��邩�ǂ����̕ϐ��Ɂw�c�߂Ă��Ȃ��x��\���O����
+	// 四角君が顔を歪めているかどうかの変数に『歪めていない』を表す０を代入
 	SikakuDamageFlag = 0 ;
 
-<font color="#880000">	// �G�̒e�̃O���t�B�b�N�����[�h
+<font color="#880000">	// 敵の弾のグラフィックをロード
 	ETamaGraph = LoadGraph( "EShot.png" ) ;
 
-	// �G�̒e�̃O���t�B�b�N�̃T�C�Y�𓾂�
+	// 敵の弾のグラフィックのサイズを得る
 	GetGraphSize( ETamaGraph , &ETamaW , &ETamaH ) ;
 
-	// �G�̒e�����ł��邩�ǂ�����ێ�����ϐ��Ɂw���ł��Ȃ��x��\���O����
+	// 敵の弾が飛んでいるかどうかを保持する変数に『飛んでいない』を表す０を代入
 	ETamaFlag = 0 ;
 
-	// �G���e�����^�C�~���O����邽�߂̌v���p�ϐ��ɂO����
+	// 敵が弾を撃つタイミングを取るための計測用変数に０を代入
 	ETamaCounter = 0 ;
 </font>
-	// �e�̃O���t�B�b�N���������Ƀ��[�h
+	// 弾のグラフィックをメモリにロード
 	ShotGraph = LoadGraph( "Shot.png" ) ;
 
-	// �e����ʏ�ɑ��݂��Ă��邩�ێ�����ϐ��Ɂw���݂��Ă��Ȃ��x���Ӗ�����O�������Ă���
+	// 弾が画面上に存在しているか保持する変数に『存在していない』を意味する０を代入しておく
 	for( i = 0 ; i < SHOT ; i ++ )
 	{
 		ShotFlag[i] = 0 ;
 	}
 
-	// �V���b�g�{�^�����O�̃t���[���ŉ����ꂽ���ǂ�����ۑ�����ϐ��ɂO(�����ꂢ�Ȃ�)����
+	// ショットボタンが前のフレームで押されたかどうかを保存する変数に０(押されいない)を代入
 	ShotBFlag = 0 ;
 
-	// �l�p�N�̈ړ��������Z�b�g
+	// 四角君の移動方向をセット
 	SikakuMuki = 1 ;
 
-	// �e�̃O���t�B�b�N�̃T�C�Y������
+	// 弾のグラフィックのサイズをえる
 	GetGraphSize( ShotGraph , &ShotW , &ShotH ) ;
 
-	// �l�p�N�̃O���t�B�b�N�̃T�C�Y�𓾂�
+	// 四角君のグラフィックのサイズを得る
 	GetGraphSize( SikakuGraph , &SikakuW , &SikakuH ) ;
 
-	// �ړ����[�`��
+	// 移動ルーチン
 	while( 1 )
 	{
-		// ��ʂ�������(�^�����ɂ���)
+		// 画面を初期化(真っ黒にする)
 		ClearDrawScreen() ;
 
-		// �{�[���N�̑��샋�[�`��
+		// ボール君の操作ルーチン
 		{
-			// ���L�[�������Ă�����{�[���N����Ɉړ�������
+			// ↑キーを押していたらボール君を上に移動させる
 			if( CheckHitKey( KEY_INPUT_UP ) == 1 ) BallY -= 3 ;
 
-			// ���L�[�������Ă�����{�[���N�����Ɉړ�������
+			// ↓キーを押していたらボール君を下に移動させる
 			if( CheckHitKey( KEY_INPUT_DOWN ) == 1 ) BallY += 3 ;
 
-			// ���L�[�������Ă�����{�[���N�����Ɉړ�������
+			// ←キーを押していたらボール君を左に移動させる
 			if( CheckHitKey( KEY_INPUT_LEFT ) == 1 ) BallX -= 3 ;
 
-			// ���L�[�������Ă�����{�[���N���E�Ɉړ�������
+			// →キーを押していたらボール君を右に移動させる
 			if( CheckHitKey( KEY_INPUT_RIGHT ) == 1 ) BallX += 3 ;
 
-			// �X�y�[�X�L�[���������ꍇ�͏����𕪊�
+			// スペースキーを押した場合は処理を分岐
 			if( CheckHitKey( KEY_INPUT_SPACE ) )
 			{
-				// �O�t���[���ŃV���b�g�{�^���������������ۑ�����Ă���ϐ����O��������e�𔭎�
+				// 前フレームでショットボタンを押したかが保存されている変数が０だったら弾を発射
 				if( ShotBFlag == 0 )
 				{
-					// ��ʏ�ɂłĂ��Ȃ��e�����邩�A�e�̐������J��Ԃ��Ē��ׂ�
+					// 画面上にでていない弾があるか、弾の数だけ繰り返して調べる
 					for( i = 0 ; i < SHOT ; i ++ )
 					{
-						// �ei����ʏ�ɂłĂ��Ȃ��ꍇ�͂��̒e����ʂɏo��
+						// 弾iが画面上にでていない場合はその弾を画面に出す
 						if( ShotFlag[i] == 0 )
 						{
 							int Bw, Bh, Sw, Sh ;
 
-							// �{�[���N�ƒe�̉摜�̃T�C�Y�𓾂�
+							// ボール君と弾の画像のサイズを得る
 							GetGraphSize( BallGraph , &Bw , &Bh ) ;
 							GetGraphSize( ShotGraph , &Sw , &Sh ) ;
 
-							// �ei�̈ʒu���Z�b�g�A�ʒu�̓{�[���N�̒��S�ɂ���
+							// 弾iの位置をセット、位置はボール君の中心にする
 							ShotX[i] = ( Bw - Sw ) / 2 + BallX ;
 							ShotY[i] = ( Bh - Sh ) / 2 + BallY ;
 
-							// �ei�͌����_�������đ��݂���̂ŁA���ݏ�Ԃ�ێ�����ϐ��ɂP��������
+							// 弾iは現時点を持って存在するので、存在状態を保持する変数に１を代入する
 							ShotFlag[i] = 1 ;
 
-							// ��e���o�����̂Œe���o�����[�v���甲���܂�
+							// 一つ弾を出したので弾を出すループから抜けます
 							break ;
 						}
 					}
 				}
 
-				// �O�t���[���ŃV���b�g�{�^����������Ă�������ۑ�����ϐ��ɂP(������Ă���)����
+				// 前フレームでショットボタンを押されていたかを保存する変数に１(おされていた)を代入
 				ShotBFlag = 1 ;
 			}
 			else
 			{
-				// �V���b�g�{�^����������Ă��Ȃ������ꍇ��
-				// �O�t���[���ŃV���b�g�{�^����������Ă�������ۑ�����ϐ��ɂO(������Ă��Ȃ�)����
+				// ショットボタンが押されていなかった場合は
+				// 前フレームでショットボタンが押されていたかを保存する変数に０(おされていない)を代入
 				ShotBFlag = 0 ;
 			}
 
-			// �{�[���N����ʍ��[����͂ݏo�����ɂȂ��Ă������ʓ��̍��W�ɖ߂��Ă�����
+			// ボール君が画面左端からはみ出そうになっていたら画面内の座標に戻してあげる
 			if( BallX < 0 ) BallX = 0 ;
 
-			// �{�[���N����ʉE�[����͂ݏo�����ɂȂ��Ă������ʓ��̍��W�ɖ߂��Ă�����
+			// ボール君が画面右端からはみ出そうになっていたら画面内の座標に戻してあげる
 			if( BallX > 640 - 64 ) BallX = 640 - 64  ;
 
-			// �{�[���N����ʏ�[����͂ݏo�����ɂȂ��Ă������ʓ��̍��W�ɖ߂��Ă�����
+			// ボール君が画面上端からはみ出そうになっていたら画面内の座標に戻してあげる
 			if( BallY < 0 ) BallY = 0 ;
 
-			// �{�[���N����ʉ��[����͂ݏo�����ɂȂ��Ă������ʓ��̍��W�ɖ߂��Ă�����
+			// ボール君が画面下端からはみ出そうになっていたら画面内の座標に戻してあげる
 			if( BallY > 480 - 64 ) BallY = 480 - 64 ;
 
-			// �{�[���N��`��
+			// ボール君を描画
 			DrawGraph( BallX , BallY , BallGraph , FALSE ) ;
 		}
 
-		// �e�̐������e�𓮂����������J��Ԃ�
+		// 弾の数だけ弾を動かす処理を繰り返す
 		for( i = 0 ; i < SHOT ; i ++ )
 		{
-			// ���@�̒ei�̈ړ����[�`��( ���ݏ�Ԃ�ێ����Ă���ϐ��̓��e���P(���݂���)�̏ꍇ�̂ݍs�� )
+			// 自機の弾iの移動ルーチン( 存在状態を保持している変数の内容が１(存在する)の場合のみ行う )
 			if( ShotFlag[ i ] == 1 )
 			{
-				// �ei���P�U�h�b�g��Ɉړ�������
+				// 弾iを１６ドット上に移動させる
 				ShotY[ i ] -= 16 ;
 
-				// ��ʊO�ɏo�Ă��܂����ꍇ�͑��ݏ�Ԃ�ێ����Ă���ϐ��ɂO(���݂��Ȃ�)��������
+				// 画面外に出てしまった場合は存在状態を保持している変数に０(存在しない)を代入する
 				if( ShotY[ i ] < -80 )
 				{
 					ShotFlag[ i ] = 0 ;
 				}
 
-				// ��ʂɒei��`�悷��
+				// 画面に弾iを描画する
 				DrawGraph( ShotX[ i ] , ShotY[ i ] , ShotGraph , FALSE ) ;
 			}
 		}
 
-		// �l�p�N�̈ړ����[�`��
+		// 四角君の移動ルーチン
 		{
-			// ���c�߂Ă��邩�ǂ����ŏ����𕪊�
+			// 顔を歪めているかどうかで処理を分岐
 			if( SikakuDamageFlag == 1 )
 			{
-				// ���c�߂Ă���ꍇ�̓_���[�W���̃O���t�B�b�N��`�悷��
+				// 顔を歪めている場合はダメージ時のグラフィックを描画する
 				DrawGraph( SikakuX , SikakuY , SikakuDamageGraph , FALSE ) ;
 
-				// ���c�߂Ă��鎞�Ԃ𑪂�J�E���^�[�ɂP�����Z����
+				// 顔を歪めている時間を測るカウンターに１を加算する
 				SikakuDamageCounter ++ ;
 
-				// �������c�ߏ��߂� �R�O �t���[���o�߂��Ă������̘c�񂾏�Ԃ���
-				// ���ɖ߂��Ă�����
+				// もし顔を歪め初めて ３０ フレーム経過していたら顔の歪んだ状態から
+				// 元に戻してあげる
 				if( SikakuDamageCounter == 30 )
 				{
-					// �w�c��ł��Ȃ��x��\���O����
+					// 『歪んでいない』を表す０を代入
 					SikakuDamageFlag = 0 ;
 				}
 			}
 			else
 			{
-				// �c��ł��Ȃ��ꍇ�͍��܂Œʂ�̏���
+				// 歪んでいない場合は今まで通りの処理
 
-				// �l�p�N�̍��W���ړ����Ă�������Ɉړ�����
+				// 四角君の座標を移動している方向に移動する
 				if( SikakuMuki == 1 ) SikakuX += 3 ;
 				if( SikakuMuki == 0 ) SikakuX -= 3 ;
 
-				// �l�p�N����ʉE�[����ł����ɂȂ��Ă������ʓ��̍��W�ɖ߂��Ă����A�ړ�������������]����
+				// 四角君が画面右端からでそうになっていたら画面内の座標に戻してあげ、移動する方向も反転する
 				if( SikakuX > 576 )
 				{
 					SikakuX = 576 ;
 					SikakuMuki = 0 ;
 				}
 
-				// �l�p�N����ʍ��[����ł����ɂȂ��Ă������ʓ��̍��W�ɖ߂��Ă����A�ړ�������������]����
+				// 四角君が画面左端からでそうになっていたら画面内の座標に戻してあげ、移動する方向も反転する
 				if( SikakuX < 0 )
 				{
 					SikakuX = 0 ;
 					SikakuMuki = 1 ;
 				}
 
-				// �l�p�N��`��
+				// 四角君を描画
 				DrawGraph( SikakuX , SikakuY , SikakuGraph , FALSE ) ;
 
-<font color="#880000">				// �e�����^�C�~���O���v�����邽�߂̃J�E���^�[�ɂP�𑫂�
+<font color="#880000">				// 弾を撃つタイミングを計測するためのカウンターに１を足す
 				ETamaCounter ++ ;
 
-				// �����J�E���^�[�ϐ����U�O�������ꍇ�͒e�����������s��
+				// もしカウンター変数が６０だった場合は弾を撃つ処理を行う
 				if( ETamaCounter == 60 )
 				{
-					// �������ɒe���w���ł��Ȃ��x��Ԃ������ꍇ�̂ݔ��ˏ������s��
+					// もし既に弾が『飛んでいない』状態だった場合のみ発射処理を行う
 					if( ETamaFlag == 0 )
 					{
-						// �e�̔��ˈʒu��ݒ肷��
+						// 弾の発射位置を設定する
 						ETamaX = SikakuX + SikakuW / 2 - ETamaW / 2 ;
 						ETamaY = SikakuY + SikakuH / 2 - ETamaH / 2 ;
 
-						// �e�̏�Ԃ�ێ�����ϐ��Ɂw���ł���x�������P��������
+						// 弾の状態を保持する変数に『飛んでいる』を示す１を代入する
 						ETamaFlag = 1 ;
 					}
 
-					// �e��ł^�C�~���O���v�����邽�߂̕ϐ��ɂO����
+					// 弾を打つタイミングを計測するための変数に０を代入
 					ETamaCounter = 0 ;
 				}
 </font>			}
 		}
 
-<font color="#880000">		// �G�̒e�̏�Ԃ��w���ł���x�ꍇ�̂ݒe�̈ړ��������s��
+<font color="#880000">		// 敵の弾の状態が『飛んでいる』場合のみ弾の移動処理を行う
 		if( ETamaFlag == 1 )
 		{
-			// �������ɂ��炷
+			// 少し下にずらす
 			ETamaY += 8 ;
 
-			// �����e����ʉ��[����͂ݏo�Ă��܂����ꍇ�͒e�̏�Ԃ��w���ł��Ȃ��x
-			// ��\���O�ɂ���
+			// もし弾が画面下端からはみ出てしまった場合は弾の状態を『飛んでいない』
+			// を表す０にする
 			if( ETamaY > 480 ) ETamaFlag = 0 ;
 
-			// ��ʂɕ`�悷��( ETamaGraph : �G�̒e�̃O���t�B�b�N�̃n���h�� )
+			// 画面に描画する( ETamaGraph : 敵の弾のグラフィックのハンドル )
 			DrawGraph( ETamaX , ETamaY , ETamaGraph , FALSE ) ;
 		}
 </font>
 
-		// �e�ƓG�̓����蔻��A�e�̐������J��Ԃ�
+		// 弾と敵の当たり判定、弾の数だけ繰り返す
 		for( i = 0 ; i < SHOT ; i ++ )
 		{
-			// �ei�����݂��Ă���ꍇ�̂ݎ��̏����ɉf��
+			// 弾iが存在している場合のみ次の処理に映る
 			if( ShotFlag[ i ] == 1 )
 			{
-				// �l�p�N�Ƃ̓����蔻��
+				// 四角君との当たり判定
 				if( ( ( ShotX[i] > SikakuX && ShotX[i] < SikakuX + SikakuW ) ||
 					( SikakuX > ShotX[i] && SikakuX < ShotX[i] + ShotW ) ) &&
 					( ( ShotY[i] > SikakuY && ShotY[i] < SikakuY + SikakuH ) ||
 					( SikakuY > ShotY[i] && SikakuY < ShotY[i] + ShotH ) ) )
 				{
-					// �ڐG���Ă���ꍇ�͓��������e�̑��݂�����
+					// 接触している場合は当たった弾の存在を消す
 					ShotFlag[ i ] = 0 ;
 
-					// �l�p�N�̊��c�߂Ă��邩�ǂ�����ێ�����ϐ��Ɂw�c�߂Ă���x��\���P����
+					// 四角君の顔を歪めているかどうかを保持する変数に『歪めている』を表す１を代入
 					SikakuDamageFlag = 1 ;
 
-					// �l�p�N�̊��c�߂Ă��鎞�Ԃ𑪂�J�E���^�ϐ��ɂO����
+					// 四角君の顔を歪めている時間を測るカウンタ変数に０を代入
 					SikakuDamageCounter = 0 ;
 				}
 			}
 		}
 
-		// ����ʂ̓��e��\��ʂɃR�s�[����
+		// 裏画面の内容を表画面にコピーする
 		ScreenFlip() ;
 
-		// Windows ���L�̖ʓ|�ȏ������c�w���C�u�����ɂ�点��
-		// -1 ���Ԃ��Ă����烋�[�v�𔲂���
+		// Windows 特有の面倒な処理をＤＸライブラリにやらせる
+		// -1 が返ってきたらループを抜ける
 		if( ProcessMessage() < 0 ) break ;
 
-		// �����d�r�b�L�[��������Ă����烋�[�v���甲����
+		// もしＥＳＣキーが押されていたらループから抜ける
 		if( CheckHitKey( KEY_INPUT_ESCAPE ) ) break ;
 	}
 
-	DxLib_End() ;				// �c�w���C�u�����g�p�̏I������
+	DxLib_End() ;				// ＤＸライブラリ使用の終了処理
 
-	return 0 ;					// �\�t�g�̏I��
+	return 0 ;					// ソフトの終了
 }
 </div></pre>
 </font>
 <BR>
-		<font color="#008800"><���s�}></font><BR>
+		<font color="#008800"><実行図></font><BR>
 		<IMG SRC="image/i1_8.gif" WIDTH="256" HEIGHT="192" HSPACE="20" VSPACE="20"><BR>
 
-		�@�G�̒e�̃O���t�B�b�N<BR>
+		　敵の弾のグラフィック<BR>
 		<IMG SRC="Data/EShot.png" WIDTH="16" HEIGHT="16" HSPACE="20" VSPACE="20"><BR>
 
-		�@���s���Ă݂�ƁA�{�[���N�ɓ����蔻��͂���܂��񂪁A�l�p�N�������I�ɒe��<BR>
-		�����Ă���Ǝv���܂��B<BR><BR>
+		　実行してみると、ボール君に当たり判定はありませんが、四角君が周期的に弾を<BR>
+		撃ってくると思います。<BR><BR>
 
-		�@���āA����͖w�Ǎ��܂ł̉��p�ł����B<BR>
-		�@���͓G���{�[���N�Ɍ������Ēe�����悤�ɂ������Ǝv���܂��B<BR>
+		　さて、今回は殆ど今までの応用でした。<BR>
+		　次は敵がボール君に向かって弾を撃つようにしたいと思います。<BR>
 		<hr>
 
-		<A href="../dxlecture_main.html">�߂�</a>
+		<A href="../dxlecture_main.html">戻る</a>
 
 		</b></font>
 	</div>

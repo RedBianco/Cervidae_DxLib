@@ -1,8 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ja-JP">
 	<HEAD>
-	<meta http-equiv="Content-type" content="text/html; charset=Shift_JIS">
-	<TITLE>�c�w���C�u�����u����@�R�c���f���̃|���S�����g�p�����ŒZ�o�H�T��</TITLE>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<TITLE>ＤＸライブラリ置き場　３Ｄモデルのポリゴンを使用した最短経路探索</TITLE>
 	<link rel="shortcut icon" href="../DxLib.ico">
 	<link rel="stylesheet" href="../style.css" type="text/css">
 	</HEAD>
@@ -10,36 +10,36 @@
 	<div class="NormalFont">
 		<FONT SIZE="6" COLOR="#000000"><B>
 		<CENTER>
-			�T���v���v���O�����@�R�c���f���̃|���S�����g�p�����ŒZ�o�H�T��
+			サンプルプログラム　３Ｄモデルのポリゴンを使用した最短経路探索
 		</CENTER>
 		</B></FONT>
 		<HR>
-		<IMG SRC="../Image/PathPlanning.png" HSPACE="0" VSPACE="0" ALT="�R�c���f���̃|���S�����g�p�����o�H�T��">
+		<IMG SRC="../Image/PathPlanning.png" HSPACE="0" VSPACE="0" ALT="３Ｄモデルのポリゴンを使用した経路探索">
 		<FONT SIZE="3" COLOR="#000000"><B>
 			<BR>
-			�@�L�����N�^�[�̍s���v���O�����Ȃǂ�g��ł���Ɓu����n�_���炠��n�_�v�܂�<BR>
-			�L�����N�^�[���ړ����������Ƃ�������܂��B<BR><BR>
+			　キャラクターの行動プログラムなどを組んでいると「ある地点からある地点」まで<BR>
+			キャラクターを移動させたいときがあります。<BR><BR>
 
-			�@�u����n�_���炠��n�_�v�̊Ԃɏ�Q������ؖ�����Έ꒼���ɖڕW�̒n�_�Ɉړ�<BR>
-			������Ηǂ��̂ł����A��Q��������ꍇ�͖ڕW�̒n�_�ɒH�蒅�����߂̌o�H��<BR>
-			�T�����Ȃ���΂Ȃ�܂���B<BR><BR>
+			　「ある地点からある地点」の間に障害物が一切無ければ一直線に目標の地点に移動<BR>
+			させれば良いのですが、障害物がある場合は目標の地点に辿り着くための経路を<BR>
+			探索しなければなりません。<BR><BR>
 
-			�@����ȂƂ��ɂ���̂��ŒZ�o�H�T���̃A���S���Y���ł��B<BR><BR>
+			　そんなときにあるのが最短経路探索のアルゴリズムです。<BR><BR>
 
-			�@���̃T���v���v���O�����ł̓A���S���Y���̈�̃_�C�N�X�g���@���g�p���Ă��܂��B<BR><BR>
+			　このサンプルプログラムではアルゴリズムの一つのダイクストラ法を使用しています。<BR><BR>
 
-			�@�_�C�N�X�g���@�͕����̒��_�Ƃ��ꂼ��̒��_�����Ԑ��������āA�X�^�[�g�̒��_����<BR>
-			�S�[���̒��_�܂ōł��Z�������ŒH�蒅���o�H��T�����邽�߂̃A���S���Y���ł����A<BR>
-			���̃T���v���ł͊e�|���S���̒��S���W���_�C�N�X�g���@�ł̒��Ԓn�_�Ƃ��Ă��܂��B<BR><BR>
+			　ダイクストラ法は複数の頂点とそれぞれの頂点を結ぶ線があって、スタートの頂点から<BR>
+			ゴールの頂点まで最も短い距離で辿り着く経路を探索するためのアルゴリズムですが、<BR>
+			このサンプルでは各ポリゴンの中心座標をダイクストラ法での中間地点としています。<BR><BR>
 
-			�@�ŏ��Ɋe�|���S�����m�̘A�������\�z���āA���̏������Ƀ_�C�N�X�g���@��<BR>
-			�X�^�[�g�ƂȂ�|���S������S�[���ƂȂ�|���S���܂ł̌o�H��T������Ƃ����菇�𓥂݂܂��B<BR><BR>
+			　最初に各ポリゴン同士の連結情報を構築して、その情報を元にダイクストラ法で<BR>
+			スタートとなるポリゴンからゴールとなるポリゴンまでの経路を探索するという手順を踏みます。<BR><BR>
 
-			�@�o�H�𓱂��o������A���̌o�H�ɉ����ċ��̂��ړ�������Ƃ���������g��ł��܂����A<BR>
-			�����o���ꂽ�o�H�����̂܂ܒH��Ɗe�|���S���̒��S���W��H���ē������Ԃ�Ă��܂��̂ŁA<BR>
-			�꒼���ɍs����o�H�̒��Ԓn�_�𓱂��o���Ă����Ɉ꒼���ōs���悤�ɂ��Ă��܂��B<BR><BR>
+			　経路を導き出した後、その経路に沿って球体を移動させるという処理を組んでいますが、<BR>
+			導き出された経路をそのまま辿ると各ポリゴンの中心座標を辿って動きがぶれてしまうので、<BR>
+			一直線に行ける経路の中間地点を導き出してそこに一直線で行くようにしています。<BR><BR>
 
-			�@�v���O�����̎��s�ɕK�v�ȃt�@�C����<A HREF="http://dxlib.o.oo7.jp/file/PathPlanning.zip"><B>������</B></A><BR><BR>
+			　プログラムの実行に必要なファイルは<A HREF="https://dxlib.xsrv.jp/file/PathPlanning.zip"><B>こちら</B></A><BR><BR>
 <BR>
 			</FONT>
 
@@ -48,73 +48,75 @@
 #include "DxLib.h"
 #include &lt;malloc.h&gt;
 
-#define MOVESPEED			(20.0)			// �ړ����x
-#define SPHERESIZE			(150.0f)		// ���̂̃T�C�Y
-#define COLLWIDTH			(400.0f)		// �����蔻��̃T�C�Y
+#define MOVESPEED			(20.0)			// 移動速度
+#define SPHERESIZE			(150.0f)		// 球体のサイズ
+#define COLLWIDTH			(400.0f)		// 当たり判定のサイズ
 
-// �|���S�����m�̘A������ۑ�����ׂ̍\����
+// ポリゴン同士の連結情報を保存する為の構造体
 struct POLYLINKINFO
 {
-	int LinkPolyIndex[ 3 ] ;			// �|���S���̎O�̕ӂƂ��ꂼ��אڂ��Ă���|���S���̃|���S���ԍ�( -1�F�אڃ|���S������  -1�ȊO�F�|���S���ԍ� )
-	float LinkPolyDistance[ 3 ] ;			// �אڂ��Ă���|���S���Ƃ̋���
-	VECTOR CenterPosition ;				// �|���S���̒��S���W
+	int LinkPolyIndex[ 3 ] ;			// ポリゴンの三つの辺とそれぞれ隣接しているポリゴンのポリゴン番号( -1：隣接ポリゴン無し  -1以外：ポリゴン番号 )
+	float LinkPolyDistance[ 3 ] ;			// 隣接しているポリゴンとの距離
+	VECTOR CenterPosition ;				// ポリゴンの中心座標
 } ;
 
-// �o�H�T�������p�̂P�|���S���̏��
+// 経路探索処理用の１ポリゴンの情報
 struct PATHPLANNING_UNIT
 {
-	int PolyIndex ;					// �|���S���ԍ�
-	float TotalDistance ;				// �o�H�T���ł��̃|���S���ɓ��B����܂łɒʉ߂����|���S���Ԃ̋����̍��v
-	int PrevPolyIndex ;				// �o�H�T���Ŋm�肵���o�H��̈�O�̃|���S��( ���|���S�����o�H��ɖ����ꍇ�� -1 )
-	int NextPolyIndex ;				// �o�H�T���Ŋm�肵���o�H��̈��̃|���S��( ���|���S�����o�H��ɖ����ꍇ�� -1 )
-	PATHPLANNING_UNIT *ActiveNextUnit ;		// �o�H�T�������ΏۂɂȂ��Ă��鎟�̃|���S���̃������A�h���X���i�[����ϐ�
+	int PolyIndex ;					// ポリゴン番号
+	float TotalDistance ;				// 経路探索でこのポリゴンに到達するまでに通過したポリゴン間の距離の合計
+	int PrevPolyIndex ;				// 経路探索で確定した経路上の一つ前のポリゴン( 当ポリゴンが経路上に無い場合は -1 )
+	int NextPolyIndex ;				// 経路探索で確定した経路上の一つ先のポリゴン( 当ポリゴンが経路上に無い場合は -1 )
+	PATHPLANNING_UNIT *ActiveNextUnit ;		// 経路探索処理対象になっている次のポリゴンのメモリアドレスを格納する変数
 } ;
 
-// �o�H�T�������Ŏg�p�������ۑ�����ׂ̍\����
+// 経路探索処理で使用する情報を保存する為の構造体
 struct PATHPLANNING
 {
-	PATHPLANNING_UNIT *UnitArray ;			// �o�H�T�������Ŏg�p����S�|���S���̏��z�񂪊i�[���ꂽ�������̈�̐擪�������A�h���X���i�[����ϐ�
-	PATHPLANNING_UNIT *ActiveFirstUnit ;		// �o�H�T�������ΏۂɂȂ��Ă���|���S���Q�̍ŏ��̃|���S�����ւ̃������A�h���X���i�[����ϐ�
-	PATHPLANNING_UNIT *StartUnit ;			// �o�H�̃X�^�[�g�n�_�ɂ���|���S�����ւ̃������A�h���X���i�[����ϐ�
-	PATHPLANNING_UNIT *GoalUnit ;			// �o�H�̃S�[���n�_�ɂ���|���S�����ւ̃������A�h���X���i�[����ϐ�
+	VECTOR StartPosition ;				// 開始位置
+	VECTOR GoalPosition ;				// 目標位置
+	PATHPLANNING_UNIT *UnitArray ;			// 経路探索処理で使用する全ポリゴンの情報配列が格納されたメモリ領域の先頭メモリアドレスを格納する変数
+	PATHPLANNING_UNIT *ActiveFirstUnit ;		// 経路探索処理対象になっているポリゴン群の最初のポリゴン情報へのメモリアドレスを格納する変数
+	PATHPLANNING_UNIT *StartUnit ;			// 経路のスタート地点にあるポリゴン情報へのメモリアドレスを格納する変数
+	PATHPLANNING_UNIT *GoalUnit ;			// 経路のゴール地点にあるポリゴン情報へのメモリアドレスを格納する変数
 } ;
 
-// �T�������o�H���ړ����鏈���Ɏg�p�������Z�߂��\����
+// 探索した経路を移動する処理に使用する情報を纏めた構造体
 struct PATHMOVEINFO
 {
-	int NowPolyIndex ;				// ���ݏ���Ă���|���S���̔ԍ�
-	VECTOR NowPosition ;				// ���݈ʒu
-	VECTOR MoveDirection ;				// �ړ�����
-	PATHPLANNING_UNIT *NowPathPlanningUnit ;	// ���ݏ���Ă���|���S���̌o�H�T����񂪊i�[����Ă��郁�����A�h���X���i�[����ϐ�
-	PATHPLANNING_UNIT *TargetPathPlanningUnit ;	// ���̒��Ԓn�_�ƂȂ�o�H��̃|���S���̌o�H�T����񂪊i�[����Ă��郁�����A�h���X���i�[����ϐ�
+	int NowPolyIndex ;				// 現在乗っているポリゴンの番号
+	VECTOR NowPosition ;				// 現在位置
+	VECTOR MoveDirection ;				// 移動方向
+	PATHPLANNING_UNIT *NowPathPlanningUnit ;	// 現在乗っているポリゴンの経路探索情報が格納されているメモリアドレスを格納する変数
+	PATHPLANNING_UNIT *TargetPathPlanningUnit ;	// 次の中間地点となる経路上のポリゴンの経路探索情報が格納されているメモリアドレスを格納する変数
 } ;
 
 
-int StageModelHandle ;			// �X�e�[�W���f���n���h��
-MV1_REF_POLYGONLIST PolyList ;		// �X�e�[�W���f���̃|���S�����
+int StageModelHandle ;			// ステージモデルハンドル
+MV1_REF_POLYGONLIST PolyList ;		// ステージモデルのポリゴン情報
 
-POLYLINKINFO *PolyLinkInfo ;		// �X�e�[�W���f���̑S�|���S�����́u�|���S�����m�̘A�����v�̔z�񂪊i�[���i�[���ꂽ�������G���A�̐擪�A�h���X���i�[����ϐ�
-PATHPLANNING PathPlanning ;		// �o�H�T�������p�̍\����
-PATHMOVEINFO PathMove ;			// �T�������o�H���ړ����鏈���Ɏg�p�������Z�߂��\����
-
-
-int CheckOnPolyIndex( VECTOR Pos ) ;						// �w��̍��W�̒����A�Ⴕ���͒���ɂ���|���S���̔ԍ����擾����( �|���S�������������ꍇ�� -1 ��Ԃ� )
-
-void SetupPolyLinkInfo( void ) ;						// �|���S�����m�̘A�������\�z����
-void TerminatePolyLinkInfo( void ) ;						// �|���S�����m�̘A�����̌�n�����s��
-bool CheckPolyMove( VECTOR StartPos, VECTOR TargetPos ) ;			// �|���S�����m�̘A�������g�p���Ďw��̓�̍��W�Ԃ𒼐��I�Ɉړ��ł��邩�ǂ������`�F�b�N����( �߂�l  true:�����I�Ɉړ��ł���  false:�����I�Ɉړ��ł��Ȃ� )
-bool CheckPolyMoveWidth( VECTOR StartPos, VECTOR TargetPos, float Width ) ;	// �|���S�����m�̘A�������g�p���Ďw��̓�̍��W�Ԃ𒼐��I�Ɉړ��ł��邩�ǂ������`�F�b�N����( �߂�l  true:�����I�Ɉړ��ł���  false:�����I�Ɉړ��ł��Ȃ� )( ���w��� )
-
-bool SetupPathPlanning( VECTOR StartPos, VECTOR GoalPos ) ;			// �w��̂Q�_�̌o�H��T������( �߂�l  true:�o�H�\�z����  false:�o�H�\�z���s( �X�^�[�g�n�_�ƃS�[���n�_���q���o�H������������ ) )
-void TerminatePathPlanning( void ) ;						// �o�H�T�����̌�n��
-
-void MoveInitialize( void ) ;							// �T�������o�H���ړ����鏈���̏��������s���֐�
-void MoveProcess( void ) ;							// �T�������o�H���ړ����鏈���̂P�t���[�����̏������s���֐�
-bool RefreshMoveDirection( void ) ;						// �T�������o�H���ړ����鏈���ňړ��������X�V���鏈�����s���֐�( �߂�l  true:�S�[���ɒH�蒅���Ă���  false:�S�[���ɒH�蒅���Ă��Ȃ� )
+POLYLINKINFO *PolyLinkInfo ;		// ステージモデルの全ポリゴン分の「ポリゴン同士の連結情報」の配列が格納が格納されたメモリエリアの先頭アドレスを格納する変数
+PATHPLANNING PathPlanning ;		// 経路探索処理用の構造体
+PATHMOVEINFO PathMove ;			// 探索した経路を移動する処理に使用する情報を纏めた構造体
 
 
+int CheckOnPolyIndex( VECTOR Pos ) ;						// 指定の座標の直下、若しくは直上にあるポリゴンの番号を取得する( ポリゴンが無かった場合は -1 を返す )
 
-// �w��̍��W�̒����A�Ⴕ���͒���ɂ���|���S���̔ԍ����擾����( �|���S�������������ꍇ�� -1 ��Ԃ� )
+void SetupPolyLinkInfo( void ) ;						// ポリゴン同士の連結情報を構築する
+void TerminatePolyLinkInfo( void ) ;						// ポリゴン同士の連結情報の後始末を行う
+bool CheckPolyMove( VECTOR StartPos, VECTOR TargetPos ) ;			// ポリゴン同士の連結情報を使用して指定の二つの座標間を直線的に移動できるかどうかをチェックする( 戻り値  true:直線的に移動できる  false:直線的に移動できない )
+bool CheckPolyMoveWidth( VECTOR StartPos, VECTOR TargetPos, float Width ) ;	// ポリゴン同士の連結情報を使用して指定の二つの座標間を直線的に移動できるかどうかをチェックする( 戻り値  true:直線的に移動できる  false:直線的に移動できない )( 幅指定版 )
+
+bool SetupPathPlanning( VECTOR StartPos, VECTOR GoalPos ) ;			// 指定の２点の経路を探索する( 戻り値  true:経路構築成功  false:経路構築失敗( スタート地点とゴール地点を繋ぐ経路が無かった等 ) )
+void TerminatePathPlanning( void ) ;						// 経路探索情報の後始末
+
+void MoveInitialize( void ) ;							// 探索した経路を移動する処理の初期化を行う関数
+void MoveProcess( void ) ;							// 探索した経路を移動する処理の１フレーム分の処理を行う関数
+bool RefreshMoveDirection( void ) ;						// 探索した経路を移動する処理で移動方向を更新する処理を行う関数( 戻り値  true:ゴールに辿り着いている  false:ゴールに辿り着いていない )
+
+
+
+// 指定の座標の直下、若しくは直上にあるポリゴンの番号を取得する( ポリゴンが無かった場合は -1 を返す )
 int CheckOnPolyIndex( VECTOR Pos )
 {
 	int i ;
@@ -123,15 +125,15 @@ int CheckOnPolyIndex( VECTOR Pos )
 	HITRESULT_LINE HitRes ;
 	MV1_REF_POLYGON *RefPoly ;
 
-	// �w��̍��W��Y�������ɑ傫���L�т�����̂Q���W���Z�b�g
+	// 指定の座標のY軸方向に大きく伸びる線分の２座標をセット
 	LinePos1 = VGet( Pos.x,  1000000.0f, Pos.z ) ;
 	LinePos2 = VGet( Pos.x, -1000000.0f, Pos.z ) ;
 
-	// �X�e�[�W���f���̃|���S���̐������J��Ԃ�
+	// ステージモデルのポリゴンの数だけ繰り返し
 	RefPoly = PolyList.Polygons ;
 	for( i = 0 ; i &lt; PolyList.PolygonNum ; i ++, RefPoly ++ )
 	{
-		// �����Ɛڂ���|���S�����������炻�̃|���S���̔ԍ���Ԃ�
+		// 線分と接するポリゴンがあったらそのポリゴンの番号を返す
 		HitRes = HitCheck_Line_Triangle(
 					LinePos1,
 					LinePos2,
@@ -145,12 +147,12 @@ int CheckOnPolyIndex( VECTOR Pos )
 		}
 	}
 
-	// �����ɗ���������Ɛڂ���|���S�������������Ƃ������ƂȂ̂� -1 ��Ԃ�
+	// ここに来たら線分と接するポリゴンが無かったということなので -1 を返す
 	return -1 ;
 }
 
 
-// �|���S�����m�̘A�������\�z����
+// ポリゴン同士の連結情報を構築する
 void SetupPolyLinkInfo( void )
 {
 	int i ;
@@ -160,16 +162,16 @@ void SetupPolyLinkInfo( void )
 	MV1_REF_POLYGON *RefPoly ;
 	MV1_REF_POLYGON *RefPolySub ;
 
-	// �X�e�[�W���f���S�̂̎Q�Ɨp���b�V�����\�z����
+	// ステージモデル全体の参照用メッシュを構築する
 	MV1SetupReferenceMesh( StageModelHandle, 0, TRUE ) ;
 
-	// �X�e�[�W���f���S�̂̎Q�Ɨp���b�V���̏����擾����
+	// ステージモデル全体の参照用メッシュの情報を取得する
 	PolyList = MV1GetReferenceMesh( StageModelHandle, 0, TRUE ) ;
 
-	// �X�e�[�W���f���̑S�|���S���̘A�������i�[����ׂ̃������̈���m�ۂ���
+	// ステージモデルの全ポリゴンの連結情報を格納する為のメモリ領域を確保する
 	PolyLinkInfo = ( POLYLINKINFO * )malloc( sizeof( POLYLINKINFO ) * PolyList.PolygonNum ) ;
 
-	// �S�|���S���̒��S���W���Z�o
+	// 全ポリゴンの中心座標を算出
 	PLInfo = PolyLinkInfo ;
 	RefPoly = PolyList.Polygons ;
 	for( i = 0 ; i &lt; PolyList.PolygonNum ; i ++, PLInfo ++, RefPoly ++ )
@@ -180,26 +182,26 @@ void SetupPolyLinkInfo( void )
 					      PolyList.Vertexs[ RefPoly-&gt;VIndex[ 2 ] ].Position ) ), 1.0f / 3.0f ) ;
 	}
 
-	// �|���S�����m�̗אڏ��̍\�z
+	// ポリゴン同士の隣接情報の構築
 	PLInfo = PolyLinkInfo ;
 	RefPoly = PolyList.Polygons ;
 	for( i = 0 ; i &lt; PolyList.PolygonNum ; i ++, PLInfo ++, RefPoly ++ )
 	{
-		// �e�ӂɗאڃ|���S���͖����A�̏�Ԃɂ��Ă���
+		// 各辺に隣接ポリゴンは無い、の状態にしておく
 		PLInfo-&gt;LinkPolyIndex[ 0 ] = -1 ;
 		PLInfo-&gt;LinkPolyIndex[ 1 ] = -1 ;
 		PLInfo-&gt;LinkPolyIndex[ 2 ] = -1 ;
 
-		// �אڂ���|���S����T�����߂Ƀ|���S���̐������J��Ԃ�
+		// 隣接するポリゴンを探すためにポリゴンの数だけ繰り返し
 		RefPolySub = PolyList.Polygons ;
 		PLInfoSub = PolyLinkInfo ;
 		for( j = 0 ; j &lt; PolyList.PolygonNum ; j ++, RefPolySub ++, PLInfoSub ++ )
 		{
-			// �������g�̃|���S���������牽���������̃|���S����
+			// 自分自身のポリゴンだったら何もせず次のポリゴンへ
 			if( i == j )
 				continue ;
 
-			// �|���S���̒��_�ԍ�0��1�Ō`������ӂƗאڂ��Ă�����אڏ��ɒǉ�����
+			// ポリゴンの頂点番号0と1で形成する辺と隣接していたら隣接情報に追加する
 			if( PLInfo-&gt;LinkPolyIndex[ 0 ] == -1 &&
 				( ( RefPoly-&gt;VIndex[ 0 ] == RefPolySub-&gt;VIndex[ 0 ] && RefPoly-&gt;VIndex[ 1 ] == RefPolySub-&gt;VIndex[ 2 ] ) ||
 				  ( RefPoly-&gt;VIndex[ 0 ] == RefPolySub-&gt;VIndex[ 1 ] && RefPoly-&gt;VIndex[ 1 ] == RefPolySub-&gt;VIndex[ 0 ] ) ||
@@ -209,7 +211,7 @@ void SetupPolyLinkInfo( void )
 				PLInfo-&gt;LinkPolyDistance[ 0 ] = VSize( VSub( PLInfoSub-&gt;CenterPosition, PLInfo-&gt;CenterPosition ) ) ;
 			}
 			else
-			// �|���S���̒��_�ԍ�1��2�Ō`������ӂƗאڂ��Ă�����אڏ��ɒǉ�����
+			// ポリゴンの頂点番号1と2で形成する辺と隣接していたら隣接情報に追加する
 			if( PLInfo-&gt;LinkPolyIndex[ 1 ] == -1 &&
 				( ( RefPoly-&gt;VIndex[ 1 ] == RefPolySub-&gt;VIndex[ 0 ] && RefPoly-&gt;VIndex[ 2 ] == RefPolySub-&gt;VIndex[ 2 ] ) ||
 				  ( RefPoly-&gt;VIndex[ 1 ] == RefPolySub-&gt;VIndex[ 1 ] && RefPoly-&gt;VIndex[ 2 ] == RefPolySub-&gt;VIndex[ 0 ] ) ||
@@ -219,7 +221,7 @@ void SetupPolyLinkInfo( void )
 				PLInfo-&gt;LinkPolyDistance[ 1 ] = VSize( VSub( PLInfoSub-&gt;CenterPosition, PLInfo-&gt;CenterPosition ) ) ;
 			}
 			else
-			// �|���S���̒��_�ԍ�2��0�Ō`������ӂƗאڂ��Ă�����אڏ��ɒǉ�����
+			// ポリゴンの頂点番号2と0で形成する辺と隣接していたら隣接情報に追加する
 			if( PLInfo-&gt;LinkPolyIndex[ 2 ] == -1 &&
 				( ( RefPoly-&gt;VIndex[ 2 ] == RefPolySub-&gt;VIndex[ 0 ] && RefPoly-&gt;VIndex[ 0 ] == RefPolySub-&gt;VIndex[ 2 ] ) ||
 				  ( RefPoly-&gt;VIndex[ 2 ] == RefPolySub-&gt;VIndex[ 1 ] && RefPoly-&gt;VIndex[ 0 ] == RefPolySub-&gt;VIndex[ 0 ] ) ||
@@ -232,180 +234,283 @@ void SetupPolyLinkInfo( void )
 	}
 }
 
-// �|���S�����m�̘A�����̌�n�����s��
+// ポリゴン同士の連結情報の後始末を行う
 void TerminatePolyLinkInfo( void )
 {
-	// �|���S�����m�̘A�������i�[���Ă����������̈�����
+	// ポリゴン同士の連結情報を格納していたメモリ領域を解放
 	free( PolyLinkInfo ) ;
 	PolyLinkInfo = NULL ;
 }
 
-// �|���S�����m�̘A�������g�p���Ďw��̓�̍��W�Ԃ𒼐��I�Ɉړ��ł��邩�ǂ������`�F�b�N����( �߂�l  true:�����I�Ɉړ��ł���  false:�����I�Ɉړ��ł��Ȃ� )
+// ポリゴン同士の連結情報を使用して指定の二つの座標間を直線的に移動できるかどうかをチェックする( 戻り値  true:直線的に移動できる  false:直線的に移動できない )
 bool CheckPolyMove( VECTOR StartPos, VECTOR TargetPos )
 {
 	int StartPoly ;
 	int TargetPoly ;
 	POLYLINKINFO *PInfoStart ;
 	POLYLINKINFO *PInfoTarget ;
-	int i ;
-	VECTOR PolyPos[ 3 ] ;
+	int i, j ;
+	VECTOR_D StartPosD ;
+	VECTOR_D TargetPosD ;
+	VECTOR_D PolyPos[ 3 ] ;
 	int CheckPoly[ 3 ] ;
 	int CheckPolyPrev[ 3 ] ;
 	int CheckPolyNum ;
+	int CheckPolyPrevNum ;
 	int NextCheckPoly[ 3 ] ;
 	int NextCheckPolyPrev[ 3 ] ;
 	int NextCheckPolyNum ;
+	int NextCheckPolyPrevNum ;
 
-	// �J�n���W�ƖڕW���W�� y���W�l�� 0.0f �ɂ��āA���ʏ�̔���ɂ���
+	// 開始座標と目標座標の y座標値を 0.0f にして、平面上の判定にする
 	StartPos.y = 0.0f ;
 	TargetPos.y = 0.0f ;
 
-	// �J�n���W�ƖڕW���W�̒���A�Ⴕ���͒����ɑ��݂���|���S������������
+	// 開始座標と目標座標の直上、若しくは直下に存在するポリゴンを検索する
 	StartPoly = CheckOnPolyIndex( StartPos ) ;
 	TargetPoly = CheckOnPolyIndex( TargetPos ) ;
 
-	// �|���S�������݂��Ȃ�������ړ��ł��Ȃ��̂� false ��Ԃ�
+	// ポリゴンが存在しなかったら移動できないので false を返す
 	if( StartPoly == -1 || TargetPoly == -1 )
 		return false ;
 
-	// �J�n���W�ƖڕW���W�̒���A�Ⴕ���͒����ɑ��݂���|���S���̘A�����̃A�h���X���擾���Ă���
+	// 開始座標と目標座標の直上、若しくは直下に存在するポリゴンの連結情報のアドレスを取得しておく
 	PInfoStart = &PolyLinkInfo[ StartPoly ] ;
 	PInfoTarget = &PolyLinkInfo[ TargetPoly ] ;
 
-	// �w�������ɂ��邩�ǂ������`�F�b�N����|���S���Ƃ��ĊJ�n���W�̒���A�Ⴕ���͒����ɑ��݂���|���S����o�^
+	// 指定線分上にあるかどうかをチェックするポリゴンとして開始座標の直上、若しくは直下に存在するポリゴンを登録
 	CheckPolyNum = 1 ;
 	CheckPoly[ 0 ] = StartPoly ;
+	CheckPolyPrevNum = 0 ;
 	CheckPolyPrev[ 0 ] = -1 ;
 
-	// ���ʂ��o��܂Ŗ������ŌJ��Ԃ�
+	// 結果が出るまで無条件で繰り返し
 	for(;;)
 	{
-		// ���̃��[�v�Ń`�F�b�N�ΏۂɂȂ�|���S���̐������Z�b�g���Ă���
+		// 次のループでチェック対象になるポリゴンの数をリセットしておく
 		NextCheckPolyNum = 0 ;
 
-		// �`�F�b�N�Ώۂ̃|���S���̐������J��Ԃ�
+		// 次のループでチェック対象から外すポリゴンの数をリセットしておく
+		NextCheckPolyPrevNum = 0 ;
+
+		// チェック対象のポリゴンの数だけ繰り返し
 		for( i = 0 ; i &lt; CheckPolyNum ; i ++ )
 		{
-			// �`�F�b�N�Ώۂ̃|���S���̂R���W���擾
-			PolyPos[ 0 ] = PolyList.Vertexs[ PolyList.Polygons[ CheckPoly[ i ] ].VIndex[ 0 ] ].Position ;
-			PolyPos[ 1 ] = PolyList.Vertexs[ PolyList.Polygons[ CheckPoly[ i ] ].VIndex[ 1 ] ].Position ;
-			PolyPos[ 2 ] = PolyList.Vertexs[ PolyList.Polygons[ CheckPoly[ i ] ].VIndex[ 2 ] ].Position ;
+			// チェック対象のポリゴンの３座標を取得
+			PolyPos[ 0 ] = VConvFtoD( PolyList.Vertexs[ PolyList.Polygons[ CheckPoly[ i ] ].VIndex[ 0 ] ].Position ) ;
+			PolyPos[ 1 ] = VConvFtoD( PolyList.Vertexs[ PolyList.Polygons[ CheckPoly[ i ] ].VIndex[ 1 ] ].Position ) ;
+			PolyPos[ 2 ] = VConvFtoD( PolyList.Vertexs[ PolyList.Polygons[ CheckPoly[ i ] ].VIndex[ 2 ] ].Position ) ;
 
-			// y���W��0.0f�ɂ��āA���ʓI�Ȕ�����s���悤�ɂ���
-			PolyPos[ 0 ].y = 0.0f ;
-			PolyPos[ 1 ].y = 0.0f ;
-			PolyPos[ 2 ].y = 0.0f ;
+			// y座標を0.0にして、平面的な判定を行うようにする
+			PolyPos[ 0 ].y = 0.0 ;
+			PolyPos[ 1 ].y = 0.0 ;
+			PolyPos[ 2 ].y = 0.0 ;
 
-			// �|���S���̒��_�ԍ�0��1�̕ӂɗאڂ���|���S�������݂���ꍇ�ŁA
-			// ����O�̃��[�v�Ń`�F�b�N�ΏۂɂȂ����|���S���ł��Ȃ��A
-			// ���ӂ̐����ƈړ��J�n�_�A�I���_�Ō`������������ڂ��Ă����� if �����^�ɂȂ�
+			// ポリゴンの頂点番号0と1の辺に隣接するポリゴンが存在する場合で、
+			// 且つ辺の線分と移動開始点、終了点で形成する線分が接していたら if 文が真になる
 			if( PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 0 ] != -1 &&
-				PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 0 ] != CheckPolyPrev[ i ] &&
-				Segment_Segment_MinLength_Square( StartPos, TargetPos, PolyPos[ 0 ], PolyPos[ 1 ] ) &lt; 0.001f )
+				Segment_Segment_MinLength_SquareD( StartPosD, TargetPosD, PolyPos[ 0 ], PolyPos[ 1 ] ) &lt; 0.001 )
 			{
-				// �����ӂƐڂ��Ă���|���S�����ڕW���W��ɑ��݂���|���S����������
-				// �J�n���W����ڕW���W��܂œr�؂�Ȃ��|���S�������݂���Ƃ������ƂȂ̂� true ��Ԃ�
+				// もし辺と接しているポリゴンが目標座標上に存在するポリゴンだったら
+				// 開始座標から目標座標上まで途切れなくポリゴンが存在するということなので true を返す
 				if( PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 0 ] == TargetPoly )
 					return true ;
 
-				// �ӂƐڂ��Ă���|���S�������̃`�F�b�N�Ώۂ̃|���S���ɉ�����
-				NextCheckPoly[ NextCheckPolyNum ] = PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 0 ] ;
-				NextCheckPolyPrev[ NextCheckPolyNum ] = CheckPoly[ i ] ;
-				NextCheckPolyNum ++ ;
+				// 辺と接しているポリゴンを次のチェック対象のポリゴンに加える
+
+				// 既に登録されているポリゴンの場合は加えない
+				for( j = 0 ; j &lt; NextCheckPolyNum ; j ++ )
+				{
+					if( NextCheckPoly[ j ] == PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 0 ] )
+						break ;
+				}
+				if( j == NextCheckPolyNum )
+				{
+					// 次のループで除外するポリゴンの対象に加える
+
+					// 既に登録されている除外ポリゴンの場合は加えない
+					for( j = 0 ; j &lt; NextCheckPolyPrevNum ; j ++ )
+					{
+						if( NextCheckPolyPrev[ j ] == CheckPoly[ i ] )
+							break ;
+					}
+					if( j == NextCheckPolyPrevNum )
+					{
+						NextCheckPolyPrev[ NextCheckPolyPrevNum ] = CheckPoly[ i ] ;
+						NextCheckPolyPrevNum ++ ;
+					}
+
+					// 一つ前のループでチェック対象になったポリゴンの場合も加えない
+					for( j = 0 ; j &lt; CheckPolyPrevNum ; j ++ )
+					{
+						if( CheckPolyPrev[ j ] == PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 0 ] )
+							break ;
+					}
+					if( j == CheckPolyPrevNum )
+					{
+						// ここまで来たら漸く次のチェック対象のポリゴンに加える
+						NextCheckPoly[ NextCheckPolyNum ] = PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 0 ] ;
+						NextCheckPolyNum ++ ;
+					}
+				}
 			}
 
-			// �|���S���̒��_�ԍ�1��2�̕ӂɗאڂ���|���S�������݂���ꍇ�ŁA
-			// ����O�̃��[�v�Ń`�F�b�N�ΏۂɂȂ����|���S���ł��Ȃ��A
-			// ���ӂ̐����ƈړ��J�n�_�A�I���_�Ō`������������ڂ��Ă����� if �����^�ɂȂ�
+			// ポリゴンの頂点番号1と2の辺に隣接するポリゴンが存在する場合で、
+			// 且つ辺の線分と移動開始点、終了点で形成する線分が接していたら if 文が真になる
 			if( PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 1 ] != -1 &&
-				PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 1 ] != CheckPolyPrev[ i ] &&
-				Segment_Segment_MinLength_Square( StartPos, TargetPos, PolyPos[ 1 ], PolyPos[ 2 ] ) &lt; 0.001f )
+				Segment_Segment_MinLength_SquareD( StartPosD, TargetPosD, PolyPos[ 1 ], PolyPos[ 2 ] ) &lt; 0.001 )
 			{
-				// �����ӂƐڂ��Ă���|���S�����ڕW���W��ɑ��݂���|���S����������
-				// �J�n���W����ڕW���W��܂œr�؂�Ȃ��|���S�������݂���Ƃ������ƂȂ̂� true ��Ԃ�
+				// もし辺と接しているポリゴンが目標座標上に存在するポリゴンだったら
+				// 開始座標から目標座標上まで途切れなくポリゴンが存在するということなので true を返す
 				if( PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 1 ] == TargetPoly )
 					return true ;
 
-				// �ӂƐڂ��Ă���|���S�������̃`�F�b�N�Ώۂ̃|���S���ɉ�����
-				NextCheckPoly[ NextCheckPolyNum ] = PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 1 ] ;
-				NextCheckPolyPrev[ NextCheckPolyNum ] = CheckPoly[ i ] ;
-				NextCheckPolyNum ++ ;
+				// 辺と接しているポリゴンを次のチェック対象のポリゴンに加える
+
+				// 既に登録されているポリゴンの場合は加えない
+				for( j = 0 ; j &lt; NextCheckPolyNum ; j ++ )
+				{
+					if( NextCheckPoly[ j ] == PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 1 ] )
+						break ;
+				}
+				if( j == NextCheckPolyNum )
+				{
+					// 既に登録されている除外ポリゴンの場合は加えない
+					for( j = 0 ; j &lt; NextCheckPolyPrevNum ; j ++ )
+					{
+						if( NextCheckPolyPrev[ j ] == CheckPoly[ i ] )
+							break ;
+					}
+					if( j == NextCheckPolyPrevNum )
+					{
+						NextCheckPolyPrev[ NextCheckPolyPrevNum ] = CheckPoly[ i ] ;
+						NextCheckPolyPrevNum ++ ;
+					}
+
+					// 一つ前のループでチェック対象になったポリゴンの場合も加えない
+					for( j = 0 ; j &lt; CheckPolyPrevNum ; j ++ )
+					{
+						if( CheckPolyPrev[ j ] == PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 1 ] )
+							break ;
+					}
+					if( j == CheckPolyPrevNum )
+					{
+						// ここまで来たら漸く次のチェック対象のポリゴンに加える
+						NextCheckPoly[ NextCheckPolyNum ] = PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 1 ] ;
+						NextCheckPolyNum ++ ;
+					}
+				}
 			}
 
-			// �|���S���̒��_�ԍ�2��0�̕ӂɗאڂ���|���S�������݂���ꍇ�ŁA
-			// ����O�̃��[�v�Ń`�F�b�N�ΏۂɂȂ����|���S���ł��Ȃ��A
-			// ���ӂ̐����ƈړ��J�n�_�A�I���_�Ō`������������ڂ��Ă����� if �����^�ɂȂ�
+			// ポリゴンの頂点番号2と0の辺に隣接するポリゴンが存在する場合で、
+			// 且つ辺の線分と移動開始点、終了点で形成する線分が接していたら if 文が真になる
 			if( PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 2 ] != -1 &&
-				PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 2 ] != CheckPolyPrev[ i ] &&
-				Segment_Segment_MinLength_Square( StartPos, TargetPos, PolyPos[ 2 ], PolyPos[ 0 ] ) &lt; 0.001f )
+				Segment_Segment_MinLength_SquareD( StartPosD, TargetPosD, PolyPos[ 2 ], PolyPos[ 0 ] ) &lt; 0.001 )
 			{
-				// �����ӂƐڂ��Ă���|���S�����ڕW���W��ɑ��݂���|���S����������
-				// �J�n���W����ڕW���W��܂œr�؂�Ȃ��|���S�������݂���Ƃ������ƂȂ̂� true ��Ԃ�
+				// もし辺と接しているポリゴンが目標座標上に存在するポリゴンだったら
+				// 開始座標から目標座標上まで途切れなくポリゴンが存在するということなので true を返す
 				if( PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 2 ] == TargetPoly )
 					return true ;
 
-				// �ӂƐڂ��Ă���|���S�������̃`�F�b�N�Ώۂ̃|���S���ɉ�����
-				NextCheckPoly[ NextCheckPolyNum ] = PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 2 ] ;
-				NextCheckPolyPrev[ NextCheckPolyNum ] = CheckPoly[ i ] ;
-				NextCheckPolyNum ++ ;
+				// 辺と接しているポリゴンを次のチェック対象のポリゴンに加える
+
+				// 既に登録されているポリゴンの場合は加えない
+				for( j = 0 ; j &lt; NextCheckPolyNum ; j ++ )
+				{
+					if( NextCheckPoly[ j ] == PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 2 ] )
+						break ;
+				}
+				if( j == NextCheckPolyNum )
+				{
+					// 既に登録されている除外ポリゴンの場合は加えない
+					for( j = 0 ; j &lt; NextCheckPolyPrevNum ; j ++ )
+					{
+						if( NextCheckPolyPrev[ j ] == CheckPoly[ i ] )
+							break ;
+					}
+					if( j == NextCheckPolyPrevNum )
+					{
+						NextCheckPolyPrev[ NextCheckPolyPrevNum ] = CheckPoly[ i ] ;
+						NextCheckPolyPrevNum ++ ;
+					}
+
+					// 一つ前のループでチェック対象になったポリゴンの場合も加えない
+					for( j = 0 ; j &lt; CheckPolyPrevNum ; j ++ )
+					{
+						if( CheckPolyPrev[ j ] == PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 2 ] )
+							break ;
+					}
+					if( j == CheckPolyPrevNum )
+					{
+						// ここまで来たら漸く次のチェック対象のポリゴンに加える
+						NextCheckPoly[ NextCheckPolyNum ] = PolyLinkInfo[ CheckPoly[ i ] ].LinkPolyIndex[ 2 ] ;
+						NextCheckPolyNum ++ ;
+					}
+				}
 			}
 		}
 
-		// ���̃��[�v�Ń`�F�b�N�ΏۂɂȂ�|���S��������Ȃ������Ƃ������Ƃ�
-		// �ړ��J�n�_�A�I���_�Ō`����������Ɛڂ���`�F�b�N�Ώۂ̃|���S���ɗאڂ���
-		// �|���S��������Ȃ������Ƃ������ƂȂ̂ŁA�����I�Ȉړ��͂ł��Ȃ��Ƃ������Ƃ� false ��Ԃ�
+		// 次のループでチェック対象になるポリゴンが一つもなかったということは
+		// 移動開始点、終了点で形成する線分と接するチェック対象のポリゴンに隣接する
+		// ポリゴンが一つもなかったということなので、直線的な移動はできないということで false を返す
 		if( NextCheckPolyNum == 0 )
 		{
 			return false ;
 		}
 
-		// ���Ƀ`�F�b�N�ΏۂƂȂ�|���S���̏����R�s�[����
+		// 次にチェック対象となるポリゴンの情報をコピーする
 		for( i = 0 ; i &lt; NextCheckPolyNum ; i ++ )
 		{
 			CheckPoly[ i ] = NextCheckPoly[ i ] ;
-			CheckPolyPrev[ i ] = NextCheckPolyPrev[ i ] ;
 		}
 		CheckPolyNum = NextCheckPolyNum ;
+
+		// 次にチェック対象外となるポリゴンの情報をコピーする
+		for( i = 0 ; i &lt; NextCheckPolyPrevNum ; i ++ )
+		{
+			CheckPolyPrev[ i ] = NextCheckPolyPrev[ i ] ;
+		}
+		CheckPolyPrevNum = NextCheckPolyPrevNum ;
 	}
 }
 
-// �|���S�����m�̘A�������g�p���Ďw��̓�̍��W�Ԃ𒼐��I�Ɉړ��ł��邩�ǂ������`�F�b�N����( �߂�l  true:�����I�Ɉړ��ł���  false:�����I�Ɉړ��ł��Ȃ� )( ���w��� )
+// ポリゴン同士の連結情報を使用して指定の二つの座標間を直線的に移動できるかどうかをチェックする( 戻り値  true:直線的に移動できる  false:直線的に移動できない )( 幅指定版 )
 bool CheckPolyMoveWidth( VECTOR StartPos, VECTOR TargetPos, float Width )
 {
 	VECTOR Direction ;
 	VECTOR SideDirection ;
 	VECTOR TempVec ;
 
-	// �ŏ��ɊJ�n���W����ڕW���W�ɒ����I�Ɉړ��ł��邩�ǂ������`�F�b�N
+	// 最初に開始座標から目標座標に直線的に移動できるかどうかをチェック
 	if( CheckPolyMove( StartPos, TargetPos ) == false )
 		return false ;
 
-	// �J�n���W����ڕW���W�Ɍ������x�N�g�����Z�o
+	// 開始座標から目標座標に向かうベクトルを算出
 	Direction = VSub( TargetPos, StartPos ) ;
 
-	// y���W�� 0.0f �ɂ��ĕ��ʓI�ȃx�N�g���ɂ���
+	// y座標を 0.0f にして平面的なベクトルにする
 	Direction.y = 0.0f ; 
 
-	// �J�n���W����ڕW���W�Ɍ������x�N�g���ɒ��p�Ȑ��K���x�N�g�����Z�o
+	// 開始座標から目標座標に向かうベクトルに直角な正規化ベクトルを算出
 	SideDirection = VCross( Direction, VGet( 0.0f, 1.0f, 0.0f ) ) ;
 	SideDirection = VNorm( SideDirection ) ;
 
-	// �J�n���W�ƖڕW���W�� Width / 2.0f ���������������ɂ��炵�āA�ēx�����I�Ɉړ��ł��邩�ǂ������`�F�b�N
+	// 開始座標と目標座標を Width / 2.0f 分だけ垂直方向にずらして、再度直線的に移動できるかどうかをチェック
 	TempVec = VScale( SideDirection, Width / 2.0f ) ;
 	if( CheckPolyMove( VAdd( StartPos,  TempVec ), VAdd( TargetPos, TempVec ) ) == false )
 		return false ;
 
-	// �J�n���W�ƖڕW���W�� Width / 2.0f ��������O�Ƃ͋t�����̐��������ɂ��炵�āA�ēx�����I�Ɉړ��ł��邩�ǂ������`�F�b�N
+	// 開始座標と目標座標を Width / 2.0f 分だけ一つ前とは逆方向の垂直方向にずらして、再度直線的に移動できるかどうかをチェック
 	TempVec = VScale( SideDirection, -Width / 2.0f ) ;
 	if( CheckPolyMove( VAdd( StartPos,  TempVec ), VAdd( TargetPos, TempVec ) ) == false )
 		return false ;
 
-	// �����܂ł�����w��̕��������Ă������I�Ɉړ��ł���Ƃ������ƂȂ̂� true ��Ԃ�
+	// ここまできたら指定の幅があっても直線的に移動できるということなので true を返す
 	return true ;
 }
 
 
-// �w��̂Q�_�̌o�H��T������( �߂�l  true:�o�H�\�z����  false:�o�H�\�z���s( �X�^�[�g�n�_�ƃS�[���n�_���q���o�H������������ ) )
+// 指定の２点の経路を探索する( 戻り値  true:経路構築成功  false:経路構築失敗( スタート地点とゴール地点を繋ぐ経路が無かった等 ) )
 bool SetupPathPlanning( VECTOR StartPos, VECTOR GoalPos )
 {
 	int i ;
@@ -415,10 +520,14 @@ bool SetupPathPlanning( VECTOR StartPos, VECTOR GoalPos )
 	PATHPLANNING_UNIT *PUnitSub2 ;
 	bool Goal ;
 
-	// �o�H�T���p�̃|���S�������i�[���郁�����̈���m�ۂ���
+	// スタート位置とゴール位置を保存
+	PathPlanning.StartPosition = StartPos ;
+	PathPlanning.GoalPosition = GoalPos ;
+
+	// 経路探索用のポリゴン情報を格納するメモリ領域を確保する
 	PathPlanning.UnitArray = ( PATHPLANNING_UNIT * )malloc( sizeof( PATHPLANNING_UNIT ) * PolyList.PolygonNum ) ;
 
-	// �o�H�T���p�̃|���S������������
+	// 経路探索用のポリゴン情報を初期化
 	PUnit = PathPlanning.UnitArray ;
 	for( i = 0 ; i &lt; PolyList.PolygonNum ; i ++, PUnit ++ )
 	{
@@ -429,61 +538,61 @@ bool SetupPathPlanning( VECTOR StartPos, VECTOR GoalPos )
 		PUnit-&gt;ActiveNextUnit = NULL ;
 	}
 
-	// �X�^�[�g�n�_�ɂ���|���S���̔ԍ����擾���A�|���S���̌o�H�T�������p�̍\���̂̃A�h���X��ۑ�
+	// スタート地点にあるポリゴンの番号を取得し、ポリゴンの経路探索処理用の構造体のアドレスを保存
 	PolyIndex = CheckOnPolyIndex( StartPos ) ;
 	if( PolyIndex == -1 )
 		return false ;
 	PathPlanning.StartUnit = &PathPlanning.UnitArray[ PolyIndex ] ;
 
-	// �o�H�T�������Ώۂ̃|���S���Ƃ��ăX�^�[�g�n�_�ɂ���|���S����o�^����
+	// 経路探索処理対象のポリゴンとしてスタート地点にあるポリゴンを登録する
 	PathPlanning.ActiveFirstUnit = &PathPlanning.UnitArray[ PolyIndex ] ;
 
-	// �S�[���n�_�ɂ���|���S���̔ԍ����擾���A�|���S���̌o�H�T�������p�̍\���̂̃A�h���X��ۑ�
+	// ゴール地点にあるポリゴンの番号を取得し、ポリゴンの経路探索処理用の構造体のアドレスを保存
 	PolyIndex = CheckOnPolyIndex( GoalPos ) ;
 	if( PolyIndex == -1 )
 		return false ;
 	PathPlanning.GoalUnit = &PathPlanning.UnitArray[ PolyIndex ] ;
 
-	// �S�[���n�_�ɂ���|���S���ƃX�^�[�g�n�_�ɂ���|���S���������������� false ��Ԃ�
+	// ゴール地点にあるポリゴンとスタート地点にあるポリゴンが同じだったら false を返す
 	if( PathPlanning.GoalUnit == PathPlanning.StartUnit )
 		return false ;
 
-	// �o�H��T�����ăS�[���n�_�̃|���S���ɂ��ǂ蒅���܂Ń��[�v���J��Ԃ�
+	// 経路を探索してゴール地点のポリゴンにたどり着くまでループを繰り返す
 	Goal = false ;
 	while( Goal == false )
 	{
-		// �o�H�T�������ΏۂɂȂ��Ă���|���S�������ׂď���
+		// 経路探索処理対象になっているポリゴンをすべて処理
 		PUnit = PathPlanning.ActiveFirstUnit ;
 		PathPlanning.ActiveFirstUnit = NULL ;
 		for( ; PUnit != NULL ; PUnit = PUnit-&gt;ActiveNextUnit )
 		{
-			// �|���S���̕ӂ̐������J��Ԃ�
+			// ポリゴンの辺の数だけ繰り返し
 			for( i = 0 ; i &lt; 3 ; i ++ )
 			{
-				// �ӂɗאڂ���|���S���������ꍇ�͉������Ȃ�
+				// 辺に隣接するポリゴンが無い場合は何もしない
 				if( PolyLinkInfo[ PUnit-&gt;PolyIndex ].LinkPolyIndex[ i ] == -1 )
 					continue ;
 
-				// �אڂ���|���S�������Ɍo�H�T���������s���Ă��āA����苗���̒����o�H�ƂȂ��Ă��邩�A
-				// �X�^�[�g�n�_�̃|���S���������ꍇ�͉������Ȃ�
+				// 隣接するポリゴンが既に経路探索処理が行われていて、且つより距離の長い経路となっているか、
+				// スタート地点のポリゴンだった場合は何もしない
 				PUnitSub = &PathPlanning.UnitArray[ PolyLinkInfo[ PUnit-&gt;PolyIndex ].LinkPolyIndex[ i ] ] ;
 				if( ( PUnitSub-&gt;PrevPolyIndex != -1 && PUnitSub-&gt;TotalDistance &lt;= PUnit-&gt;TotalDistance + PolyLinkInfo[ PUnit-&gt;PolyIndex ].LinkPolyDistance[ i ] )
 					|| PUnitSub-&gt;PolyIndex == PathPlanning.StartUnit-&gt;PolyIndex )
 					continue ;
 
-				// �אڂ���|���S�����S�[���n�_�ɂ���|���S����������S�[���ɒH�蒅�����t���O�𗧂Ă�
+				// 隣接するポリゴンがゴール地点にあるポリゴンだったらゴールに辿り着いたフラグを立てる
 				if( PUnitSub-&gt;PolyIndex == PathPlanning.GoalUnit-&gt;PolyIndex )
 				{
 					Goal = true ;
 				}
 
-				// �אڂ���|���S���Ɍo�H���ƂȂ鎩���̃|���S���̔ԍ���������
+				// 隣接するポリゴンに経路情報となる自分のポリゴンの番号を代入する
 				PUnitSub-&gt;PrevPolyIndex = PUnit-&gt;PolyIndex ;
 
-				// �אڂ���|���S���ɂ����ɓ��B����܂ł̋�����������
+				// 隣接するポリゴンにここに到達するまでの距離を代入する
 				PUnitSub-&gt;TotalDistance = PUnit-&gt;TotalDistance + PolyLinkInfo[ PUnit-&gt;PolyIndex ].LinkPolyDistance[ i ] ;
 
-				// ���̃��[�v�ōs���o�H�T�������Ώۂɒǉ�����A���ɒǉ�����Ă�����ǉ����Ȃ�
+				// 次のループで行う経路探索処理対象に追加する、既に追加されていたら追加しない
 				for( PUnitSub2 = PathPlanning.ActiveFirstUnit ; PUnitSub2 != NULL ; PUnitSub2 = PUnitSub2-&gt;ActiveNextUnit )
 				{
 					if( PUnitSub2 == PUnitSub )
@@ -497,16 +606,16 @@ bool SetupPathPlanning( VECTOR StartPos, VECTOR GoalPos )
 			}
 		}
 
-		// �����ɂ������� PathPlanning.ActiveFirstUnit �� NULL �Ƃ������Ƃ�
-		// �X�^�[�g�n�_�ɂ���|���S������S�[���n�_�ɂ���|���S���ɒH�蒅���Ȃ��Ƃ������ƂȂ̂� false ��Ԃ�
+		// ここにきた時に PathPlanning.ActiveFirstUnit が NULL ということは
+		// スタート地点にあるポリゴンからゴール地点にあるポリゴンに辿り着けないということなので false を返す
 		if( PathPlanning.ActiveFirstUnit == NULL )
 		{
 			return false ;
 		}
 	}
 
-	// �S�[���n�_�̃|���S������X�^�[�g�n�_�̃|���S���ɒH����
-	// �o�H��̃|���S���Ɏ��Ɉړ����ׂ��|���S���̔ԍ���������
+	// ゴール地点のポリゴンからスタート地点のポリゴンに辿って
+	// 経路上のポリゴンに次に移動すべきポリゴンの番号を代入する
 	PUnit = PathPlanning.GoalUnit ;
 	do
 	{
@@ -517,134 +626,149 @@ bool SetupPathPlanning( VECTOR StartPos, VECTOR GoalPos )
 
 	}while( PUnit != PathPlanning.StartUnit ) ;
 
-	// �����ɂ�����X�^�[�g�n�_����S�[���n�_�܂ł̌o�H���T���ł����Ƃ������ƂȂ̂� true ��Ԃ�
+	// ここにきたらスタート地点からゴール地点までの経路が探索できたということなので true を返す
 	return true ;
 }
 
-// �o�H�T�����̌�n��
+// 経路探索情報の後始末
 void TerminatePathPlanning( void )
 {
-	// �o�H�T���ׂ̈Ɋm�ۂ����������̈�����
+	// 経路探索の為に確保したメモリ領域を解放
 	free( PathPlanning.UnitArray ) ;
 	PathPlanning.UnitArray = NULL ;
 }
 
-// �T�������o�H���ړ����鏈���̏��������s���֐�
+// 探索した経路を移動する処理の初期化を行う関数
 void MoveInitialize( void )
 {
-	// �ړ��J�n���_�ŏ���Ă���|���S���̓X�^�[�g�n�_�ɂ���|���S��
+	// 移動開始時点で乗っているポリゴンはスタート地点にあるポリゴン
 	PathMove.NowPolyIndex = PathPlanning.StartUnit-&gt;PolyIndex ;
 
-	// �ړ��J�n���_�̍��W�̓X�^�[�g�n�_�ɂ���|���S���̒��S���W
+	// 移動開始時点の座標はスタート地点にあるポリゴンの中心座標
 	PathMove.NowPosition = PolyLinkInfo[ PathMove.NowPolyIndex ].CenterPosition ;
 
-	// �ړ��J�n���_�̌o�H�T�����̓X�^�[�g�n�_�ɂ���|���S���̏��
+	// 移動開始時点の経路探索情報はスタート地点にあるポリゴンの情報
 	PathMove.NowPathPlanningUnit = PathPlanning.StartUnit ;
 
-	// �ړ��J�n���_�̈ړ����Ԓn�_�̌o�H�T�������X�^�[�g�n�_�ɂ���|���S���̏��
+	// 移動開始時点の移動中間地点の経路探索情報もスタート地点にあるポリゴンの情報
 	PathMove.TargetPathPlanningUnit = PathPlanning.StartUnit ;
 }
 
-// �T�������o�H���ړ����鏈���̂P�t���[�����̏������s���֐�
+// 探索した経路を移動する処理の１フレーム分の処理を行う関数
 void MoveProcess( void )
 {
-	// �ړ������̍X�V�A�S�[���ɒH�蒅���Ă�����ړ��͂����ɏI������
+	// 移動方向の更新、ゴールに辿り着いていたら移動はせずに終了する
 	if( RefreshMoveDirection() )
 		return ;
 
-	// �ړ������ɍ��W���ړ�����
+	// 移動方向に座標を移動する
 	PathMove.NowPosition = VAdd( PathMove.NowPosition, VScale( PathMove.MoveDirection, MOVESPEED ) ) ;
 
-	// ���݂̍��W�ŏ���Ă���|���S������������
+	// 現在の座標で乗っているポリゴンを検索する
 	PathMove.NowPolyIndex = CheckOnPolyIndex( PathMove.NowPosition ) ;
 
-	// ���݂̍��W�ŏ���Ă���|���S���̌o�H�T�����̃������A�h���X��������
+	// 現在の座標で乗っているポリゴンの経路探索情報のメモリアドレスを代入する
 	PathMove.NowPathPlanningUnit = &PathPlanning.UnitArray[ PathMove.NowPolyIndex ] ;
 }
 
-// �T�������o�H���ړ����鏈���ňړ��������X�V���鏈�����s���֐�( �߂�l  true:�S�[���ɒH�蒅���Ă���  false:�S�[���ɒH�蒅���Ă��Ȃ� )
+// 探索した経路を移動する処理で移動方向を更新する処理を行う関数( 戻り値  true:ゴールに辿り着いている  false:ゴールに辿り着いていない )
 bool RefreshMoveDirection( void )
 {
 	PATHPLANNING_UNIT *TempPUnit ;
 
-	// ���ݏ���Ă���|���S�����S�[���n�_�ɂ���|���S���̏ꍇ�̓S�[���ɒH�蒅���Ă���Ƃ������ƂȂ̂ŉ��������ɏI��
+	// 現在乗っているポリゴンがゴール地点にあるポリゴンの場合は処理を分岐
 	if( PathMove.NowPathPlanningUnit == PathPlanning.GoalUnit )
-		return true ;
+	{
+		// 方向は目標座標
+		PathMove.MoveDirection = VSub( PathPlanning.GoalPosition, PathMove.NowPosition ) ;
+		PathMove.MoveDirection.y = 0.0f ;
 
-	// ���ݏ���Ă���|���S�����ړ����Ԓn�_�̃|���S���̏ꍇ�͎��̒��Ԓn�_�����肷�鏈�����s��
+		// 目標座標までの距離が移動速度以下だったらゴールに辿りついたことにする
+		if( VSize( PathMove.MoveDirection ) <= MOVESPEED )
+		{
+			return true ;
+		}
+
+		// それ以外の場合はまだたどり着いていないものとして移動する
+		PathMove.MoveDirection = VNorm( PathMove.MoveDirection ) ;
+
+		return false ;
+	}
+
+	// 現在乗っているポリゴンが移動中間地点のポリゴンの場合は次の中間地点を決定する処理を行う
 	if( PathMove.NowPathPlanningUnit == PathMove.TargetPathPlanningUnit )
 	{
-		// ���̒��Ԓn�_�����肷��܂Ń��[�v��������
+		// 次の中間地点が決定するまでループし続ける
 		for(;;)
 		{
 			TempPUnit = &PathPlanning.UnitArray[ PathMove.TargetPathPlanningUnit-&gt;NextPolyIndex ] ;
 
-			// �o�H��̎��̃|���S���̒��S���W�ɒ����I�Ɉړ��ł��Ȃ��ꍇ�̓��[�v���甲����
+			// 経路上の次のポリゴンの中心座標に直線的に移動できない場合はループから抜ける
 			if( CheckPolyMoveWidth( PathMove.NowPosition, PolyLinkInfo[ TempPUnit-&gt;PolyIndex ].CenterPosition, COLLWIDTH ) == false )
 				break ;
 
-			// �`�F�b�N�Ώۂ��o�H��̍X�Ɉ��̃|���S���ɕύX����
+			// チェック対象を経路上の更に一つ先のポリゴンに変更する
 			PathMove.TargetPathPlanningUnit = TempPUnit ;
 
-			// �����S�[���n�_�̃|���S���������烋�[�v�𔲂���
+			// もしゴール地点のポリゴンだったらループを抜ける
 			if( PathMove.TargetPathPlanningUnit == PathPlanning.GoalUnit )
 				break ;
 		}
 	}
 
-	// �ړ����������肷��A�ړ������͌��݂̍��W���璆�Ԓn�_�̃|���S���̒��S���W�Ɍ���������
+	// 移動方向を決定する、移動方向は現在の座標から中間地点のポリゴンの中心座標に向かう方向
 	PathMove.MoveDirection = VSub( PolyLinkInfo[ PathMove.TargetPathPlanningUnit-&gt;PolyIndex ].CenterPosition, PathMove.NowPosition ) ;
 	PathMove.MoveDirection.y = 0.0f ;
 	PathMove.MoveDirection = VNorm( PathMove.MoveDirection ) ;
 
-	// �����ɗ����Ƃ������Ƃ̓S�[���ɒH�蒅���Ă��Ȃ��̂� false ��Ԃ�
+	// ここに来たということはゴールに辿り着いていないので false を返す
 	return false ;
 }
 
 
-// WinMain �֐�
+// WinMain 関数
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
 	PATHPLANNING_UNIT *PUnit ;
 
-	// �E�C���h�E���[�h�ŋN��
+	// ウインドウモードで起動
 	ChangeWindowMode( TRUE ) ;
 
-	// �c�w���C�u�����̏�����
+	// ＤＸライブラリの初期化
 	if( DxLib_Init() &lt; 0 ) return -1 ;
 
-	// �X�e�[�W���f���̓ǂݍ���
+	// ステージモデルの読み込み
 	StageModelHandle = MV1LoadModel( "PathPlanning.mqo" ) ;
 
-	// �X�e�[�W���f���̃|���S�����m�̘A�������\�z����
+	// ステージモデルのポリゴン同士の連結情報を構築する
 	SetupPolyLinkInfo() ;
 
-	// �w��̂Q�_�̌o�H����T������
+	// 指定の２点の経路情報を探索する
 	SetupPathPlanning( VGet( -7400.0f, 0.0f, -7400.0f ), VGet( 7400.0f, 0.0f, 7400.0f ) ) ;
 
-	// �T�������o�H����ړ����鏀�����s��
+	// 探索した経路上を移動する準備を行う
 	MoveInitialize() ;
 
-	// �`���𗠉�ʂɂ���
+	// 描画先を裏画面にする
 	SetDrawScreen( DX_SCREEN_BACK ) ;
 
-	// ���C�����[�v(�����L�[�������ꂽ�烋�[�v�𔲂���)
+	// メインループ(何かキーが押されたらループを抜ける)
 	while( ProcessMessage() == 0 )
 	{
-		// ��ʂ̏�����
+		// 画面の初期化
 		ClearDrawScreen() ;
 
-		// �P�t���[�����o�H����ړ�
+		// １フレーム分経路上を移動
 		MoveProcess() ;
 
-		// �J�����̐ݒ�
+		// カメラの設定
 		SetCameraPositionAndTarget_UpVecY( VGet( -0.000f, 15692.565f, -3121.444f ), VGet( 0.000f, 0.000f, 0.000f ) ) ;
 		SetCameraNearFar( 320.000f, 80000.000f ) ;
 
-		// �X�e�[�W���f����`�悷��
+		// ステージモデルを描画する
 		MV1DrawModel( StageModelHandle ) ;
 
-		// �T�������o�H�̃|���S���̗֊s��`�悷��( �f�o�b�O�\�� )
+		// 探索した経路のポリゴンの輪郭を描画する( デバッグ表示 )
 		PUnit = PathPlanning.GoalUnit ;
 		for(;;)
 		{
@@ -662,30 +786,30 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			PUnit = &PathPlanning.UnitArray[ PUnit-&gt;PrevPolyIndex ] ;
 		}
 
-		// �ړ����̌��ݍ��W�ɋ��̂�`�悷��
+		// 移動中の現在座標に球体を描画する
 		DrawSphere3D( VAdd( PathMove.NowPosition, VGet( 0.0f, 40.0f, 0.0f ) ), SPHERESIZE, 10, GetColor( 255,0,0 ), GetColor( 0,0,0 ), TRUE ) ;
 
-		// ����ʂ̓��e��\��ʂɔ��f
+		// 裏画面の内容を表画面に反映
 		ScreenFlip() ;
 	}
 
-	// �o�H���̌�n��
+	// 経路情報の後始末
 	TerminatePathPlanning() ;
 
-	// �X�e�[�W���f���̃|���S�����m�̘A�����̌�n��
+	// ステージモデルのポリゴン同士の連結情報の後始末
 	TerminatePolyLinkInfo() ;
 
-	// �c�w���C�u�����̌�n��
+	// ＤＸライブラリの後始末
 	DxLib_End() ;
 
-	// �\�t�g�̏I��
+	// ソフトの終了
 	return 0 ;
 }
 
 </PRE>
 <B>
 			<HR>
-			<A HREF="../index.html">�߂�</A><BR><BR>
+			<A HREF="../index.html">戻る</A><BR><BR>
 		</B></FONT>
 	</div>
 	</BODY>
