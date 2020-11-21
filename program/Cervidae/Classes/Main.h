@@ -8,12 +8,13 @@
 //
 //  Created by kashima akihiro on 2018/10/15.
 //=================================================================================//
-// －	Windows7 64bit
-// －	VisualStudio 2019 Community
-// －	DXライブラリ					<DxLib_VC3.21b>
-// －	CRI ADX2LE                      <>
-// －	Effekseer For DXライブラリ		<1.43d>
-// －	Lua                             <>
+// --   Last update						2020.11.21
+// --	Windows10 64bit
+// --	VisualStudio 2019 Community
+// --	DXライブラリ					<DxLib_VC3.22a>
+// --	CRI ADX2LE                      <>
+// --	Effekseer For DXライブラリ		<EffekseerForDXLib_152n_322a>
+// --	Lua                             <>
 
 /*
 # 概要
